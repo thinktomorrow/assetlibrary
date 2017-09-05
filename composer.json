@@ -1,5 +1,5 @@
 {
-    "name": "thinktomorrow/AssetLibrary",
+    "name": "thinktomorrow/assetlibrary",
     "type": "library",
     "description": "An extension on top of Spatie/laravel-medialibrary which provides extra functionalities",
     "keywords": [
