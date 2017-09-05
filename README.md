@@ -17,6 +17,14 @@ Via Composer
 $ composer require thinktomorrow/assetlibrary
 ```
 
+Next publish the config files
+
+```
+php artisan vendor:publish --provider="Thinktomorrow\AssetLibrary\AssetLibraryServiceProvider" --tag="migrations"
+php artisan vendor:publish --provider="Thinktomorrow\AssetLibrary\AssetLibraryServiceProvider" --tag="assetlibrary"
+php artisan vendor:publish --provider="Spatie\MediaLibrary\MediaLibraryServiceProvider" --tag="config"
+``` 
+
 ## Features
 
 This media library provides some extra features along those of spatie/laravel-medialibrary.

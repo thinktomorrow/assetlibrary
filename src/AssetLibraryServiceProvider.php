@@ -74,7 +74,6 @@ class AssetLibraryServiceProvider extends ServiceProvider
     public function register()
     {
         $this->mergeConfigFrom(__DIR__.'/../config/assetlibrary.php', 'assetlibrary');
-        $this->mergeConfigFrom(__DIR__.'/../vendor/spatie/laravel-medialibrary/config/medialibrary.php', 'assetlibrary');
 
         $this->registerAssetLibrary();
     }
