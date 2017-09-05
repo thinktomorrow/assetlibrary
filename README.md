@@ -24,7 +24,6 @@ This media library provides some extra features along those of spatie/laravel-me
     - it can upload a file to the library without an attached model
     - it has localization support
     - it can define a type for an upload attached to a model
-    - media library page to add/remove/view media files
     - it can upload a file to a model
     - it can attach a file from the library to a model
     - a media file can be attached to multiple models
@@ -55,8 +54,8 @@ $article->addFile('file', 'type', 'locale');
 ```
 
 The file is required, the type and locale are optional.
-The file van be any file or an instance of Chief\Asset.
-The Chief\Asset upload is used to attach existing assets from the library to an existing model, and works exactly the same as uploading a file.
+The file van be any file or an instance of Thinktomorrow\AssetLibrary\Asset.
+The Thinktomorrow\AssetLibrary\Asset upload is used to attach existing assets from the library to an existing model, and works exactly the same as uploading a file.
 
 Type allows us to get a file based on the type for instance an article could have a banner but also a pdf file.
 Without type the library wouldn't be able to discern between them.
