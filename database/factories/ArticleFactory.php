@@ -1,7 +1,7 @@
 <?php
 
 use Faker\Generator as Faker;
-use Yinx\AssetLibrary\Test\stubs\Article;
+use Thinktomorrow\AssetLibrary\Test\stubs\Article;
 
 /*
 |--------------------------------------------------------------------------
