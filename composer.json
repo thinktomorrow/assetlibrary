@@ -1,0 +1,57 @@
+{
+    "name": "thinktomorrow/AssetLibrary",
+    "type": "library",
+    "description": "An extension on top of Spatie/laravel-medialibrary which provides extra functionalities",
+    "keywords": [
+        "thinktomorrow",
+        "AssetLibrary"
+    ],
+    "homepage": "https://github.com/thinktomorrow/AssetLibrary",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Philippe Damen",
+            "email": "mr.deleeuw@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "~5.6|~7.0",
+        "illuminate/support": "~5.1",
+        "spatie/laravel-medialibrary": "^6.0",
+        "thinktomorrow/locale": "^1.4"
+    },
+    "require-dev": {
+        "phpunit/phpunit" : ">=5.4.3",
+        "orchestra/testbench": "^3.5",
+        "squizlabs/php_codesniffer": "^2.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "Thinktomorrow\\AssetLibrary\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Thinktomorrow\\AssetLibrary\\Test\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "phpunit",
+        "check-style": "phpcs -p --standard=PSR2 --runtime-set ignore_errors_on_exit 1 --runtime-set ignore_warnings_on_exit 1 src tests",
+        "fix-style": "phpcbf -p --standard=PSR2 --runtime-set ignore_errors_on_exit 1 --runtime-set ignore_warnings_on_exit 1 src tests"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        },
+        "laravel": {
+            "providers": [
+                "Thinktomorrow\\AssetLibrary\\AssetLibraryServiceProvider"
+            ]
+        }
+    },
+    "config": {
+        "sort-packages": true
+    }
+}
