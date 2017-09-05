@@ -21,7 +21,7 @@ Next publish the config files
 
 ```
 php artisan vendor:publish --provider="Thinktomorrow\AssetLibrary\AssetLibraryServiceProvider" --tag="migrations"
-php artisan vendor:publish --provider="Thinktomorrow\AssetLibrary\AssetLibraryServiceProvider" --tag="assetlibrary"
+php artisan vendor:publish --provider="Thinktomorrow\AssetLibrary\AssetLibraryServiceProvider" --tag="config"
 php artisan vendor:publish --provider="Spatie\MediaLibrary\MediaLibraryServiceProvider" --tag="config"
 ``` 
 
