@@ -80,8 +80,14 @@ class AssetLibraryServiceProvider extends ServiceProvider
 
     protected function registerModelBindings()
     {
-        $config = $this->app->config['locale.model'];
-        $this->app->bind(Locale::class, $config['locale']);
+//        $this->app->bind(Locale::class, function ($app) {
+//            $locale = $app->config['locale.model'];
+//            $locale = $this->app['config']['assetlibrary']['models']['locale'];
+//
+//            return new $locale;
+//        });
+
+        //TODO implement this
     }
 
     private function registerAssetLibrary()
