@@ -4,7 +4,12 @@
     "description": "An extension on top of Spatie/laravel-medialibrary which provides extra functionalities",
     "keywords": [
         "thinktomorrow",
-        "AssetLibrary"
+        "AssetLibrary",
+        "laravel",
+        "php",
+        "medialibrary",
+        "downloads",
+        "media"
     ],
     "homepage": "https://github.com/thinktomorrow/AssetLibrary",
     "license": "MIT",
