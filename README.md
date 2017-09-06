@@ -41,7 +41,7 @@ To make a model accept file uploads we only need to implement the HasMedia inter
 
 ```php
 use Illuminate\Database\Eloquent\Model;
-use Thinktomorrow\AssetLibrary\AssetTrait;
+use Thinktomorrow\AssetLibrary\Traits\AssetTrait;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Spatie\MediaLibrary\HasMedia\Interfaces\HasMedia;
 
@@ -71,8 +71,8 @@ $article->addFile('file', 'type', 'locale');
 ```
 
 The file is required, the type and locale are optional.
-The file van be any file or an instance of Thinktomorrow\AssetLibrary\Asset.
-The Thinktomorrow\AssetLibrary\Asset upload is used to attach existing assets from the library to an existing model, and works exactly the same as uploading a file.
+The file can be any file or an instance of Thinktomorrow\AssetLibrary\Models\Asset.
+The Thinktomorrow\AssetLibrary\Models\Asset upload is used to attach existing assets from the library to an existing model, and works exactly the same as uploading a file.
 
 Type allows us to get a file based on the type for instance an article could have a banner but also a pdf file.
 Without type the library wouldn't be able to discern between them.
@@ -89,12 +89,13 @@ An upload also creates conversions(size) for the file:
                 height    553
 
 The original version will be returned if you don't specify the size.
+These conversions can be defined in the assetlibrary config file.
 
 To aid you in sending the right data to the controller there are helper functions to inject an input into your form like so:
 
 ```php
-{!! \Thinktomorrow\AssetLibrary\Asset::typeField('banner') !!}
-{!! \Thinktomorrow\AssetLibrary\Asset::localeField($locale) !!}
+{!! \Thinktomorrow\AssetLibrary\Models\Asset::typeField('banner') !!}
+{!! \Thinktomorrow\AssetLibrary\Models\Asset::localeField($locale) !!}
 ```
 
 The type field also has an optional property locale if you need to seperate multiple uploads by locale.
