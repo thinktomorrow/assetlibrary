@@ -24,7 +24,7 @@ class AssetLibraryServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->publishes([
-            __DIR__.'/../config/assetlibrary.php' => config_path('assetlibrary.php'),
+            __DIR__.'/../config/thinktomorrow/assetlibrary.php' => config_path('assetlibrary.php'),
         ], 'config');
 
         // use this if your package has routes
