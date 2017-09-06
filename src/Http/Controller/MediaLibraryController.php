@@ -1,7 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Back\Media;
-
+namespace Thinktomorrow\AssetLibrary\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Pagination\LengthAwarePaginator;

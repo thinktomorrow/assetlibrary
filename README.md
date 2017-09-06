@@ -53,6 +53,15 @@ class Article extends Model implements HasMedia
 
 That's it!
 
+#### Routes
+There are some routes and controllers that help out in uploading, etc. If you need to adjust there routes 
+(adding auth middleware for instance) you can put these routes in your local route file where you want:
+```
+    Route::get('media', '\Thinktomorrow\AssetLibrary\Http\Controllers\MediaLibraryController@index')->name('media.library');
+    Route::post('media/upload', '\Thinktomorrow\AssetLibrary\Http\Controllers\MediaController@store')->name('media.upload');
+    Route::post('media/remove', '\Thinktomorrow\AssetLibrary\Http\Controllers\MediaController@destroy')->name('media.remove');
+```
+
 #### Creating files
 
 We can now upload a file to articles like this:
