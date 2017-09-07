@@ -337,6 +337,17 @@ class AssetTest extends TestCase
         $this->assertEquals('<input type="hidden" value="bar" name="trans[fr][files][]">', Asset::typeField('bar', 'fr'));
     }
 
+    /**
+    * @test
+    */
+    public function it_can_prefix_the_conversions_with_the_filename(){
+        $asset = Asset::upload(UploadedFile::fake()->image('image.png'));
+
+        config(['assetlibrary.conversionPrefix' => true]);
+
+        $this->assertEquals('/media/1/conversions/image_thumb.png', $asset->getFileUrl('image_thumb'));
+    }
+
 //
 //    /**
 //     * @test

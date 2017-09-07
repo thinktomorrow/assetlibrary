@@ -4,6 +4,7 @@ return [
         'locale' => Thinktomorrow\Locale\Locale::class,
 
     ],
+    'conversionPrefix'  => false,
     'conversions' => [
         'thumb' => [
             'width'     => 150,

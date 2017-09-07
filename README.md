@@ -91,6 +91,13 @@ An upload also creates conversions(size) for the file:
 The original version will be returned if you don't specify the size.
 These conversions can be defined in the assetlibrary config file.
 
+If you want to conversion names prefixed with the file name you can set the converionprefix in the config file to true.
+
+```
+'conversionPrefix'  => true,
+```
+
+
 To aid you in sending the right data to the controller there are helper functions to inject an input into your form like so:
 
 ```php
