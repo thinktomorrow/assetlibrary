@@ -25,22 +25,20 @@ class Asset extends Model implements HasMediaConversions
     {
         $list = collect([]);
 
-        if (is_array($files)) {
+        if ($files instanceof Asset) {
+            return $files;
+        }elseif(is_array($files)) {
             collect($files)->each(function ($file) use ($list) {
                 $self = new self();
                 $self->save();
                 $list->push($self->uploadToAsset($file));
             });
-        } elseif ($files instanceof Asset) {
-            return $files;
-        } else {
-            $self = new self();
-            $self->save();
-
-            return $self->uploadToAsset($files);
+            return $list;
         }
+        $self = new self();
+        $self->save();
 
-        return $list;
+        return $self->uploadToAsset($files);
     }
 
     /**
@@ -52,27 +50,23 @@ class Asset extends Model implements HasMediaConversions
      */
     public function uploadToAsset($files)
     {
-        if ($files instanceof File || $files instanceof \Illuminate\Http\Testing\File || $files instanceof UploadedFile) {
-            $customProps = [];
-            if (self::isImage($files)) {
-                $customProps['dimensions'] = getimagesize($files)[0] . ' x ' . getimagesize($files)[1];
-            }
-
-            $this->addMedia($files)->withCustomProperties($customProps)->toMediaCollection();
-
-            return $this->load('media');
+        if (!($files instanceof File) && !($files instanceof UploadedFile)) {
+            return null;
         }
 
-        return null;
+        $customProps = [];
+        if (self::isImage($files)) {
+            $customProps['dimensions'] = getimagesize($files)[0] . ' x ' . getimagesize($files)[1];
+        }
+
+        $this->addMedia($files)->withCustomProperties($customProps)->toMediaCollection();
+
+        return $this->load('media');
     }
 
     private static function isImage($file)
     {
-        if (filesize($file) > 11) {
-            return !!exif_imagetype($file);
-        } else {
-            return false;
-        }
+        return str_before($file->getMimetype(), '/') === 'image';
     }
 
     /**
@@ -116,13 +110,11 @@ class Asset extends Model implements HasMediaConversions
     {
         $media = $this->getMedia();
 
-        if ($media->count() >= 1) {
-            $media = $media->first();
-        } else {
+        if ($media->count() < 1) {
             return asset('assets/back/img/other.png');
         }
 
-        return $media->getUrl($size);
+        return $media->first()->getUrl($size);
     }
 
     /**
@@ -136,60 +128,55 @@ class Asset extends Model implements HasMediaConversions
         if ($this->getMedia()->isEmpty()) {
             return asset("assets/back/img/other.png");
         }
-        $url = $this->getMedia()[0]->getUrl();
-        $ext = pathinfo($url, PATHINFO_EXTENSION);
-        if ($ext == 'pdf') {
-            return asset("assets/back/img/pdf.png");
-        } elseif (in_array($ext, ['xls', 'xlsx', 'numbers', 'sheets'])) {
-            return asset("assets/back/img/xls.png");
-        } elseif (in_array($ext, ['png', 'jpg', 'jpeg', 'gif', 'svg', 'webp'])) {
+        $extension = $this->getExtensionType();
+        if ($extension === 'image') {
             return $this->getFileUrl($type);
-        } else {
-            return asset("assets/back/img/other.png");
+        } elseif ($extension) {
+            return asset("assets/back/img/".$extension.".png");
         }
+
+        return asset('assets/back/img/other.png');
     }
 
     public function getExtensionForFilter()
     {
-        $mimetype = $this->getMimeType();
-        if (explode("/", $mimetype, 2)[0] == 'image') {
-            return 'image';
-        }
-        if (explode("/", $mimetype, 2)[1] == 'pdf') {
-            return 'pdf';
-        }
-        if (in_array(explode("/", $mimetype, 2)[1], ['xls', 'xlsx', 'numbers', 'sheets'])) {
-            return 'excel';
+        if($extension = $this->getExtensionType()){
+            return $extension;
         }
 
         return '';
     }
 
+    public function getExtensionType()
+    {
+        $extension = explode(".", $this->getMedia()[0]->file_name);
+        $extension = end($extension);
+
+        if(in_array($extension, ['xls', 'xlsx', 'numbers', 'sheets'])) return 'xls';
+        if(in_array($extension, ['png', 'jpg', 'jpeg', 'gif', 'svg', 'webp'])) return 'image';
+        if($extension === 'pdf') return 'pdf';
+
+        return false;
+    }
+
     public function getMimeType()
     {
-        if ($this->getMedia()->isEmpty()) {
-            return '';
-        }
+        return $this->isMediaEmpty() ? '' : $this->getMedia()[0]->mime_type;
+    }
 
-        return $this->getMedia()[0]->mime_type;
+    public function isMediaEmpty()
+    {
+        return $this->getMedia()->isEmpty();
     }
 
     public function getSize()
     {
-        if ($this->getMedia()->isEmpty()) {
-            return '';
-        }
-
-        return $this->getMedia()[0]->human_readable_size;
+        return $this->isMediaEmpty() ? '' : $this->getMedia()[0]->human_readable_size;
     }
 
     public function getDimensions()
     {
-        if ($this->getMedia()->isEmpty()) {
-            return '';
-        }
-
-        return $this->getMedia()[0]->hasCustomProperty('dimensions') ? $this->getMedia()[0]->getCustomProperty('dimensions') : '/';
+        return $this->isMediaEmpty() ? '' : $this->getMedia()[0]->getCustomProperty('dimensions');
     }
 
     /**
@@ -225,13 +212,15 @@ class Asset extends Model implements HasMediaConversions
      *
      * @return string
      */
-    public static function typeField($type = '', $locale = null)
+    public static function typeField($type = '', $locale = null, $name = 'type')
     {
+        $result = '<input type="hidden" value="' . $type . '" name="';
+
         if (!$locale) {
-            return '<input type="hidden" value="' . $type . '" name="type">';
-        } else {
-            return '<input type="hidden" value="' . $type . '" name="trans[' . $locale . '][files][]">';
+            return $result.$name.'">';
         }
+
+        return $result.'trans[' . $locale . '][files][]">';
     }
 
     /**
@@ -243,7 +232,7 @@ class Asset extends Model implements HasMediaConversions
      */
     public static function localeField($locale = '')
     {
-        return '<input type="hidden" value="' . $locale . '" name="locale">';
+        return self::typeField($locale, null, 'locale');
     }
 
     /**
