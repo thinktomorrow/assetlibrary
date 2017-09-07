@@ -254,11 +254,18 @@ class Asset extends Model implements HasMediaConversions
      */
     public function registerMediaConversions(Media $media = null)
     {
-
-        $conversions = config('assetlibrary.conversions');
+        $conversions        = config('assetlibrary.conversions');
+        $conversionPrefix   = config('assetlibrary.conversionPrefix');
 
         foreach ($conversions as $key => $value) {
-            $this->addMediaConversion($key)
+
+            if($conversionPrefix) {
+                $conversionName = $media->name.'_'.$key;
+            }else{
+                $conversionName = $key;
+            }
+
+            $this->addMediaConversion($conversionName)
                 ->width($value['width'])
                 ->height($value['height'])
                 ->sharpen(15)
