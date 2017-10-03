@@ -187,6 +187,35 @@ class AssetTraitTest extends TestCase
 
     /**
      * @test
+     */
+    public function it_can_attach_multiple_assets()
+    {
+        $article = Article::create();
+        $assets[] = Asset::upload(UploadedFile::fake()->image('image.png', 100, 100));
+        $assets[] = Asset::upload(UploadedFile::fake()->image('image.png', 100, 100));
+
+        $article->addFile($assets);
+
+        $this->assertEquals('/media/1/image.png', $article->getFileUrl());
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_attach_multiple_assets_and_files()
+    {
+        $article = Article::create();
+        $assets[] = Asset::upload(UploadedFile::fake()->image('image.png', 100, 100));
+        $assets[] = Asset::upload(UploadedFile::fake()->image('image.png', 100, 100));
+        $assets[] = UploadedFile::fake()->image('image.png');
+
+        $article->addFile($assets);
+
+        $this->assertEquals('/media/1/image.png', $article->getFileUrl());
+    }
+
+    /**
+     * @test
     */
     public function it_can_attach_an_asset_to_multiple_models()
     {

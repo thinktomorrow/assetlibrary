@@ -29,9 +29,13 @@ class Asset extends Model implements HasMediaConversions
             return $files;
         }elseif(is_array($files)) {
             collect($files)->each(function ($file) use ($list) {
-                $self = new self();
-                $self->save();
-                $list->push($self->uploadToAsset($file));
+                if ($file instanceof Asset) {
+                    $list->push($file);
+                }else{
+                    $self = new self();
+                    $self->save();
+                    $list->push($self->uploadToAsset($file));
+                }
             });
             return $list;
         }
