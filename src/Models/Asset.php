@@ -19,9 +19,10 @@ class Asset extends Model implements HasMediaConversions
      * asset that is needed to upload the files too
      *
      * @param $files
-     * @return Asset|\Illuminate\Support\Collection|null
+     * @param bool $keepOriginal
+     * @return \Illuminate\Support\Collection|null|Asset
      */
-    public static function upload($files)
+    public static function upload($files, $keepOriginal = false)
     {
         $list = collect([]);
 
@@ -42,7 +43,7 @@ class Asset extends Model implements HasMediaConversions
         $self = new self();
         $self->save();
 
-        return $self->uploadToAsset($files);
+        return $self->uploadToAsset($files, $keepOriginal);
     }
 
     /**
@@ -50,9 +51,10 @@ class Asset extends Model implements HasMediaConversions
      * and sets the dimensions as a custom property
      *
      * @param $files
+     * @param bool $keepOriginal
      * @return $this|null
      */
-    public function uploadToAsset($files)
+    public function uploadToAsset($files, $keepOriginal = false)
     {
         if (!($files instanceof File) && !($files instanceof UploadedFile)) {
             return null;
@@ -63,7 +65,10 @@ class Asset extends Model implements HasMediaConversions
             $customProps['dimensions'] = getimagesize($files)[0] . ' x ' . getimagesize($files)[1];
         }
 
-        $this->addMedia($files)->withCustomProperties($customProps)->toMediaCollection();
+        $fileAdd = $this->addMedia($files)->withCustomProperties($customProps);
+        if($keepOriginal) $fileAdd = $fileAdd->preservingOriginal();
+
+        $fileAdd->toMediaCollection();
 
         return $this->load('media');
     }
