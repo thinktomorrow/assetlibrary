@@ -3,8 +3,8 @@
 namespace Thinktomorrow\AssetLibrary;
 
 use Illuminate\Routing\Router;
-use Illuminate\Support\ServiceProvider;
 use Thinktomorrow\Locale\Locale;
+use Illuminate\Support\ServiceProvider;
 use Thinktomorrow\AssetLibrary\Models\Asset;
 use Illuminate\Database\Eloquent\Factory as EloquentFactory;
 
@@ -16,6 +16,7 @@ class AssetLibraryServiceProvider extends ServiceProvider
      * @var bool
      */
     protected $defer = false;
+
     /**
      * Perform post-registration booting of services.
      *
@@ -30,16 +31,15 @@ class AssetLibraryServiceProvider extends ServiceProvider
         // use this if your package has routes
         $this->setupRoutes($this->app->router);
 
-        if (!class_exists('CreateAssetTable')) {
+        if (! class_exists('CreateAssetTable')) {
             $this->publishes([
-                __DIR__ . '/../database/migrations/create_asset_table.php' => database_path('migrations/' . date('Y_m_d_His',
-                        time()) . '_create_asset_table.php'),
+                __DIR__.'/../database/migrations/create_asset_table.php' => database_path('migrations/'.date('Y_m_d_His',
+                        time()).'_create_asset_table.php'),
             ], 'migrations');
         }
 
         $this->registerModelBindings();
         $this->registerEloquentFactoriesFrom(__DIR__.'/../database/factories');
-
     }
 
     /**
@@ -61,11 +61,11 @@ class AssetLibraryServiceProvider extends ServiceProvider
      */
     public function setupRoutes(Router $router)
     {
-        $router->group(['namespace' => 'Thinktomorrow\AssetLibrary\Http\Controllers'], function($router)
-        {
+        $router->group(['namespace' => 'Thinktomorrow\AssetLibrary\Http\Controllers'], function ($router) {
             require __DIR__.'/Http/routes.php';
         });
     }
+
     /**
      * Register any package services.
      *
@@ -92,9 +92,8 @@ class AssetLibraryServiceProvider extends ServiceProvider
 
     private function registerAssetLibrary()
     {
-        $this->app->singleton('asset',function($app){
+        $this->app->singleton('asset', function ($app) {
             return new Asset($app);
         });
-
     }
 }

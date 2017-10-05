@@ -3,9 +3,9 @@
 namespace Thinktomorrow\AssetLibrary\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
 use Thinktomorrow\AssetLibrary\Models\Asset;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class MediaLibraryController extends Controller
 {
@@ -21,7 +21,7 @@ class MediaLibraryController extends Controller
             [
                 'path' => Paginator::resolveCurrentPath(),
             ]);
+
         return view('back.media', compact('library'));
     }
-
 }

@@ -2,8 +2,8 @@
 
 namespace Thinktomorrow\AssetLibrary\Traits;
 
-use Illuminate\Support\Collection;
 use Thinktomorrow\Locale\Locale;
+use Illuminate\Support\Collection;
 use Thinktomorrow\AssetLibrary\Models\Asset;
 
 trait AssetTrait
@@ -17,7 +17,7 @@ trait AssetTrait
     {
         $filename = $this->getFilename($type, $locale);
 
-        return !!$filename and basename($filename) != 'other.png';
+        return (bool) $filename and basename($filename) != 'other.png';
     }
 
     public function getFilename($type = '', $locale = '')
@@ -27,29 +27,28 @@ trait AssetTrait
 
     public function getFileUrl($type = '', $size = '', $locale = null)
     {
-        if ($this->assets->first() === null || $this->assets->first()->pivot === null){
-            return null;
+        if ($this->assets->first() === null || $this->assets->first()->pivot === null) {
+            return;
         }
 
-        if(!$locale){
+        if (! $locale) {
             $locale = Locale::getDefault();
         }
 
         $assets = $this->assets->where('pivot.type', $type);
-        if($assets->count() > 1){
+        if ($assets->count() > 1) {
             $assets = $assets->where('pivot.locale', $locale);
         }
 
         if ($assets->isEmpty()) {
-            return null;
+            return;
         }
-
 
         return $assets->first()->getFileUrl($size);
     }
 
     /**
-     * Adds a file to this model, accepts a type and locale to be saved with the file
+     * Adds a file to this model, accepts a type and locale to be saved with the file.
      *
      * @param $file
      * @param $type
@@ -63,16 +62,16 @@ trait AssetTrait
 
         $asset = Asset::upload($file);
 
-        if($asset instanceof Collection){
+        if ($asset instanceof Collection) {
             $asset->each->attachToModel($this, $type, $locale);
-        }else{
+        } else {
             $asset->attachToModel($this, $type, $locale);
         }
     }
 
     public function getAllImages()
     {
-        $images = $this->assets->filter(function($asset){
+        $images = $this->assets->filter(function ($asset) {
             return $asset->getExtensionForFilter() == 'image';
         });
 
@@ -89,5 +88,4 @@ trait AssetTrait
 
         return $files;
     }
-
 }

@@ -2,14 +2,12 @@
 
 namespace Thinktomorrow\AssetLibrary\Http\Controllers;
 
-
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Thinktomorrow\AssetLibrary\Models\Asset;
 
 class MediaController extends Controller
 {
-
     public function store(Request $request)
     {
         $asset = Asset::upload($request->file('image'));

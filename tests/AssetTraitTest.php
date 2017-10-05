@@ -3,11 +3,8 @@
 namespace Thinktomorrow\AssetLibrary\Test;
 
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Support\Facades\Artisan;
 use Thinktomorrow\AssetLibrary\Models\Asset;
 use Thinktomorrow\AssetLibrary\Test\stubs\Article;
 
@@ -22,6 +19,7 @@ class AssetTraitTest extends TestCase
 
         parent::tearDown();
     }
+
     /**
      * @test
      */
@@ -125,7 +123,7 @@ class AssetTraitTest extends TestCase
 
         $this->assertFalse($article->hasFile('banner'));
 
-        Asset::upload(UploadedFile::fake()->image('image.png'))->attachToModel($article,'banner');
+        Asset::upload(UploadedFile::fake()->image('image.png'))->attachToModel($article, 'banner');
 
         $this->assertTrue($article->hasFile('banner'));
     }
@@ -137,8 +135,8 @@ class AssetTraitTest extends TestCase
     {
         $article = Article::create();
         config(['app.locale' => 'nl']);
-        $article->addFile(UploadedFile::fake()->image('image.png'),'banner','nl');
-        $article->addFile(UploadedFile::fake()->image('imagefr.png'),'banner','fr');
+        $article->addFile(UploadedFile::fake()->image('image.png'), 'banner', 'nl');
+        $article->addFile(UploadedFile::fake()->image('imagefr.png'), 'banner', 'fr');
 
         $this->assertTrue($article->hasFile('banner'));
         $this->assertTrue($article->hasFile('banner', 'fr'));
@@ -151,12 +149,11 @@ class AssetTraitTest extends TestCase
     public function it_can_add_a_file_translation_for_default_locale()
     {
         $article = Article::create();
-        $article->addFile(UploadedFile::fake()->image('image.png'),'banner');
-        $article->addFile(UploadedFile::fake()->image('imagefr.png'),'banner','fr');
+        $article->addFile(UploadedFile::fake()->image('image.png'), 'banner');
+        $article->addFile(UploadedFile::fake()->image('imagefr.png'), 'banner', 'fr');
 
         $this->assertTrue($article->hasFile('banner'));
         $this->assertTrue($article->hasFile('banner', 'fr'));
-
     }
 
     /**
@@ -168,8 +165,7 @@ class AssetTraitTest extends TestCase
         $article->addFile(UploadedFile::fake()->image('image.png'), 'banner');
         $article->addFile(UploadedFile::fake()->image('imageNL.png'), 'banner');
 
-        $this->assertEquals('/media/2/imageNL.png',$article->getFileUrl('banner'));
-
+        $this->assertEquals('/media/2/imageNL.png', $article->getFileUrl('banner'));
     }
 
     /**
@@ -178,7 +174,7 @@ class AssetTraitTest extends TestCase
     public function it_can_attach_an_asset_if_it_is_given_instead_of_a_file()
     {
         $article = Article::create();
-        $asset = Asset::upload(UploadedFile::fake()->image('image.png', 100, 100));
+        $asset   = Asset::upload(UploadedFile::fake()->image('image.png', 100, 100));
 
         $article->addFile($asset);
 
@@ -190,7 +186,7 @@ class AssetTraitTest extends TestCase
      */
     public function it_can_attach_multiple_assets()
     {
-        $article = Article::create();
+        $article  = Article::create();
         $assets[] = Asset::upload(UploadedFile::fake()->image('image.png', 100, 100));
         $assets[] = Asset::upload(UploadedFile::fake()->image('image.png', 100, 100));
 
@@ -204,7 +200,7 @@ class AssetTraitTest extends TestCase
      */
     public function it_can_attach_multiple_assets_and_files()
     {
-        $article = Article::create();
+        $article  = Article::create();
         $assets[] = Asset::upload(UploadedFile::fake()->image('image.png', 100, 100));
         $assets[] = Asset::upload(UploadedFile::fake()->image('image.png', 100, 100));
         $assets[] = UploadedFile::fake()->image('image.png');
@@ -216,7 +212,7 @@ class AssetTraitTest extends TestCase
 
     /**
      * @test
-    */
+     */
     public function it_can_attach_an_asset_to_multiple_models()
     {
         $article    = Article::create();
@@ -248,8 +244,8 @@ class AssetTraitTest extends TestCase
     }
 
     /**
-    * @test
-    */
+     * @test
+     */
     public function it_can_get_all_the_images()
     {
         $article = Article::create();
@@ -262,11 +258,9 @@ class AssetTraitTest extends TestCase
         $this->assertEquals(3, $article->getAllImages()->count());
     }
 
-
-
     /**
-    * @test
-    */
+     * @test
+     */
     public function it_can_upload_multiple_files()
     {
         //upload multiple images
@@ -279,5 +273,4 @@ class AssetTraitTest extends TestCase
 
         $this->assertEquals(2, $article->getAllFiles()->count());
     }
-
 }
