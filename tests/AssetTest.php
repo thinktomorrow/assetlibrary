@@ -315,6 +315,7 @@ class AssetTest extends TestCase
      */
     public function it_can_get_the_extensions_for_filtering()
     {
+        $this->markTestIncomplete();
         //TODO uncomment these when we can supply the mimetype to UploadedFile
         $asset  =  Asset::upload(UploadedFile::fake()->image('image.png'));
 //        $asset1 =  Asset::upload(UploadedFile::fake()->create('image.pdf'));
@@ -346,6 +347,16 @@ class AssetTest extends TestCase
         config(['assetlibrary.conversionPrefix' => true]);
 
         $this->assertEquals('/media/1/conversions/image_thumb.png', $asset->getFileUrl('image_thumb'));
+    }
+
+    /**
+     * @test
+     */
+    public function it_will_keep_the_extension_after_upload()
+    {
+        $asset = Asset::upload(UploadedFile::fake()->image('image.jpg', 100, 100));
+
+        $this->assertEquals('/media/1/conversions/thumb.jpg', $asset->getFileUrl('thumb'));
     }
 
 //

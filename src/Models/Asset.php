@@ -267,7 +267,7 @@ class Asset extends Model implements HasMediaConversions
                 ->width($value['width'])
                 ->height($value['height'])
                 ->sharpen(15)
-                ->format('png')
+                ->keepOriginalImageFormat()
                 ->optimize();
         }
 
