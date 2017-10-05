@@ -13,12 +13,12 @@ class CreateAssetPivotTable extends Migration
      */
     public function up()
     {
-        Schema::create('asset_pivots', function (Blueprint $table){
-           $table->integer('asset_id');
-           $table->integer('entity_id');
-           $table->string('entity_type');
-           $table->string('locale')->nullable();
-           $table->string('type')->nullable();
+        Schema::create('asset_pivots', function (Blueprint $table) {
+            $table->integer('asset_id');
+            $table->integer('entity_id');
+            $table->string('entity_type');
+            $table->string('locale')->nullable();
+            $table->string('type')->nullable();
         });
     }
 

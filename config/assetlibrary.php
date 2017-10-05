@@ -1,4 +1,5 @@
 <?php
+
 return [
     'models' => [
         'locale' => Thinktomorrow\Locale\Locale::class,
@@ -22,5 +23,5 @@ return [
             'width'     => 1600,
             'height'    => 553,
         ],
-    ]
+    ],
 ];

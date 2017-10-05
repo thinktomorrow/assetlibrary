@@ -2,13 +2,13 @@
 
 namespace Thinktomorrow\AssetLibrary\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\File;
-use Illuminate\Http\UploadedFile;
-use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
-use Spatie\MediaLibrary\HasMedia\Interfaces\HasMediaConversions;
 use Spatie\MediaLibrary\Media;
 use Thinktomorrow\Locale\Locale;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Database\Eloquent\Model;
+use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
+use Spatie\MediaLibrary\HasMedia\Interfaces\HasMediaConversions;
 
 class Asset extends Model implements HasMediaConversions
 {
@@ -16,7 +16,7 @@ class Asset extends Model implements HasMediaConversions
 
     /**
      * Uploads the file/files or asset by creating the
-     * asset that is needed to upload the files too
+     * asset that is needed to upload the files too.
      *
      * @param $files
      * @param bool $keepOriginal
@@ -26,18 +26,19 @@ class Asset extends Model implements HasMediaConversions
     {
         $list = collect([]);
 
-        if ($files instanceof Asset) {
+        if ($files instanceof self) {
             return $files;
-        }elseif(is_array($files)) {
+        } elseif (is_array($files)) {
             collect($files)->each(function ($file) use ($list) {
                 if ($file instanceof Asset) {
                     $list->push($file);
-                }else{
+                } else {
                     $self = new self();
                     $self->save();
                     $list->push($self->uploadToAsset($file));
                 }
             });
+
             return $list;
         }
         $self = new self();
@@ -48,7 +49,7 @@ class Asset extends Model implements HasMediaConversions
 
     /**
      * Uploads the given file to this instance of asset
-     * and sets the dimensions as a custom property
+     * and sets the dimensions as a custom property.
      *
      * @param $files
      * @param bool $keepOriginal
@@ -56,17 +57,19 @@ class Asset extends Model implements HasMediaConversions
      */
     public function uploadToAsset($files, $keepOriginal = false)
     {
-        if (!($files instanceof File) && !($files instanceof UploadedFile)) {
-            return null;
+        if (! ($files instanceof File) && ! ($files instanceof UploadedFile)) {
+            return;
         }
 
         $customProps = [];
         if (self::isImage($files)) {
-            $customProps['dimensions'] = getimagesize($files)[0] . ' x ' . getimagesize($files)[1];
+            $customProps['dimensions'] = getimagesize($files)[0].' x '.getimagesize($files)[1];
         }
 
-        $fileAdd = $this->addMedia($files)->withCustomProperties($customProps);
-        if($keepOriginal) $fileAdd = $fileAdd->preservingOriginal();
+        $fileAdd                   = $this->addMedia($files)->withCustomProperties($customProps);
+        if ($keepOriginal) {
+            $fileAdd = $fileAdd->preservingOriginal();
+        }
 
         $fileAdd->toMediaCollection();
 
@@ -81,7 +84,7 @@ class Asset extends Model implements HasMediaConversions
     /**
      * Attaches this asset instance to the given model and
      * sets the type and locale to the given values and
-     * returns the model with the asset relationship
+     * returns the model with the asset relationship.
      *
      * @param Model $model
      * @param string $type
@@ -92,11 +95,11 @@ class Asset extends Model implements HasMediaConversions
     {
         $asset = $model->assets->where('pivot.type', $type)->where('pivot.locale', $locale);
 
-        if (!$asset->isEmpty() && $asset->first()->pivot->type !== '') {
+        if (! $asset->isEmpty() && $asset->first()->pivot->type !== '') {
             $model->assets()->detach($asset->first()->id);
         }
 
-        if (!$locale) {
+        if (! $locale) {
             $locale = Locale::getDefault();
         }
 
@@ -107,7 +110,7 @@ class Asset extends Model implements HasMediaConversions
 
     public function hasFile()
     {
-        return !!$this->getFileUrl('');
+        return (bool) $this->getFileUrl('');
     }
 
     public function getFilename($size = '')
@@ -127,7 +130,7 @@ class Asset extends Model implements HasMediaConversions
     }
 
     /**
-     * Returns the image url or a fallback specific per filetype
+     * Returns the image url or a fallback specific per filetype.
      *
      * @param string $type
      * @return string
@@ -135,13 +138,13 @@ class Asset extends Model implements HasMediaConversions
     public function getImageUrl($type = '')
     {
         if ($this->getMedia()->isEmpty()) {
-            return asset("assets/back/img/other.png");
+            return asset('assets/back/img/other.png');
         }
         $extension = $this->getExtensionType();
         if ($extension === 'image') {
             return $this->getFileUrl($type);
         } elseif ($extension) {
-            return asset("assets/back/img/".$extension.".png");
+            return asset('assets/back/img/'.$extension.'.png');
         }
 
         return asset('assets/back/img/other.png');
@@ -149,7 +152,7 @@ class Asset extends Model implements HasMediaConversions
 
     public function getExtensionForFilter()
     {
-        if($extension = $this->getExtensionType()){
+        if ($extension = $this->getExtensionType()) {
             return $extension;
         }
 
@@ -158,12 +161,18 @@ class Asset extends Model implements HasMediaConversions
 
     public function getExtensionType()
     {
-        $extension = explode(".", $this->getMedia()[0]->file_name);
+        $extension = explode('.', $this->getMedia()[0]->file_name);
         $extension = end($extension);
 
-        if(in_array($extension, ['xls', 'xlsx', 'numbers', 'sheets'])) return 'xls';
-        if(in_array($extension, ['png', 'jpg', 'jpeg', 'gif', 'svg', 'webp'])) return 'image';
-        if($extension === 'pdf') return 'pdf';
+        if (in_array($extension, ['xls', 'xlsx', 'numbers', 'sheets'])) {
+            return 'xls';
+        }
+        if (in_array($extension, ['png', 'jpg', 'jpeg', 'gif', 'svg', 'webp'])) {
+            return 'image';
+        }
+        if ($extension === 'pdf') {
+            return 'pdf';
+        }
 
         return false;
     }
@@ -189,20 +198,19 @@ class Asset extends Model implements HasMediaConversions
     }
 
     /**
-     * Removes one or more assets by their ids
+     * Removes one or more assets by their ids.
      * @param $image_ids
      */
     public static function remove($image_ids)
     {
         if (is_array($image_ids)) {
             foreach ($image_ids as $id) {
-                Asset::where('id', $id)->first()->delete();
+                self::where('id', $id)->first()->delete();
             }
         } else {
-            Asset::find($image_ids)->first()->delete();
+            self::find($image_ids)->first()->delete();
         }
     }
-
 
     /**
      * Returns a collection of all the assets in the library.
@@ -223,13 +231,13 @@ class Asset extends Model implements HasMediaConversions
      */
     public static function typeField($type = '', $locale = null, $name = 'type')
     {
-        $result = '<input type="hidden" value="' . $type . '" name="';
+        $result = '<input type="hidden" value="'.$type.'" name="';
 
-        if (!$locale) {
+        if (! $locale) {
             return $result.$name.'">';
         }
 
-        return $result.'trans[' . $locale . '][files][]">';
+        return $result.'trans['.$locale.'][files][]">';
     }
 
     /**
@@ -256,10 +264,9 @@ class Asset extends Model implements HasMediaConversions
         $conversionPrefix   = config('assetlibrary.conversionPrefix');
 
         foreach ($conversions as $key => $value) {
-
-            if($conversionPrefix) {
+            if ($conversionPrefix) {
                 $conversionName = $media->name.'_'.$key;
-            }else{
+            } else {
                 $conversionName = $key;
             }
 
@@ -270,7 +277,5 @@ class Asset extends Model implements HasMediaConversions
                 ->keepOriginalImageFormat()
                 ->optimize();
         }
-
     }
-
 }

@@ -3,11 +3,7 @@
 namespace Thinktomorrow\AssetLibrary\Test;
 
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Thinktomorrow\AssetLibrary\Models\Asset;
 use Thinktomorrow\AssetLibrary\Test\stubs\Article;
 
@@ -29,13 +25,13 @@ class AssetTest extends TestCase
         //upload a single image
         $asset = Asset::upload(UploadedFile::fake()->image('image.png'));
         $this->assertEquals('image.png', $asset->getFilename());
-        $this->assertEquals( '/media/1/image.png', $asset->getImageUrl());
+        $this->assertEquals('/media/1/image.png', $asset->getImageUrl());
 
         //upload a single image
         $asset = Asset::upload(UploadedFile::fake()->image('image2.png'));
 
-        $this->assertEquals( 'image2.png', $asset->getFilename());
-        $this->assertEquals( '/media/2/image2.png', $asset->getImageUrl());
+        $this->assertEquals('image2.png', $asset->getFilename());
+        $this->assertEquals('/media/2/image2.png', $asset->getImageUrl());
     }
 
     /**
@@ -59,15 +55,15 @@ class AssetTest extends TestCase
         //upload a single image
         $article = Asset::upload(UploadedFile::fake()->image('image.png'))->attachToModel($original);
 
-        $this->assertEquals( 'image.png', $article->getFilename());
-        $this->assertEquals( '/media/1/image.png', $article->getFileUrl());
+        $this->assertEquals('image.png', $article->getFilename());
+        $this->assertEquals('/media/1/image.png', $article->getFileUrl());
         $this->assertEquals($original->assets()->first()->getFilename(), $article->getFilename());
 
         //upload a single image
         $asset = Asset::upload(UploadedFile::fake()->image('image.png'));
 
-        $this->assertEquals( 'image.png', $asset->getFilename());
-        $this->assertEquals( '/media/2/image.png', $asset->getImageUrl());
+        $this->assertEquals('image.png', $asset->getFilename());
+        $this->assertEquals('/media/2/image.png', $asset->getImageUrl());
     }
 
     /**
@@ -84,14 +80,14 @@ class AssetTest extends TestCase
         $article = Article::create();
 
         //upload a single image
-        $article = Asset::upload(UploadedFile::fake()->image('image2.png'))->attachToModel($article, 'banner',  'nl');
+        $article = Asset::upload(UploadedFile::fake()->image('image2.png'))->attachToModel($article, 'banner', 'nl');
 
         $this->assertEquals('image2.png', $article->getFilename('banner', 'nl'));
-        $this->assertEquals('/media/2/image2.png', $article->getFileUrl('banner', '',  'nl'));
+        $this->assertEquals('/media/2/image2.png', $article->getFileUrl('banner', '', 'nl'));
 
         $article->addFile(UploadedFile::fake()->image('image3.png'), 'thumbnail', 'fr');
 
-        $this->assertEquals('image3.png', $article->getFilename('thumbnail',  'fr'));
+        $this->assertEquals('image3.png', $article->getFilename('thumbnail', 'fr'));
         $this->assertEquals('/media/3/image3.png', $article->getFileUrl('thumbnail', '', 'fr'));
 
         $this->assertEquals(3, Asset::getAllAssets()->count());
@@ -158,8 +154,8 @@ class AssetTest extends TestCase
     }
 
     /**
-    * @test
-    */
+     * @test
+     */
     public function it_can_create_conversions()
     {
         $asset = Asset::upload(UploadedFile::fake()->image('image.png'));
@@ -170,8 +166,8 @@ class AssetTest extends TestCase
     }
 
     /**
-    * @test
-    */
+     * @test
+     */
     public function it_can_return_the_url_for_pdf_or_xls()
     {
         $images = [UploadedFile::fake()->create('foobar.pdf'), UploadedFile::fake()->create('foobar.xls')];
@@ -186,8 +182,8 @@ class AssetTest extends TestCase
     }
 
     /**
-    * @test
-    */
+     * @test
+     */
     public function it_can_get_the_image_url()
     {
         $files = [UploadedFile::fake()->create('foobar.pdf'), UploadedFile::fake()->create('foobar.xls'), UploadedFile::fake()->image('image.mp4')];
@@ -205,8 +201,8 @@ class AssetTest extends TestCase
     }
 
     /**
-    * @test
-    */
+     * @test
+     */
     public function it_can_get_its_mimetype()
     {
         $asset = Asset::upload(UploadedFile::fake()->image('image.png'));
@@ -215,8 +211,8 @@ class AssetTest extends TestCase
     }
 
     /**
-    * @test
-    */
+     * @test
+     */
     public function it_can_get_its_size()
     {
         $asset = Asset::upload(UploadedFile::fake()->image('image.png'));
@@ -235,12 +231,12 @@ class AssetTest extends TestCase
     }
 
     /**
-    * @test
-    */
+     * @test
+     */
     public function it_can_upload_images_for_different_locales()
     {
         $asset = Asset::upload(UploadedFile::fake()->image('image.png'), 'nl');
-        $this->assertEquals('image.png', $asset->getFilename('','nl'));
+        $this->assertEquals('image.png', $asset->getFilename('', 'nl'));
     }
 
     /**
@@ -294,7 +290,7 @@ class AssetTest extends TestCase
 
         $asset2 = Asset::upload($asset);
 
-        $this->assertEquals( '/media/1/image.png', $asset2->getFileUrl());
+        $this->assertEquals('/media/1/image.png', $asset2->getFileUrl());
     }
 
     /**
@@ -306,8 +302,8 @@ class AssetTest extends TestCase
 
         $asset2 = Asset::upload($asset);
 
-        $this->assertEquals( '/media/1/image.png', $asset->getFileUrl());
-        $this->assertEquals( '/media/1/image.png', $asset2->getFileUrl());
+        $this->assertEquals('/media/1/image.png', $asset->getFileUrl());
+        $this->assertEquals('/media/1/image.png', $asset2->getFileUrl());
     }
 
     /**
@@ -321,7 +317,6 @@ class AssetTest extends TestCase
 //        $asset1 =  Asset::upload(UploadedFile::fake()->create('image.pdf'));
 //        $asset2 =  Asset::upload(UploadedFile::fake()->create('image.xls'));
         $asset3 =  Asset::upload(UploadedFile::fake()->create('image.test'));
-
 
         $this->assertEquals('image', $asset->getExtensionForFilter());
 //        $this->assertEquals('pdf', $asset1->getExtensionForFilter());
@@ -339,9 +334,10 @@ class AssetTest extends TestCase
     }
 
     /**
-    * @test
-    */
-    public function it_can_prefix_the_conversions_with_the_filename(){
+     * @test
+     */
+    public function it_can_prefix_the_conversions_with_the_filename()
+    {
         $asset = Asset::upload(UploadedFile::fake()->image('image.png'));
 
         config(['assetlibrary.conversionPrefix' => true]);
