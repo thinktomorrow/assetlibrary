@@ -5,6 +5,7 @@
 [![Build Status][ico-travis]][link-travis]
 [![Coverage Status][ico-scrutinizer]][link-scrutinizer]
 [![Quality Score][ico-code-quality]][link-code-quality]
+[![Style Ci][ico-styleci]][link-styleci]
 [![Total Downloads][ico-downloads]][link-downloads]
 
 This assetlibrary is based on spatie's medialibrary package but provides some extra features.
@@ -161,12 +162,14 @@ The MIT License (MIT). Please see [License File](LICENSE.md) for more informatio
 [ico-version]: https://img.shields.io/packagist/v/thinktomorrow/assetlibrary.svg?style=flat-square
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
 [ico-travis]: https://img.shields.io/travis/thinktomorrow/assetlibrary/master.svg?style=flat-square
+[ico-styleci]: https://styleci.io/repos/102483037/shield
 [ico-scrutinizer]: https://img.shields.io/scrutinizer/coverage/g/thinktomorrow/assetlibrary.svg?style=flat-square
 [ico-code-quality]: https://img.shields.io/scrutinizer/g/thinktomorrow/assetlibrary.svg?style=flat-square
 [ico-downloads]: https://img.shields.io/packagist/dt/thinktomorrow/assetlibrary.svg?style=flat-square
 
 [link-packagist]: https://packagist.org/packages/thinktomorrow/assetlibrary
 [link-travis]: https://travis-ci.org/thinktomorrow/assetlibrary
+[link-styleci]: https://styleci.io/repos/102483037
 [link-scrutinizer]: https://scrutinizer-ci.com/g/thinktomorrow/assetlibrary/code-structure
 [link-code-quality]: https://scrutinizer-ci.com/g/thinktomorrow/assetlibrary
 [link-downloads]: https://packagist.org/packages/thinktomorrow/assetlibrary

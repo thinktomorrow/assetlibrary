@@ -342,7 +342,7 @@ class AssetTest extends TestCase
 
         config(['assetlibrary.conversionPrefix' => true]);
 
-        $this->assertEquals('/media/1/conversions/image_thumb.png', $asset->getFileUrl('image_thumb'));
+        $this->assertEquals('/media/1/conversions/image_thumb.png', $asset->getFileUrl('thumb'));
     }
 
     /**
