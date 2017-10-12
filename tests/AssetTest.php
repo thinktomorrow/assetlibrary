@@ -348,6 +348,18 @@ class AssetTest extends TestCase
     /**
      * @test
      */
+    public function it_can_prefix_the_conversions_with_the_filename_and_get_the_orginal()
+    {
+        $asset = Asset::upload(UploadedFile::fake()->image('image.png'));
+
+        config(['assetlibrary.conversionPrefix' => true]);
+
+        $this->assertEquals('/media/1/image.png', $asset->getFileUrl());
+    }
+
+    /**
+     * @test
+     */
     public function it_will_keep_the_extension_after_upload()
     {
         $asset = Asset::upload(UploadedFile::fake()->image('image.jpg', 100, 100));

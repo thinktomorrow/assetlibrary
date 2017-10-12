@@ -126,8 +126,8 @@ class Asset extends Model implements HasMediaConversions
             return asset('assets/back/img/other.png');
         }
 
-        if (config('assetlibrary.conversionPrefix')) {
-            $conversionName = $media->first()->name.'_'.$size;
+        if (config('assetlibrary.conversionPrefix') && $size != '') {
+            $conversionName = $media->first()->name . '_' . $size;
         } else {
             $conversionName = $size;
         }
