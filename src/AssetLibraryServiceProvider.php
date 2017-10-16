@@ -2,11 +2,10 @@
 
 namespace Thinktomorrow\AssetLibrary;
 
+use Illuminate\Database\Eloquent\Factory as EloquentFactory;
 use Illuminate\Routing\Router;
-use Thinktomorrow\Locale\Locale;
 use Illuminate\Support\ServiceProvider;
 use Thinktomorrow\AssetLibrary\Models\Asset;
-use Illuminate\Database\Eloquent\Factory as EloquentFactory;
 
 class AssetLibraryServiceProvider extends ServiceProvider
 {
