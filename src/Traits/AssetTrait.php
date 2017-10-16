@@ -56,9 +56,7 @@ trait AssetTrait
      */
     public function addFile($file, $type = '', $locale = null)
     {
-        if ($locale == '' || $locale == null) {
-            $locale = Locale::getDefault();
-        }
+        $locale = $this->normalizeLocale($locale);
 
         $asset = Asset::upload($file);
 
@@ -80,12 +78,18 @@ trait AssetTrait
 
     public function getAllFiles($type = null, $locale = '')
     {
-        if ($locale == '' || $locale == null) {
-            $locale = Locale::getDefault();
-        }
+        $locale = $this->normalizeLocale($locale);
 
         $files = $this->assets->where('pivot.type', $type)->where('pivot.locale', $locale);
 
         return $files;
+    }
+
+    private function normalizeLocale($locale)
+    {
+        if ($locale == '' || $locale == null) {
+            $locale = Locale::getDefault();
+        }
+        return $locale;
     }
 }
