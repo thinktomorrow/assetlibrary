@@ -2,8 +2,6 @@
 
 [![Latest Version on Packagist][ico-version]][link-packagist]
 [![Software License][ico-license]](LICENSE.md)
-[![Build Status][ico-travis]][link-travis]
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/thinktomorrow/assetlibrary/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/thinktomorrow/assetlibrary/?branch=master)
 [![Code Coverage](https://scrutinizer-ci.com/g/thinktomorrow/assetlibrary/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/thinktomorrow/assetlibrary/?branch=master)
 [![Build Status](https://scrutinizer-ci.com/g/thinktomorrow/assetlibrary/badges/build.png?b=master)](https://scrutinizer-ci.com/g/thinktomorrow/assetlibrary/build-status/master)
 [![Quality Score][ico-code-quality]][link-code-quality]
