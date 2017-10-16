@@ -2,9 +2,9 @@
 
 namespace Thinktomorrow\AssetLibrary\Traits;
 
-use Thinktomorrow\Locale\Locale;
 use Illuminate\Support\Collection;
 use Thinktomorrow\AssetLibrary\Models\Asset;
+use Thinktomorrow\Locale\Locale;
 
 trait AssetTrait
 {
@@ -25,6 +25,11 @@ trait AssetTrait
         return basename($this->getFileUrl($type, '', $locale));
     }
 
+    /**
+     * @param string $locale
+     *
+     * @return string
+     */
     public function getFileUrl($type = '', $size = '', $locale = null)
     {
         if ($this->assets->first() === null || $this->assets->first()->pivot === null) {
