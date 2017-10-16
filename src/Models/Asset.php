@@ -2,13 +2,13 @@
 
 namespace Thinktomorrow\AssetLibrary\Models;
 
-use Illuminate\Http\File;
-use Spatie\MediaLibrary\Media;
-use Thinktomorrow\Locale\Locale;
-use Illuminate\Http\UploadedFile;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\File;
+use Illuminate\Http\UploadedFile;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Spatie\MediaLibrary\HasMedia\Interfaces\HasMediaConversions;
+use Spatie\MediaLibrary\Media;
+use Thinktomorrow\Locale\Locale;
 
 class Asset extends Model implements HasMediaConversions
 {
@@ -88,7 +88,7 @@ class Asset extends Model implements HasMediaConversions
      *
      * @param Model $model
      * @param string $type
-     * @param null $locale
+     * @param null|string $locale
      * @return Model
      */
     public function attachToModel(Model $model, $type = '', $locale = null)
@@ -118,6 +118,9 @@ class Asset extends Model implements HasMediaConversions
         return basename($this->getFileUrl($size));
     }
 
+    /**
+     * @return string
+     */
     public function getFileUrl($size = '')
     {
         $media = $this->getMedia();
