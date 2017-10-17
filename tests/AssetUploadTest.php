@@ -4,6 +4,7 @@ namespace Thinktomorrow\AssetLibrary\Test;
 
 use Illuminate\Http\File;
 use Thinktomorrow\AssetLibrary\Models\Asset;
+use Thinktomorrow\AssetLibrary\Models\AssetUploader;
 
 class AssetUploadTest extends TestCase
 {
@@ -14,7 +15,7 @@ class AssetUploadTest extends TestCase
         touch($source);
 
         // Second parameter is flag to preserve original source file
-        $asset = Asset::upload(new File($source), true);
+        $asset = AssetUploader::upload(new File($source), true);
 
         $this->assertTrue(file_exists($source));
 

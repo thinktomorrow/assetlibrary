@@ -6,6 +6,7 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Artisan;
 use Thinktomorrow\AssetLibrary\Models\Asset;
+use Thinktomorrow\AssetLibrary\Models\AssetUploader;
 use Thinktomorrow\AssetLibrary\Test\stubs\Article;
 
 class AssetTraitTest extends TestCase
@@ -27,7 +28,7 @@ class AssetTraitTest extends TestCase
     {
         $article = Article::create();
 
-        Asset::upload(UploadedFile::fake()->image('image.png'))->attachToModel($article);
+        AssetUploader::upload(UploadedFile::fake()->image('image.png'))->attachToModel($article);
 
         $this->assertEquals('/media/1/image.png', $article->getFileUrl());
     }
@@ -39,8 +40,8 @@ class AssetTraitTest extends TestCase
     {
         $article = Article::create();
 
-        $article = Asset::upload(UploadedFile::fake()->image('bannerImage.png'))->attachToModel($article, 'banner');
-        $article = Asset::upload(UploadedFile::fake()->image('image.png'))->attachToModel($article);
+        $article = AssetUploader::upload(UploadedFile::fake()->image('bannerImage.png'))->attachToModel($article, 'banner');
+        $article = AssetUploader::upload(UploadedFile::fake()->image('image.png'))->attachToModel($article);
 
         $this->assertEquals('/media/1/bannerImage.png', $article->getFileUrl('banner'));
         $this->assertEquals('/media/2/image.png', $article->getFileUrl());
@@ -53,7 +54,7 @@ class AssetTraitTest extends TestCase
     {
         $article = Article::create();
 
-        Asset::upload(UploadedFile::fake()->image('image.png'))->attachToModel($article, 'banner');
+        AssetUploader::upload(UploadedFile::fake()->image('image.png'))->attachToModel($article, 'banner');
 
         $this->assertEquals('/media/1/conversions/thumb.png', $article->getFileUrl('banner', 'thumb'));
     }
@@ -66,7 +67,7 @@ class AssetTraitTest extends TestCase
         $article = Article::create();
         config(['app.locale' => 'nl']);
 
-        Asset::upload(UploadedFile::fake()->image('image.png'))->attachToModel($article, 'banner');
+        AssetUploader::upload(UploadedFile::fake()->image('image.png'))->attachToModel($article, 'banner');
         $article->addFile(UploadedFile::fake()->image('imageFR.png'), 'banner', 'fr');
 
         $this->assertEquals('/media/1/image.png', $article->getFileUrl('banner', '', 'nl'));
@@ -80,7 +81,7 @@ class AssetTraitTest extends TestCase
     {
         $article = Article::create();
 
-        Asset::upload(UploadedFile::fake()->image('image.png'))->attachToModel($article, 'banner', 'nl');
+        AssetUploader::upload(UploadedFile::fake()->image('image.png'))->attachToModel($article, 'banner', 'nl');
         $article->addFile(UploadedFile::fake()->image('imageFR.png'), 'thumbnail', 'fr');
 
         $this->assertEquals('/media/1/conversions/large.png', $article->getFileUrl('banner', 'large', 'nl'));
@@ -94,7 +95,7 @@ class AssetTraitTest extends TestCase
     {
         $article = Article::create();
 
-        Asset::upload(UploadedFile::fake()->image('image.png'))->attachToModel($article, 'banner', 'nl');
+        AssetUploader::upload(UploadedFile::fake()->image('image.png'))->attachToModel($article, 'banner', 'nl');
 
         $this->assertEquals('/media/1/image.png', $article->getFileUrl('banner', '', 'nl'));
         $this->assertEquals('/media/1/image.png', $article->getFileUrl('banner', '', 'fr'));
@@ -109,7 +110,7 @@ class AssetTraitTest extends TestCase
 
         $this->assertFalse($article->hasFile());
 
-        $article = Asset::upload(UploadedFile::fake()->image('image.png'))->attachToModel($article);
+        $article = AssetUploader::upload(UploadedFile::fake()->image('image.png'))->attachToModel($article);
 
         $this->assertTrue($article->hasFile());
     }
@@ -123,7 +124,7 @@ class AssetTraitTest extends TestCase
 
         $this->assertFalse($article->hasFile('banner'));
 
-        Asset::upload(UploadedFile::fake()->image('image.png'))->attachToModel($article, 'banner');
+        AssetUploader::upload(UploadedFile::fake()->image('image.png'))->attachToModel($article, 'banner');
 
         $this->assertTrue($article->hasFile('banner'));
     }
@@ -174,7 +175,7 @@ class AssetTraitTest extends TestCase
     public function it_can_attach_an_asset_if_it_is_given_instead_of_a_file()
     {
         $article = Article::create();
-        $asset   = Asset::upload(UploadedFile::fake()->image('image.png', 100, 100));
+        $asset   = AssetUploader::upload(UploadedFile::fake()->image('image.png', 100, 100));
 
         $article->addFile($asset);
 
@@ -187,8 +188,8 @@ class AssetTraitTest extends TestCase
     public function it_can_attach_multiple_assets()
     {
         $article  = Article::create();
-        $assets[] = Asset::upload(UploadedFile::fake()->image('image.png', 100, 100));
-        $assets[] = Asset::upload(UploadedFile::fake()->image('image.png', 100, 100));
+        $assets[] = AssetUploader::upload(UploadedFile::fake()->image('image.png', 100, 100));
+        $assets[] = AssetUploader::upload(UploadedFile::fake()->image('image.png', 100, 100));
 
         $article->addFile($assets);
 
@@ -201,8 +202,8 @@ class AssetTraitTest extends TestCase
     public function it_can_attach_multiple_assets_and_files()
     {
         $article  = Article::create();
-        $assets[] = Asset::upload(UploadedFile::fake()->image('image.png', 100, 100));
-        $assets[] = Asset::upload(UploadedFile::fake()->image('image.png', 100, 100));
+        $assets[] = AssetUploader::upload(UploadedFile::fake()->image('image.png', 100, 100));
+        $assets[] = AssetUploader::upload(UploadedFile::fake()->image('image.png', 100, 100));
         $assets[] = UploadedFile::fake()->image('image.png');
 
         $article->addFile($assets);
@@ -217,7 +218,7 @@ class AssetTraitTest extends TestCase
     {
         $article    = Article::create();
         $article2   = Article::create();
-        $asset      = Asset::upload(UploadedFile::fake()->image('image.png', 100, 100));
+        $asset      = AssetUploader::upload(UploadedFile::fake()->image('image.png', 100, 100));
         $asset->attachToModel($article, 'banner');
 
         $article2->addFile($asset, 'banner');
@@ -233,7 +234,7 @@ class AssetTraitTest extends TestCase
     {
         $article    = Article::create();
         $article2   = Article::create();
-        $asset      = Asset::upload(UploadedFile::fake()->image('image.png', 100, 100));
+        $asset      = AssetUploader::upload(UploadedFile::fake()->image('image.png', 100, 100));
         $asset->attachToModel($article, 'banner');
 
         $article2->addFile($asset, 'banner');
@@ -250,10 +251,10 @@ class AssetTraitTest extends TestCase
     {
         $article = Article::create();
 
-        $article = Asset::upload(UploadedFile::fake()->image('bannerImage.png'))->attachToModel($article, 'banner');
-        $article = Asset::upload(UploadedFile::fake()->image('image.png'))->attachToModel($article, 'foo');
-        $article = Asset::upload(UploadedFile::fake()->image('image.png'))->attachToModel($article, 'bar');
-        $article = Asset::upload(UploadedFile::fake()->create('not-an-image.pdf'))->attachToModel($article, 'fail');
+        $article = AssetUploader::upload(UploadedFile::fake()->image('bannerImage.png'))->attachToModel($article, 'banner');
+        $article = AssetUploader::upload(UploadedFile::fake()->image('image.png'))->attachToModel($article, 'foo');
+        $article = AssetUploader::upload(UploadedFile::fake()->image('image.png'))->attachToModel($article, 'bar');
+        $article = AssetUploader::upload(UploadedFile::fake()->create('not-an-image.pdf'))->attachToModel($article, 'fail');
 
         $this->assertEquals(3, $article->getAllImages()->count());
     }
