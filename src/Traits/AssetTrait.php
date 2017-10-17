@@ -4,6 +4,7 @@ namespace Thinktomorrow\AssetLibrary\Traits;
 
 use Illuminate\Support\Collection;
 use Thinktomorrow\AssetLibrary\Models\Asset;
+use Thinktomorrow\AssetLibrary\Models\AssetUploader;
 use Thinktomorrow\Locale\Locale;
 
 trait AssetTrait
@@ -63,7 +64,7 @@ trait AssetTrait
     {
         $locale = $this->normalizeLocale($locale);
 
-        $asset = Asset::upload($file);
+        $asset = AssetUploader::upload($file);
 
         if ($asset instanceof Collection) {
             $asset->each->attachToModel($this, $type, $locale);
@@ -92,7 +93,7 @@ trait AssetTrait
 
     private function normalizeLocale($locale)
     {
-        if ($locale == '' || $locale == null) {
+        if ($locale === '' || $locale === null) {
             $locale = Locale::getDefault();
         }
         return $locale;
