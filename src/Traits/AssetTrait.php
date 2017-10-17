@@ -90,6 +90,9 @@ trait AssetTrait
         return $files;
     }
 
+    /**
+     * @param string|null $locale
+     */
     private function normalizeLocale($locale)
     {
         if ($locale == '' || $locale == null) {
