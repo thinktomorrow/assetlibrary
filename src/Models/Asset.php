@@ -194,6 +194,19 @@ class Asset extends Model implements HasMediaConversions
         return self::typeField($locale, null, 'locale');
     }
 
+    public function crop($width, $height, $x, $y)
+    {
+        $this->media[0]->manipulations = [
+            'cropped'   => [
+                'manualCrop' => $width . ', ' . $height . ', ' . $x . ', ' . $y
+            ]
+        ];
+
+        $this->media[0]->save();
+
+        return $this;
+    }
+
     /**
      * Register the conversions that should be performed.
      *
@@ -219,5 +232,10 @@ class Asset extends Model implements HasMediaConversions
                 ->keepOriginalImageFormat()
                 ->optimize();
         }
+
+        $this->addMediaConversion('cropped')
+            ->sharpen(15)
+            ->keepOriginalImageFormat()
+            ->optimize();
     }
 }

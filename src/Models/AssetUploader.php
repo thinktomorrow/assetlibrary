@@ -31,19 +31,19 @@ class AssetUploader extends Model
                 if ($file instanceof Asset) {
                     $list->push($file);
                 } else {
-                    $self = new Asset();
-                    $self->save();
-                    $list->push(self::uploadToAsset($file, $self));
+                    $asset = new Asset();
+                    $asset->save();
+                    $list->push(self::uploadToAsset($file, $asset));
                 }
             });
 
             return $list;
         }
 
-        $self = new Asset();
-        $self->save();
+        $asset = new Asset();
+        $asset->save();
 
-        return self::uploadToAsset($files, $self, $keepOriginal);
+        return self::uploadToAsset($files, $asset, $keepOriginal);
     }
 
     /**

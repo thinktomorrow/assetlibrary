@@ -368,12 +368,12 @@ class AssetTest extends TestCase
         $this->assertEquals('/media/1/conversions/thumb.jpg', $asset->getFileUrl('thumb'));
     }
 
-//
-//    /**
-//     * @test
-//     */
-//    public function it_can_crop_an_image()
-//    {
-//        AssetUploader::upload($request->file('image'))->crop(x,y,w,h);
-//    }
+    /**
+     * @test
+     */
+    public function it_can_crop_an_image()
+    {
+        $asset = AssetUploader::upload(UploadedFile::fake()->image('image.jpg', 1000, 1000))->crop(600, 400, 60, 100);
+        dd($asset->getFileUrl());
+    }
 }
