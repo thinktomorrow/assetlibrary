@@ -374,6 +374,11 @@ class AssetTest extends TestCase
     public function it_can_crop_an_image()
     {
         $asset = AssetUploader::upload(UploadedFile::fake()->image('image.jpg', 1000, 1000))->crop(600, 400, 60, 100);
-        dd($asset->getFileUrl());
+
+        $this->assertEquals('/media/1/conversions/cropped.jpg', $asset->getFileUrl('cropped'));
+        $this->assertEquals('600 x 400', $asset->getDimensions('cropped'));
     }
+
+
+
 }

@@ -28,9 +28,9 @@ class Asset extends Model implements HasMediaConversions
     {
         $asset = $model->assets->where('pivot.type', $type)->where('pivot.locale', $locale);
 
-        if (! $asset->isEmpty() && $asset->first()->pivot->type !== '') {
-            $model->assets()->detach($asset->first()->id);
-        }
+//        if (! $asset->isEmpty() && $asset->first()->pivot->type !== '') {
+//            $model->assets()->detach($asset->first()->id);
+//        }
 
         if (! $locale) {
             $locale = Locale::getDefault();
@@ -134,9 +134,18 @@ class Asset extends Model implements HasMediaConversions
         return $this->isMediaEmpty() ? '' : $this->getMedia()[0]->human_readable_size;
     }
 
-    public function getDimensions()
+    public function getDimensions($size = null)
     {
-        return $this->isMediaEmpty() ? '' : $this->getMedia()[0]->getCustomProperty('dimensions');
+        if($this->isMediaEmpty()) return '';
+
+        // Check the other sizes as well
+        if($size === 'cropped')
+        {
+            $dimensions = explode(',', $this->getMedia()[0]->manipulations['cropped']['manualCrop']);
+            return $dimensions[0] . ' x' . $dimensions[1];
+        }
+
+        return $this->getMedia()[0]->getCustomProperty('dimensions');
     }
 
     /**
