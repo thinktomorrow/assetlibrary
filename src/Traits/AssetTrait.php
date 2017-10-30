@@ -22,11 +22,11 @@ trait AssetTrait
      * @param string $locale
      * @return bool
      */
-    public function hasFile($type = '', $locale = ''): bool
+    public function hasFile($type = '', $locale = null): bool
     {
         $filename = $this->getFilename($type, $locale);
 
-        return (bool) $filename and basename($filename) != 'other.png';
+        return (bool) $filename && basename($filename) != 'other.png';
     }
 
     /**
@@ -34,25 +34,24 @@ trait AssetTrait
      * @param string $locale
      * @return string
      */
-    public function getFilename($type = '', $locale = '')
+    public function getFilename($type = '', $locale = null): string
     {
         return basename($this->getFileUrl($type, '', $locale));
     }
 
     /**
+     * @param string $type
+     * @param string $size
      * @param string $locale
-     *
      * @return string
      */
-    public function getFileUrl($type = '', $size = '', $locale = null)
+    public function getFileUrl($type = '', $size = '', $locale = null): ?string
     {
         if ($this->assets->first() === null || $this->assets->first()->pivot === null) {
-            return;
+            return null;
         }
 
-        if (! $locale) {
-            $locale = Locale::getDefault();
-        }
+        $locale = $this->normalizeLocale($locale);
 
         $assets = $this->assets->where('pivot.type', $type);
         if ($assets->count() > 1) {
@@ -60,7 +59,7 @@ trait AssetTrait
         }
 
         if ($assets->isEmpty()) {
-            return;
+            return null;
         }
 
         return $assets->first()->getFileUrl($size);
@@ -73,17 +72,29 @@ trait AssetTrait
      * @param $type
      * @param string $locale
      */
-    public function addFile($file, $type = '', $locale = null)
+    public function addFile($file, $type = '', $locale = null): void
     {
         $locale = $this->normalizeLocale($locale);
 
         $asset = AssetUploader::upload($file);
+        $asset->attachToModel($this, $type, $locale);
+    }
 
-        if ($asset instanceof Collection) {
-            $asset->each->attachToModel($this, $type, $locale);
-        } else {
-            $asset->attachToModel($this, $type, $locale);
-        }
+    /**
+     * Adds multiple files to this model, accepts a type and locale to be saved with the file.
+     *
+     * @param $files
+     * @param $type
+     * @param string $locale
+     */
+    public function addFiles($files, $type = '', $locale = null): void
+    {
+        $files = (array) $files;
+        $locale = $this->normalizeLocale($locale);
+
+        $asset = AssetUploader::upload($files);
+
+        collect($asset)->each->attachToModel($this, $type, $locale);
     }
 
     /**
@@ -103,7 +114,7 @@ trait AssetTrait
      * @param string $locale
      * @return mixed
      */
-    public function getAllFiles($type = null, $locale = '')
+    public function getAllFiles($type = null, $locale = null)
     {
         $locale = $this->normalizeLocale($locale);
 
@@ -114,13 +125,12 @@ trait AssetTrait
 
     /**
      * @param string|null $locale
-     * @return null|string
+     * @return string
      */
-    private function normalizeLocale($locale): ?string
+    private function normalizeLocale($locale = null): ?string
     {
-        if ($locale === '' || $locale === null) {
-            $locale = Locale::getDefault();
-        }
+        $locale = $locale ?? Locale::getDefault();
+
         return $locale;
     }
 }

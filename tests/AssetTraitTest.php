@@ -194,7 +194,7 @@ class AssetTraitTest extends TestCase
         $assets[] = AssetUploader::upload(UploadedFile::fake()->image('image.png', 100, 100));
         $assets[] = AssetUploader::upload(UploadedFile::fake()->image('image.png', 100, 100));
 
-        $article->addFile($assets);
+        $article->addFiles($assets);
 
         $this->assertEquals('/media/1/image.png', $article->getFileUrl());
     }
@@ -209,7 +209,7 @@ class AssetTraitTest extends TestCase
         $assets[] = AssetUploader::upload(UploadedFile::fake()->image('image.png', 100, 100));
         $assets[] = UploadedFile::fake()->image('image.png');
 
-        $article->addFile($assets);
+        $article->addFiles($assets);
 
         $this->assertEquals('/media/1/image.png', $article->getFileUrl());
     }
@@ -275,7 +275,7 @@ class AssetTraitTest extends TestCase
         $article = Article::create();
         config(['app.locale' => 'nl']);
 
-        $article->addFile($images, '', 'nl');
+        $article->addFiles($images, '', 'nl');
 
         $this->assertEquals(2, $article->getAllFiles()->count());
     }

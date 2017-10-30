@@ -3,6 +3,7 @@
 namespace Thinktomorrow\AssetLibrary\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Spatie\MediaLibrary\HasMedia\Interfaces\HasMediaConversions;
 use Spatie\MediaLibrary\Media;
@@ -25,7 +26,7 @@ class Asset extends Model implements HasMediaConversions
      * @param null|string $locale
      * @return Model
      */
-    public function attachToModel(Model $model, $type = '', $locale = null)
+    public function attachToModel(Model $model, $type = '', $locale = null): Model
     {
         $model->assets->where('pivot.type', $type)->where('pivot.locale', $locale);
 
@@ -39,24 +40,25 @@ class Asset extends Model implements HasMediaConversions
     /**
      * @return bool
      */
-    public function hasFile()
+    public function hasFile(): bool
     {
-        return (bool) $this->getFileUrl('');
+        return (bool) $this->getFileUrl();
     }
 
     /**
      * @param string $size
      * @return string
      */
-    public function getFilename($size = '')
+    public function getFilename($size = ''): string
     {
         return basename($this->getFileUrl($size));
     }
 
     /**
+     * @param string $size
      * @return string
      */
-    public function getFileUrl($size = '')
+    public function getFileUrl($size = ''): string
     {
         $media = $this->getMedia();
 
@@ -79,7 +81,7 @@ class Asset extends Model implements HasMediaConversions
      * @param string $type
      * @return string
      */
-    public function getImageUrl($type = '')
+    public function getImageUrl($type = ''): string
     {
         if ($this->getMedia()->isEmpty()) {
             return asset('assets/back/img/other.png');
@@ -107,9 +109,9 @@ class Asset extends Model implements HasMediaConversions
     }
 
     /**
-     * @return string|false
+     * @return string|null
      */
-    public function getExtensionType()
+    public function getExtensionType(): ?string
     {
         $extension = explode('.', $this->getMedia()[0]->file_name);
         $extension = end($extension);
@@ -130,7 +132,7 @@ class Asset extends Model implements HasMediaConversions
     /**
      * @return string
      */
-    public function getMimeType()
+    public function getMimeType(): string
     {
         return $this->isMediaEmpty() ? '' : $this->getMedia()[0]->mime_type;
     }
@@ -138,7 +140,7 @@ class Asset extends Model implements HasMediaConversions
     /**
      * @return bool
      */
-    public function isMediaEmpty()
+    public function isMediaEmpty(): bool
     {
         return $this->getMedia()->isEmpty();
     }
@@ -146,7 +148,7 @@ class Asset extends Model implements HasMediaConversions
     /**
      * @return string
      */
-    public function getSize()
+    public function getSize(): string
     {
         return $this->isMediaEmpty() ? '' : $this->getMedia()[0]->human_readable_size;
     }
@@ -155,7 +157,7 @@ class Asset extends Model implements HasMediaConversions
      * @param null $size
      * @return string
      */
-    public function getDimensions($size = null)
+    public function getDimensions($size = null): string
     {
         if($this->isMediaEmpty()) return '';
 
@@ -188,7 +190,7 @@ class Asset extends Model implements HasMediaConversions
      * Returns a collection of all the assets in the library.
      * @return \Illuminate\Support\Collection
      */
-    public static function getAllAssets()
+    public static function getAllAssets(): Collection
     {
         return self::all()->sortByDesc('created_at');
     }
@@ -199,9 +201,10 @@ class Asset extends Model implements HasMediaConversions
      * @param string $type
      * @param null $locale
      *
+     * @param string $name
      * @return string
      */
-    public static function typeField($type = '', $locale = null, $name = 'type')
+    public static function typeField($type = '', $locale = null, $name = 'type'): string
     {
         $result = '<input type="hidden" value="'.$type.'" name="';
 
@@ -219,7 +222,7 @@ class Asset extends Model implements HasMediaConversions
      *
      * @return string
      */
-    public static function localeField($locale = '')
+    public static function localeField($locale = ''): string
     {
         return self::typeField($locale, null, 'locale');
     }

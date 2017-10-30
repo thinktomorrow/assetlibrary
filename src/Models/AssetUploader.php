@@ -39,6 +39,10 @@ class AssetUploader extends Model
         $asset = new Asset();
         $asset->save();
 
+        if (! ($files instanceof File) && ! ($files instanceof UploadedFile)) {
+            return;
+        }
+
         return self::uploadToAsset($files, $asset, $keepOriginal);
     }
 
@@ -51,12 +55,8 @@ class AssetUploader extends Model
      * @param Asset $asset
      * @return null|Asset
      */
-    public static function uploadToAsset($files, $asset, $keepOriginal = false)
+    public static function uploadToAsset($files, $asset, $keepOriginal = false): ?Asset
     {
-        if (! ($files instanceof File) && ! ($files instanceof UploadedFile)) {
-            return;
-        }
-
         $customProps = [];
         if (self::isImage($files)) {
             $customProps['dimensions'] = getimagesize($files)[0].' x '.getimagesize($files)[1];
@@ -76,7 +76,7 @@ class AssetUploader extends Model
      * @param $file
      * @return bool
      */
-    private static function isImage($file)
+    private static function isImage($file): bool
     {
         return str_before($file->getMimetype(), '/') === 'image';
     }
