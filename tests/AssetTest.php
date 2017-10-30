@@ -243,24 +243,6 @@ class AssetTest extends TestCase
     /**
      * @test
      */
-    public function it_can_return_a_type_field_for_uploads()
-    {
-        $this->assertEquals('<input type="hidden" value="foo" name="type">', Asset::typeField('foo'));
-        $this->assertEquals('<input type="hidden" value="bar" name="type">', Asset::typeField('bar'));
-    }
-
-    /**
-     * @test
-     */
-    public function it_can_return_a_locale_field_for_uploads()
-    {
-        $this->assertEquals('<input type="hidden" value="nl" name="locale">', Asset::localeField('nl'));
-        $this->assertEquals('<input type="hidden" value="fr" name="locale">', Asset::localeField('fr'));
-    }
-
-    /**
-     * @test
-     */
     public function it_can_check_if_it_has_a_file()
     {
         $asset = AssetUploader::upload(UploadedFile::fake()->image('image.png', 100, 100));
@@ -278,8 +260,6 @@ class AssetTest extends TestCase
         $this->assertEquals('', $asset->getMimeType());
         $this->assertEquals('', $asset->getSize());
         $this->assertEquals('', $asset->getDimensions());
-        $this->assertEquals(asset('assets/back/img/other.png'), $asset->getImageUrl());
-        $this->assertEquals(asset('assets/back/img/other.png'), $asset->getFileUrl());
     }
 
     /**
@@ -323,15 +303,6 @@ class AssetTest extends TestCase
 //        $this->assertEquals('pdf', $asset1->getExtensionForFilter());
 //        $this->assertEquals('excel', $asset2->getExtensionForFilter());
         $this->assertEquals('', $asset3->getExtensionForFilter());
-    }
-
-    /**
-     * @test
-     */
-    public function it_can_get_the_typefield_with_locale()
-    {
-        $this->assertEquals('<input type="hidden" value="foo" name="type">', Asset::typeField('foo'));
-        $this->assertEquals('<input type="hidden" value="bar" name="trans[fr][files][]">', Asset::typeField('bar', 'fr'));
     }
 
     /**
