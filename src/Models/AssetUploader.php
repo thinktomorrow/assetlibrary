@@ -49,7 +49,7 @@ class AssetUploader extends Model
      * @param $files
      * @param bool $keepOriginal
      * @param Asset $asset
-     * @return $this|null
+     * @return null|Asset
      */
     public static function uploadToAsset($files, $asset, $keepOriginal = false)
     {

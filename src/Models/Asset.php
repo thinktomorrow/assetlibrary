@@ -110,7 +110,7 @@ class Asset extends Model implements HasMediaConversions
     }
 
     /**
-     * @return bool|string
+     * @return string|false
      */
     public function getExtensionType()
     {
