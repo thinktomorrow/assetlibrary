@@ -294,4 +294,37 @@ class AssetTraitTest extends TestCase
 
         $this->assertCount(2, $original->fresh()->getAllFiles('images'));
     }
+
+    /**
+    * @test
+    */
+    public function it_can_remove_an_asset(){
+        $article = Article::create();
+
+        $asset      = AssetUploader::upload(UploadedFile::fake()->image('image.png'));
+        $article    = $asset->attachToModel($article);
+
+        $this->assertCount(1, $article->fresh()->getAllFiles());
+
+        $article->deleteAsset($asset->id);
+
+        $this->assertCount(0, $article->fresh()->getAllFiles());
+    }
+
+    /**
+    * @test
+    */
+    public function it_can_replace_an_asset(){
+        $article = Article::create();
+
+        $asset      = AssetUploader::upload(UploadedFile::fake()->image('oldImage.png'));
+        $article    = $asset->attachToModel($article);
+
+        $this->assertCount(1, $article->fresh()->getAllFiles());
+
+        $article->replace($asset->id, AssetUploader::upload(UploadedFile::fake()->image('newImage.png'))->id);
+
+        $this->assertCount(1, $article->fresh()->getAllFiles());
+        $this->assertEquals('/media/2/newImage.png', $article->getFileUrl());
+    }
 }

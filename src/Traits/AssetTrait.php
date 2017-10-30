@@ -105,10 +105,34 @@ trait AssetTrait
     public function getAllImages()
     {
         $images = $this->assets->filter(function ($asset) {
-            return $asset->getExtensionForFilter() == 'image';
+            return $asset->getExtensionForFilter() === 'image';
         });
 
         return $images;
+    }
+
+    /**
+     * Removes an asset completely.
+     *
+     * @param $ids
+     */
+    public function deleteAsset($ids): void
+    {
+        Asset::remove($ids);
+    }
+
+    /**
+     * Remove the asset and attaches a new one.
+     *
+     * @param $replace
+     * @param $with
+     */
+    public function replace($replace, $with): void
+    {
+        $asset = Asset::findOrFail($replace);
+        Asset::remove($replace);
+
+        $this->addFile(Asset::findOrFail($with), $asset->type, $asset->locale);
     }
 
     /**
