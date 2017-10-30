@@ -5,10 +5,6 @@ namespace Thinktomorrow\AssetLibrary\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\File;
 use Illuminate\Http\UploadedFile;
-use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
-use Spatie\MediaLibrary\HasMedia\Interfaces\HasMediaConversions;
-use Spatie\MediaLibrary\Media;
-use Thinktomorrow\Locale\Locale;
 
 class AssetUploader extends Model
 {
@@ -52,6 +48,7 @@ class AssetUploader extends Model
      *
      * @param $files
      * @param bool $keepOriginal
+     * @param Asset $asset
      * @return $this|null
      */
     public static function uploadToAsset($files, $asset, $keepOriginal = false)

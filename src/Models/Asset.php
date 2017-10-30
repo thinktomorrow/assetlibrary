@@ -3,8 +3,6 @@
 namespace Thinktomorrow\AssetLibrary\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Http\File;
-use Illuminate\Http\UploadedFile;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Spatie\MediaLibrary\HasMedia\Interfaces\HasMediaConversions;
 use Spatie\MediaLibrary\Media;
