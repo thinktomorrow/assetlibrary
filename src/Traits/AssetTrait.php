@@ -19,7 +19,7 @@ trait AssetTrait
 
     /**
      * @param string $type
-     * @param string $locale
+     * @param string|null $locale
      * @return bool
      */
     public function hasFile($type = '', $locale = null): bool
@@ -31,7 +31,7 @@ trait AssetTrait
 
     /**
      * @param string $type
-     * @param string $locale
+     * @param string|null $locale
      * @return string
      */
     public function getFilename($type = '', $locale = null): string
@@ -42,7 +42,7 @@ trait AssetTrait
     /**
      * @param string $type
      * @param string $size
-     * @param string $locale
+     * @param string|null $locale
      * @return string
      */
     public function getFileUrl($type = '', $size = '', $locale = null): ?string
@@ -70,14 +70,16 @@ trait AssetTrait
      *
      * @param $file
      * @param $type
-     * @param string $locale
+     * @param string|null $locale
      */
     public function addFile($file, $type = '', $locale = null): void
     {
         $locale = $this->normalizeLocale($locale);
 
         $asset = AssetUploader::upload($file);
-        $asset->attachToModel($this, $type, $locale);
+        if($asset instanceof Asset){
+            $asset->attachToModel($this, $type, $locale);
+        }
     }
 
     /**
@@ -85,7 +87,7 @@ trait AssetTrait
      *
      * @param $files
      * @param $type
-     * @param string $locale
+     * @param string|null $locale
      */
     public function addFiles($files, $type = '', $locale = null): void
     {
@@ -111,7 +113,7 @@ trait AssetTrait
 
     /**
      * @param null $type
-     * @param string $locale
+     * @param string|null $locale
      * @return mixed
      */
     public function getAllFiles($type = null, $locale = null)
@@ -127,7 +129,7 @@ trait AssetTrait
      * @param string|null $locale
      * @return string
      */
-    private function normalizeLocale($locale = null): ?string
+    private function normalizeLocale($locale = null): string
     {
         $locale = $locale ?? Locale::getDefault();
 

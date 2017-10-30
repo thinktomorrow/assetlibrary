@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1509357847">
-  <project timestamp="1509357847">
+<coverage generated="1509359197">
+  <project timestamp="1509359197">
     <package name="Thinktomorrow\AssetLibrary">
       <file name="/Users/philippedamen/Code/assetlibrary/src/AssetLibraryServiceProvider.php">
         <class name="AssetLibraryServiceProvider" namespace="Thinktomorrow\AssetLibrary">
@@ -213,7 +213,7 @@
     <package name="Thinktomorrow\AssetLibrary\Traits">
       <file name="/Users/philippedamen/Code/assetlibrary/src/Traits/AssetTrait.php">
         <class name="AssetTrait" namespace="Thinktomorrow\AssetLibrary\Traits">
-          <metrics complexity="17" methods="9" coveredmethods="9" conditionals="0" coveredconditionals="0" statements="29" coveredstatements="29" elements="38" coveredelements="38"/>
+          <metrics complexity="17" methods="9" coveredmethods="9" conditionals="0" coveredconditionals="0" statements="30" coveredstatements="30" elements="39" coveredelements="39"/>
         </class>
         <line num="15" type="method" name="assets" visibility="public" complexity="1" crap="1" count="19"/>
         <line num="17" type="stmt" count="19"/>
@@ -232,31 +232,32 @@
         <line num="61" type="stmt" count="16"/>
         <line num="62" type="stmt" count="1"/>
         <line num="65" type="stmt" count="16"/>
-        <line num="75" type="method" name="addFile" visibility="public" complexity="1" crap="1" count="7"/>
+        <line num="75" type="method" name="addFile" visibility="public" complexity="2" crap="2" count="7"/>
         <line num="77" type="stmt" count="7"/>
         <line num="79" type="stmt" count="7"/>
         <line num="80" type="stmt" count="7"/>
         <line num="81" type="stmt" count="7"/>
-        <line num="90" type="method" name="addFiles" visibility="public" complexity="1" crap="1" count="3"/>
-        <line num="92" type="stmt" count="3"/>
-        <line num="93" type="stmt" count="3"/>
+        <line num="83" type="stmt" count="7"/>
+        <line num="92" type="method" name="addFiles" visibility="public" complexity="1" crap="1" count="3"/>
+        <line num="94" type="stmt" count="3"/>
         <line num="95" type="stmt" count="3"/>
         <line num="97" type="stmt" count="3"/>
-        <line num="98" type="stmt" count="3"/>
-        <line num="105" type="method" name="anonymousFunction:105#556" complexity="1" crap="1" count="1"/>
-        <line num="106" type="stmt" count="1"/>
-        <line num="107" type="stmt" count="1"/>
+        <line num="99" type="stmt" count="3"/>
+        <line num="100" type="stmt" count="3"/>
+        <line num="107" type="method" name="anonymousFunction:107#568" complexity="1" crap="1" count="1"/>
+        <line num="108" type="stmt" count="1"/>
         <line num="109" type="stmt" count="1"/>
-        <line num="117" type="method" name="getAllFiles" visibility="public" complexity="1" crap="1" count="2"/>
-        <line num="119" type="stmt" count="2"/>
+        <line num="111" type="stmt" count="1"/>
+        <line num="119" type="method" name="getAllFiles" visibility="public" complexity="1" crap="1" count="2"/>
         <line num="121" type="stmt" count="2"/>
         <line num="123" type="stmt" count="2"/>
-        <line num="130" type="method" name="normalizeLocale" visibility="private" complexity="2" crap="2" count="18"/>
-        <line num="132" type="stmt" count="18"/>
+        <line num="125" type="stmt" count="2"/>
+        <line num="132" type="method" name="normalizeLocale" visibility="private" complexity="1" crap="1" count="18"/>
         <line num="134" type="stmt" count="18"/>
-        <metrics loc="136" ncloc="91" classes="1" methods="9" coveredmethods="9" conditionals="0" coveredconditionals="0" statements="30" coveredstatements="30" elements="39" coveredelements="39"/>
+        <line num="136" type="stmt" count="18"/>
+        <metrics loc="138" ncloc="93" classes="1" methods="9" coveredmethods="9" conditionals="0" coveredconditionals="0" statements="31" coveredstatements="31" elements="40" coveredelements="40"/>
       </file>
     </package>
-    <metrics files="7" loc="660" ncloc="471" classes="6" methods="40" coveredmethods="35" conditionals="0" coveredconditionals="0" statements="166" coveredstatements="152" elements="206" coveredelements="187"/>
+    <metrics files="7" loc="662" ncloc="473" classes="6" methods="40" coveredmethods="35" conditionals="0" coveredconditionals="0" statements="167" coveredstatements="153" elements="207" coveredelements="188"/>
   </project>
 </coverage>
