@@ -41,11 +41,18 @@ class Asset extends Model implements HasMediaConversions
         return $model->load('assets');
     }
 
+    /**
+     * @return bool
+     */
     public function hasFile()
     {
         return (bool) $this->getFileUrl('');
     }
 
+    /**
+     * @param string $size
+     * @return string
+     */
     public function getFilename($size = '')
     {
         return basename($this->getFileUrl($size));
@@ -92,6 +99,9 @@ class Asset extends Model implements HasMediaConversions
         return asset('assets/back/img/other.png');
     }
 
+    /**
+     * @return bool|string
+     */
     public function getExtensionForFilter()
     {
         if ($extension = $this->getExtensionType()) {
@@ -101,6 +111,9 @@ class Asset extends Model implements HasMediaConversions
         return '';
     }
 
+    /**
+     * @return bool|string
+     */
     public function getExtensionType()
     {
         $extension = explode('.', $this->getMedia()[0]->file_name);
@@ -119,21 +132,34 @@ class Asset extends Model implements HasMediaConversions
         return false;
     }
 
+    /**
+     * @return string
+     */
     public function getMimeType()
     {
         return $this->isMediaEmpty() ? '' : $this->getMedia()[0]->mime_type;
     }
 
+    /**
+     * @return bool
+     */
     public function isMediaEmpty()
     {
         return $this->getMedia()->isEmpty();
     }
 
+    /**
+     * @return string
+     */
     public function getSize()
     {
         return $this->isMediaEmpty() ? '' : $this->getMedia()[0]->human_readable_size;
     }
 
+    /**
+     * @param null $size
+     * @return string
+     */
     public function getDimensions($size = null)
     {
         if($this->isMediaEmpty()) return '';

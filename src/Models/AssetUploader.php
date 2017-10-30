@@ -75,6 +75,10 @@ class AssetUploader extends Model
         return $asset->load('media');
     }
 
+    /**
+     * @param $file
+     * @return bool
+     */
     private static function isImage($file)
     {
         return str_before($file->getMimetype(), '/') === 'image';

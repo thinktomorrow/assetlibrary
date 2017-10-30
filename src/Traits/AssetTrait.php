@@ -9,18 +9,31 @@ use Thinktomorrow\Locale\Locale;
 
 trait AssetTrait
 {
+    /**
+     * @return mixed
+     */
     public function assets()
     {
         return $this->morphToMany(Asset::class, 'entity', 'asset_pivots')->withPivot('type', 'locale');
     }
 
-    public function hasFile($type = '', $locale = '')
+    /**
+     * @param string $type
+     * @param string $locale
+     * @return bool
+     */
+    public function hasFile($type = '', $locale = ''): bool
     {
         $filename = $this->getFilename($type, $locale);
 
         return (bool) $filename and basename($filename) != 'other.png';
     }
 
+    /**
+     * @param string $type
+     * @param string $locale
+     * @return string
+     */
     public function getFilename($type = '', $locale = '')
     {
         return basename($this->getFileUrl($type, '', $locale));
@@ -73,6 +86,9 @@ trait AssetTrait
         }
     }
 
+    /**
+     * @return mixed
+     */
     public function getAllImages()
     {
         $images = $this->assets->filter(function ($asset) {
@@ -82,6 +98,11 @@ trait AssetTrait
         return $images;
     }
 
+    /**
+     * @param null $type
+     * @param string $locale
+     * @return mixed
+     */
     public function getAllFiles($type = null, $locale = '')
     {
         $locale = $this->normalizeLocale($locale);
@@ -93,8 +114,9 @@ trait AssetTrait
 
     /**
      * @param string|null $locale
+     * @return null|string
      */
-    private function normalizeLocale($locale)
+    private function normalizeLocale($locale): ?string
     {
         if ($locale === '' || $locale === null) {
             $locale = Locale::getDefault();
