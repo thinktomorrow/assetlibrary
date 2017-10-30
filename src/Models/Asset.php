@@ -4,6 +4,7 @@ namespace Thinktomorrow\AssetLibrary\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
+use Spatie\MediaLibrary\Exceptions\ConfigException;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Spatie\MediaLibrary\HasMedia\Interfaces\HasMediaConversions;
 use Spatie\MediaLibrary\Media;
@@ -234,9 +235,14 @@ class Asset extends Model implements HasMediaConversions
      * @param $y
      *
      * @return $this
+     * @throws \Spatie\MediaLibrary\Exceptions\ConfigException
      */
     public function crop($width, $height, $x, $y)
     {
+        if(!config('assetlibrary.allowCropping'))
+        {
+            throw ConfigException::create();
+        }
         $this->media[0]->manipulations = [
             'cropped'   => [
                 'manualCrop' => $width . ', ' . $height . ', ' . $x . ', ' . $y
@@ -273,9 +279,12 @@ class Asset extends Model implements HasMediaConversions
                 ->optimize();
         }
 
-        $this->addMediaConversion('cropped')
-            ->sharpen(15)
-            ->keepOriginalImageFormat()
-            ->optimize();
+        if(config('assetlibrary.allowCropping'))
+        {
+            $this->addMediaConversion('cropped')
+                ->sharpen(15)
+                ->keepOriginalImageFormat()
+                ->optimize();
+        }
     }
 }

@@ -373,10 +373,21 @@ class AssetTest extends TestCase
      */
     public function it_can_crop_an_image()
     {
+        config(['assetlibrary.allowCropping' => true]);
         $asset = AssetUploader::upload(UploadedFile::fake()->image('image.jpg', 1000, 1000))->crop(600, 400, 60, 100);
 
         $this->assertEquals('/media/1/conversions/cropped.jpg', $asset->getFileUrl('cropped'));
         $this->assertEquals('600 x 400', $asset->getDimensions('cropped'));
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_not_crop_an_image_if_the_setting_is_turned_off()
+    {
+        $this->expectExceptionMessage("The cropping config setting needs to be turned on to crop images. See 'Config\assetlibrary.php' for the 'allowCropping' field.");
+        config(['assetlibrary.allowCropping' => false]);
+        AssetUploader::upload(UploadedFile::fake()->image('image.jpg', 1000, 1000))->crop(600, 400, 60, 100);
     }
 
 

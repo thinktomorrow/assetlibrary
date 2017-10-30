@@ -1,45 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1509375041">
-  <project timestamp="1509375041">
+<coverage generated="1509376142">
+  <project timestamp="1509376142">
     <package name="Thinktomorrow\AssetLibrary">
       <file name="/Users/philippedamen/Code/assetlibrary/src/AssetLibraryServiceProvider.php">
         <class name="AssetLibraryServiceProvider" namespace="Thinktomorrow\AssetLibrary">
           <metrics complexity="10" methods="7" coveredmethods="6" conditionals="0" coveredconditionals="0" statements="24" coveredstatements="23" elements="31" coveredelements="29"/>
         </class>
-        <line num="24" type="method" name="boot" visibility="public" complexity="1" crap="1" count="45"/>
-        <line num="26" type="stmt" count="45"/>
-        <line num="27" type="stmt" count="45"/>
-        <line num="28" type="stmt" count="45"/>
-        <line num="30" type="stmt" count="45"/>
-        <line num="32" type="stmt" count="45"/>
-        <line num="34" type="stmt" count="45"/>
-        <line num="35" type="stmt" count="45"/>
-        <line num="36" type="stmt" count="45"/>
-        <line num="44" type="method" name="registerEloquentFactoriesFrom" visibility="protected" complexity="1" crap="1" count="45"/>
-        <line num="46" type="stmt" count="45"/>
-        <line num="47" type="stmt" count="45"/>
-        <line num="57" type="method" name="anonymousFunction:57#209" complexity="1" crap="1" count="45"/>
-        <line num="58" type="stmt" count="45"/>
-        <line num="59" type="stmt" count="45"/>
-        <line num="60" type="stmt" count="45"/>
-        <line num="67" type="method" name="register" visibility="public" complexity="1" crap="1" count="45"/>
-        <line num="69" type="stmt" count="45"/>
-        <line num="71" type="stmt" count="45"/>
-        <line num="72" type="stmt" count="45"/>
-        <line num="74" type="method" name="registerModelBindings" visibility="protected" complexity="1" crap="1" count="45"/>
-        <line num="77" type="stmt" count="45"/>
-        <line num="84" type="method" name="anonymousFunction:84#299" complexity="1" crap="1.12" count="45"/>
+        <line num="24" type="method" name="boot" visibility="public" complexity="1" crap="1" count="1"/>
+        <line num="26" type="stmt" count="1"/>
+        <line num="27" type="stmt" count="1"/>
+        <line num="28" type="stmt" count="1"/>
+        <line num="30" type="stmt" count="1"/>
+        <line num="32" type="stmt" count="1"/>
+        <line num="34" type="stmt" count="1"/>
+        <line num="35" type="stmt" count="1"/>
+        <line num="36" type="stmt" count="1"/>
+        <line num="44" type="method" name="registerEloquentFactoriesFrom" visibility="protected" complexity="1" crap="1" count="1"/>
+        <line num="46" type="stmt" count="1"/>
+        <line num="47" type="stmt" count="1"/>
+        <line num="57" type="method" name="anonymousFunction:57#209" complexity="1" crap="1" count="1"/>
+        <line num="58" type="stmt" count="1"/>
+        <line num="59" type="stmt" count="1"/>
+        <line num="60" type="stmt" count="1"/>
+        <line num="67" type="method" name="register" visibility="public" complexity="1" crap="1" count="1"/>
+        <line num="69" type="stmt" count="1"/>
+        <line num="71" type="stmt" count="1"/>
+        <line num="72" type="stmt" count="1"/>
+        <line num="74" type="method" name="registerModelBindings" visibility="protected" complexity="1" crap="1" count="1"/>
+        <line num="77" type="stmt" count="1"/>
+        <line num="84" type="method" name="anonymousFunction:84#299" complexity="1" crap="1.12" count="1"/>
         <line num="85" type="stmt" count="0"/>
-        <line num="86" type="stmt" count="45"/>
-        <line num="87" type="stmt" count="45"/>
-        <line num="92" type="method" name="publishMigrations" visibility="public" complexity="2" crap="2" count="45"/>
-        <line num="94" type="stmt" count="45"/>
+        <line num="86" type="stmt" count="1"/>
+        <line num="87" type="stmt" count="1"/>
+        <line num="92" type="method" name="publishMigrations" visibility="public" complexity="2" crap="2" count="1"/>
+        <line num="94" type="stmt" count="1"/>
         <line num="95" type="stmt" count="1"/>
         <line num="96" type="stmt" count="1"/>
         <line num="97" type="stmt" count="1"/>
         <line num="98" type="stmt" count="1"/>
-        <line num="100" type="stmt" count="45"/>
+        <line num="100" type="stmt" count="1"/>
         <metrics loc="101" ncloc="66" classes="1" methods="7" coveredmethods="6" conditionals="0" coveredconditionals="0" statements="26" coveredstatements="25" elements="33" coveredelements="31"/>
+      </file>
+    </package>
+    <package name="Spatie\MediaLibrary\Exceptions">
+      <file name="/Users/philippedamen/Code/assetlibrary/src/Exceptions/ConfigException.php">
+        <class name="ConfigException" namespace="Spatie\MediaLibrary\Exceptions">
+          <metrics complexity="1" methods="1" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="1" coveredstatements="1" elements="2" coveredelements="2"/>
+        </class>
+        <line num="9" type="method" name="create" visibility="public" complexity="1" crap="1" count="1"/>
+        <line num="11" type="stmt" count="1"/>
+        <metrics loc="12" ncloc="12" classes="1" methods="1" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="1" coveredstatements="1" elements="2" coveredelements="2"/>
       </file>
     </package>
     <package name="Thinktomorrow\AssetLibrary\Http\Controllers">
@@ -80,192 +90,195 @@
     <package name="Thinktomorrow\AssetLibrary\Models">
       <file name="/Users/philippedamen/Code/assetlibrary/src/Models/Asset.php">
         <class name="Asset" namespace="Thinktomorrow\AssetLibrary\Models">
-          <metrics complexity="37" methods="17" coveredmethods="16" conditionals="0" coveredconditionals="0" statements="73" coveredstatements="72" elements="90" coveredelements="88"/>
+          <metrics complexity="39" methods="17" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="76" coveredstatements="15" elements="93" coveredelements="15"/>
         </class>
-        <line num="29" type="method" name="attachToModel" visibility="public" complexity="1" crap="1" count="21"/>
-        <line num="31" type="stmt" count="21"/>
-        <line num="33" type="stmt" count="21"/>
-        <line num="35" type="stmt" count="21"/>
-        <line num="37" type="stmt" count="21"/>
-        <line num="43" type="method" name="hasFile" visibility="public" complexity="1" crap="1" count="1"/>
-        <line num="45" type="stmt" count="1"/>
-        <line num="52" type="method" name="getFilename" visibility="public" complexity="1" crap="1" count="10"/>
-        <line num="54" type="stmt" count="10"/>
-        <line num="61" type="method" name="getFileUrl" visibility="public" complexity="4" crap="4" count="33"/>
-        <line num="63" type="stmt" count="33"/>
-        <line num="65" type="stmt" count="33"/>
-        <line num="66" type="stmt" count="1"/>
-        <line num="69" type="stmt" count="32"/>
-        <line num="70" type="stmt" count="1"/>
-        <line num="72" type="stmt" count="31"/>
-        <line num="75" type="stmt" count="32"/>
-        <line num="84" type="method" name="getImageUrl" visibility="public" complexity="4" crap="4" count="8"/>
-        <line num="86" type="stmt" count="8"/>
-        <line num="87" type="stmt" count="1"/>
-        <line num="89" type="stmt" count="7"/>
-        <line num="90" type="stmt" count="7"/>
-        <line num="91" type="stmt" count="6"/>
-        <line num="92" type="stmt" count="1"/>
-        <line num="93" type="stmt" count="1"/>
-        <line num="96" type="stmt" count="1"/>
-        <line num="102" type="method" name="getExtensionForFilter" visibility="public" complexity="2" crap="2.15" count="1"/>
-        <line num="104" type="stmt" count="1"/>
-        <line num="105" type="stmt" count="1"/>
-        <line num="108" type="stmt" count="0"/>
-        <line num="114" type="method" name="getExtensionType" visibility="public" complexity="5" crap="5" count="8"/>
-        <line num="116" type="stmt" count="8"/>
-        <line num="117" type="stmt" count="8"/>
-        <line num="119" type="stmt" count="8"/>
-        <line num="120" type="stmt" count="1"/>
-        <line num="122" type="stmt" count="8"/>
-        <line num="123" type="stmt" count="7"/>
-        <line num="125" type="stmt" count="2"/>
-        <line num="126" type="stmt" count="2"/>
-        <line num="129" type="stmt" count="1"/>
-        <line num="135" type="method" name="getMimeType" visibility="public" complexity="2" crap="2" count="2"/>
-        <line num="137" type="stmt" count="2"/>
-        <line num="143" type="method" name="isMediaEmpty" visibility="public" complexity="1" crap="1" count="5"/>
-        <line num="145" type="stmt" count="5"/>
-        <line num="151" type="method" name="getSize" visibility="public" complexity="2" crap="2" count="2"/>
-        <line num="153" type="stmt" count="2"/>
-        <line num="160" type="method" name="getDimensions" visibility="public" complexity="3" crap="3" count="3"/>
-        <line num="162" type="stmt" count="3"/>
-        <line num="165" type="stmt" count="2"/>
-        <line num="167" type="stmt" count="1"/>
-        <line num="168" type="stmt" count="1"/>
-        <line num="171" type="stmt" count="1"/>
-        <line num="178" type="method" name="remove" visibility="public" complexity="3" crap="3" count="4"/>
-        <line num="180" type="stmt" count="4"/>
-        <line num="181" type="stmt" count="1"/>
-        <line num="182" type="stmt" count="1"/>
-        <line num="185" type="stmt" count="3"/>
-        <line num="187" type="stmt" count="4"/>
-        <line num="193" type="method" name="getAllAssets" visibility="public" complexity="1" crap="1" count="3"/>
-        <line num="195" type="stmt" count="3"/>
-        <line num="207" type="method" name="typeField" visibility="public" complexity="2" crap="2" count="3"/>
-        <line num="209" type="stmt" count="3"/>
-        <line num="211" type="stmt" count="3"/>
-        <line num="212" type="stmt" count="3"/>
-        <line num="215" type="stmt" count="1"/>
-        <line num="225" type="method" name="localeField" visibility="public" complexity="1" crap="1" count="1"/>
-        <line num="227" type="stmt" count="1"/>
-        <line num="238" type="method" name="crop" visibility="public" complexity="1" crap="1" count="1"/>
-        <line num="240" type="stmt" count="1"/>
+        <line num="30" type="method" name="attachToModel" visibility="public" complexity="1" crap="2" count="0"/>
+        <line num="32" type="stmt" count="0"/>
+        <line num="34" type="stmt" count="0"/>
+        <line num="36" type="stmt" count="0"/>
+        <line num="38" type="stmt" count="0"/>
+        <line num="44" type="method" name="hasFile" visibility="public" complexity="1" crap="2" count="0"/>
+        <line num="46" type="stmt" count="0"/>
+        <line num="53" type="method" name="getFilename" visibility="public" complexity="1" crap="2" count="0"/>
+        <line num="55" type="stmt" count="0"/>
+        <line num="62" type="method" name="getFileUrl" visibility="public" complexity="4" crap="20" count="0"/>
+        <line num="64" type="stmt" count="0"/>
+        <line num="66" type="stmt" count="0"/>
+        <line num="67" type="stmt" count="0"/>
+        <line num="70" type="stmt" count="0"/>
+        <line num="71" type="stmt" count="0"/>
+        <line num="73" type="stmt" count="0"/>
+        <line num="76" type="stmt" count="0"/>
+        <line num="85" type="method" name="getImageUrl" visibility="public" complexity="4" crap="20" count="0"/>
+        <line num="87" type="stmt" count="0"/>
+        <line num="88" type="stmt" count="0"/>
+        <line num="90" type="stmt" count="0"/>
+        <line num="91" type="stmt" count="0"/>
+        <line num="92" type="stmt" count="0"/>
+        <line num="93" type="stmt" count="0"/>
+        <line num="94" type="stmt" count="0"/>
+        <line num="97" type="stmt" count="0"/>
+        <line num="103" type="method" name="getExtensionForFilter" visibility="public" complexity="2" crap="6" count="0"/>
+        <line num="105" type="stmt" count="0"/>
+        <line num="106" type="stmt" count="0"/>
+        <line num="109" type="stmt" count="0"/>
+        <line num="115" type="method" name="getExtensionType" visibility="public" complexity="5" crap="30" count="0"/>
+        <line num="117" type="stmt" count="0"/>
+        <line num="118" type="stmt" count="0"/>
+        <line num="120" type="stmt" count="0"/>
+        <line num="121" type="stmt" count="0"/>
+        <line num="123" type="stmt" count="0"/>
+        <line num="124" type="stmt" count="0"/>
+        <line num="126" type="stmt" count="0"/>
+        <line num="127" type="stmt" count="0"/>
+        <line num="130" type="stmt" count="0"/>
+        <line num="136" type="method" name="getMimeType" visibility="public" complexity="2" crap="6" count="0"/>
+        <line num="138" type="stmt" count="0"/>
+        <line num="144" type="method" name="isMediaEmpty" visibility="public" complexity="1" crap="2" count="0"/>
+        <line num="146" type="stmt" count="0"/>
+        <line num="152" type="method" name="getSize" visibility="public" complexity="2" crap="6" count="0"/>
+        <line num="154" type="stmt" count="0"/>
+        <line num="161" type="method" name="getDimensions" visibility="public" complexity="3" crap="12" count="0"/>
+        <line num="163" type="stmt" count="0"/>
+        <line num="166" type="stmt" count="0"/>
+        <line num="168" type="stmt" count="0"/>
+        <line num="169" type="stmt" count="0"/>
+        <line num="172" type="stmt" count="0"/>
+        <line num="179" type="method" name="remove" visibility="public" complexity="3" crap="12" count="0"/>
+        <line num="181" type="stmt" count="0"/>
+        <line num="182" type="stmt" count="0"/>
+        <line num="183" type="stmt" count="0"/>
+        <line num="186" type="stmt" count="0"/>
+        <line num="188" type="stmt" count="0"/>
+        <line num="194" type="method" name="getAllAssets" visibility="public" complexity="1" crap="2" count="0"/>
+        <line num="196" type="stmt" count="0"/>
+        <line num="208" type="method" name="typeField" visibility="public" complexity="2" crap="6" count="0"/>
+        <line num="210" type="stmt" count="0"/>
+        <line num="212" type="stmt" count="0"/>
+        <line num="213" type="stmt" count="0"/>
+        <line num="216" type="stmt" count="0"/>
+        <line num="226" type="method" name="localeField" visibility="public" complexity="1" crap="2" count="0"/>
+        <line num="228" type="stmt" count="0"/>
+        <line num="240" type="method" name="crop" visibility="public" complexity="2" crap="3.19" count="1"/>
         <line num="242" type="stmt" count="1"/>
-        <line num="246" type="stmt" count="1"/>
-        <line num="248" type="stmt" count="1"/>
-        <line num="256" type="method" name="registerMediaConversions" visibility="public" complexity="3" crap="3" count="40"/>
-        <line num="258" type="stmt" count="40"/>
-        <line num="259" type="stmt" count="40"/>
-        <line num="261" type="stmt" count="40"/>
-        <line num="262" type="stmt" count="40"/>
-        <line num="263" type="stmt" count="1"/>
-        <line num="265" type="stmt" count="40"/>
-        <line num="268" type="stmt" count="40"/>
-        <line num="269" type="stmt" count="40"/>
-        <line num="270" type="stmt" count="40"/>
-        <line num="271" type="stmt" count="40"/>
-        <line num="272" type="stmt" count="40"/>
-        <line num="273" type="stmt" count="40"/>
-        <line num="276" type="stmt" count="40"/>
-        <line num="277" type="stmt" count="40"/>
-        <line num="278" type="stmt" count="40"/>
-        <line num="279" type="stmt" count="40"/>
-        <line num="280" type="stmt" count="40"/>
-        <metrics loc="281" ncloc="193" classes="1" methods="17" coveredmethods="16" conditionals="0" coveredconditionals="0" statements="73" coveredstatements="72" elements="90" coveredelements="88"/>
+        <line num="244" type="stmt" count="1"/>
+        <line num="246" type="stmt" count="0"/>
+        <line num="248" type="stmt" count="0"/>
+        <line num="252" type="stmt" count="0"/>
+        <line num="254" type="stmt" count="0"/>
+        <line num="262" type="method" name="registerMediaConversions" visibility="public" complexity="4" crap="4.34" count="1"/>
+        <line num="264" type="stmt" count="1"/>
+        <line num="265" type="stmt" count="1"/>
+        <line num="267" type="stmt" count="1"/>
+        <line num="268" type="stmt" count="1"/>
+        <line num="269" type="stmt" count="0"/>
+        <line num="271" type="stmt" count="1"/>
+        <line num="274" type="stmt" count="1"/>
+        <line num="275" type="stmt" count="1"/>
+        <line num="276" type="stmt" count="1"/>
+        <line num="277" type="stmt" count="1"/>
+        <line num="278" type="stmt" count="1"/>
+        <line num="279" type="stmt" count="1"/>
+        <line num="282" type="stmt" count="1"/>
+        <line num="284" type="stmt" count="0"/>
+        <line num="285" type="stmt" count="0"/>
+        <line num="286" type="stmt" count="0"/>
+        <line num="287" type="stmt" count="0"/>
+        <line num="289" type="stmt" count="1"/>
+        <metrics loc="290" ncloc="201" classes="1" methods="17" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="76" coveredstatements="15" elements="93" coveredelements="15"/>
       </file>
       <file name="/Users/philippedamen/Code/assetlibrary/src/Models/AssetUploader.php">
         <class name="AssetUploader" namespace="Thinktomorrow\AssetLibrary\Models">
-          <metrics complexity="13" methods="4" coveredmethods="4" conditionals="0" coveredconditionals="0" statements="19" coveredstatements="19" elements="23" coveredelements="23"/>
+          <metrics complexity="13" methods="4" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="19" coveredstatements="11" elements="23" coveredelements="12"/>
         </class>
-        <line num="19" type="method" name="upload" visibility="public" complexity="6" crap="6" count="41"/>
-        <line num="21" type="stmt" count="41"/>
-        <line num="23" type="stmt" count="41"/>
-        <line num="24" type="stmt" count="5"/>
-        <line num="25" type="stmt" count="41"/>
-        <line num="26" type="method" name="anonymousFunction:26#120" complexity="2" crap="2" count="6"/>
-        <line num="27" type="stmt" count="6"/>
-        <line num="28" type="stmt" count="2"/>
-        <line num="30" type="stmt" count="5"/>
-        <line num="31" type="stmt" count="5"/>
-        <line num="32" type="stmt" count="5"/>
-        <line num="34" type="stmt" count="6"/>
-        <line num="36" type="stmt" count="6"/>
-        <line num="39" type="stmt" count="37"/>
-        <line num="40" type="stmt" count="37"/>
-        <line num="42" type="stmt" count="37"/>
-        <line num="43" type="stmt" count="1"/>
-        <line num="46" type="stmt" count="36"/>
-        <line num="58" type="method" name="uploadToAsset" visibility="public" complexity="4" crap="4" count="40"/>
-        <line num="60" type="stmt" count="40"/>
-        <line num="61" type="stmt" count="40"/>
-        <line num="62" type="stmt" count="37"/>
-        <line num="65" type="stmt" count="40"/>
-        <line num="66" type="stmt" count="40"/>
-        <line num="67" type="stmt" count="2"/>
-        <line num="70" type="stmt" count="40"/>
-        <line num="72" type="stmt" count="40"/>
-        <line num="79" type="method" name="isImage" visibility="private" complexity="1" crap="1" count="40"/>
-        <line num="81" type="stmt" count="40"/>
-        <metrics loc="83" ncloc="62" classes="1" methods="4" coveredmethods="4" conditionals="0" coveredconditionals="0" statements="25" coveredstatements="25" elements="29" coveredelements="29"/>
+        <line num="19" type="method" name="upload" visibility="public" complexity="6" crap="6.56" count="1"/>
+        <line num="21" type="stmt" count="1"/>
+        <line num="23" type="stmt" count="1"/>
+        <line num="24" type="stmt" count="0"/>
+        <line num="25" type="stmt" count="1"/>
+        <line num="26" type="method" name="anonymousFunction:26#120" complexity="2" crap="6" count="0"/>
+        <line num="27" type="stmt" count="0"/>
+        <line num="28" type="stmt" count="0"/>
+        <line num="30" type="stmt" count="0"/>
+        <line num="31" type="stmt" count="0"/>
+        <line num="32" type="stmt" count="0"/>
+        <line num="34" type="stmt" count="0"/>
+        <line num="36" type="stmt" count="0"/>
+        <line num="39" type="stmt" count="1"/>
+        <line num="40" type="stmt" count="1"/>
+        <line num="42" type="stmt" count="1"/>
+        <line num="43" type="stmt" count="0"/>
+        <line num="46" type="stmt" count="1"/>
+        <line num="58" type="method" name="uploadToAsset" visibility="public" complexity="4" crap="4.03" count="1"/>
+        <line num="60" type="stmt" count="1"/>
+        <line num="61" type="stmt" count="1"/>
+        <line num="62" type="stmt" count="1"/>
+        <line num="65" type="stmt" count="1"/>
+        <line num="66" type="stmt" count="1"/>
+        <line num="67" type="stmt" count="0"/>
+        <line num="70" type="stmt" count="1"/>
+        <line num="72" type="stmt" count="1"/>
+        <line num="79" type="method" name="isImage" visibility="private" complexity="1" crap="1" count="1"/>
+        <line num="81" type="stmt" count="1"/>
+        <metrics loc="83" ncloc="62" classes="1" methods="4" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="25" coveredstatements="15" elements="29" coveredelements="16"/>
       </file>
     </package>
     <package name="Thinktomorrow\AssetLibrary\Traits">
       <file name="/Users/philippedamen/Code/assetlibrary/src/Traits/AssetTrait.php">
         <class name="AssetTrait" namespace="Thinktomorrow\AssetLibrary\Traits">
-          <metrics complexity="19" methods="11" coveredmethods="11" conditionals="0" coveredconditionals="0" statements="36" coveredstatements="36" elements="47" coveredelements="47"/>
+          <metrics complexity="19" methods="11" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="36" coveredstatements="0" elements="47" coveredelements="0"/>
         </class>
-        <line num="15" type="method" name="assets" visibility="public" complexity="1" crap="1" count="21"/>
-        <line num="17" type="stmt" count="21"/>
-        <line num="25" type="method" name="hasFile" visibility="public" complexity="2" crap="2" count="4"/>
-        <line num="27" type="stmt" count="4"/>
-        <line num="29" type="stmt" count="4"/>
-        <line num="37" type="method" name="getFilename" visibility="public" complexity="1" crap="1" count="6"/>
-        <line num="39" type="stmt" count="6"/>
-        <line num="48" type="method" name="getFileUrl" visibility="public" complexity="6" crap="6" count="17"/>
-        <line num="50" type="stmt" count="17"/>
-        <line num="51" type="stmt" count="2"/>
-        <line num="54" type="stmt" count="17"/>
-        <line num="56" type="stmt" count="17"/>
-        <line num="57" type="stmt" count="17"/>
-        <line num="58" type="stmt" count="5"/>
-        <line num="61" type="stmt" count="17"/>
-        <line num="62" type="stmt" count="1"/>
-        <line num="65" type="stmt" count="17"/>
-        <line num="75" type="method" name="addFile" visibility="public" complexity="2" crap="2" count="8"/>
-        <line num="77" type="stmt" count="8"/>
-        <line num="79" type="stmt" count="8"/>
-        <line num="80" type="stmt" count="8"/>
-        <line num="81" type="stmt" count="8"/>
-        <line num="83" type="stmt" count="8"/>
-        <line num="92" type="method" name="addFiles" visibility="public" complexity="1" crap="1" count="3"/>
-        <line num="94" type="stmt" count="3"/>
-        <line num="95" type="stmt" count="3"/>
-        <line num="97" type="stmt" count="3"/>
-        <line num="99" type="stmt" count="3"/>
-        <line num="100" type="stmt" count="3"/>
-        <line num="107" type="method" name="anonymousFunction:107#568" complexity="1" crap="1" count="1"/>
-        <line num="108" type="stmt" count="1"/>
-        <line num="109" type="stmt" count="1"/>
-        <line num="111" type="stmt" count="1"/>
-        <line num="119" type="method" name="deleteAsset" visibility="public" complexity="1" crap="1" count="1"/>
-        <line num="121" type="stmt" count="1"/>
-        <line num="122" type="stmt" count="1"/>
-        <line num="130" type="method" name="replace" visibility="public" complexity="1" crap="1" count="1"/>
-        <line num="132" type="stmt" count="1"/>
-        <line num="133" type="stmt" count="1"/>
-        <line num="135" type="stmt" count="1"/>
-        <line num="136" type="stmt" count="1"/>
-        <line num="143" type="method" name="getAllFiles" visibility="public" complexity="1" crap="1" count="4"/>
-        <line num="145" type="stmt" count="4"/>
-        <line num="147" type="stmt" count="4"/>
-        <line num="149" type="stmt" count="4"/>
-        <line num="156" type="method" name="normalizeLocale" visibility="private" complexity="1" crap="1" count="20"/>
-        <line num="158" type="stmt" count="20"/>
-        <line num="160" type="stmt" count="20"/>
-        <metrics loc="162" ncloc="106" classes="1" methods="11" coveredmethods="11" conditionals="0" coveredconditionals="0" statements="37" coveredstatements="37" elements="48" coveredelements="48"/>
+        <line num="15" type="method" name="assets" visibility="public" complexity="1" crap="2" count="0"/>
+        <line num="17" type="stmt" count="0"/>
+        <line num="25" type="method" name="hasFile" visibility="public" complexity="2" crap="6" count="0"/>
+        <line num="27" type="stmt" count="0"/>
+        <line num="29" type="stmt" count="0"/>
+        <line num="37" type="method" name="getFilename" visibility="public" complexity="1" crap="2" count="0"/>
+        <line num="39" type="stmt" count="0"/>
+        <line num="48" type="method" name="getFileUrl" visibility="public" complexity="6" crap="42" count="0"/>
+        <line num="50" type="stmt" count="0"/>
+        <line num="51" type="stmt" count="0"/>
+        <line num="54" type="stmt" count="0"/>
+        <line num="56" type="stmt" count="0"/>
+        <line num="57" type="stmt" count="0"/>
+        <line num="58" type="stmt" count="0"/>
+        <line num="61" type="stmt" count="0"/>
+        <line num="62" type="stmt" count="0"/>
+        <line num="65" type="stmt" count="0"/>
+        <line num="75" type="method" name="addFile" visibility="public" complexity="2" crap="6" count="0"/>
+        <line num="77" type="stmt" count="0"/>
+        <line num="79" type="stmt" count="0"/>
+        <line num="80" type="stmt" count="0"/>
+        <line num="81" type="stmt" count="0"/>
+        <line num="83" type="stmt" count="0"/>
+        <line num="92" type="method" name="addFiles" visibility="public" complexity="1" crap="2" count="0"/>
+        <line num="94" type="stmt" count="0"/>
+        <line num="95" type="stmt" count="0"/>
+        <line num="97" type="stmt" count="0"/>
+        <line num="99" type="stmt" count="0"/>
+        <line num="100" type="stmt" count="0"/>
+        <line num="107" type="method" name="anonymousFunction:107#568" complexity="1" crap="2" count="0"/>
+        <line num="108" type="stmt" count="0"/>
+        <line num="109" type="stmt" count="0"/>
+        <line num="111" type="stmt" count="0"/>
+        <line num="119" type="method" name="deleteAsset" visibility="public" complexity="1" crap="2" count="0"/>
+        <line num="121" type="stmt" count="0"/>
+        <line num="122" type="stmt" count="0"/>
+        <line num="130" type="method" name="replace" visibility="public" complexity="1" crap="2" count="0"/>
+        <line num="132" type="stmt" count="0"/>
+        <line num="133" type="stmt" count="0"/>
+        <line num="135" type="stmt" count="0"/>
+        <line num="136" type="stmt" count="0"/>
+        <line num="143" type="method" name="getAllFiles" visibility="public" complexity="1" crap="2" count="0"/>
+        <line num="145" type="stmt" count="0"/>
+        <line num="147" type="stmt" count="0"/>
+        <line num="149" type="stmt" count="0"/>
+        <line num="156" type="method" name="normalizeLocale" visibility="private" complexity="1" crap="2" count="0"/>
+        <line num="158" type="stmt" count="0"/>
+        <line num="160" type="stmt" count="0"/>
+        <metrics loc="162" ncloc="106" classes="1" methods="11" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="37" coveredstatements="0" elements="48" coveredelements="0"/>
       </file>
     </package>
-    <metrics files="7" loc="686" ncloc="486" classes="6" methods="42" coveredmethods="37" conditionals="0" coveredconditionals="0" statements="173" coveredstatements="159" elements="215" coveredelements="196"/>
+    <metrics files="8" loc="707" ncloc="506" classes="7" methods="43" coveredmethods="8" conditionals="0" coveredconditionals="0" statements="177" coveredstatements="56" elements="220" coveredelements="64"/>
   </project>
 </coverage>
