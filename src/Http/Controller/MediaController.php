@@ -3,7 +3,6 @@
 namespace Thinktomorrow\AssetLibrary\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Thinktomorrow\AssetLibrary\Models\Asset;
 
 class MediaController extends Controller

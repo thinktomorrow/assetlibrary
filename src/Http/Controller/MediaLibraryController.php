@@ -2,7 +2,6 @@
 
 namespace Thinktomorrow\AssetLibrary\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Pagination\Paginator;
 use Thinktomorrow\AssetLibrary\Models\Asset;
 use Illuminate\Pagination\LengthAwarePaginator;
