@@ -8,6 +8,9 @@ use Spatie\MediaLibrary\HasMedia\Interfaces\HasMediaConversions;
 use Spatie\MediaLibrary\Media;
 use Thinktomorrow\Locale\Locale;
 
+/**
+ * @property mixed media
+ */
 class Asset extends Model implements HasMediaConversions
 {
     use HasMediaTrait;
@@ -24,15 +27,9 @@ class Asset extends Model implements HasMediaConversions
      */
     public function attachToModel(Model $model, $type = '', $locale = null)
     {
-        $asset = $model->assets->where('pivot.type', $type)->where('pivot.locale', $locale);
+        $model->assets->where('pivot.type', $type)->where('pivot.locale', $locale);
 
-//        if (! $asset->isEmpty() && $asset->first()->pivot->type !== '') {
-//            $model->assets()->detach($asset->first()->id);
-//        }
-
-        if (! $locale) {
-            $locale = Locale::getDefault();
-        }
+        $locale = $locale ?? Locale::getDefault();
 
         $model->assets()->attach($this, ['type' => $type, 'locale' => $locale]);
 
@@ -127,7 +124,7 @@ class Asset extends Model implements HasMediaConversions
             return 'pdf';
         }
 
-        return false;
+        return null;
     }
 
     /**
@@ -162,7 +159,7 @@ class Asset extends Model implements HasMediaConversions
     {
         if($this->isMediaEmpty()) return '';
 
-        // Check the other sizes as well
+        //TODO Check the other sizes as well
         if($size === 'cropped')
         {
             $dimensions = explode(',', $this->getMedia()[0]->manipulations['cropped']['manualCrop']);
@@ -174,16 +171,16 @@ class Asset extends Model implements HasMediaConversions
 
     /**
      * Removes one or more assets by their ids.
-     * @param $image_ids
+     * @param $imageIds
      */
-    public static function remove($image_ids)
+    public static function remove($imageIds)
     {
-        if (is_array($image_ids)) {
-            foreach ($image_ids as $id) {
+        if (is_array($imageIds)) {
+            foreach ($imageIds as $id) {
                 self::where('id', $id)->first()->delete();
             }
         } else {
-            self::find($image_ids)->first()->delete();
+            self::find($imageIds)->first()->delete();
         }
     }
 
@@ -227,6 +224,14 @@ class Asset extends Model implements HasMediaConversions
         return self::typeField($locale, null, 'locale');
     }
 
+    /**
+     * @param $width
+     * @param $height
+     * @param $x
+     * @param $y
+     *
+     * @return $this
+     */
     public function crop($width, $height, $x, $y)
     {
         $this->media[0]->manipulations = [
@@ -244,9 +249,8 @@ class Asset extends Model implements HasMediaConversions
      * Register the conversions that should be performed.
      *
      * @param Media|null $media
-     * @return array
      */
-    public function registerMediaConversions(Media $media = null)
+    public function registerMediaConversions(Media $media = null): void
     {
         $conversions        = config('assetlibrary.conversions');
         $conversionPrefix   = config('assetlibrary.conversionPrefix');

@@ -27,15 +27,9 @@ class AssetLibraryServiceProvider extends ServiceProvider
             __DIR__.'/../config/thinktomorrow/assetlibrary.php' => config_path('assetlibrary.php'),
         ], 'config');
 
-        // use this if your package has routes
         $this->setupRoutes($this->app->router);
 
-        if (! class_exists('CreateAssetTable')) {
-            $this->publishes([
-                __DIR__.'/../database/migrations/create_asset_table.php' => database_path('migrations/'.date('Y_m_d_His',
-                        time()).'_create_asset_table.php'),
-            ], 'migrations');
-        }
+        $this->publishMigrations();
 
         $this->registerModelBindings();
         $this->registerEloquentFactoriesFrom(__DIR__.'/../database/factories');
@@ -79,20 +73,29 @@ class AssetLibraryServiceProvider extends ServiceProvider
 
     protected function registerModelBindings()
     {
-//        $this->app->bind(Locale::class, function ($app) {
-//            $locale = $app->config['locale.model'];
-//            $locale = $this->app['config']['assetlibrary']['models']['locale'];
-//
-//            return new $locale;
-//        });
-
         //TODO implement this
     }
 
+    /**
+     *
+     */
     private function registerAssetLibrary()
     {
         $this->app->singleton('asset', function ($app) {
             return new Asset($app);
         });
+    }
+
+    /**
+     *
+     */
+    public function publishMigrations(): void
+    {
+        if (!class_exists('CreateAssetTable')) {
+            $this->publishes([
+                __DIR__ . '/../database/migrations/create_asset_table.php' => database_path('migrations/' . date('Y_m_d_His',
+                        time()) . '_create_asset_table.php'),
+            ], 'migrations');
+        }
     }
 }
