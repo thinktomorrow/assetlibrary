@@ -71,17 +71,18 @@ trait AssetTrait
      * @param string $type
      * @param string|null $locale
      * @param null $filename
+     * @param bool $keepOriginal
      * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
      */
-    public function addFile($file, $type = '', $locale = null, $filename = null): void
+    public function addFile($file, $type = '', $locale = null, $filename = null, $keepOriginal = false): void
     {
         $locale = $this->normalizeLocale($locale);
 
         if(is_string($file))
         {
-            $asset = AssetUploader::uploadFromBase64($file, $filename);
+            $asset = AssetUploader::uploadFromBase64($file, $filename, $keepOriginal);
         }else{
-            $asset = AssetUploader::upload($file, $filename);
+            $asset = AssetUploader::upload($file, $filename, $keepOriginal);
         }
         if($asset instanceof Asset){
             $asset->attachToModel($this, $type, $locale);

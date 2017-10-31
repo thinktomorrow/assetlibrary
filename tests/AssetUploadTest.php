@@ -15,7 +15,7 @@ class AssetUploadTest extends TestCase
         $source = UploadedFile::fake()->create('testSource.txt');
 
         // Second parameter is flag to preserve original source file
-        $asset = AssetUploader::upload($source, false);
+        $asset = AssetUploader::upload($source, true);
 
         $this->assertFileExists($source->getPath());
 

@@ -347,6 +347,17 @@ class AssetTraitTest extends TestCase
     }
 
     /**
+     * @test
+     */
+    public function it_can_set_a_name_when_uploading_a_base64_file_keeping_original(){
+        $article = Article::create();
+
+        $article->addFile($this->base64Image, '', '', 'testImage.png', true);
+
+        $this->assertEquals('/media/1/testImage.png', $article->getFileUrl());
+    }
+
+    /**
     * @test
     */
     public function it_can_set_a_name_when_uploading_a_file(){
