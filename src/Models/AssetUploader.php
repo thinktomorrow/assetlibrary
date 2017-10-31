@@ -52,7 +52,7 @@ class AssetUploader extends Model
      * asset that is needed to upload the files too.
      *
      * @param string $files
-     * @param null $filename
+     * @param string|null $filename
      * @param bool $keepOriginal
      * @return \Illuminate\Support\Collection|null|Asset
      * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
@@ -83,7 +83,7 @@ class AssetUploader extends Model
      *
      * @param $files
      * @param Asset $asset
-     * @param boolean $filename
+     * @param string|null $filename
      * @param bool $keepOriginal
      * @return null|Asset
      * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
@@ -117,7 +117,7 @@ class AssetUploader extends Model
      *
      * @param $file
      * @param Asset $asset
-     * @param null $filename
+     * @param string|null $filename
      * @param bool $keepOriginal
      * @return null|Asset
      * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
