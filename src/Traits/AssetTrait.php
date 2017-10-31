@@ -2,7 +2,6 @@
 
 namespace Thinktomorrow\AssetLibrary\Traits;
 
-use Illuminate\Support\Collection;
 use Thinktomorrow\AssetLibrary\Models\Asset;
 use Thinktomorrow\AssetLibrary\Models\AssetUploader;
 use Thinktomorrow\Locale\Locale;

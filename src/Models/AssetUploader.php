@@ -51,7 +51,7 @@ class AssetUploader extends Model
      * Uploads the file/files or asset by creating the
      * asset that is needed to upload the files too.
      *
-     * @param $files
+     * @param string $files
      * @param null $filename
      * @param bool $keepOriginal
      * @return \Illuminate\Support\Collection|null|Asset
@@ -83,7 +83,7 @@ class AssetUploader extends Model
      *
      * @param $files
      * @param Asset $asset
-     * @param null $filename
+     * @param boolean $filename
      * @param bool $keepOriginal
      * @return null|Asset
      * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
