@@ -368,5 +368,17 @@ class AssetTraitTest extends TestCase
         $this->assertEquals('/media/1/testImage.png', $article->getFileUrl());
     }
 
+    /**
+     * @test
+     */
+    public function it_can_upload_multiple_base64_files_with_names(){
+        $article = Article::create();
 
+        $article->addFiles([
+            'testImage1.png' => $this->base64Image,
+            'testImage2.png' => $this->base64Image]);
+
+        $this->assertEquals('/media/1/testImage1.png', $article->getFileUrl());
+        $this->assertEquals('/media/2/testImage2.png', $article->getAllFiles()->last()->getFileUrl());
+    }
 }
