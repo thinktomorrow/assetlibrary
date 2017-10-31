@@ -52,30 +52,19 @@ class AssetUploader extends Model
      * Uploads the file/files or asset by creating the
      * asset that is needed to upload the files too.
      *
-     * @param string|array $files
+     * @param $file
      * @param string|null $filename
      * @param bool $keepOriginal
      * @return \Illuminate\Support\Collection|null|Asset
      * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
+     * @internal param array|string $files
      */
-    public static function uploadFromBase64($files, $filename = null, $keepOriginal = false)
+    public static function uploadFromBase64($file, $filename = null, $keepOriginal = false)
     {
-        $list = collect([]);
-
-        if (is_array($files)) {
-            collect($files)->each(function ($file) use ($list, $filename, $keepOriginal) {
-                $asset = Asset::create();
-
-                $list->push(self::uploadBase64ToAsset($file, $asset, $filename, $keepOriginal));
-            });
-
-            return $list;
-        }
-
         $asset = new Asset();
         $asset->save();
 
-        return self::uploadBase64ToAsset($files, $asset, $filename, $keepOriginal);
+        return self::uploadBase64ToAsset($file, $asset, $filename, $keepOriginal);
     }
 
     /**
