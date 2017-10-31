@@ -17,20 +17,20 @@ class AssetUploader extends Model
      * @return \Illuminate\Support\Collection|null|Asset
      * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
      */
-    public static function upload($files, $keepOriginal = false)
+    public static function upload($files, $filename = null, $keepOriginal = false)
     {
         $list = collect([]);
 
         if ($files instanceof Asset) {
             return $files;
         } elseif (is_array($files)) {
-            collect($files)->each(function ($file) use ($list, $keepOriginal) {
+            collect($files)->each(function ($file) use ($list, $keepOriginal, $filename) {
                 if ($file instanceof Asset) {
                     $list->push($file);
                 } else {
                     $asset = new Asset();
                     $asset->save();
-                    $list->push(self::uploadToAsset($file, $asset, $keepOriginal));
+                    $list->push(self::uploadToAsset($file, $asset, $filename, $keepOriginal));
                 }
             });
 
@@ -44,14 +44,14 @@ class AssetUploader extends Model
             return;
         }
 
-        return self::uploadToAsset($files, $asset, $keepOriginal);
+        return self::uploadToAsset($files, $asset, $filename, $keepOriginal);
     }
 
     /**
      * Uploads the file/files or asset by creating the
      * asset that is needed to upload the files too.
      *
-     * @param string $files
+     * @param string|array $files
      * @param string|null $filename
      * @param bool $keepOriginal
      * @return \Illuminate\Support\Collection|null|Asset
