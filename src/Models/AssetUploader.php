@@ -129,6 +129,11 @@ class AssetUploader extends Model
         {
             $fileAdd->setName(substr($filename, 0, strpos($filename, '.')));
             $fileAdd->setFileName($filename);
+        }else{
+            $extension = substr($file, 11, strpos($file,';')-11);
+            $filename = pathinfo($file, PATHINFO_BASENAME);
+            $fileAdd->setName($filename);
+            $fileAdd->setFileName($filename.'.'.$extension);
         }
 
         $fileAdd->toMediaCollection();

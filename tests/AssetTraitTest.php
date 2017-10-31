@@ -336,6 +336,17 @@ class AssetTraitTest extends TestCase
     }
 
     /**
+     * @test
+     */
+    public function it_can_upload_a_base64_file(){
+        $article = Article::create();
+
+        $article->addFile($this->base64Image);
+
+        $this->assertStringEndsWith('.gif', $article->getFileUrl());
+    }
+
+    /**
     * @test
     */
     public function it_can_set_a_name_when_uploading_a_base64_file(){
