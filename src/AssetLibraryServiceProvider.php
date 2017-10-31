@@ -24,7 +24,7 @@ class AssetLibraryServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->publishes([
-            __DIR__.'/../config/thinktomorrow/assetlibrary.php' => config_path('assetlibrary.php'),
+            __DIR__.'/../config/assetlibrary.php' => config_path('assetlibrary.php'),
         ], 'config');
 
         $this->setupRoutes($this->app->router);
@@ -95,6 +95,14 @@ class AssetLibraryServiceProvider extends ServiceProvider
             $this->publishes([
                 __DIR__ . '/../database/migrations/create_asset_table.php' => database_path('migrations/' . date('Y_m_d_His',
                         time()) . '_create_asset_table.php'),
+            ], 'migrations');
+
+        }
+
+        if (!class_exists('CreateAssetPivotTable')) {
+            $this->publishes([
+                __DIR__ . '/../database/migrations/create_asset_pivot_table.php' => database_path('migrations/' . date('Y_m_d_His',
+                        time()) . '_create_asset_pivot_table.php'),
             ], 'migrations');
         }
     }
