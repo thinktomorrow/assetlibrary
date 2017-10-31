@@ -283,7 +283,6 @@ class AssetTest extends TestCase
      */
     public function it_can_get_the_extensions_for_filtering()
     {
-        $this->markTestIncomplete();
         //TODO uncomment these when we can supply the mimetype to UploadedFile
         $asset  =  AssetUploader::upload(UploadedFile::fake()->image('image.png'));
 //        $asset1 =  AssetUploader::upload(UploadedFile::fake()->create('image.pdf'));
@@ -363,6 +362,15 @@ class AssetTest extends TestCase
         $asset->setOrder(6)->attachToModel($original);
 
         $this->assertEquals($asset->id, $original->assets->where('pivot.order', 6)->first()->id);
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_get_a_fallback_image()
+    {
+        $asset = new Asset;
+        $this->assertEquals('http://localhost/assets/back/img/other.png', $asset->getImageUrl());
     }
 
 }
