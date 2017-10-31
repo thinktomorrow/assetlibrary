@@ -14,7 +14,7 @@ trait AssetTrait
      */
     public function assets()
     {
-        return $this->morphToMany(Asset::class, 'entity', 'asset_pivots')->withPivot('type', 'locale');
+        return $this->morphToMany(Asset::class, 'entity', 'asset_pivots')->withPivot('type', 'locale', 'order');
     }
 
     /**
@@ -116,7 +116,7 @@ trait AssetTrait
             return $asset->getExtensionForFilter() === 'image';
         });
 
-        return $images;
+        return $images->sortBy('pivot.order');
     }
 
     /**

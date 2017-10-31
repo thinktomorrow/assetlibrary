@@ -17,6 +17,8 @@ class Asset extends Model implements HasMediaConversions
 {
     use HasMediaTrait;
 
+    private $order;
+
     /**
      * Attaches this asset instance to the given model and
      * sets the type and locale to the given values and
@@ -33,7 +35,7 @@ class Asset extends Model implements HasMediaConversions
 
         $locale = $locale ?? Locale::getDefault();
 
-        $model->assets()->attach($this, ['type' => $type, 'locale' => $locale]);
+        $model->assets()->attach($this, ['type' => $type, 'locale' => $locale, 'order' => $this->order]);
 
         return $model->load('assets');
     }
@@ -251,5 +253,11 @@ class Asset extends Model implements HasMediaConversions
                 ->keepOriginalImageFormat()
                 ->optimize();
         }
+    }
+
+    public function setOrder($order)
+    {
+        $this->order = $order;
+        return $this;
     }
 }

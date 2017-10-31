@@ -19,6 +19,7 @@ class CreateAssetPivotTable extends Migration
             $table->string('entity_type');
             $table->string('locale')->nullable();
             $table->string('type')->nullable();
+            $table->integer('order')->nullable();
         });
     }
 

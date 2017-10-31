@@ -258,12 +258,17 @@ class AssetTraitTest extends TestCase
     {
         $article = Article::create();
 
-        $article = AssetUploader::upload(UploadedFile::fake()->image('bannerImage.png'))->attachToModel($article, 'banner');
-        $article = AssetUploader::upload(UploadedFile::fake()->image('image.png'))->attachToModel($article, 'foo');
-        $article = AssetUploader::upload(UploadedFile::fake()->image('image.png'))->attachToModel($article, 'bar');
+        $asset = AssetUploader::upload(UploadedFile::fake()->image('bannerImage.png'));
+        $asset->setOrder(50)->attachToModel($article, 'banner');
+        $asset = AssetUploader::upload(UploadedFile::fake()->image('image.png'));
+        $asset->setOrder(9)->attachToModel($article, 'foo');
+        $asset = AssetUploader::upload(UploadedFile::fake()->image('image.png'));
+        $asset->setOrder(40)->attachToModel($article, 'bar');
         $article = AssetUploader::upload(UploadedFile::fake()->create('not-an-image.pdf'))->attachToModel($article, 'fail');
 
-        $this->assertEquals(3, $article->getAllImages()->count());
+        $this->assertCount(3, $article->getAllImages());
+        $this->assertEquals(9, $article->getAllImages()->first()->pivot->order);
+        $this->assertEquals(50, $article->getAllImages()->last()->pivot->order);
     }
 
     /**
@@ -351,4 +356,6 @@ class AssetTraitTest extends TestCase
 
         $this->assertEquals('/media/1/testImage.png', $article->getFileUrl());
     }
+
+
 }

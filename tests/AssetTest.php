@@ -352,6 +352,17 @@ class AssetTest extends TestCase
         AssetUploader::upload(UploadedFile::fake()->image('image.jpg', 1000, 1000))->crop(600, 400, 60, 100);
     }
 
+    /**
+    * @test
+    */
+    public function it_can_set_the_order(){
+        $original = Article::create();
 
+        $asset = AssetUploader::upload(UploadedFile::fake()->image('image.jpg', 1000, 1000));
+
+        $asset->setOrder(6)->attachToModel($original);
+
+        $this->assertEquals($asset->id, $original->assets->where('pivot.order', 6)->first()->id);
+    }
 
 }
