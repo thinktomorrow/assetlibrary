@@ -222,6 +222,7 @@ class Asset extends Model implements HasMediaConversions
      * Register the conversions that should be performed.
      *
      * @param Media|null $media
+     * @throws \Spatie\Image\Exceptions\InvalidManipulation
      */
     public function registerMediaConversions(Media $media = null): void
     {

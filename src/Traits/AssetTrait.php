@@ -69,14 +69,21 @@ trait AssetTrait
      * Adds a file to this model, accepts a type and locale to be saved with the file.
      *
      * @param $file
-     * @param $type
+     * @param string $type
      * @param string|null $locale
+     * @param null $filename
+     * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
      */
-    public function addFile($file, $type = '', $locale = null): void
+    public function addFile($file, $type = '', $locale = null, $filename = null): void
     {
         $locale = $this->normalizeLocale($locale);
 
-        $asset = AssetUploader::upload($file);
+        if(is_string($file))
+        {
+            $asset = AssetUploader::uploadFromBase64($file, $filename);
+        }else{
+            $asset = AssetUploader::upload($file, $filename);
+        }
         if($asset instanceof Asset){
             $asset->attachToModel($this, $type, $locale);
         }
@@ -88,6 +95,7 @@ trait AssetTrait
      * @param $files
      * @param $type
      * @param string|null $locale
+     * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
      */
     public function addFiles($files, $type = '', $locale = null): void
     {

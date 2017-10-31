@@ -15,6 +15,7 @@ class AssetUploader extends Model
      * @param $files
      * @param bool $keepOriginal
      * @return \Illuminate\Support\Collection|null|Asset
+     * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
      */
     public static function upload($files, $keepOriginal = false)
     {
@@ -23,13 +24,13 @@ class AssetUploader extends Model
         if ($files instanceof Asset) {
             return $files;
         } elseif (is_array($files)) {
-            collect($files)->each(function ($file) use ($list) {
+            collect($files)->each(function ($file) use ($list, $keepOriginal) {
                 if ($file instanceof Asset) {
                     $list->push($file);
                 } else {
                     $asset = new Asset();
                     $asset->save();
-                    $list->push(self::uploadToAsset($file, $asset));
+                    $list->push(self::uploadToAsset($file, $asset, $keepOriginal));
                 }
             });
 
@@ -47,15 +48,47 @@ class AssetUploader extends Model
     }
 
     /**
+     * Uploads the file/files or asset by creating the
+     * asset that is needed to upload the files too.
+     *
+     * @param $files
+     * @param null $filename
+     * @param bool $keepOriginal
+     * @return \Illuminate\Support\Collection|null|Asset
+     * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
+     */
+    public static function uploadFromBase64($files, $filename = null, $keepOriginal = false)
+    {
+        $list = collect([]);
+
+        if (is_array($files)) {
+            collect($files)->each(function ($file) use ($list, $filename, $keepOriginal) {
+                $asset = Asset::create();
+
+                $list->push(self::uploadBase64ToAsset($file, $asset, $filename, $keepOriginal));
+            });
+
+            return $list;
+        }
+
+        $asset = new Asset();
+        $asset->save();
+
+        return self::uploadBase64ToAsset($files, $asset, $filename, $keepOriginal);
+    }
+
+    /**
      * Uploads the given file to this instance of asset
      * and sets the dimensions as a custom property.
      *
      * @param $files
-     * @param bool $keepOriginal
      * @param Asset $asset
+     * @param null $filename
+     * @param bool $keepOriginal
      * @return null|Asset
+     * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
      */
-    public static function uploadToAsset($files, $asset, $keepOriginal = false): ?Asset
+    public static function uploadToAsset($files, $asset, $filename = null, $keepOriginal = false): ?Asset
     {
         $customProps = [];
         if (self::isImage($files)) {
@@ -65,6 +98,47 @@ class AssetUploader extends Model
         $fileAdd    = $asset->addMedia($files)->withCustomProperties($customProps);
         if ($keepOriginal) {
             $fileAdd = $fileAdd->preservingOriginal();
+        }
+
+        if($filename)
+        {
+            $fileAdd->setName(substr($filename, 0, strpos($filename, '.')));
+            $fileAdd->setFileName($filename);
+        }
+
+        $fileAdd->toMediaCollection();
+
+        return $asset->load('media');
+    }
+
+    /**
+     * Uploads the given file to this instance of asset
+     * and sets the dimensions as a custom property.
+     *
+     * @param $file
+     * @param Asset $asset
+     * @param null $filename
+     * @param bool $keepOriginal
+     * @return null|Asset
+     * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
+     * @internal param $files
+     */
+    public static function uploadBase64ToAsset($file, $asset, $filename = null, $keepOriginal = false): ?Asset
+    {
+        //TODO find a way to save the dimensions for base64 uploads
+//        $customProps = [];
+//        $customProps['dimensions'] = getimagesize($file)[0].' x '.getimagesize($file)[1];
+
+//        $fileAdd    = $asset->addMediaFromBase64($file)->withCustomProperties($customProps);
+        $fileAdd    = $asset->addMediaFromBase64($file);
+        if ($keepOriginal) {
+            $fileAdd = $fileAdd->preservingOriginal();
+        }
+
+        if($filename)
+        {
+            $fileAdd->setName(substr($filename, 0, strpos($filename, '.')));
+            $fileAdd->setFileName($filename);
         }
 
         $fileAdd->toMediaCollection();

@@ -234,15 +234,6 @@ class AssetTest extends TestCase
     /**
      * @test
      */
-    public function it_can_upload_images_for_different_locales()
-    {
-        $asset = AssetUploader::upload(UploadedFile::fake()->image('image.png'), 'nl');
-        $this->assertEquals('image.png', $asset->getFilename('', 'nl'));
-    }
-
-    /**
-     * @test
-     */
     public function it_can_check_if_it_has_a_file()
     {
         $asset = AssetUploader::upload(UploadedFile::fake()->image('image.png', 100, 100));
