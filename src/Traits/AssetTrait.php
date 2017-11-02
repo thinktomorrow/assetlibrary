@@ -2,12 +2,15 @@
 
 namespace Thinktomorrow\AssetLibrary\Traits;
 
+use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Thinktomorrow\AssetLibrary\Models\Asset;
 use Thinktomorrow\AssetLibrary\Models\AssetUploader;
 use Thinktomorrow\Locale\Locale;
 
 trait AssetTrait
 {
+    use HasMediaTrait;
+
     /**
      * @return mixed
      */

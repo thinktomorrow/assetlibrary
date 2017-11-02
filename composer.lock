@@ -716,7 +716,7 @@
         },
         {
             "name": "mtdowling/cron-expression",
-            "version": "v1.2.0",
+            "version": "v1.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mtdowling/cron-expression.git",
@@ -1237,16 +1237,16 @@
         },
         {
             "name": "spatie/laravel-medialibrary",
-            "version": "6.5.0",
+            "version": "6.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-medialibrary.git",
-                "reference": "80a97697c1ce6600d2fab1cd9727d308f60320bb"
+                "reference": "78c0b1f05420c54ff36cccef58368e94a465e2cf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-medialibrary/zipball/80a97697c1ce6600d2fab1cd9727d308f60320bb",
-                "reference": "80a97697c1ce6600d2fab1cd9727d308f60320bb",
+                "url": "https://api.github.com/repos/spatie/laravel-medialibrary/zipball/78c0b1f05420c54ff36cccef58368e94a465e2cf",
+                "reference": "78c0b1f05420c54ff36cccef58368e94a465e2cf",
                 "shasum": ""
             },
             "require": {
@@ -1313,7 +1313,7 @@
                 "media",
                 "spatie"
             ],
-            "time": "2017-10-24T15:32:17+00:00"
+            "time": "2017-11-02T08:26:10+00:00"
         },
         {
             "name": "spatie/pdf-to-image",

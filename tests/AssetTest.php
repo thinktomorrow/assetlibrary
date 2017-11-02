@@ -348,7 +348,9 @@ class AssetTest extends TestCase
     {
         $this->expectExceptionMessage("The cropping config setting needs to be turned on to crop images. See 'Config\assetlibrary.php' for the 'allowCropping' field.");
         config(['assetlibrary.allowCropping' => false]);
-        AssetUploader::upload(UploadedFile::fake()->image('image.jpg', 1000, 1000))->crop(600, 400, 60, 100);
+        $asset = AssetUploader::upload(UploadedFile::fake()->image('image.jpg', 1000, 1000))->crop(600, 400, 60, 100);
+
+        $this->assertEquals('1000 x 1000', $asset->getDimensions('cropped'));
     }
 
     /**

@@ -27,7 +27,7 @@ class AssetLibraryServiceProvider extends ServiceProvider
             __DIR__.'/../config/assetlibrary.php' => config_path('assetlibrary.php'),
         ], 'config');
 
-        $this->setupRoutes($this->app->router);
+        $this->loadRoutesFrom(__DIR__.'/Http/routes.php');
 
         $this->publishMigrations();
 
@@ -44,19 +44,6 @@ class AssetLibraryServiceProvider extends ServiceProvider
     protected function registerEloquentFactoriesFrom($path)
     {
         $this->app->make(EloquentFactory::class)->load($path);
-    }
-
-    /**
-     * Define the routes for the application.
-     *
-     * @param  \Illuminate\Routing\Router  $router
-     * @return void
-     */
-    public function setupRoutes(Router $router)
-    {
-        $router->group(['namespace' => 'Thinktomorrow\AssetLibrary\Http\Controllers'], function ($router) {
-            require __DIR__.'/Http/routes.php';
-        });
     }
 
     /**

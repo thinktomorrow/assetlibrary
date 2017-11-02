@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\MediaLibrary\Exceptions;
+namespace Thinktomorrow\AssetLibrary\Exceptions;
 
 use Exception;
 

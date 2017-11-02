@@ -4,10 +4,10 @@ namespace Thinktomorrow\AssetLibrary\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
-use Spatie\MediaLibrary\Exceptions\ConfigException;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Spatie\MediaLibrary\HasMedia\Interfaces\HasMediaConversions;
 use Spatie\MediaLibrary\Media;
+use Thinktomorrow\AssetLibrary\Exceptions\ConfigException;
 use Thinktomorrow\Locale\Locale;
 
 /**
@@ -199,9 +199,8 @@ class Asset extends Model implements HasMediaConversions
      * @param $height
      * @param $x
      * @param $y
-     *
      * @return $this
-     * @throws \Spatie\MediaLibrary\Exceptions\ConfigException
+     * @throws ConfigException
      */
     public function crop($width, $height, $x, $y)
     {

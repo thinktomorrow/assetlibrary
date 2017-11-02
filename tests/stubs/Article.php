@@ -9,7 +9,7 @@ use Spatie\MediaLibrary\HasMedia\Interfaces\HasMedia;
 
 class Article extends Model implements HasMedia
 {
-    use HasMediaTrait, AssetTrait;
+    use AssetTrait;
 
     protected $table   = 'test_models';
     protected $guarded = [];
