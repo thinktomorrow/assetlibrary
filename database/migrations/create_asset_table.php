@@ -17,6 +17,15 @@ class CreateAssetTable extends Migration
             $table->increments('id');
             $table->timestamps();
         });
+
+        Schema::create('asset_pivots', function (Blueprint $table) {
+            $table->integer('asset_id');
+            $table->integer('entity_id');
+            $table->string('entity_type');
+            $table->string('locale')->nullable();
+            $table->string('type')->nullable();
+            $table->integer('order')->nullable();
+        });
     }
 
     /**
@@ -26,6 +35,7 @@ class CreateAssetTable extends Migration
      */
     public function down()
     {
+        Schema::dropIfExists('asset_pivots');
         Schema::dropIfExists('assets');
     }
 }

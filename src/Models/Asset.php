@@ -7,6 +7,7 @@ use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Spatie\MediaLibrary\HasMedia\Interfaces\HasMediaConversions;
 use Spatie\MediaLibrary\Media;
+use Thinktomorrow\AssetLibrary\Exceptions\AssetUploadException;
 use Thinktomorrow\AssetLibrary\Exceptions\ConfigException;
 use Thinktomorrow\Locale\Locale;
 
@@ -28,9 +29,15 @@ class Asset extends Model implements HasMediaConversions
      * @param string $type
      * @param null|string $locale
      * @return Model
+     * @throws \Thinktomorrow\AssetLibrary\Exceptions\AssetUploadException
      */
     public function attachToModel(Model $model, $type = '', $locale = null): Model
     {
+        if($model->assets()->get()->contains($this))
+        {
+            throw AssetUploadException::create();
+        }
+
         $model->assets->where('pivot.type', $type)->where('pivot.locale', $locale);
 
         $locale = $locale ?? Locale::getDefault();
@@ -178,9 +185,13 @@ class Asset extends Model implements HasMediaConversions
     {
         if (is_array($imageIds)) {
             foreach ($imageIds as $id) {
+                if(!$id) continue;
+
                 self::where('id', $id)->first()->delete();
             }
         } else {
+            if(!$imageIds) return;
+
             self::find($imageIds)->first()->delete();
         }
     }

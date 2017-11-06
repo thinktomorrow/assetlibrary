@@ -4,6 +4,7 @@ namespace Thinktomorrow\AssetLibrary\Test;
 
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
+use Thinktomorrow\AssetLibrary\Exceptions\AssetUploadException;
 use Thinktomorrow\AssetLibrary\Models\Asset;
 use Thinktomorrow\AssetLibrary\Models\AssetUploader;
 use Thinktomorrow\AssetLibrary\Test\stubs\Article;
@@ -114,6 +115,23 @@ class AssetTest extends TestCase
 
         $this->assertEquals(1, Asset::getAllAssets()->count());
         $this->assertEquals($asset2->id, Asset::getAllAssets()->first()->id);
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_handle_invalid_inputs_to_remove_function()
+    {
+        //upload a single image
+        $asset = AssetUploader::upload(UploadedFile::fake()->image('image.png'));
+
+        $this->assertEquals($asset->getFilename(), 'image.png');
+        $this->assertEquals($asset->getImageUrl(), '/media/1/image.png');
+
+        Asset::remove([null]);
+        Asset::remove(null);
+
+        $this->assertEquals(1, Asset::getAllAssets()->count());
     }
 
     /**
@@ -375,4 +393,20 @@ class AssetTest extends TestCase
         $this->assertEquals('http://localhost/assets/back/img/other.png', $asset->getImageUrl());
     }
 
+    /**
+    * @test
+    */
+    public function it_throws_an_expection_when_adding_an_existing_asset(){
+
+        $this->expectException(AssetUploadException::class);
+
+        $original = Article::create();
+
+        //upload a single image
+        $asset = AssetUploader::upload(UploadedFile::fake()->image('image.png'));
+        $article = $asset->attachToModel($original);
+
+        $article->addFile($article->assets()->first());
+
+    }
 }

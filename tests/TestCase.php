@@ -53,10 +53,8 @@ abstract class TestCase extends Orchestra
         });
         Article::create();
         include_once __DIR__.'/../database/migrations/create_asset_table.php';
-        include_once __DIR__.'/../database/migrations/create_asset_pivot_table.php';
         include_once __DIR__.'/../vendor/spatie/laravel-medialibrary/database/migrations/create_media_table.php.stub';
         (new \CreateAssetTable())->up();
-        (new \CreateAssetPivotTable())->up();
         (new \CreateMediaTable())->up();
     }
 
