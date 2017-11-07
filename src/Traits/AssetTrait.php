@@ -151,7 +151,7 @@ trait AssetTrait
      * @param $with
      * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
      */
-    public function replace($replace, $with): void
+    public function replaceAsset($replace, $with): void
     {
         $asset = Asset::findOrFail($replace);
         Asset::remove($replace);

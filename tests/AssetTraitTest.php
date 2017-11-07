@@ -267,8 +267,9 @@ class AssetTraitTest extends TestCase
         $article = AssetUploader::upload(UploadedFile::fake()->create('not-an-image.pdf'))->attachToModel($article, 'fail');
 
         $this->assertCount(3, $article->getAllImages());
-        $this->assertEquals(9, $article->getAllImages()->first()->pivot->order);
-        $this->assertEquals(50, $article->getAllImages()->last()->pivot->order);
+        $this->assertEquals(null, $article->assets->first()->pivot->order);
+        $this->assertEquals(9, $article->assets->get('1')->pivot->order);
+        $this->assertEquals(50, $article->assets->last()->pivot->order);
     }
 
     /**
@@ -329,7 +330,7 @@ class AssetTraitTest extends TestCase
 
         $this->assertCount(1, $article->fresh()->getAllFiles());
 
-        $article->replace($asset->id, AssetUploader::upload(UploadedFile::fake()->image('newImage.png'))->id);
+        $article->replaceAsset($asset->id, AssetUploader::upload(UploadedFile::fake()->image('newImage.png'))->id);
 
         $this->assertCount(1, $article->fresh()->getAllFiles());
         $this->assertEquals('/media/2/newImage.png', $article->getFileUrl());
