@@ -204,6 +204,33 @@ class AssetTraitTest extends TestCase
     /**
      * @test
      */
+    public function it_can_attach_array_of_assets_with_the_add_file_method()
+    {
+        $article  = Article::create();
+        $assets[] = AssetUploader::upload(UploadedFile::fake()->image('image.png', 100, 100));
+        $assets[] = AssetUploader::upload(UploadedFile::fake()->image('image.png', 100, 100));
+
+        $article->addFile($assets);
+
+        $this->assertEquals('/media/1/image.png', $article->getFileUrl());
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_attach_collection_of_assets_with_the_add_file_method()
+    {
+        $article    = Article::create();
+        $assets     = collect([AssetUploader::upload(UploadedFile::fake()->image('image.png', 100, 100)), AssetUploader::upload(UploadedFile::fake()->image('image.png', 100, 100))]);
+
+        $article->addFile($assets);
+
+        $this->assertEquals('/media/1/image.png', $article->getFileUrl());
+    }
+
+    /**
+     * @test
+     */
     public function it_can_attach_multiple_assets_and_files()
     {
         $article  = Article::create();
@@ -393,4 +420,6 @@ class AssetTraitTest extends TestCase
         $this->assertEquals('/media/1/testImage1.png', $article->getFileUrl());
         $this->assertEquals('/media/2/testImage2.png', $article->getAllFiles()->last()->getFileUrl());
     }
+
+
 }

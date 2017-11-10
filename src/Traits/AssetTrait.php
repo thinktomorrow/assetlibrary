@@ -6,6 +6,7 @@ use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Thinktomorrow\AssetLibrary\Models\Asset;
 use Thinktomorrow\AssetLibrary\Models\AssetUploader;
 use Thinktomorrow\Locale\Locale;
+use Traversable;
 
 trait AssetTrait
 {
@@ -76,22 +77,28 @@ trait AssetTrait
      * @param null $filename
      * @param bool $keepOriginal
      * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
+     * @throws \Thinktomorrow\AssetLibrary\Exceptions\AssetUploadException
      */
     public function addFile($file, $type = '', $locale = null, $filename = null, $keepOriginal = false): void
     {
-        $locale = $this->normalizeLocale($locale);
-
-        if(is_string($file))
+        if($file instanceof Traversable || is_array($file))
         {
-            $asset = AssetUploader::uploadFromBase64($file, $filename, $keepOriginal);
+            $this->addFiles($file, $type, $locale, $keepOriginal);
         }else{
-            $asset = AssetUploader::upload($file, $filename, $keepOriginal);
+            $locale = $this->normalizeLocale($locale);
+
+            if(is_string($file))
+            {
+                $asset = AssetUploader::uploadFromBase64($file, $filename, $keepOriginal);
+            }else{
+                $asset = AssetUploader::upload($file, $filename, $keepOriginal);
+            }
+
+            if($asset instanceof Asset){
+                $asset->attachToModel($this, $type, $locale);
+            }
         }
 
-
-        if($asset instanceof Asset){
-            $asset->attachToModel($this, $type, $locale);
-        }
     }
 
     /**
@@ -102,24 +109,25 @@ trait AssetTrait
      * @param string|null $locale
      * @param bool $keepOriginal
      * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
+     * @throws \Thinktomorrow\AssetLibrary\Exceptions\AssetUploadException
      */
     public function addFiles($files, $type = '', $locale = null, $keepOriginal = false): void
     {
         $files = (array) $files;
         $locale = $this->normalizeLocale($locale);
-        $asset = collect([]);
 
         if(is_string(array_values($files)[0]))
         {
             foreach($files as $filename => $file)
             {
-                $asset->push(AssetUploader::uploadFromBase64($file, $filename, $keepOriginal));
+                $this->addFile($file, $type, $locale, $filename, $keepOriginal);
             }
         }else{
-            $asset = AssetUploader::upload($files, null, $keepOriginal);
+            foreach($files as $filename => $file)
+            {
+                $this->addFile($file, $type, $locale, null, $keepOriginal);
+            }
         }
-
-        collect($asset)->each->attachToModel($this, $type, $locale);
     }
 
     /**

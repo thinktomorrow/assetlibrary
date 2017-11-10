@@ -70,15 +70,15 @@ class Asset extends Model implements HasMediaConversions
      */
     public function getFileUrl($size = ''): string
     {
-        $media = $this->getMedia();
+        $media = $this->getMedia()->first();
 
         if (config('assetlibrary.conversionPrefix') && $size != '') {
-            $conversionName = $media->first()->name . '_' . $size;
+            $conversionName = $media->name . '_' . $size;
         } else {
             $conversionName = $size;
         }
 
-        return $media->first()->getUrl($conversionName);
+        return $media->getUrl($conversionName);
     }
 
     /**
