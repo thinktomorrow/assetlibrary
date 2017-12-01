@@ -24,4 +24,6 @@ return [
             'height'    => 553,
         ],
     ],
+
+    'allowCropping' => false
 ];

@@ -3,83 +3,22 @@
 namespace Thinktomorrow\AssetLibrary\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Http\File;
-use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Spatie\MediaLibrary\HasMedia\Interfaces\HasMediaConversions;
 use Spatie\MediaLibrary\Media;
+use Thinktomorrow\AssetLibrary\Exceptions\AssetUploadException;
+use Thinktomorrow\AssetLibrary\Exceptions\ConfigException;
 use Thinktomorrow\Locale\Locale;
 
+/**
+ * @property mixed media
+ */
 class Asset extends Model implements HasMediaConversions
 {
     use HasMediaTrait;
 
-    /**
-     * Uploads the file/files or asset by creating the
-     * asset that is needed to upload the files too.
-     *
-     * @param $files
-     * @param bool $keepOriginal
-     * @return \Illuminate\Support\Collection|null|Asset
-     */
-    public static function upload($files, $keepOriginal = false)
-    {
-        $list = collect([]);
-
-        if ($files instanceof self) {
-            return $files;
-        } elseif (is_array($files)) {
-            collect($files)->each(function ($file) use ($list) {
-                if ($file instanceof Asset) {
-                    $list->push($file);
-                } else {
-                    $self = new self();
-                    $self->save();
-                    $list->push($self->uploadToAsset($file));
-                }
-            });
-
-            return $list;
-        }
-        $self = new self();
-        $self->save();
-
-        return $self->uploadToAsset($files, $keepOriginal);
-    }
-
-    /**
-     * Uploads the given file to this instance of asset
-     * and sets the dimensions as a custom property.
-     *
-     * @param $files
-     * @param bool $keepOriginal
-     * @return $this|null
-     */
-    public function uploadToAsset($files, $keepOriginal = false)
-    {
-        if (! ($files instanceof File) && ! ($files instanceof UploadedFile)) {
-            return;
-        }
-
-        $customProps = [];
-        if (self::isImage($files)) {
-            $customProps['dimensions'] = getimagesize($files)[0].' x '.getimagesize($files)[1];
-        }
-
-        $fileAdd                   = $this->addMedia($files)->withCustomProperties($customProps);
-        if ($keepOriginal) {
-            $fileAdd = $fileAdd->preservingOriginal();
-        }
-
-        $fileAdd->toMediaCollection();
-
-        return $this->load('media');
-    }
-
-    private static function isImage($file)
-    {
-        return str_before($file->getMimetype(), '/') === 'image';
-    }
+    private $order;
 
     /**
      * Attaches this asset instance to the given model and
@@ -90,52 +29,56 @@ class Asset extends Model implements HasMediaConversions
      * @param string $type
      * @param null|string $locale
      * @return Model
+     * @throws \Thinktomorrow\AssetLibrary\Exceptions\AssetUploadException
      */
-    public function attachToModel(Model $model, $type = '', $locale = null)
+    public function attachToModel(Model $model, $type = '', $locale = null): Model
     {
-        $asset = $model->assets->where('pivot.type', $type)->where('pivot.locale', $locale);
-
-        if (! $asset->isEmpty() && $asset->first()->pivot->type !== '') {
-            $model->assets()->detach($asset->first()->id);
+        if($model->assets()->get()->contains($this))
+        {
+            throw AssetUploadException::create();
         }
 
-        if (! $locale) {
-            $locale = Locale::getDefault();
-        }
+        $model->assets->where('pivot.type', $type)->where('pivot.locale', $locale);
 
-        $model->assets()->attach($this, ['type' => $type, 'locale' => $locale]);
+        $locale = $locale ?? Locale::getDefault();
+
+        $model->assets()->attach($this, ['type' => $type, 'locale' => $locale, 'order' => $this->order]);
 
         return $model->load('assets');
     }
 
-    public function hasFile()
+    /**
+     * @return bool
+     */
+    public function hasFile(): bool
     {
-        return (bool) $this->getFileUrl('');
+        return (bool) $this->getFileUrl();
     }
 
-    public function getFilename($size = '')
+    /**
+     * @param string $size
+     * @return string
+     */
+    public function getFilename($size = ''): string
     {
         return basename($this->getFileUrl($size));
     }
 
     /**
+     * @param string $size
      * @return string
      */
-    public function getFileUrl($size = '')
+    public function getFileUrl($size = ''): string
     {
-        $media = $this->getMedia();
-
-        if ($media->count() < 1) {
-            return asset('assets/back/img/other.png');
-        }
+        $media = $this->getMedia()->first();
 
         if (config('assetlibrary.conversionPrefix') && $size != '') {
-            $conversionName = $media->first()->name . '_' . $size;
+            $conversionName = $media->name . '_' . $size;
         } else {
             $conversionName = $size;
         }
 
-        return $media->first()->getUrl($conversionName);
+        return $media->getUrl($conversionName);
     }
 
     /**
@@ -144,7 +87,7 @@ class Asset extends Model implements HasMediaConversions
      * @param string $type
      * @return string
      */
-    public function getImageUrl($type = '')
+    public function getImageUrl($type = ''): string
     {
         if ($this->getMedia()->isEmpty()) {
             return asset('assets/back/img/other.png');
@@ -159,6 +102,9 @@ class Asset extends Model implements HasMediaConversions
         return asset('assets/back/img/other.png');
     }
 
+    /**
+     * @return bool|string
+     */
     public function getExtensionForFilter()
     {
         if ($extension = $this->getExtensionType()) {
@@ -168,7 +114,10 @@ class Asset extends Model implements HasMediaConversions
         return '';
     }
 
-    public function getExtensionType()
+    /**
+     * @return string|null
+     */
+    public function getExtensionType(): ?string
     {
         $extension = explode('.', $this->getMedia()[0]->file_name);
         $extension = end($extension);
@@ -183,41 +132,67 @@ class Asset extends Model implements HasMediaConversions
             return 'pdf';
         }
 
-        return false;
+        return null;
     }
 
-    public function getMimeType()
+    /**
+     * @return string
+     */
+    public function getMimeType(): string
     {
         return $this->isMediaEmpty() ? '' : $this->getMedia()[0]->mime_type;
     }
 
-    public function isMediaEmpty()
+    /**
+     * @return bool
+     */
+    public function isMediaEmpty(): bool
     {
         return $this->getMedia()->isEmpty();
     }
 
-    public function getSize()
+    /**
+     * @return string
+     */
+    public function getSize(): string
     {
         return $this->isMediaEmpty() ? '' : $this->getMedia()[0]->human_readable_size;
     }
 
-    public function getDimensions()
+    /**
+     * @param null $size
+     * @return string
+     */
+    public function getDimensions($size = null): string
     {
-        return $this->isMediaEmpty() ? '' : $this->getMedia()[0]->getCustomProperty('dimensions');
+        if($this->isMediaEmpty()) return '';
+
+        //TODO Check the other sizes as well
+        if($size === 'cropped')
+        {
+            $dimensions = explode(',', $this->getMedia()[0]->manipulations['cropped']['manualCrop']);
+            return $dimensions[0] . ' x' . $dimensions[1];
+        }
+
+        return $this->getMedia()[0]->getCustomProperty('dimensions');
     }
 
     /**
      * Removes one or more assets by their ids.
-     * @param $image_ids
+     * @param $imageIds
      */
-    public static function remove($image_ids)
+    public static function remove($imageIds)
     {
-        if (is_array($image_ids)) {
-            foreach ($image_ids as $id) {
+        if (is_array($imageIds)) {
+            foreach ($imageIds as $id) {
+                if(!$id) continue;
+
                 self::where('id', $id)->first()->delete();
             }
         } else {
-            self::find($image_ids)->first()->delete();
+            if(!$imageIds) return;
+
+            self::find($imageIds)->first()->delete();
         }
     }
 
@@ -225,49 +200,43 @@ class Asset extends Model implements HasMediaConversions
      * Returns a collection of all the assets in the library.
      * @return \Illuminate\Support\Collection
      */
-    public static function getAllAssets()
+    public static function getAllAssets(): Collection
     {
         return self::all()->sortByDesc('created_at');
     }
 
     /**
-     * Generates the hidden field that links the file to a specific type.
-     *
-     * @param string $type
-     * @param null $locale
-     *
-     * @return string
+     * @param $width
+     * @param $height
+     * @param $x
+     * @param $y
+     * @return $this
+     * @throws ConfigException
      */
-    public static function typeField($type = '', $locale = null, $name = 'type')
+    public function crop($width, $height, $x, $y)
     {
-        $result = '<input type="hidden" value="'.$type.'" name="';
-
-        if (! $locale) {
-            return $result.$name.'">';
+        if(!config('assetlibrary.allowCropping'))
+        {
+            throw ConfigException::create();
         }
+        $this->media[0]->manipulations = [
+            'cropped'   => [
+                'manualCrop' => $width . ', ' . $height . ', ' . $x . ', ' . $y
+            ]
+        ];
 
-        return $result.'trans['.$locale.'][files][]">';
-    }
+        $this->media[0]->save();
 
-    /**
-     * Generates the hidden field that links the file to translations.
-     *
-     * @param string $locale
-     *
-     * @return string
-     */
-    public static function localeField($locale = '')
-    {
-        return self::typeField($locale, null, 'locale');
+        return $this;
     }
 
     /**
      * Register the conversions that should be performed.
      *
      * @param Media|null $media
-     * @return array
+     * @throws \Spatie\Image\Exceptions\InvalidManipulation
      */
-    public function registerMediaConversions(Media $media = null)
+    public function registerMediaConversions(Media $media = null): void
     {
         $conversions        = config('assetlibrary.conversions');
         $conversionPrefix   = config('assetlibrary.conversionPrefix');
@@ -286,5 +255,19 @@ class Asset extends Model implements HasMediaConversions
                 ->keepOriginalImageFormat()
                 ->optimize();
         }
+
+        if(config('assetlibrary.allowCropping'))
+        {
+            $this->addMediaConversion('cropped')
+                ->sharpen(15)
+                ->keepOriginalImageFormat()
+                ->optimize();
+        }
+    }
+
+    public function setOrder($order)
+    {
+        $this->order = $order;
+        return $this;
     }
 }
