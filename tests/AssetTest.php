@@ -385,6 +385,22 @@ class AssetTest extends TestCase
     }
 
     /**
+    * @test
+    */
+    public function it_can_get_files_in_order(){
+        $original = Article::create();
+
+        $asset1 = AssetUploader::upload(UploadedFile::fake()->image('image.jpg', 1000, 1000));
+        $asset1->setOrder(2)->attachToModel($original);
+
+        $asset2 = AssetUploader::upload(UploadedFile::fake()->image('image1.jpg', 1000, 1000));
+        $asset2->setOrder(1)->attachToModel($original);
+
+        $this->assertEquals($asset2->id, $original->assets->first()->id);
+        $this->assertEquals($asset1->id, $original->assets->where('pivot.order', 2)->last()->id);
+    }
+
+    /**
      * @test
      */
     public function it_can_get_a_fallback_image()

@@ -178,8 +178,24 @@ trait AssetTrait
 
         $files = $this->assets->where('pivot.type', $type)->where('pivot.locale', $locale);
 
-        return $files;
+        return $files->sortBy('pivot.order');
     }
+
+    /**
+     * @param $callback
+     */
+    public function sortFiles($type = null, $sorting)
+    {
+        $files = $this->getAllFiles($type);
+
+        $files->each(function($file) use($sorting){
+            if(in_array($file->id, $sorting)){
+                $this->assets()->updateExistingPivot($file->id, ['order' => array_search(3, $sorting)]);
+            }
+        });
+
+    }
+
 
     /**
      * @param string|null $locale

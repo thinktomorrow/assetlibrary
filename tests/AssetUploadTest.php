@@ -9,13 +9,17 @@ use Thinktomorrow\AssetLibrary\Models\AssetUploader;
 
 class AssetUploadTest extends TestCase
 {
-    /** @test */
+    /**
+     * @test
+     *
+     * This test currently doesn't fail if we set keepOriginal to false TODO FIX THIS.
+     */
     public function it_can_keep_original_source()
     {
         $source = UploadedFile::fake()->create('testSource.txt');
 
         // Second parameter is flag to preserve original source file
-        $asset = AssetUploader::upload($source, true);
+        $asset = AssetUploader::upload($source, null, true);
 
         $this->assertFileExists($source->getPath());
 
