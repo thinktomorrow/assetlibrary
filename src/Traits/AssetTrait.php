@@ -158,6 +158,7 @@ trait AssetTrait
      * @param $replace
      * @param $with
      * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
+     * @throws \Thinktomorrow\AssetLibrary\Exceptions\AssetUploadException
      */
     public function replaceAsset($replace, $with): void
     {
@@ -182,18 +183,19 @@ trait AssetTrait
     }
 
     /**
-     * @param $callback
+     * @param null $type
+     * @param $sorting
      */
-    public function sortFiles($type = null, $sorting)
+    public function sortFiles($type = null, $sorting): void
     {
         $files = $this->getAllFiles($type);
-
-        $files->each(function($file) use($sorting){
-            if(in_array($file->id, $sorting)){
-                $this->assets()->updateExistingPivot($file->id, ['order' => array_search(3, $sorting)]);
+        $files->each(function($asset) use($sorting){
+            if(in_array($asset->id, $sorting)){
+                $pivot = $this->assets->find($asset->id)->pivot;
+                $pivot->order = array_search($asset->id, $sorting);
+                $pivot->save();
             }
         });
-
     }
 
 

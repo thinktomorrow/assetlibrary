@@ -450,23 +450,44 @@ class AssetTraitTest extends TestCase
         $article = Article::create();
 
         $asset1 = AssetUploader::upload(UploadedFile::fake()->image('bannerImage1.png'));
-        $asset1->setOrder(50)->attachToModel($article, 'banner');
+        $asset1->attachToModel($article, 'banner');
         $asset2 = AssetUploader::upload(UploadedFile::fake()->image('bannerImage2.png'));
-        $asset2->setOrder(9)->attachToModel($article, 'banner');
+        $asset2->attachToModel($article, 'banner');
         $asset3 = AssetUploader::upload(UploadedFile::fake()->image('bannerImage3.png'));
-        $asset3->setOrder(40)->attachToModel($article, 'banner');
+        $asset3->attachToModel($article, 'banner');
         $article = AssetUploader::upload(UploadedFile::fake()->create('not-an-image.pdf'))->attachToModel($article, 'fail');
 
-
-
-        $article->sortFiles('banner', [2 => $asset1->id, 4 => $asset2->id, 9 => $asset3->id]);
+        $article->sortFiles('banner', [(string)$asset3->id, (string)$asset1->id, (string)$asset2->id]);
 
         $images = $article->getAllFiles('banner');
 
         $this->assertCount(3, $images);
+        $this->assertEquals('bannerImage2.png', $images->pop()->getFilename());
         $this->assertEquals('bannerImage1.png', $images->pop()->getFilename());
         $this->assertEquals('bannerImage3.png', $images->pop()->getFilename());
-        $this->assertEquals('bannerImage2.png', $images->pop()->getFilename());
     }
 
+    /**
+     * @test
+     */
+    public function it_can_sort_images_with_specified_keys(){
+        $article = Article::create();
+
+        $asset1 = AssetUploader::upload(UploadedFile::fake()->image('bannerImage1.png'));
+        $asset1->attachToModel($article, 'banner');
+        $asset2 = AssetUploader::upload(UploadedFile::fake()->image('bannerImage2.png'));
+        $asset2->attachToModel($article, 'banner');
+        $asset3 = AssetUploader::upload(UploadedFile::fake()->image('bannerImage3.png'));
+        $asset3->attachToModel($article, 'banner');
+        $article = AssetUploader::upload(UploadedFile::fake()->create('not-an-image.pdf'))->attachToModel($article, 'fail');
+
+        $article->sortFiles('banner', [5 => (string)$asset3->id, 1 => (string)$asset1->id, 9 => (string)$asset2->id]);
+
+        $images = $article->getAllFiles('banner');
+
+        $this->assertCount(3, $images);
+        $this->assertEquals('bannerImage2.png', $images->pop()->getFilename());
+        $this->assertEquals('bannerImage3.png', $images->pop()->getFilename());
+        $this->assertEquals('bannerImage1.png', $images->pop()->getFilename());
+    }
 }
