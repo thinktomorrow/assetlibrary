@@ -289,7 +289,7 @@ class AssetTraitTest extends TestCase
         $asset->setOrder(50)->attachToModel($article, 'banner');
         $asset = AssetUploader::upload(UploadedFile::fake()->image('image.png'));
         $asset->setOrder(9)->attachToModel($article, 'foo');
-        $asset = AssetUploader::upload(UploadedFile::fake()->image('image.png'));
+        $asset = AssetUploader::upload(UploadedFile::fake()->image('image.PNG'));
         $asset->setOrder(40)->attachToModel($article, 'bar');
         $article = AssetUploader::upload(UploadedFile::fake()->create('not-an-image.pdf'))->attachToModel($article, 'fail');
 

@@ -122,13 +122,13 @@ class Asset extends Model implements HasMediaConversions
         $extension = explode('.', $this->getMedia()[0]->file_name);
         $extension = end($extension);
 
-        if (in_array($extension, ['xls', 'xlsx', 'numbers', 'sheets'])) {
+        if (in_array(strtolower($extension), ['xls', 'xlsx', 'numbers', 'sheets'])) {
             return 'xls';
         }
-        if (in_array($extension, ['png', 'jpg', 'jpeg', 'gif', 'svg', 'webp'])) {
+        if (in_array(strtolower($extension), ['png', 'jpg', 'jpeg', 'gif', 'svg', 'webp'])) {
             return 'image';
         }
-        if ($extension === 'pdf') {
+        if (strtolower($extension) === 'pdf') {
             return 'pdf';
         }
 
