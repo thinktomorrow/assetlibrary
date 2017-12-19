@@ -1,0 +1,445 @@
+<!doctype html>
+<html class="no-js" lang="">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Warpaint grid</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href='https://fonts.googleapis.com/css?family=Merriweather+Sans:300,300italic,400,400italic,700,700italic,800,800italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Ubuntu:300,400' rel='stylesheet' type='text/css'>
+
+    <link rel="stylesheet" href="/css/warpaint.min.css">
+    <link rel="stylesheet" href="/css/examples.css">
+    <!--[if IE 9]><link rel="stylesheet" href="/css/warpaint-ie9.css" type="text/css" /><![endif]-->
+</head>
+<body>
+
+<div class="container">
+
+    <header class="stack-m">
+        <h1>Warpaint - grid examples</h1>
+        <div class="inline-group text-center stack-s">
+            <a href="/examples/index.html">Basic grid examples</a>
+            <a href="/examples/gutter.html">Gutter examples</a>
+            <a href="/examples/typography.html">Typography</a>
+        </div>
+    </header>
+
+<h3>Equal width columns</h3>
+<div class="row">
+    <div class="column">2</div>
+    <div class="column">2</div>
+</div>
+<div class="row">
+    <div class="column">3</div>
+    <div class="column">3</div>
+    <div class="column">3</div>
+</div>
+
+<h3>Columns with gutters. Yeah</h3>
+<div class="row gutter">
+    <div class="column">2</div>
+    <div class="column">2</div>
+</div>
+<div class="row gutter gutter-around">
+    <div class="column">3</div>
+    <div class="column">3</div>
+    <div class="column">3</div>
+</div>
+
+<h3>Specifying column widths: 12-Column overview</h3>
+<div class="row">
+    <div class="column-11">11</div>
+    <div class="column-1">1</div>
+</div>
+<div class="row">
+    <div class="column-10">10</div>
+    <div class="column-2">2</div>
+</div>
+<div class="row">
+    <div class="column-9">9</div>
+    <div class="column-3">3</div>
+</div>
+<div class="row">
+    <div class="column-8">8</div>
+    <div class="column-4">4</div>
+</div>
+<div class="row">
+    <div class="column-7">7</div>
+    <div class="column-5">5</div>
+</div>
+<div class="row">
+    <div class="column-6">6</div>
+    <div class="column-6">6</div>
+</div>
+<div class="row">
+    <div class="column-5">5</div>
+    <div class="column-2">2</div>
+    <div class="column-5">5</div>
+</div>
+<div class="row">
+    <div class="column-4">4</div>
+    <div class="column-4">4</div>
+    <div class="column-4">4</div>
+</div>
+<div class="row">
+    <div class="column-3">3</div>
+    <div class="column-3">3</div>
+    <div class="column-3">3</div>
+    <div class="column-3">3</div>
+</div>
+<div class="row">
+    <div class="column-2">2</div>
+    <div class="column-2">2</div>
+    <div class="column-2">2</div>
+    <div class="column-2">2</div>
+    <div class="column-2">2</div>
+    <div class="column-2">2</div>
+</div>
+<div class="row">
+    <div class="column-1">1</div>
+    <div class="column-1">1</div>
+    <div class="column-1">1</div>
+    <div class="column-1">1</div>
+    <div class="column-1">1</div>
+    <div class="column-1">1</div>
+    <div class="column-6">6</div>
+</div>
+
+<h3>Equal width columns in combination with preset width</h3>
+<div class="row">
+    <div class="column-6">.column-6</div>
+    <div class="column">auto</div>
+    <div class="column">auto</div>
+</div>
+<div class="row">
+    <div class="column-4">.column-4</div>
+    <div class="column">auto</div>
+    <div class="column">auto</div>
+    <div class="column">auto</div>
+</div>
+
+<h3>Default columnset - no gutter</h3>
+<div class="row">
+
+    <div class="column inset">
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. A adipisci aut autem, blanditiis commodi deleniti dolor doloribus fugiat hic id molestiae pariatur quasi saepe, similique sit veniam veritatis voluptas voluptate.
+    </div>
+    <div class="column inset">
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. A adipisci aut autem, blanditiis commodi deleniti dolor doloribus fugiat hic id molestiae pariatur quasi saepe, similique sit veniam veritatis voluptas voluptate.
+    </div>
+    <div class="column inset">
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. A adipisci aut autem, blanditiis commodi deleniti dolor doloribus fugiat hic id molestiae pariatur quasi saepe, similique sit veniam veritatis voluptas voluptate.
+    </div>
+</div>
+
+<h3>Incompleted columnset</h3>
+<div class="row">
+    <div class="column-4 inset">
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. A adipisci aut autem.
+    </div>
+    <div class="column-4 inset right">
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. A adipisci aut autem.
+    </div>
+</div>
+<div class="row">
+    <div class="column-4 inset center">
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. A adipisci aut autem.
+    </div>
+</div>
+<div class="row">
+    <div class="column-4 inset right">
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. A adipisci aut autem.
+    </div>
+</div>
+
+<h3>Equal height columns</h3>
+<div class="row">
+    <div class="column-8">
+        <img src="https://static.pexels.com/photos/7976/pexels-photo.jpg" alt="nature">
+    </div>
+    <div class="column-4 inset">
+        Lorem ipsum dolor sit amet, omnis quasi quidem sed sint sit ullam unde. Recusandae.
+    </div>
+</div>
+
+<div class="row stack-m">
+    <div class="column-4 inset">Lorem ipsum dolor sit amet</div>
+    <div class="column-3 inset">Lorem ipsum dolor sit amet, consectetur adipisicing elit. omnis quasi quidem sed sint sit ullam unde. Recusandae.</div>
+    <div class="column-5 inset">
+        I'm a sidebar
+    </div>
+</div>
+
+
+<h2>Cards</h2>
+<p>By default grid columns don't contain any spacing between each other. However with gutters you can
+    present your elements with a margin spacing between them. Since the columns themselves will have an padding and not a margin, you will need to add an inner child element inside each columns to physically represent a card module.</p>
+<p>Default .column cannot be used for gutter layouts</p>
+
+<div class="stack-m" style="background-color:#f5f5f5;">
+    <div class="row gutter-xs">
+        <div class="column-4">
+            <div class="inset"> flsmdfj qsmdkfj lmqsdkjf lsqdmk jflsqdmkj fqdsmf ds</div>
+        </div>
+        <div class="column-4">
+            <div class="inset"> flsmdfj qsmdkfj lmqsdkjf lsqdmk jflsqdmkj fqdsmf ds</div>
+        </div>
+        <div class="column-4">
+            <div class="inset"> flsmdfj qsmdkfj lmqsdkjf lsqdmk jflsqdmkj fqdsmf ds</div>
+        </div>
+    </div>
+    <div class="row gutter-s">
+        <div class="column-4">
+            <div class="inset"> flsmdfj qsmdkfj lmqsdkjf lsqdmk jflsqdmkj fqdsmf ds</div>
+        </div>
+        <div class="column-4">
+            <div class="inset"> flsmdfj qsmdkfj lmqsdkjf lsqdmk jflsqdmkj fqdsmf ds</div>
+        </div>
+        <div class="column-4">
+            <div class="inset"> flsmdfj qsmdkfj lmqsdkjf lsqdmk jflsqdmkj fqdsmf ds</div>
+        </div>
+    </div>
+    <div class="row gutter-m">
+        <div class="column-4">
+            <div class="inset"> flsmdfj qsmdkfj lmqsdkjf lsqdmk jflsqdmkj fqdsmf ds</div>
+        </div>
+        <div class="column-4">
+            <div class="inset"> flsmdfj qsmdkfj lmqsdkjf lsqdmk jflsqdmkj fqdsmf ds</div>
+        </div>
+        <div class="column-4">
+            <div class="inset"> flsmdfj qsmdkfj lmqsdkjf lsqdmk jflsqdmkj fqdsmf ds</div>
+        </div>
+    </div>
+    <div class="row gutter-l">
+        <div class="column-4">
+            <div class="inset"> flsmdfj qsmdkfj lmqsdkjf lsqdmk jflsqdmkj fqdsmf ds</div>
+        </div>
+        <div class="column-4">
+            <div class="inset"> flsmdfj qsmdkfj lmqsdkjf lsqdmk jflsqdmkj fqdsmf ds</div>
+        </div>
+        <div class="column-4">
+            <div class="inset"> flsmdfj qsmdkfj lmqsdkjf lsqdmk jflsqdmkj fqdsmf ds</div>
+        </div>
+    </div>
+    <div class="row gutter-xl">
+        <div class="column-4">
+            <div class="inset"> flsmdfj qsmdkfj lmqsdkjf lsqdmk jflsqdmkj fqdsmf ds</div>
+        </div>
+        <div class="column-4">
+            <div class="inset"> flsmdfj qsmdkfj lmqsdkjf lsqdmk jflsqdmkj fqdsmf ds</div>
+        </div>
+        <div class="column-4">
+            <div class="inset"> flsmdfj qsmdkfj lmqsdkjf lsqdmk jflsqdmkj fqdsmf ds</div>
+        </div>
+    </div>
+</div>
+
+<h3>Gutter around each side as well</h3>
+    <div class="stack-m" style="background-color:#f5f5f5;">
+        <div class="row gutter-around gutter-xs">
+            <div class="column-4">
+                <div class="inset"> flsmdfj qsmdkfj lmqsdkjf lsqdmk jflsqdmkj fqdsmf ds</div>
+            </div>
+            <div class="column-4">
+                <div class="inset"> flsmdfj qsmdkfj lmqsdkjf lsqdmk jflsqdmkj fqdsmf ds</div>
+            </div>
+            <div class="column-4">
+                <div class="inset"> flsmdfj qsmdkfj lmqsdkjf lsqdmk jflsqdmkj fqdsmf ds</div>
+            </div>
+        </div>
+        <div class="row gutter-around gutter-s">
+            <div class="column-4">
+                <div class="inset"> flsmdfj qsmdkfj lmqsdkjf lsqdmk jflsqdmkj fqdsmf ds</div>
+            </div>
+            <div class="column-4">
+                <div class="inset"> flsmdfj qsmdkfj lmqsdkjf lsqdmk jflsqdmkj fqdsmf ds</div>
+            </div>
+            <div class="column-4">
+                <div class="inset"> flsmdfj qsmdkfj lmqsdkjf lsqdmk jflsqdmkj fqdsmf ds</div>
+            </div>
+        </div>
+        <div class="row gutter-around gutter-m">
+            <div class="column-4">
+                <div class="inset"> flsmdfj qsmdkfj lmqsdkjf lsqdmk jflsqdmkj fqdsmf ds</div>
+            </div>
+            <div class="column-4">
+                <div class="inset"> flsmdfj qsmdkfj lmqsdkjf lsqdmk jflsqdmkj fqdsmf ds</div>
+            </div>
+            <div class="column-4">
+                <div class="inset"> flsmdfj qsmdkfj lmqsdkjf lsqdmk jflsqdmkj fqdsmf ds</div>
+            </div>
+        </div>
+        <div class="row gutter-around gutter-l">
+            <div class="column-4">
+                <div class="inset"> flsmdfj qsmdkfj lmqsdkjf lsqdmk jflsqdmkj fqdsmf ds</div>
+            </div>
+            <div class="column-4">
+                <div class="inset"> flsmdfj qsmdkfj lmqsdkjf lsqdmk jflsqdmkj fqdsmf ds</div>
+            </div>
+            <div class="column-4">
+                <div class="inset"> flsmdfj qsmdkfj lmqsdkjf lsqdmk jflsqdmkj fqdsmf ds</div>
+            </div>
+        </div>
+        <div class="row gutter-around gutter-xl">
+            <div class="column-4">
+                <div class="inset"> flsmdfj qsmdkfj lmqsdkjf lsqdmk jflsqdmkj fqdsmf ds</div>
+            </div>
+            <div class="column-4">
+                <div class="inset"> flsmdfj qsmdkfj lmqsdkjf lsqdmk jflsqdmkj fqdsmf ds</div>
+            </div>
+            <div class="column-4">
+                <div class="inset"> flsmdfj qsmdkfj lmqsdkjf lsqdmk jflsqdmkj fqdsmf ds</div>
+            </div>
+        </div>
+    </div>
+
+</div><!-- end main container -->
+
+<h3>Align the columns to top</h3>
+<div class="row gutter-m top">
+    <div class="column-3">
+        <div class="inset"> flsmdfj qsmdkfj lmqsdkjf lsqdmk jflsqdmkj fqdsmf ds</div>
+    </div>
+    <div class="column-4">
+        <div class="inset"> flsmdfj qsmdkfj lmqsdkjf lsqdmk jflsqdmkj fqdsmf ds flsmdfj qsmdkfj lmqsdkjf lsqdmk jflsqdmkj fqdsmf ds</div>
+    </div>
+    <div class="column-5">
+        <div class="inset"> flsmdfj qsmdkfj lmqsdkj</div>
+    </div>
+</div>
+
+<h3>Align the columns to center</h3>
+<div class="row gutter-m center">
+    <div class="column-3">
+        <div class="inset"> flsmdfj qsmdkfj lmqsdkjf lsqdmk jflsqdmkj fqdsmf ds</div>
+    </div>
+    <div class="column-4">
+        <div class="inset"> flsmdfj qsmdkfj lmqsdkjf lsqdmk jflsqdmkj fqdsmf ds flsmdfj qsmdkfj lmqsdkjf lsqdmk jflsqdmkj fqdsmf ds</div>
+    </div>
+    <div class="column-5">
+        <div class="inset"> flsmdfj qsmdkfj lmqsdkj</div>
+    </div>
+</div>
+
+<h3>Align the columns to bottom</h3>
+<div class="row gutter-m bottom">
+    <div class="column-3">
+        <div class="inset"> flsmdfj qsmdkfj lmqsdkjf lsqdmk jflsqdmkj fqdsmf ds</div>
+    </div>
+    <div class="column-4">
+        <div class="inset"> flsmdfj qsmdkfj lmqsdkjf lsqdmk jflsqdmkj fqdsmf ds flsmdfj qsmdkfj lmqsdkjf lsqdmk jflsqdmkj fqdsmf ds</div>
+    </div>
+    <div class="column-5">
+        <div class="inset"> flsmdfj qsmdkfj lmqsdkj</div>
+    </div>
+</div>
+
+<h3>Responsive columns with gutter</h3>
+<div class="stack-m" style="background-color:#f5f5f5;">
+    <div class="row gutter">
+        <div class="column-6">
+            <div class="inset"> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus eligendi in ipsa laborum nihil, obcaecati odit perferendis quis rerum sapiente.</div>
+        </div>
+        <div class="column-6">
+            <div class="inset"> Lorem ipsum dolor sit amet, consectetur adipisicing elit.</div>
+        </div>
+    </div>
+    <div class="row gutter">
+        <div class="column-3 m-column-6">
+            <div class="inset"> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus eligendi in ipsa laborum nihil, obcaecati odit perferendis quis rerum sapiente.</div>
+        </div>
+        <div class="column-3 m-column-6">
+            <div class="inset"> Lorem ipsum dolor sit amet, consectetur adipisicing elit.</div>
+        </div>
+        <div class="column-3 m-column-6">
+            <div class="inset"> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus eligendi in ipsa laborum nihil, obcaecati odit perferendis quis rerum sapiente.</div>
+        </div>
+        <div class="column-3 m-column-6">
+            <div class="inset"> Lorem ipsum dolor sit amet, consectetur adipisicing elit.</div>
+        </div>
+    </div>
+    <div class="row gutter">
+        <div class="column-2">
+            <div class="inset"> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus eligendi in ipsa laborum nihil, obcaecati odit perferendis quis rerum sapiente.</div>
+        </div>
+        <div class="column-2">
+            <div class="inset"> Lorem ipsum dolor sit amet, consectetur adipisicing elit.</div>
+        </div>
+        <div class="column-2">
+            <div class="inset"> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus eligendi in ipsa laborum nihil, obcaecati odit perferendis quis rerum sapiente.</div>
+        </div>
+        <div class="column-2">
+            <div class="inset"> Lorem ipsum dolor sit amet, consectetur adipisicing elit.</div>
+        </div>
+        <div class="column-2">
+            <div class="inset"> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus eligendi in ipsa laborum nihil, obcaecati odit perferendis quis rerum sapiente.</div>
+        </div>
+        <div class="column-2">
+            <div class="inset"> Lorem ipsum dolor sit amet, consectetur adipisicing elit.</div>
+        </div>
+    </div>
+    <div class="row gutter">
+        <div class="column-6">
+            <div class="inset"> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus eligendi in ipsa laborum nihil, obcaecati odit perferendis quis rerum sapiente.</div>
+        </div>
+        <div class="column-6">
+            <div class="inset"> Lorem ipsum dolor sit amet, consectetur adipisicing elit.</div>
+        </div>
+    </div>
+    <div class="row gutter">
+        <div class="column-8">
+            <div class="inset"> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus eligendi in ipsa laborum nihil, obcaecati odit perferendis quis rerum sapiente.</div>
+        </div>
+        <div class="column-4">
+            <div class="inset"> Lorem ipsum dolor sit amet, consectetur adipisicing elit.</div>
+        </div>
+    </div>
+    <div class="row gutter">
+        <div class="column-2">
+            <div class="inset"> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus eligendi in ipsa laborum nihil, obcaecati odit perferendis quis rerum sapiente.</div>
+        </div>
+        <div class="column-8 inset">
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus eligendi in ipsa laborum nihil, obcaecati odit perferendis quis rerum sapiente.
+            <button class="crazy-button">THIS MUST BE CLICKED!</button>
+        </div>
+        <div class="column-2">
+            <div class="inset"> Lorem ipsum dolor sit amet, consectetur adipisicing elit.</div>
+            <button class="crazy-button">THIS MUST BE CLICKED!</button>
+        </div>
+        <div class="column-2">
+            <div class="inset"> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus eligendi in ipsa laborum nihil, obcaecati odit perferendis quis rerum sapiente.</div>
+        </div>
+        <div class="column-8 inset">
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus eligendi in ipsa laborum nihil, obcaecati odit perferendis quis rerum sapiente.
+            <button class="crazy-button">THIS MUST BE CLICKED!</button>
+        </div>
+    </div>
+    <div class="row gutter">
+        <div class="column-3">
+            <div class="inset"> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus eligendi in ipsa laborum nihil, obcaecati odit perferendis quis rerum sapiente.</div>
+        </div>
+        <div class="column-3">
+            <div class="inset"> Lorem ipsum dolor sit amet, consectetur adipisicing elit.</div>
+        </div>
+        <div class="column-4">
+            <div class="inset"> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus eligendi in ipsa laborum nihil, obcaecati odit perferendis quis rerum sapiente.</div>
+        </div>
+        <div class="column-2">
+            <div class="inset"> Lorem ipsum dolor sit amet, consectetur adipisicing elit.</div>
+        </div>
+    </div>
+
+</div>
+
+<h3>Stacks</h3>
+<div class="stack-m inset-m" style="background-color:#f5f5f5;">
+    <div class="stack" style="border:1px solid #dddddd;">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</div>
+    <div class="stack" style="border:1px solid #dddddd;">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</div>
+    <div class="stack" style="border:1px solid #dddddd;">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</div>
+</div>
+
+</body>
+</html>

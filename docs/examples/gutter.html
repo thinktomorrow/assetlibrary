@@ -1,0 +1,258 @@
+<!doctype html>
+<html class="no-js" lang="">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Warpaint grid</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href='https://fonts.googleapis.com/css?family=Merriweather+Sans:300,300italic,400,400italic,700,700italic,800,800italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Ubuntu:300,400' rel='stylesheet' type='text/css'>
+
+    <link rel="stylesheet" href="/css/warpaint.min.css">
+    <link rel="stylesheet" href="/css/examples.css">
+    <!--[if IE 9]><link rel="stylesheet" href="/dist/warpaint-ie9.css" type="text/css" /><![endif]-->
+
+</head>
+<body>
+
+<div class="zebra">
+    <div class="container container--visible">
+
+        <header class="stack-m">
+            <h1>Warpaint - gutter examples</h1>
+            <div class="inline-group text-center stack-s">
+                <a href="/examples/index.html">Basic grid examples</a>
+                <a href="/examples/gutter.html">Gutter examples</a>
+                <a href="/examples/typography.html">Typography</a>
+            </div>
+        </header>
+
+        <ul>
+            <li><a href="#gutter-column">Default <code>.gutter > .column</code></a></li>
+            <li><a href="#gutter-column-width">Column width <code>.gutter > .column-6</code></a></li>
+            <li><a href="#gutter-column-breakpoint-width">Breakpoint column width <code>.gutter > .m-column-6</code></a></li>
+            <li><a href="#gutter-sizes">Sized gutters</a></li>
+            <li><a href="#container-as-row">Container as row <code>.row.container.gutter</code></a></li>
+        </ul>
+
+        <h3 id="gutter-column">Default <code>.gutter > .column</code></h3>
+        <div class="dummy">
+            <div class="row gutter">
+                <div class="column inset">2</div>
+                <div class="column inset">2</div>
+            </div>
+            <div class="row gutter">
+                <div class="column inset">3</div>
+                <div class="column inset">3</div>
+                <div class="column inset">3</div>
+            </div>
+            <div class="row gutter">
+                <div class="column inset">6</div>
+                <div class="column inset">6</div>
+                <div class="column inset">6</div>
+                <div class="column inset">6</div>
+                <div class="column inset">6</div>
+                <div class="column inset">6</div>
+            </div>
+            <h3>Nested gutters:</h3>
+            <div class="row gutter">
+                <div class="column-4 gutter">
+                    <div class="column-6">.column-4.gutter > .column-6</div>
+                    <div class="column-6">.column-4.gutter > .column-6</div>
+                </div>
+                <div class="column-4">.column-4</div>
+                <div class="column-4">.column-4</div>
+            </div>
+            <div class="row gutter">
+                <div class="column inset">10</div>
+                <div class="column inset">10</div>
+                <div class="column inset">10</div>
+                <div class="column inset">10</div>
+                <div class="column inset">10</div>
+                <div class="column inset">10</div>
+                <div class="column inset">10</div>
+                <div class="column inset">10</div>
+                <div class="column inset">10</div>
+                <div class="column inset">10</div>
+            </div>
+            <div class="row gutter">
+                <div class="column inset">10</div>
+                <div class="column inset">10</div>
+                <div class="column inset">10</div>
+                <div class="column inset">10</div>
+                <div class="column inset">10</div>
+                <div class="column inset">10</div>
+                <div class="column inset">10</div>
+                <div class="column inset">10</div>
+                <div class="column inset">10</div>
+                <div class="column inset">10</div>
+                <div class="column inset">overflow > 10</div>
+                <div class="column inset">overflow > 10</div>
+            </div>
+        </div>
+
+        <h3>responsive column</h3>
+        <div class="row">
+            <div class="xs-column-3 column">
+                <div><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                    tempor incididunt ut labore et dolore magna aliqua.</p>
+                </div>
+            </div>
+            <div class="xs-column-3 column">
+                <div><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                    tempor incididunt ut labore et dolore magna aliqua.</p>
+                </div>
+            </div>
+        </div>
+
+
+
+        <h3>Column overflow</h3>
+        <div class="row gutter">
+            <div class="column-3 inset">.column-3</div>
+            <div class="column-3 inset">.column-3</div>
+            <div class="column-3 inset">.column-3</div>
+            <div class="column-3 inset">.column-3</div>
+            <div class="column-3 inset">.column-3</div>
+            <div class="column-3 inset">.column-3</div>
+        </div>
+
+        <h3 id="gutter-column-width">Column width <code>.gutter > .column-6</code></h3>
+        <div class="dummy">
+            <div class="row gutter">
+                <div class="column-6 inset">.column-6</div>
+                <div class="column-6 inset">.column-6</div>
+            </div>
+            <div class="row gutter">
+                <div class="column-4 inset">.column-4</div>
+                <div class="column-4 inset">.column-4</div>
+                <div class="column-4 inset">.column-4</div>
+            </div>
+            <div class="row gutter">
+                <div class="column-2 inset">.column-2</div>
+                <div class="column-2 inset">.column-2</div>
+                <div class="column-4 inset">.column-4</div>
+                <div class="column-2 inset">.column-2</div>
+                <div class="column-2 inset">.column-2</div>
+            </div>
+            <div class="row gutter">
+                <div class="column-1 inset">1</div>
+                <div class="column-3 inset">3</div>
+                <div class="column-1 inset">1</div>
+                <div class="column-1 inset">1</div>
+                <div class="column-1 inset">1</div>
+                <div class="column-2 inset">2</div>
+                <div class="column-3 inset">3</div>
+            </div>
+            <div class="row gutter">
+                <div class="column-4 inset">.column-4</div>
+                <div class="column-3 inset">.column-3</div>
+                <div class="column-3 inset">.column-3</div>
+                <div class="column-8 inset">.column-8</div>
+            </div>
+        </div>
+
+        <h3 id="gutter-column-breakpoint-width">Breakpoint column width <code>.gutter > .m-column-6</code></h3>
+        <div class="dummy">
+            <div class="row gutter">
+                <div class="column-12 m-column-6 inset">.m-column-6</div>
+                <div class="column m-column-6 inset">.m-column-6</div>
+            </div>
+            <div class="row gutter">
+                <div class="column l-column-4 inset">.l-column-4</div>
+                <div class="column l-column-4 inset">.l-column-4</div>
+                <div class="column l-column-4 inset">.l-column-4</div>
+            </div>
+            <div class="row gutter">
+                <div class="column-6 l-column-2 inset">.column-6 l-column-2</div>
+                <div class="column-6 l-column-2 inset">.column-6 l-column-2</div>
+                <div class="column-6 l-column-4 inset">.column-6 l-column-4</div>
+                <div class="column-6 l-column-2 inset">.column-6 l-column-2</div>
+                <div class="column-6 l-column-2 inset">.column-6 l-column-2</div>
+            </div>
+            <div class="row gutter">
+                <div class="column s-column-1 inset">1</div>
+                <div class="column s-column-3 inset">3</div>
+                <div class="column s-column-1 inset">1</div>
+                <div class="column s-column-1 inset">1</div>
+                <div class="column s-column-1 inset">1</div>
+                <div class="column s-column-2 inset">2</div>
+                <div class="column s-column-3 inset">3</div>
+            </div>
+            <div class="row gutter">
+                <div class="column xs-column-4 inset">.xs-column-4</div>
+                <div class="column m-column-3 inset">.m-column-3</div>
+                <div class="column l-column-3 inset">.l-column-3</div>
+                <div class="column xl-column-8 inset">.xl-column-8</div>
+            </div>
+        </div>
+
+        <h3 id="gutter-sizes">Sized gutters</h3>
+        <div class="dummy">
+            <h4>gutter-xs</h4>
+            <div class="row gutter-xs">
+                <div class="column-12 m-column-6 inset">.m-column-6</div>
+                <div class="column m-column-6 inset">.m-column-6</div>
+            </div>
+            <h4>gutter-m</h4>
+            <div class="row gutter-m">
+                <div class="column l-column-4 inset">.l-column-4</div>
+                <div class="column l-column-4 inset">.l-column-4</div>
+                <div class="column l-column-4 inset">.l-column-4</div>
+            </div>
+            <h4>gutter-l</h4>
+            <div class="row gutter-l">
+                <div class="column-6 l-column-2 inset">.column-6 l-column-2</div>
+                <div class="column-6 l-column-2 inset">.column-6 l-column-2</div>
+                <div class="column-6 l-column-4 inset">.column-6 l-column-4</div>
+                <div class="column-6 l-column-2 inset">.column-6 l-column-2</div>
+                <div class="column-6 l-column-2 inset">.column-6 l-column-2</div>
+            </div>
+            <h4>gutter-xl</h4>
+            <div class="row gutter-xl">
+                <div class="column s-column-1 inset">1</div>
+                <div class="column s-column-3 inset">3</div>
+                <div class="column s-column-1 inset">1</div>
+                <div class="column s-column-1 inset">1</div>
+                <div class="column s-column-1 inset">1</div>
+                <div class="column s-column-2 inset">2</div>
+                <div class="column s-column-3 inset">3</div>
+            </div>
+            <h4>gutter-l</h4>
+            <div class="row gutter-l">
+                <div class="column xs-column-4 inset">.xs-column-4</div>
+                <div class="column m-column-3 inset">.m-column-3</div>
+                <div class="column l-column-3 inset">.l-column-3</div>
+                <div class="column xl-column-8 inset">.xl-column-8</div>
+            </div>
+        </div>
+
+        <h3 id="container-as-row">Container as row <code>.row.container.gutter</code></h3>
+        <div class="dummy">
+            <div class="container row gutter">
+                <div class="column inset">.column</div>
+                <div class="column inset">.column</div>
+            </div>
+            <div class="container row gutter">
+                <div class="column-4 inset">.column-4</div>
+                <div class="column-4 inset">.column-4</div>
+                <div class="column-4 inset">.column-4</div>
+            </div>
+
+            <h3 id="container-as-row">Container as row <code>.row.container.gutter-l</code></h3>
+            <div class="container row gutter-l">
+                <div class="column-4 m-column-6 inset">.column-4 .m-column-6</div>
+                <div class="column-4 m-column-6 inset">.column-4 .m-column-6</div>
+                <div class="column-4 m-column-6 inset">.column-4 .m-column-6</div>
+            </div>
+        </div>
+
+    </div>
+    <!-- end container -->
+</div>
+
+
+</body>
+</html>

@@ -1,0 +1,500 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+    <link rel="stylesheet" href="/css/fonts.css">
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Assetlibrary</title>
+    <meta name="description" content="Warpaint stylesheet. Design with freedom. Style with constraints.">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href="css/truce.css">
+</head>
+<body class="">
+
+<header>
+    <div class="container header-container stack">
+        <div class="header-logo">
+          <a href="/index.html"><img src="img/warpaint-logo.svg" alt="Warpaint"></a>
+        </div>
+        <nav class="header-navigation">
+            <ul>
+                <li class="inset-s"><a href="index.html#quickstart">Get started</a></li>
+                <li class="inset-s"><a href="documentation.html">Documentation</a></li>
+                <li class="inset-s"><a target="_blank" href="https://github.com/thinktomorrow/assetlibrary">Github</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<span id="nav-top"></span>
+<div class="hero --small row center-center">
+    <div class="hero-caption">
+        <h1>Documentation</h1>
+    </div>
+</div>
+<main class="--raised">
+<div class="container row offset">
+    <aside class="column-3 sidebar">
+
+        <h3 class="text-right first">GRID</h3>
+        <ul class="sidebar__nav">
+            <li><a href="#grid-basic">Basic grid</a></li>
+            <li><a href="#grid-gutter">Grid gutter</a></li>
+            <li><a href="#grid-width">Column width</a></li>
+            <li><a href="#grid-container">Container</a></li>
+        </ul>
+
+        <a class="btn btn-o nav__up" href="#nav-top">
+            &uarr;
+        </a>
+
+
+    </aside>
+    <article class="column">
+
+        <section id="grid-basic">
+
+                <h2>Basic grid</h2>
+                <p>
+                    Columns must be wrapped inside a <code>.row</code> element and must be at least assigned a <code>.column</code> class.
+                    By default the grid element will divide the width equally amongst its child columns.
+                </p>
+                <p>
+                    The columns will be equal in height by default.
+                </p>
+
+                <div class="dummy">
+                    <div class="row">
+                        <div class="column">2</div>
+                        <div class="column">2</div>
+                    </div>
+                    <div class="row">
+                        <div class="column">3</div>
+                        <div class="column">3</div>
+                        <div class="column">3</div>
+                    </div>
+                </div>
+
+                <pre>
+&lt;div class="row"&gt;
+    &lt;div class="column"&gt;2&lt;/div&gt;
+    &lt;div class="column"&gt;2&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="row"&gt;
+    &lt;div class="column"&gt;3&lt;/div&gt;
+    &lt;div class="column"&gt;3&lt;/div&gt;
+    &lt;div class="column"&gt;3&lt;/div&gt;
+&lt;/div&gt;
+                  </pre>
+
+            <h2 id="grid-gutter">Grid gutter</h2>
+                <p>
+                    By default there are no gutters between columns. By adding <code>.gutter</code> to your <code>.row</code> element, all child columns will
+                    receive a gutter in between.
+                </p>
+
+                <div class="dummy">
+                    <div class="row gutter">
+                        <div class="column">2</div>
+                        <div class="column">2</div>
+                    </div>
+                    <div class="row gutter">
+                        <div class="column">3</div>
+                        <div class="column">3</div>
+                        <div class="column">3</div>
+                    </div>
+                </div>
+
+        </section>
+
+        <section class="first-block stack-l" id="grid-width">
+
+                <h2>Column width</h2>
+                <p>
+                    If you need to control the width of your columns, assign them one of the following sizing classes. By default it is a 12-grid system.
+                </p>
+
+            <div class="dummy">
+                <div class="row">
+                    <div class="column-6">.column-6</div>
+                    <div class="column-6">.column-6</div>
+                </div>
+                <div class="row">
+                    <div class="column-7">.column-7</div>
+                    <div class="column-5">.column-5</div>
+                </div>
+                <div class="row">
+                    <div class="column-8">.column-8</div>
+                    <div class="column-4">.column-4</div>
+                </div>
+                <div class="row">
+                    <div class="column-9">.column-9</div>
+                    <div class="column-3">.column-3</div>
+                </div>
+                <div class="row">
+                    <div class="column-10">.column-10</div>
+                    <div class="column-2">2</div>
+                </div>
+                <div class="row">
+                    <div class="column-11">.column-11</div>
+                    <div class="column-1">1</div>
+                </div>
+
+
+            </div>
+
+                <pre>
+&lt;div class="row"&gt;
+    &lt;div class="column-6"&gt;6&lt;/div&gt;
+    &lt;div class="column-6"&gt;6&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="row"&gt;
+    &lt;div class="column-10"&gt;10&lt;/div&gt;
+    &lt;div class="column-2"&gt;2&lt;/div&gt;
+&lt;/div&gt;
+...
+              </pre>
+
+        </section>
+
+        <section id="grid-container" class="stack-l">
+
+            <h2>Container</h2>
+
+            <p>
+                To complement your basic grid system, you can create a <code>.container</code> wrapper. By default the grid expands to the full width of its parent. To provide a left-right responsive margin, nest the grid inside a <code>.container</code> element.
+            </p>
+
+            <p class="note">
+                Don't add a .container class to the row element. Keep it separate. This will conflict with the way the container deals with its margins.
+            </p>
+
+            <pre>
+&lt;div class="container"&gt;
+    &lt;!-- Insert rows and columns here --&gt;
+&lt;/div&gt;
+            </pre>
+
+            <div class="dummy zebra">
+                <div class="container">
+                    <div class="row">
+                        <div class="column-5">5</div>
+                        <div class="column-4">4</div>
+                        <div class="column">3</div>
+                    </div>
+                </div>
+            </div>
+
+            <pre>
+&lt;div class="container"&gt;
+    &lt;div class="row"&gt;
+        &lt;div class="column-5"&gt;5&lt;/div&gt;
+        &lt;div class="column-4"&gt;4&lt;/div&gt;
+        &lt;div class="column"&gt;3&lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+              </pre>
+
+        </section>
+
+        <!-- spacing -->
+
+        <section id="spacing">
+            <h2>Spacing</h2>
+
+            <p>We define two types of spacings: the spacing of elements inside their parent container (margins) and spacing inside the element (paddings).</p>
+
+
+            <h3 id="spacing-stack">.stack</h3>
+
+            <p>Handle vertical margins with <code>.stack</code>.
+                Stack sets the top and bottom margin. This class gives breathing room for vertically stacked page elements. If <a href="#grid-gutter">.gutter</a> is used on your grid columns this is done automatically.
+            </p>
+
+            <div class="dummy zebra">
+                <div class="row">
+                  <div class="column"></div>
+                </div>
+                <div class="row stack">
+                  <div class="column">
+                    .stack
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="column"></div>
+                </div>
+            </div>
+
+            <h3 id="spacing-inline">.inline</h3>
+
+            <p>Handle horizontal spacing with <code>.inline</code>. E.g. adding breathing room between an image and its paragraph on the right.
+            </p>
+            <p>
+                You can opt to use a <code>.inline-group</code> class on the parent element. This will effect its child elements to behave as if they are given the <code>.inline</code> style. Ideal for spacing elements in sequence like pills, tags, breadcrumbs or buttons.</p>
+
+            <div class="dummy">
+                <ul class="inline-dummy inline-group-s">
+                    <li>Home</li>
+                    <li>></li>
+                    <li>Category</li>
+                    <li>></li>
+                    <li>Subcategory</li>
+                    <li>></li>
+                    <li>Item</li>
+                </ul>
+            </div>
+            <pre>
+&lt;ul class="breadcrumb inline-group"&gt;
+    &lt;li&gt;Home&lt;/li&gt;
+    &lt;li&gt;&gt;&lt;/li&gt;
+    ...
+&lt;/ul>
+
+// Is the same as setting inline on each element
+&lt;ul class="breadcrumb"&gt;
+    &lt;li class="inline"&gt;Home&lt;/li&gt;
+    &lt;li class="inline"&gt;&gt;&lt;/li&gt;
+    ...
+&lt;/ul></pre>
+
+            <h3 id="spacing-inset">.inset</h3>
+
+            <p>Padding of an element can be managed by <code>.inset</code>, <code>.stretched</code> or <code>.squished</code>. Inset is the most common and sets a square padding (equal padding on four sides of the element).</p>
+
+            <h3 id="spacing-squished">.squished</h3>
+
+<p>A squished inset stretches horizontally. It reduces space top and bottom by 50% of the inset.
+                This is mostly used for buttons and cell-like containers as tables or lists</p>
+
+                <h3 id="spacing-stretched">.stretched</h3>
+
+<p>A stretched padding is the opposite of squished. It stretches vertically and is ideally for textboxes and other form elements</p>
+
+            <div class="dummy dummy-inset">
+                <div class="row gutter">
+                    <div class="column inset zebra">
+                        <div class="inside-element center-center">.inset</div>
+                    </div>
+                    <div class="column squished zebra">
+                         <div class="inside-element center-center">.squished</div>
+                    </div>
+                    <div class="column stretched zebra">
+                         <div class="inside-element center-center">.stretched</div>
+                    </div>
+                </div>
+            </div>
+
+            <h3 id="spacing-sizes">Sizes</h3>
+            <p>
+                Each of these classes are available in 5 different sizes:
+                <code>xs, s, m (default), l and xl</code>
+                This allows you to play with different spacings.
+            </p>
+
+            <div class="dummy dummy-inset">
+                <div class="row gutter top">
+                    <div class="column inset-xs zebra">
+                        <div class="inside-element center-center">.inset-xs</div>
+                    </div>
+                    <div class="column inset-s zebra">
+                         <div class="inside-element center-center">.inset-s</div>
+                    </div>
+                    <div class="column inset zebra">
+                         <div class="inside-element center-center">.inset</div>
+                    </div>
+                </div>
+                <div class="row gutter stack top">
+                    <div class="column inset-l zebra">
+                         <div class="inside-element center-center">.inset-l</div>
+                    </div>
+                    <div class="column inset-xl zebra">
+                         <div class="inside-element center-center">.inset-xl</div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- end spacing -->
+
+        <!-- responsive -->
+        <section class="stack-l">
+
+            <h2>Responsive</h2>
+
+            <h3 id="responsive-breakpoints">Breakpoints</h3>
+            <p>
+                Since the develop mindset of warpaint is mobile first, the general idea is that you don't need to account for every viewport size in particular.
+            </p>
+            <p>Having that said, there are some cases where working with breakpoints can be useful. Warpaint provides 5 breakpoints: </p>
+
+<pre>
+
+/* extra small viewport (20em ~ 320px) and up */
+@include xsmall-view{ ... }
+
+/* small viewport (30em ~ 480px) and up */
+@include small-view{ ... }
+
+/* regular viewport (48em ~ 768px) and up */
+@include medium-view{ ... }
+
+/* large viewport (64em ~ 1024px) and up */
+@include large-view{ ... }
+
+/* extra large viewport (85em ~ 1365px) and up */
+@include xlarge-view{ ... }
+
+</pre>
+
+            <h3 id="responsive-grid">Grid</h3>
+            <p>
+                You can force the behaviour of columns and spacing classes in one of these breakpoints. Prepend the class with a <em>breakpoint prefix</em> like <code>xs-, s-, m-, l- or xl-</code>. E.g. Adding <code>.l-column-3</code> to your column will enforce a 1/4 column size for viewports larger than 64em.
+            </p>
+            <p class="note">
+                When using responsive column widths, make sure you also set the default <code>.column-* / .column</code> as well. This makes sure the column really behaves as a column.
+            </p>
+
+            <div class="dummy">
+
+                <div class="row">
+                    <div class="l-column-3 column-6"><div class="inset-dummy">.l-column-3 .column-6</div></div>
+                    <div class="l-column-3 column-6"><div class="inset-dummy">.l-column-3 .column-6</div></div>
+                    <div class="l-column-3 column-6"><div class="inset-dummy">.l-column-3 .column-6</div></div>
+                    <div class="l-column-3 column-6"><div class="inset-dummy">.l-column-3 .column-6</div></div>
+                </div>
+            </div>
+            <div class="text-center font-s"><em>Resize the viewport to view the change. Active breakpoint is <span class="active-breakpoint-text"></span></em>. </div>
+
+            <h3 id="responsive-spacing">Spacing</h3>
+
+            <p>The same breakpoint prefixes can be applied to the spacing classes. E.g. <code>.inset .l-inset-l</code> will set standard inset but from the large breakpoint a large inset will be applied. </p>
+
+            <div class="dummy dummy-inset">
+                <div class="row gutter">
+                    <div class="column inset l-inset-l zebra">
+                        <div class="inside-element center-center">.inset .l-inset-l</div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center font-s"><em>Resize the viewport to view the change. Active breakpoint is <span class="active-breakpoint-text"></span></em>. </div>
+
+        </section>
+        <!-- end responsive -->
+        <!-- start helper classes -->
+        <section class="stack-l">
+            <h2>Alignment</h2>
+            <p>There are several helper classes to help define the grid or the items within a row or column.</p>
+
+
+            <h3 id="floats">Floats</h3>
+
+            <div class="dummy dummy-inset stack">
+                <div class="row zebra">
+                    <div class="column zebra">
+                        <div class="column-3 inside-element inset left center-center">.left</div>
+                    </div>
+                </div>
+            </div>
+            <div class="dummy dummy-inset stack">
+                <div class="row zebra">
+                    <div class="column zebra">
+                        <div class="column-3 inside-element inset right center-center">.right</div>
+                    </div>
+                </div>
+            </div>
+            <div class="dummy dummy-inset stack">
+                <div class="row zebra">
+                    <div class="column zebra">
+                        <div class="column-3 inside-element inset center center-center">.center</div>
+                    </div>
+                </div>
+            </div>
+
+            <p>If there is some unexpected behaviour, e.g. your columns are floating all over the place, you can simply add a <code>.clearfix</code> after the column that is behaving poorly.</p>
+
+            <h3 id="flex-alignment">Flexbox alignment</h3>
+
+            <p>Because Warpaint is a Flexbox-based grid, we have added a few flexbox classes for centering elements within a row or a div. </p>
+
+            <div class="row gutter top dummy-inset zebra inset">
+                <code> .center-y </code>
+                <div class="center-y">
+                    <div class="column">
+                        <div class="inside-element inset">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>
+                    </div>
+                    <div class="column">
+                         <div class="inside-element inset">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</div>
+                    </div>
+                    <div class="column">
+                         <div class="inside-element inset">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua, ut enim ad minim veniam.</div>
+                    </div>
+                </div>
+            </div>
+            <div class="row gutter top dummy-inset zebra stack">
+                <div class="center-center" style="height:500px;">
+                    <div class="column-4">
+                         <div class="inside-element inset">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</div>
+                    </div>
+                </div>
+            </div>
+            <div class="row gutter top dummy-inset zebra inset">
+                <code> .center-x </code>
+                <div class="center-x">
+                    <div class="column">
+                        <div class="inside-element inset">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>
+                    </div>
+                    <div class="column">
+                         <div class="inside-element inset">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</div>
+                    </div>
+                    <div class="column">
+                         <div class="inside-element inset">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua, ut enim ad minim veniam.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- end Helper classes -->
+    </div>
+</article>
+</main>
+<footer class="size-xs text-center inset-m zebra">
+    <small>  &copy; Warpaint</small>
+</footer>
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script>
+
+        // STICKY
+        var stickable = $("header");
+        var navUp = $('.nav__up');
+
+        $(document).on( 'scroll', function(){
+            if ($(this).scrollTop() > 100) {
+                stickable.addClass("sticky");
+                navUp.addClass('active');
+            } else {
+                stickable.removeClass("sticky");
+                navUp.removeClass('active');
+            }
+        });
+
+        $(function() {
+            $('a[href*="#"]:not([href="#"])').click(function() {
+                if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
+                    var target = $(this.hash);
+                    target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
+                    if (target.length) {
+                        $('html, body').animate({
+                            scrollTop: target.offset().top - 120
+                        }, 1000);
+                        return false;
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
