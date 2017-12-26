@@ -1,4 +1,4 @@
-<!doctype html>
+ <!doctype html>
 <html class="no-js" lang="en">
 <head>
 	<link rel="stylesheet" href="/css/fonts.css">
@@ -64,25 +64,50 @@ composer require thinktomorrow/assetlibrary
 </pre>
 
 			<p>
-				Now let's publish the config and migration files
+				Now let's publish the config and migration files.
+
+				Run the following command and select the appropriate option for your situation.
+
 			</p>
 
 			<pre>
-php artisan vendor:publish --provider="Thinktomorrow\AssetLibrary\AssetLibraryServiceProvider" --tag="migrations"
-php artisan vendor:publish --provider="Thinktomorrow\AssetLibrary\AssetLibraryServiceProvider" --tag="config"
-php artisan vendor:publish --provider="Spatie\MediaLibrary\MediaLibraryServiceProvider" --tag="config"
+php artisan vendor:publish
 </pre>
 
+			<p>
+				Option 1:
+				<br>
+				- Select AssetLibraryServiceProvider from the list to publish all the config and migrations.
+			</p>
+			<p>
+				Option 2:
+				<br>
+				- Select the assetlibrary-config/assetlibrary-migrations to publish the config and migrations separately
+			</p>
 			<p>Next, read through the <a href="documentation.html">full documentation</a>.</p>
+
+			<h2>Features</h2>
+				<li>Upload a file to the library without an attached model</li>
+				<li>Localization support</li>
+				<li>Define a type for an upload attached to a i.e. images/pdfs/banners </li>
+				<li>Upload a file to a model</li>
+				<li>Attach a file from the library to a model</li>
+				<li>Attached a media file to multiple models</li>
+				<li>Upload base64 encoded images</li>
+				<li>Crop images</li>
+				<li>And more...</li>
 
 			<h2>Inspiration</h2>
 			<p>This package is built around spaties medialibrary (<a target="_blank"
 					href="https://github.com/spatie/laravel-medialibrary">spatie/laravel-medialibrary</a>)</p>
+
+
+
 		</div>
 	</div>
 </main>
 <footer class="size-xs text-center inset-m zebra">
-	<small> &copy; Warpaint</small>
+	<small> &copy; Assetlibrary</small>
 </footer>
 
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
