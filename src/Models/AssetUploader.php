@@ -20,32 +20,38 @@ class AssetUploader extends Model
      */
     public static function upload($files, $filename = null, $keepOriginal = false)
     {
-        $list = collect([]);
-
         if ($files instanceof Asset) {
             return $files;
-        } elseif (is_array($files)) {
-            collect($files)->each(function ($file) use ($list, $keepOriginal, $filename) {
-                if ($file instanceof Asset) {
-                    $list->push($file);
-                } else {
-                    $asset = new Asset();
-                    $asset->save();
-                    $list->push(self::uploadToAsset($file, $asset, $filename, $keepOriginal));
-                }
-            });
-
-            return $list;
         }
 
-        $asset = new Asset();
-        $asset->save();
+        if (is_array($files)) {
+            return self::uploadMultiple($files, $keepOriginal);
+        }
 
         if (! ($files instanceof File) && ! ($files instanceof UploadedFile)) {
             return;
         }
 
+        $asset = new Asset();
+        $asset->save();
+
         return self::uploadToAsset($files, $asset, $filename, $keepOriginal);
+    }
+
+    private static function uploadMultiple($files, $keepOriginal = false)
+    {
+        $list = collect([]);
+        collect($files)->each(function ($file) use ($list, $keepOriginal) {
+            if ($file instanceof Asset) {
+                $list->push($file);
+            } else {
+                $asset = new Asset();
+                $asset->save();
+                $list->push(self::uploadToAsset($file, $asset, null, $keepOriginal));
+            }
+        });
+
+        return $list;
     }
 
     /**
