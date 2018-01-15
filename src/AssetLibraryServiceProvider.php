@@ -27,8 +27,6 @@ class AssetLibraryServiceProvider extends ServiceProvider
             __DIR__.'/../config/assetlibrary.php' => config_path('assetlibrary.php'),
         ], 'config');
 
-        $this->loadRoutesFrom(__DIR__.'/Http/routes.php');
-
         $this->publishMigrations();
 
         $this->registerModelBindings();
