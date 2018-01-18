@@ -125,7 +125,7 @@ trait AssetTrait
         }else{
             foreach($files as $filename => $file)
             {
-                $this->addFile($file, $type, $locale, null, $keepOriginal);
+                $this->addFile($file, $type, $locale, $filename, $keepOriginal);
             }
         }
     }

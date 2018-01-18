@@ -422,6 +422,20 @@ class AssetTraitTest extends TestCase
     }
 
     /**
+     * @test
+     */
+    public function it_can_upload_multiple_files_with_names(){
+        $article = Article::create();
+
+        $article->addFiles([
+            'testImage1.png' => UploadedFile::fake()->image('newImage.png'),
+            'testImage2.png' => UploadedFile::fake()->image('newImage.png')]);
+
+        $this->assertEquals('/media/1/testImage1.png', $article->getFileUrl());
+        $this->assertEquals('/media/2/testImage2.png', $article->getAllFiles()->last()->getFileUrl());
+    }
+
+    /**
     * @test
     */
     public function it_can_get_the_files_sorted(){
