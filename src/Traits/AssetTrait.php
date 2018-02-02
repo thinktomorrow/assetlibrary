@@ -54,7 +54,7 @@ trait AssetTrait
             return null;
         }
 
-        $locale = $this->normalizeLocale($locale);
+        $locale = $this->normalizeLocaleString($locale);
 
         $assets = $this->assets->where('pivot.type', $type);
         if ($assets->count() > 1) {
@@ -85,7 +85,7 @@ trait AssetTrait
         {
             $this->addFiles($file, $type, $locale, $keepOriginal);
         }else{
-            $locale = $this->normalizeLocale($locale);
+            $locale = $this->normalizeLocaleString($locale);
 
             if(is_string($file))
             {
@@ -114,7 +114,7 @@ trait AssetTrait
     public function addFiles($files, $type = '', $locale = null, $keepOriginal = false): void
     {
         $files = (array) $files;
-        $locale = $this->normalizeLocale($locale);
+        $locale = $this->normalizeLocaleString($locale);
 
         if(is_string(array_values($files)[0]))
         {
@@ -175,7 +175,7 @@ trait AssetTrait
      */
     public function getAllFiles($type = null, $locale = null)
     {
-        $locale = $this->normalizeLocale($locale);
+        $locale = $this->normalizeLocaleString($locale);
 
         $files = $this->assets->where('pivot.type', $type)->where('pivot.locale', $locale);
 
@@ -203,7 +203,7 @@ trait AssetTrait
      * @param string|null $locale
      * @return string
      */
-    private function normalizeLocale($locale = null): string
+    private function normalizeLocaleString($locale = null): string
     {
         $locale = $locale ?? Locale::getDefault();
 
