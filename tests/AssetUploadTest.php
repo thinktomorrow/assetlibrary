@@ -26,4 +26,19 @@ class AssetUploadTest extends TestCase
         // Cleanup
         $asset->delete(); // remove uploaded asset
     }
+
+    /**
+     * @test
+     */
+    public function it_can_upload_an_array_of_assets()
+    {
+        $assets = collect([]);
+
+        $assets->push(AssetUploader::upload(UploadedFile::fake()->image('image1.png')));
+        $assets->push(AssetUploader::upload(UploadedFile::fake()->image('image2.png')));
+
+        $uploadedAssets = AssetUploader::upload($assets);
+
+        $this->assertEquals($assets, $uploadedAssets);
+    }
 }

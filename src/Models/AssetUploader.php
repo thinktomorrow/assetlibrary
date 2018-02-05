@@ -5,6 +5,7 @@ namespace Thinktomorrow\AssetLibrary\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\File;
 use Illuminate\Http\UploadedFile;
+use Traversable;
 
 class AssetUploader extends Model
 {
@@ -24,7 +25,7 @@ class AssetUploader extends Model
 
         if ($files instanceof Asset) {
             return $files;
-        } elseif (is_array($files)) {
+        } elseif ($files instanceof Traversable || is_array($files)) {
             collect($files)->each(function ($file) use ($list, $keepOriginal, $filename) {
                 if ($file instanceof Asset) {
                     $list->push($file);
@@ -41,7 +42,7 @@ class AssetUploader extends Model
         $asset = new Asset();
         $asset->save();
 
-        if (! ($files instanceof File) && ! ($files instanceof UploadedFile)) {
+        if (!($files instanceof File) && !($files instanceof UploadedFile)) {
             return;
         }
 
@@ -82,16 +83,15 @@ class AssetUploader extends Model
     {
         $customProps = [];
         if (self::isImage($files)) {
-            $customProps['dimensions'] = getimagesize($files)[0].' x '.getimagesize($files)[1];
+            $customProps['dimensions'] = getimagesize($files)[0] . ' x ' . getimagesize($files)[1];
         }
 
-        $fileAdd    = $asset->addMedia($files)->withCustomProperties($customProps);
+        $fileAdd = $asset->addMedia($files)->withCustomProperties($customProps);
         if ($keepOriginal) {
             $fileAdd = $fileAdd->preservingOriginal();
         }
 
-        if($filename)
-        {
+        if ($filename) {
             $fileAdd->setName(substr($filename, 0, strpos($filename, '.')));
             $fileAdd->setFileName($filename);
         }
@@ -120,20 +120,19 @@ class AssetUploader extends Model
 //        $customProps['dimensions'] = getimagesize($file)[0].' x '.getimagesize($file)[1];
 
 //        $fileAdd    = $asset->addMediaFromBase64($file)->withCustomProperties($customProps);
-        $fileAdd    = $asset->addMediaFromBase64($file);
+        $fileAdd = $asset->addMediaFromBase64($file);
         if ($keepOriginal) {
             $fileAdd = $fileAdd->preservingOriginal();
         }
 
-        if($filename)
-        {
+        if ($filename) {
             $fileAdd->setName(substr($filename, 0, strpos($filename, '.')));
             $fileAdd->setFileName($filename);
-        }else{
-            $extension = substr($file, 11, strpos($file,';')-11);
+        } else {
+            $extension = substr($file, 11, strpos($file, ';') - 11);
             $filename = pathinfo($file, PATHINFO_BASENAME);
             $fileAdd->setName($filename);
-            $fileAdd->setFileName($filename.'.'.$extension);
+            $fileAdd->setFileName($filename . '.' . $extension);
         }
 
         $fileAdd->toMediaCollection();
