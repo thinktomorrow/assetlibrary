@@ -234,9 +234,9 @@ class AssetTest extends TestCase
      */
     public function it_can_get_its_size()
     {
-        $asset = AssetUploader::upload(UploadedFile::fake()->image('image.png'));
+        $asset = AssetUploader::upload(UploadedFile::fake()->image('image.png', 100, 100));
 
-        $this->assertEquals($asset->getSize(), '70 B');
+        $this->assertEquals($asset->getSize(), '130 B');
     }
 
     /**

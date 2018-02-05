@@ -21,8 +21,6 @@ class AssetUploader extends Model
      */
     public static function upload($files, $filename = null, $keepOriginal = false)
     {
-        $list = collect([]);
-
         if ($files instanceof Asset) {
             return $files;
         }
