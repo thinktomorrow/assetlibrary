@@ -25,28 +25,36 @@ class AssetUploader extends Model
 
         if ($files instanceof Asset) {
             return $files;
-        } elseif ($files instanceof Traversable || is_array($files)) {
-            collect($files)->each(function ($file) use ($list, $keepOriginal, $filename) {
-                if ($file instanceof Asset) {
-                    $list->push($file);
-                } else {
-                    $asset = new Asset();
-                    $asset->save();
-                    $list->push(self::uploadToAsset($file, $asset, $filename, $keepOriginal));
-                }
-            });
+        }
 
-            return $list;
+        if (is_array($files) || $files instanceof Traversable) {
+            return self::uploadMultiple($files, $keepOriginal);
+        }
+
+        if (! ($files instanceof File) && ! ($files instanceof UploadedFile)) {
+            return;
         }
 
         $asset = new Asset();
         $asset->save();
 
-        if (!($files instanceof File) && !($files instanceof UploadedFile)) {
-            return;
-        }
-
         return self::uploadToAsset($files, $asset, $filename, $keepOriginal);
+    }
+
+    private static function uploadMultiple($files, $keepOriginal = false)
+    {
+        $list = collect([]);
+        collect($files)->each(function ($file) use ($list, $keepOriginal) {
+            if ($file instanceof Asset) {
+                $list->push($file);
+            } else {
+                $asset = new Asset();
+                $asset->save();
+                $list->push(self::uploadToAsset($file, $asset, null, $keepOriginal));
+            }
+        });
+
+        return $list;
     }
 
     /**

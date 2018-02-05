@@ -36,9 +36,10 @@ class AssetUploadTest extends TestCase
 
         $assets->push(AssetUploader::upload(UploadedFile::fake()->image('image1.png')));
         $assets->push(AssetUploader::upload(UploadedFile::fake()->image('image2.png')));
+        $assets->push(UploadedFile::fake()->image('image2.png'));
 
-        $uploadedAssets = AssetUploader::upload($assets);
+        AssetUploader::upload($assets);
 
-        $this->assertEquals($assets, $uploadedAssets);
+        $this->assertEquals(3, Asset::getAllAssets()->count());
     }
 }
