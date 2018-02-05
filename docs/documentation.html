@@ -1,0 +1,266 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+	<link rel="stylesheet" href="/css/fonts.css">
+	<meta charset="utf-8">
+	<meta http-equiv="x-ua-compatible" content="ie=edge">
+	<title>Assetlibrary</title>
+	<meta name="description" content="Warpaint stylesheet. Design with freedom. Style with constraints.">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+	<link rel="stylesheet" href="css/truce.css">
+</head>
+<body class="">
+
+	<header>
+		<div class="container header-container stack">
+			<div class="header-logo">
+				<a href="/index.html"><img src="img/warpaint-logo.svg" alt="Warpaint"></a>
+			</div>
+			<nav class="header-navigation">
+				<ul>
+					<li class="inset-s"><a href="index.html#quickstart">Get started</a></li>
+					<li class="inset-s"><a href="documentation.html">Documentation</a></li>
+					<li class="inset-s"><a target="_blank" href="https://github.com/thinktomorrow/assetlibrary">Github</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</header>
+
+<span id="nav-top"></span>
+<div class="hero --small row center-center">
+	<div class="hero-caption">
+		<h1>Documentation</h1>
+	</div>
+</div>
+<main class="--raised">
+	<div class="row offset">
+		<aside class="column-2 sidebar">
+
+			<h3 class="text-right first">USAGE</h3>
+			<ul class="sidebar__nav">
+				<li><a href="#model">Preparing the model</a></li>
+				<li><a href="#uploading">Uploading a file</a></li>
+				<li><a href="#retrieving">Retrieving a file</a></li>
+				<li><a href="#conversions">File conversions</a></li>
+			</ul>
+
+			<a class="btn btn-o nav__up" href="#nav-top">
+				&uarr;
+			</a>
+
+
+		</aside>
+		<article class="column">
+
+			<section id="model">
+
+				<h2>Preparing the model</h2>
+
+				<p>To upload files to a model we just need to add a trait to the model of our choosing and implement the HasMedia interface.</p>
+<pre>
+use Illuminate\Database\Eloquent\Model;
+<b style="font-weight:bold">use Thinktomorrow\AssetLibrary\Traits\AssetTrait;</b>
+
+class Article extends Model implements <b style="font-weight:bold">HasMedia</b>
+{
+   <b style="font-weight:bold">use AssetTrait;</b>
+}
+</pre>
+			</section>
+
+			<section id="uploading">
+
+				<h2>Uploading a file</h2>
+				<p>
+					There are 2 main ways to upload a file.
+					<ul>
+						<li><a href="#attachToModel">To a model</a></li>
+						<li><a href="#medialibrary">To the library</a></li>
+					</ul>
+
+				</p>
+				<h3 id="attachToModel">
+					Attached to a model
+				</h3>
+
+				<p>Make sure you have prepared the model you would like to upload a file to as specified in
+					<a href="#model">the previous step</a>
+				</p>
+
+				<h4>Upload a file</h4>
+
+				<p>
+					To upload a file we call the addFile method on the model instance we want to attach the file to.
+				</p>
+
+
+<pre>
+$article = new Article;
+$article->addFile('file', 'type', 'locale', 'filename', 'keepOriginal');
+</pre>
+
+				<p>
+					The file is required. The type, locale, filename and keepOriginal fields are optional.
+					The file can be any file or an instance of Thinktomorrow\AssetLibrary\Models\Asset.
+					The Thinktomorrow\AssetLibrary\Models\Asset upload is used to attach existing assets from the library to an existing model, and works exactly the same as uploading a file.
+
+					Type allows us to get a file based on the type for instance an article could have a banner but also a pdf file.
+					Without type the library wouldn't be able to discern between them.
+					This is explained in greater detail in the section about retrieving files.
+				</p>
+
+				<h4>Upload an array/collection of files</h4>
+
+				<p>
+					Uploading multiple files at once is done like this:
+				</p>
+
+<pre>
+$article = new Article;
+$article->addFiles(['files'], 'type', 'locale', 'keepOriginal');
+</pre>
+
+				<p>
+					As you can see there is no parameter for the filename. To pass along a filename you can key the array with the filename like so:
+				</p>
+
+<pre>
+$article = new Article;
+$article->addFiles([
+   'Image1.png' => Image,
+   'Image2.png' => Image
+],
+'type', 'locale', 'keepOriginal');
+</pre>
+
+				<h3 id="medialibrary">
+					To the general library
+				</h3>
+
+				<p>If you don't want to attach a file to a model in the case of a medialibrary, this works as follows.</p>
+
+<pre>
+$asset = AssetUploader::upload('files', 'filename', 'keepOriginal');
+</pre>
+
+				<p>
+					A file not attached to a model doesn't have a type or locale since these fields are only relevant in the context of a model.
+				</p>
+
+				<h3>
+					Uploading a Base64 encoded image string
+				</h3>
+
+				<p>
+					Uploading a Base64 image is different for a model or the library
+				</p>
+				<h3>
+					Attached to a model
+				</h3>
+
+				<p>
+					Uploading a Base64 image is exactly the same as a normal file.
+				</p>
+
+<pre>
+$article = new Article;
+$article->addFile('Base64EncodedImage', 'type', 'locale', 'filename', 'keepOriginal');
+</pre>
+
+				<h3>
+					To the general library
+				</h3>
+
+				<p>
+					Uploading a Base64 image to the library uses a different method on the AssetUploader class:
+				</p>
+
+<pre>
+$asset = AssetUploader::uploadFromBase64('file', 'filename', 'keepOriginal');
+</pre>
+
+			</section>
+
+			<section id="retrieving">
+
+				<h2>Retrieving a file</h2>
+			</section>
+
+			<section id="conversions">
+
+				<h2>Adding conversions</h2>
+
+				<p>
+					An upload also creates conversions(size) for the file:
+				</p>
+
+<pre>
+- thumb:    width     150
+	    height    150
+- medium:   width     300
+	    height    130
+- large:    width     1024
+	    height    353
+- full:     width     1600
+	    height    553
+</pre>
+
+				<p>
+					The original version will be returned if you don't specify the size.
+					These conversions can be defined in the assetlibrary config file.
+
+					If you want to conversion names prefixed with the file name you can set the converionprefix in the config file to true.
+
+				</p>
+
+<pre>
+'conversionPrefix'  => true,
+</pre>
+
+
+
+			</section>
+		</article>
+	</div>
+</main>
+<footer class="size-xs text-center inset-m zebra">
+	<small> &copy; Warpaint</small>
+</footer>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script>
+
+	// STICKY
+	var stickable = $("header");
+	var navUp = $('.nav__up');
+
+	$(document).on('scroll', function () {
+		if ($(this).scrollTop() > 100) {
+			stickable.addClass("sticky");
+			navUp.addClass('active');
+		} else {
+			stickable.removeClass("sticky");
+			navUp.removeClass('active');
+		}
+	});
+
+	$(function () {
+		$('a[href*="#"]:not([href="#"])').click(function () {
+			if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') && location.hostname == this.hostname) {
+				var target = $(this.hash);
+				target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
+				if (target.length) {
+					$('html, body').animate({
+						scrollTop: target.offset().top - 120
+					}, 1000);
+					return false;
+				}
+			}
+		});
+	});
+</script>
+</body>
+</html>
