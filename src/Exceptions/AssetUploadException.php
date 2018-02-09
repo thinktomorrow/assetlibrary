@@ -8,6 +8,6 @@ class AssetUploadException extends Exception
 {
     public static function create()
     {
-        return new static("This asset is already linked to this model.");
+        return new static('This asset is already linked to this model.');
     }
 }
