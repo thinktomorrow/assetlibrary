@@ -3,7 +3,6 @@
 namespace Thinktomorrow\AssetLibrary\Test\stubs;
 
 use Illuminate\Database\Eloquent\Model;
-use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Thinktomorrow\AssetLibrary\Traits\AssetTrait;
 use Spatie\MediaLibrary\HasMedia\Interfaces\HasMedia;
 
