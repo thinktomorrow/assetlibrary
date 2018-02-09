@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1518167185">
-  <project timestamp="1518167185">
+<coverage generated="1518168604">
+  <project timestamp="1518168604">
     <package name="Thinktomorrow\AssetLibrary">
       <file name="/Users/philippedamen/Code/assetlibrary/src/AssetLibraryServiceProvider.php">
         <class name="Thinktomorrow\AssetLibrary\AssetLibraryServiceProvider" namespace="Thinktomorrow\AssetLibrary">
