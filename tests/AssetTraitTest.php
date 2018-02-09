@@ -5,9 +5,8 @@ namespace Thinktomorrow\AssetLibrary\Test;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Artisan;
-use Thinktomorrow\AssetLibrary\Models\Asset;
-use Thinktomorrow\AssetLibrary\Models\AssetUploader;
 use Thinktomorrow\AssetLibrary\Test\stubs\Article;
+use Thinktomorrow\AssetLibrary\Models\AssetUploader;
 
 class AssetTraitTest extends TestCase
 {
@@ -164,7 +163,6 @@ class AssetTraitTest extends TestCase
      */
     public function it_can_replace_a_translation()
     {
-
         $this->markTestIncomplete();
 
         $article = Article::create();
@@ -318,7 +316,8 @@ class AssetTraitTest extends TestCase
     /**
      * @test
      */
-    public function it_can_upload_multiple_images_with_the_same_type(){
+    public function it_can_upload_multiple_images_with_the_same_type()
+    {
         $original = Article::create();
 
         //upload a single image
@@ -331,9 +330,10 @@ class AssetTraitTest extends TestCase
     }
 
     /**
-    * @test
-    */
-    public function it_can_remove_an_asset(){
+     * @test
+     */
+    public function it_can_remove_an_asset()
+    {
         $article = Article::create();
 
         $asset      = AssetUploader::upload(UploadedFile::fake()->image('image.png'));
@@ -347,9 +347,10 @@ class AssetTraitTest extends TestCase
     }
 
     /**
-    * @test
-    */
-    public function it_can_replace_an_asset(){
+     * @test
+     */
+    public function it_can_replace_an_asset()
+    {
         $article = Article::create();
 
         $asset      = AssetUploader::upload(UploadedFile::fake()->image('oldImage.png'));
@@ -366,7 +367,8 @@ class AssetTraitTest extends TestCase
     /**
      * @test
      */
-    public function it_can_upload_a_base64_file(){
+    public function it_can_upload_a_base64_file()
+    {
         $article = Article::create();
 
         $article->addFile($this->base64Image);
@@ -375,9 +377,10 @@ class AssetTraitTest extends TestCase
     }
 
     /**
-    * @test
-    */
-    public function it_can_set_a_name_when_uploading_a_base64_file(){
+     * @test
+     */
+    public function it_can_set_a_name_when_uploading_a_base64_file()
+    {
         $article = Article::create();
 
         $article->addFile($this->base64Image, '', '', 'testImage.png');
@@ -388,7 +391,8 @@ class AssetTraitTest extends TestCase
     /**
      * @test
      */
-    public function it_can_set_a_name_when_uploading_a_base64_file_keeping_original(){
+    public function it_can_set_a_name_when_uploading_a_base64_file_keeping_original()
+    {
         $article = Article::create();
 
         $article->addFile($this->base64Image, '', '', 'testImage.png', true);
@@ -397,9 +401,10 @@ class AssetTraitTest extends TestCase
     }
 
     /**
-    * @test
-    */
-    public function it_can_set_a_name_when_uploading_a_file(){
+     * @test
+     */
+    public function it_can_set_a_name_when_uploading_a_file()
+    {
         $article = Article::create();
 
         $article->addFile(UploadedFile::fake()->image('newImage.png'), '', '', 'testImage.png');
@@ -410,12 +415,13 @@ class AssetTraitTest extends TestCase
     /**
      * @test
      */
-    public function it_can_upload_multiple_base64_files_with_names(){
+    public function it_can_upload_multiple_base64_files_with_names()
+    {
         $article = Article::create();
 
         $article->addFiles([
             'testImage1.png' => $this->base64Image,
-            'testImage2.png' => $this->base64Image]);
+            'testImage2.png' => $this->base64Image, ]);
 
         $this->assertEquals('/media/1/testImage1.png', $article->getFileUrl());
         $this->assertEquals('/media/2/testImage2.png', $article->getAllFiles()->last()->getFileUrl());
@@ -424,21 +430,23 @@ class AssetTraitTest extends TestCase
     /**
      * @test
      */
-    public function it_can_upload_multiple_files_with_names(){
+    public function it_can_upload_multiple_files_with_names()
+    {
         $article = Article::create();
 
         $article->addFiles([
             'testImage1.png' => UploadedFile::fake()->image('newImage.png'),
-            'testImage2.png' => UploadedFile::fake()->image('newImage.png')]);
+            'testImage2.png' => UploadedFile::fake()->image('newImage.png'), ]);
 
         $this->assertEquals('/media/1/testImage1.png', $article->getFileUrl());
         $this->assertEquals('/media/2/testImage2.png', $article->getAllFiles()->last()->getFileUrl());
     }
 
     /**
-    * @test
-    */
-    public function it_can_get_the_files_sorted(){
+     * @test
+     */
+    public function it_can_get_the_files_sorted()
+    {
         $article = Article::create();
 
         $asset1 = AssetUploader::upload(UploadedFile::fake()->image('bannerImage1.png'));
@@ -458,9 +466,10 @@ class AssetTraitTest extends TestCase
     }
 
     /**
-    * @test
-    */
-    public function it_can_sort_images(){
+     * @test
+     */
+    public function it_can_sort_images()
+    {
         $article = Article::create();
 
         $asset1 = AssetUploader::upload(UploadedFile::fake()->image('bannerImage1.png'));
@@ -471,7 +480,7 @@ class AssetTraitTest extends TestCase
         $asset3->attachToModel($article, 'banner');
         $article = AssetUploader::upload(UploadedFile::fake()->create('not-an-image.pdf'))->attachToModel($article, 'fail');
 
-        $article->sortFiles('banner', [(string)$asset3->id, (string)$asset1->id, (string)$asset2->id]);
+        $article->sortFiles('banner', [(string) $asset3->id, (string) $asset1->id, (string) $asset2->id]);
 
         $images = $article->getAllFiles('banner');
 
@@ -484,7 +493,8 @@ class AssetTraitTest extends TestCase
     /**
      * @test
      */
-    public function it_can_sort_images_with_specified_keys(){
+    public function it_can_sort_images_with_specified_keys()
+    {
         $article = Article::create();
 
         $asset1 = AssetUploader::upload(UploadedFile::fake()->image('bannerImage1.png'));
@@ -495,7 +505,7 @@ class AssetTraitTest extends TestCase
         $asset3->attachToModel($article, 'banner');
         $article = AssetUploader::upload(UploadedFile::fake()->create('not-an-image.pdf'))->attachToModel($article, 'fail');
 
-        $article->sortFiles('banner', [5 => (string)$asset3->id, 1 => (string)$asset1->id, 9 => (string)$asset2->id]);
+        $article->sortFiles('banner', [5 => (string) $asset3->id, 1 => (string) $asset1->id, 9 => (string) $asset2->id]);
 
         $images = $article->getAllFiles('banner');
 

@@ -2,10 +2,9 @@
 
 namespace Thinktomorrow\AssetLibrary;
 
-use Illuminate\Database\Eloquent\Factory as EloquentFactory;
-use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider;
 use Thinktomorrow\AssetLibrary\Models\Asset;
+use Illuminate\Database\Eloquent\Factory as EloquentFactory;
 
 class AssetLibraryServiceProvider extends ServiceProvider
 {
@@ -61,9 +60,6 @@ class AssetLibraryServiceProvider extends ServiceProvider
         //TODO implement this
     }
 
-    /**
-     *
-     */
     private function registerAssetLibrary()
     {
         $this->app->singleton('asset', function ($app) {
@@ -71,17 +67,13 @@ class AssetLibraryServiceProvider extends ServiceProvider
         });
     }
 
-    /**
-     *
-     */
     public function publishMigrations(): void
     {
-        if (!class_exists('CreateAssetTable')) {
+        if (! class_exists('CreateAssetTable')) {
             $this->publishes([
-                __DIR__ . '/../database/migrations/create_asset_table.php' => database_path('migrations/' . date('Y_m_d_His',
-                        time()) . '_create_asset_table.php'),
+                __DIR__.'/../database/migrations/create_asset_table.php' => database_path('migrations/'.date('Y_m_d_His',
+                        time()).'_create_asset_table.php'),
             ], 'migrations');
-
         }
 
         if (! class_exists('CreateMediaTable')) {

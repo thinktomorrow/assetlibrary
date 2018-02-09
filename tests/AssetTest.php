@@ -4,10 +4,10 @@ namespace Thinktomorrow\AssetLibrary\Test;
 
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
-use Thinktomorrow\AssetLibrary\Exceptions\AssetUploadException;
 use Thinktomorrow\AssetLibrary\Models\Asset;
-use Thinktomorrow\AssetLibrary\Models\AssetUploader;
 use Thinktomorrow\AssetLibrary\Test\stubs\Article;
+use Thinktomorrow\AssetLibrary\Models\AssetUploader;
+use Thinktomorrow\AssetLibrary\Exceptions\AssetUploadException;
 
 class AssetTest extends TestCase
 {
@@ -372,9 +372,10 @@ class AssetTest extends TestCase
     }
 
     /**
-    * @test
-    */
-    public function it_can_set_the_order(){
+     * @test
+     */
+    public function it_can_set_the_order()
+    {
         $original = Article::create();
 
         $asset = AssetUploader::upload(UploadedFile::fake()->image('image.jpg', 1000, 1000));
@@ -385,9 +386,10 @@ class AssetTest extends TestCase
     }
 
     /**
-    * @test
-    */
-    public function it_can_get_files_in_order(){
+     * @test
+     */
+    public function it_can_get_files_in_order()
+    {
         $original = Article::create();
 
         $asset1 = AssetUploader::upload(UploadedFile::fake()->image('image.jpg', 1000, 1000));
@@ -410,19 +412,18 @@ class AssetTest extends TestCase
     }
 
     /**
-    * @test
-    */
-    public function it_throws_an_expection_when_adding_an_existing_asset(){
-
+     * @test
+     */
+    public function it_throws_an_expection_when_adding_an_existing_asset()
+    {
         $this->expectException(AssetUploadException::class);
 
         $original = Article::create();
 
         //upload a single image
-        $asset = AssetUploader::upload(UploadedFile::fake()->image('image.png'));
+        $asset   = AssetUploader::upload(UploadedFile::fake()->image('image.png'));
         $article = $asset->attachToModel($original);
 
         $article->addFile($article->assets()->first());
-
     }
 }

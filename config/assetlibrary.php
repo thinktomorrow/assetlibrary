@@ -25,5 +25,5 @@ return [
         ],
     ],
 
-    'allowCropping' => false
+    'allowCropping' => false,
 ];
