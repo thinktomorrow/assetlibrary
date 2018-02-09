@@ -2,11 +2,11 @@
 
 namespace Thinktomorrow\AssetLibrary\Traits;
 
-use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
-use Thinktomorrow\AssetLibrary\Models\Asset;
-use Thinktomorrow\AssetLibrary\Models\AssetUploader;
-use Thinktomorrow\Locale\Locale;
 use Traversable;
+use Thinktomorrow\Locale\Locale;
+use Thinktomorrow\AssetLibrary\Models\Asset;
+use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
+use Thinktomorrow\AssetLibrary\Models\AssetUploader;
 
 trait AssetTrait
 {
@@ -81,24 +81,21 @@ trait AssetTrait
      */
     public function addFile($file, $type = '', $locale = null, $filename = null, $keepOriginal = false): void
     {
-        if($file instanceof Traversable || is_array($file))
-        {
+        if ($file instanceof Traversable || is_array($file)) {
             $this->addFiles($file, $type, $locale, $keepOriginal);
-        }else{
+        } else {
             $locale = $this->normalizeLocaleString($locale);
 
-            if(is_string($file))
-            {
+            if (is_string($file)) {
                 $asset = AssetUploader::uploadFromBase64($file, $filename, $keepOriginal);
-            }else{
+            } else {
                 $asset = AssetUploader::upload($file, $filename, $keepOriginal);
             }
 
-            if($asset instanceof Asset){
+            if ($asset instanceof Asset) {
                 $asset->attachToModel($this, $type, $locale);
             }
         }
-
     }
 
     /**
@@ -113,18 +110,15 @@ trait AssetTrait
      */
     public function addFiles($files, $type = '', $locale = null, $keepOriginal = false): void
     {
-        $files = (array) $files;
+        $files  = (array) $files;
         $locale = $this->normalizeLocaleString($locale);
 
-        if(is_string(array_values($files)[0]))
-        {
-            foreach($files as $filename => $file)
-            {
+        if (is_string(array_values($files)[0])) {
+            foreach ($files as $filename => $file) {
                 $this->addFile($file, $type, $locale, $filename, $keepOriginal);
             }
-        }else{
-            foreach($files as $filename => $file)
-            {
+        } else {
+            foreach ($files as $filename => $file) {
                 $this->addFile($file, $type, $locale, $filename, $keepOriginal);
             }
         }
@@ -186,18 +180,17 @@ trait AssetTrait
      * @param null $type
      * @param $sorting
      */
-    public function sortFiles($type = null, $sorting): void
+    public function sortFiles($type, $sorting): void
     {
         $files = $this->getAllFiles($type);
-        $files->each(function($asset) use($sorting){
-            if(in_array($asset->id, $sorting)){
+        $files->each(function ($asset) use ($sorting) {
+            if (in_array($asset->id, $sorting)) {
                 $pivot = $this->assets->find($asset->id)->pivot;
                 $pivot->order = array_search($asset->id, $sorting);
                 $pivot->save();
             }
         });
     }
-
 
     /**
      * @param string|null $locale
