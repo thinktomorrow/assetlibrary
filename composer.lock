@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "a9a7defa91095db9e587005ac61bcb53",
+    "content-hash": "fe60bc0a23dcb79cc94973d4cf40a27b",
     "packages": [
         {
             "name": "doctrine/inflector",
@@ -415,16 +415,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v5.6.2",
+            "version": "v5.6.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "7742e7b54ba48b49f43a7d6f51ff57a63b9ed108"
+                "reference": "db3e5422070d9b5166493313142b30419efab207"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/7742e7b54ba48b49f43a7d6f51ff57a63b9ed108",
-                "reference": "7742e7b54ba48b49f43a7d6f51ff57a63b9ed108",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/db3e5422070d9b5166493313142b30419efab207",
+                "reference": "db3e5422070d9b5166493313142b30419efab207",
                 "shasum": ""
             },
             "require": {
@@ -546,7 +546,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2018-02-08T22:17:44+00:00"
+            "time": "2018-02-09T13:33:22+00:00"
         },
         {
             "name": "league/flysystem",
@@ -2285,26 +2285,26 @@
         },
         {
             "name": "thinktomorrow/locale",
-            "version": "dev-ft/L56-update",
+            "version": "1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thinktomorrow/locale.git",
-                "reference": "25bf6ebbd6573f7eac80392cacb362a933d48dff"
+                "reference": "0eceaa45867d3288090b543d6a738dcffb2c1180"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thinktomorrow/locale/zipball/25bf6ebbd6573f7eac80392cacb362a933d48dff",
-                "reference": "25bf6ebbd6573f7eac80392cacb362a933d48dff",
+                "url": "https://api.github.com/repos/thinktomorrow/locale/zipball/0eceaa45867d3288090b543d6a738dcffb2c1180",
+                "reference": "0eceaa45867d3288090b543d6a738dcffb2c1180",
                 "shasum": ""
             },
             "require": {
-                "laravel/framework": "~5.6.0",
-                "php": ">=7.1.3"
+                "laravel/framework": "5.*|~5.6.0",
+                "php": "5.*|7.*"
             },
             "require-dev": {
                 "mockery/mockery": "~0.9",
-                "orchestra/testbench": "~3.5",
-                "phpunit/phpunit": "7.*"
+                "orchestra/testbench": "3.*|~3.6",
+                "phpunit/phpunit": "5.*|6.*|7.*"
             },
             "type": "library",
             "extra": {
@@ -2339,7 +2339,7 @@
                 "locale",
                 "thinktomorrow"
             ],
-            "time": "2018-02-09T07:40:22+00:00"
+            "time": "2018-02-09T14:36:04+00:00"
         },
         {
             "name": "tijsverkoyen/css-to-inline-styles",
@@ -4114,9 +4114,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "thinktomorrow/locale": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
