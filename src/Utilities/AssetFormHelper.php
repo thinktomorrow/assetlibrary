@@ -2,10 +2,8 @@
 
 namespace Thinktomorrow\AssetLibrary\Utilities;
 
-
 class AssetFormHelper
 {
-
     /**
      * Generates the hidden field that links the file to a specific type.
      *

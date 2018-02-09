@@ -2,10 +2,10 @@
 
 namespace Thinktomorrow\AssetLibrary\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Traversable;
 use Illuminate\Http\File;
 use Illuminate\Http\UploadedFile;
-use Traversable;
+use Illuminate\Database\Eloquent\Model;
 
 class AssetUploader extends Model
 {
@@ -89,7 +89,7 @@ class AssetUploader extends Model
     {
         $customProps = [];
         if (self::isImage($files)) {
-            $customProps['dimensions'] = getimagesize($files)[0] . ' x ' . getimagesize($files)[1];
+            $customProps['dimensions'] = getimagesize($files)[0].' x '.getimagesize($files)[1];
         }
 
         $fileAdd = $asset->addMedia($files)->withCustomProperties($customProps);
@@ -136,9 +136,9 @@ class AssetUploader extends Model
             $fileAdd->setFileName($filename);
         } else {
             $extension = substr($file, 11, strpos($file, ';') - 11);
-            $filename = pathinfo($file, PATHINFO_BASENAME);
+            $filename  = pathinfo($file, PATHINFO_BASENAME);
             $fileAdd->setName($filename);
-            $fileAdd->setFileName($filename . '.' . $extension);
+            $fileAdd->setFileName($filename.'.'.$extension);
         }
 
         $fileAdd->toMediaCollection();
