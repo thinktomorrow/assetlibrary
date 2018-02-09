@@ -236,7 +236,7 @@ class AssetTest extends TestCase
     {
         $asset = AssetUploader::upload(UploadedFile::fake()->image('image.png', 100, 100));
 
-        $this->assertEquals($asset->getSize(), '130 B');
+        $this->assertEquals($asset->getSize(), '109 B');
     }
 
     /**
