@@ -2,14 +2,14 @@
 
 namespace Thinktomorrow\AssetLibrary\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Collection;
-use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
-use Spatie\MediaLibrary\HasMedia\Interfaces\HasMediaConversions;
 use Spatie\MediaLibrary\Media;
-use Thinktomorrow\AssetLibrary\Exceptions\AssetUploadException;
-use Thinktomorrow\AssetLibrary\Exceptions\ConfigException;
 use Thinktomorrow\Locale\Locale;
+use Illuminate\Support\Collection;
+use Illuminate\Database\Eloquent\Model;
+use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
+use Thinktomorrow\AssetLibrary\Exceptions\ConfigException;
+use Thinktomorrow\AssetLibrary\Exceptions\AssetUploadException;
+use Spatie\MediaLibrary\HasMedia\Interfaces\HasMediaConversions;
 
 /**
  * @property mixed media
@@ -33,8 +33,7 @@ class Asset extends Model implements HasMediaConversions
      */
     public function attachToModel(Model $model, $type = '', $locale = null): Model
     {
-        if($model->assets()->get()->contains($this))
-        {
+        if ($model->assets()->get()->contains($this)) {
             throw AssetUploadException::create();
         }
 
@@ -73,7 +72,7 @@ class Asset extends Model implements HasMediaConversions
         $media = $this->getMedia()->first();
 
         if (config('assetlibrary.conversionPrefix') && $size != '') {
-            $conversionName = $media->name . '_' . $size;
+            $conversionName = $media->name.'_'.$size;
         } else {
             $conversionName = $size;
         }
@@ -165,13 +164,15 @@ class Asset extends Model implements HasMediaConversions
      */
     public function getDimensions($size = null): string
     {
-        if($this->isMediaEmpty()) return '';
+        if ($this->isMediaEmpty()) {
+            return '';
+        }
 
         //TODO Check the other sizes as well
-        if($size === 'cropped')
-        {
+        if ($size === 'cropped') {
             $dimensions = explode(',', $this->getMedia()[0]->manipulations['cropped']['manualCrop']);
-            return $dimensions[0] . ' x' . $dimensions[1];
+
+            return $dimensions[0].' x'.$dimensions[1];
         }
 
         return $this->getMedia()[0]->getCustomProperty('dimensions');
@@ -185,12 +186,16 @@ class Asset extends Model implements HasMediaConversions
     {
         if (is_array($imageIds)) {
             foreach ($imageIds as $id) {
-                if(!$id) continue;
+                if (! $id) {
+                    continue;
+                }
 
                 self::where('id', $id)->first()->delete();
             }
         } else {
-            if(!$imageIds) return;
+            if (! $imageIds) {
+                return;
+            }
 
             self::find($imageIds)->first()->delete();
         }
@@ -215,14 +220,13 @@ class Asset extends Model implements HasMediaConversions
      */
     public function crop($width, $height, $x, $y)
     {
-        if(!config('assetlibrary.allowCropping'))
-        {
+        if (! config('assetlibrary.allowCropping')) {
             throw ConfigException::create();
         }
         $this->media[0]->manipulations = [
             'cropped'   => [
-                'manualCrop' => $width . ', ' . $height . ', ' . $x . ', ' . $y
-            ]
+                'manualCrop' => $width.', '.$height.', '.$x.', '.$y,
+            ],
         ];
 
         $this->media[0]->save();
@@ -256,8 +260,7 @@ class Asset extends Model implements HasMediaConversions
                 ->optimize();
         }
 
-        if(config('assetlibrary.allowCropping'))
-        {
+        if (config('assetlibrary.allowCropping')) {
             $this->addMediaConversion('cropped')
                 ->sharpen(15)
                 ->keepOriginalImageFormat()
@@ -268,6 +271,7 @@ class Asset extends Model implements HasMediaConversions
     public function setOrder($order)
     {
         $this->order = $order;
+
         return $this;
     }
 }
