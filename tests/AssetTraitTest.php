@@ -20,6 +20,8 @@ class AssetTraitTest extends TestCase
             DB::disconnect();
         });
 
+        Artisan::call('medialibrary:clear');
+
         parent::tearDown();
     }
 

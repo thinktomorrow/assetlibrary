@@ -3,6 +3,7 @@
 namespace Thinktomorrow\AssetLibrary\Test;
 
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 use Thinktomorrow\AssetLibrary\Exceptions\AssetUploadException;
 use Thinktomorrow\AssetLibrary\Models\Asset;
@@ -16,6 +17,9 @@ class AssetTest extends TestCase
         $this->beforeApplicationDestroyed(function () {
             DB::disconnect();
         });
+
+        Artisan::call('medialibrary:clear');
+
         parent::tearDown();
     }
 
