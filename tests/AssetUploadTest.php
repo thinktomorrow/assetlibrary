@@ -4,11 +4,25 @@ namespace Thinktomorrow\AssetLibrary\Test;
 
 use Illuminate\Http\File;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\DB;
 use Thinktomorrow\AssetLibrary\Models\Asset;
 use Thinktomorrow\AssetLibrary\Models\AssetUploader;
 
 class AssetUploadTest extends TestCase
 {
+    public function tearDown()
+    {
+        Artisan::call('medialibrary:clear');
+        $this->beforeApplicationDestroyed(function () {
+            DB::disconnect();
+        });
+
+        Artisan::call('medialibrary:clear');
+
+        parent::tearDown();
+    }
+
     /**
      * @test
      *
@@ -23,8 +37,6 @@ class AssetUploadTest extends TestCase
 
         $this->assertFileExists($source->getPath());
 
-        // Cleanup
-        $asset->delete(); // remove uploaded asset
     }
 
     /**

@@ -194,9 +194,7 @@ class Asset extends Model implements HasMediaConversions
                 $media = $asset->media;
 
                 foreach($media as $file){
-                    if(is_file(public_path($file->getUrl())) && is_writable(public_path($file->getUrl()))){
-
-                    }else{
+                    if(!is_file(public_path($file->getUrl())) || !is_writable(public_path($file->getUrl()))){
                         return;
                     }
                 }
@@ -212,9 +210,7 @@ class Asset extends Model implements HasMediaConversions
             $media = $asset->media;
 
             foreach($media as $file){
-                if(is_file(public_path($file->getUrl())) && is_writable(public_path($file->getUrl()))){
-
-                }else{
+                if(!is_file(public_path($file->getUrl())) || !is_writable(public_path($file->getUrl()))){
                     return;
                 }
             }
