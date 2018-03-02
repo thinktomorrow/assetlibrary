@@ -187,10 +187,32 @@ class Asset extends Model implements HasMediaConversions
             foreach ($imageIds as $id) {
                 if(!$id) continue;
 
-                self::where('id', $id)->first()->delete();
+                $asset = self::where('id', $id)->first();
+                $media = $asset->media;
+
+                foreach($media as $file){
+                    if(is_file(public_path($file->getUrl())) && is_writable(public_path($file->getUrl()))){
+
+                    }else{
+                        return;
+                    }
+                }
+
+                $asset->delete();
             }
         } else {
             if(!$imageIds) return;
+
+            $asset = self::find($imageIds)->first();
+            $media = $asset->media;
+
+            foreach($media as $file){
+                if(is_file(public_path($file->getUrl())) && is_writable(public_path($file->getUrl()))){
+
+                }else{
+                    return;
+                }
+            }
 
             self::find($imageIds)->first()->delete();
         }

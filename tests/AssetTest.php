@@ -425,4 +425,27 @@ class AssetTest extends TestCase
         $article->addFile($article->assets()->first());
 
     }
+    
+    /**
+    * @test
+    */
+    public function it_doesnt_remove_the_asset_if_you_dont_have_permissions(){
+        //upload a single image
+        $asset = AssetUploader::upload(UploadedFile::fake()->image('image.png'));
+        $dir = public_path($asset->getFileUrl());
+
+        @chmod($dir, 0444);
+
+        $this->assertFileExists($dir);
+        $this->assertFileIsReadable($dir);
+        $this->assertFileNotIsWritable($dir);
+
+        Asset::remove($asset->id);
+
+        $this->assertEquals(1, Asset::getAllAssets()->count());
+        $this->assertCount(1, $asset->fresh()->media);
+
+        @chmod($dir, 0777);
+        Asset::remove($asset->id);
+    }
 }
