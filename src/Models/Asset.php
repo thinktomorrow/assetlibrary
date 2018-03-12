@@ -9,6 +9,7 @@ use Spatie\MediaLibrary\HasMedia\Interfaces\HasMediaConversions;
 use Spatie\MediaLibrary\Media;
 use Thinktomorrow\AssetLibrary\Exceptions\AssetUploadException;
 use Thinktomorrow\AssetLibrary\Exceptions\ConfigException;
+use Thinktomorrow\AssetLibrary\Exceptions\CorruptMediaException;
 use Thinktomorrow\Locale\Locale;
 
 /**
@@ -49,6 +50,7 @@ class Asset extends Model implements HasMediaConversions
 
     /**
      * @return bool
+     * @throws CorruptMediaException
      */
     public function hasFile(): bool
     {
@@ -58,6 +60,7 @@ class Asset extends Model implements HasMediaConversions
     /**
      * @param string $size
      * @return string
+     * @throws CorruptMediaException
      */
     public function getFilename($size = ''): string
     {
@@ -67,6 +70,7 @@ class Asset extends Model implements HasMediaConversions
     /**
      * @param string $size
      * @return string
+     * @throws CorruptMediaException
      */
     public function getFileUrl($size = ''): string
     {
@@ -78,6 +82,10 @@ class Asset extends Model implements HasMediaConversions
             $conversionName = $size;
         }
 
+        if($media == null){
+            throw CorruptMediaException::corrupt($this->id);
+        }
+
         return $media->getUrl($conversionName);
     }
 
@@ -86,6 +94,7 @@ class Asset extends Model implements HasMediaConversions
      *
      * @param string $type
      * @return string
+     * @throws CorruptMediaException
      */
     public function getImageUrl($type = ''): string
     {
