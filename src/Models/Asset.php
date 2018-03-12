@@ -3,6 +3,7 @@
 namespace Thinktomorrow\AssetLibrary\Models;
 
 use Spatie\MediaLibrary\Media;
+use Thinktomorrow\AssetLibrary\Exceptions\CorruptMediaException;
 use Thinktomorrow\Locale\Locale;
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
@@ -75,6 +76,10 @@ class Asset extends Model implements HasMediaConversions
             $conversionName = $media->name.'_'.$size;
         } else {
             $conversionName = $size;
+        }
+
+        if($media == null){
+            throw CorruptMediaException::corrupt($this->id);
         }
 
         return $media->getUrl($conversionName);
