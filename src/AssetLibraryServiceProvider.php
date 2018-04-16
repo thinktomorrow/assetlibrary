@@ -51,12 +51,4 @@ class AssetLibraryServiceProvider extends ServiceProvider
             ], 'migrations');
         }
     }
-
-    private function getConfig()
-    {
-        if (file_exists(config_path('thinktomorrow/assetlibrary.php'))) {
-            return require config_path('thinktomorrow/assetlibrary.php');
-        }
-        return require __DIR__.'/../config/assetlibrary.php';
-    }
 }
