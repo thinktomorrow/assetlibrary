@@ -1,10 +1,6 @@
 <?php
 
 return [
-    'models' => [
-        'locale' => Thinktomorrow\Locale\Locale::class,
-
-    ],
     'conversionPrefix'  => false,
     'conversions' => [
         'thumb' => [

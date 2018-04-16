@@ -16,43 +16,24 @@ class AssetLibraryServiceProvider extends ServiceProvider
     protected $defer = false;
 
     /**
-     * Perform post-registration booting of services.
-     *
-     * @return void
-     */
-    public function boot()
-    {
-        $this->publishes([
-            __DIR__.'/../config/assetlibrary.php' => config_path('assetlibrary.php'),
-        ], 'config');
-
-        $this->publishMigrations();
-
-        $this->registerModelBindings();
-    }
-
-    /**
      * Register any package services.
      *
      * @return void
      */
     public function register()
     {
+        $this->publishes([
+            __DIR__.'/../config/assetlibrary.php' => config_path('assetlibrary.php'),
+        ], 'config');
+
         $this->mergeConfigFrom(__DIR__.'/../config/assetlibrary.php', 'assetlibrary');
 
-        $this->registerAssetLibrary();
-    }
-
-    protected function registerModelBindings()
-    {
-        //TODO implement this
-    }
-
-    private function registerAssetLibrary()
-    {
         $this->app->singleton('asset', function ($app) {
             return new Asset($app);
         });
+
+        $this->publishMigrations();
+
     }
 
     public function publishMigrations(): void
@@ -69,5 +50,13 @@ class AssetLibraryServiceProvider extends ServiceProvider
                 __DIR__.'/../../../spatie/laravel-medialibrary/database/migrations/create_media_table.php.stub' => database_path('migrations/'.date('Y_m_d_His', time()).'_create_media_table.php'),
             ], 'migrations');
         }
+    }
+
+    private function getConfig()
+    {
+        if (file_exists(config_path('thinktomorrow/assetlibrary.php'))) {
+            return require config_path('thinktomorrow/assetlibrary.php');
+        }
+        return require __DIR__.'/../config/assetlibrary.php';
     }
 }

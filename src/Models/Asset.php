@@ -40,7 +40,7 @@ class Asset extends Model implements HasMediaConversions
 
         $model->assets->where('pivot.type', $type)->where('pivot.locale', $locale);
 
-        $locale = $locale ?? Locale::getDefault();
+        $locale = $locale ?? config('app.locale');
 
         $model->assets()->attach($this, ['type' => $type, 'locale' => $locale, 'order' => $this->order]);
 
