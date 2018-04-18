@@ -186,7 +186,7 @@ class AssetTest extends TestCase
 
         $this->assertEquals($asset->getFilename(), 'image.png');
         $this->assertEquals($asset->getImageUrl(), '/media/1/image.png');
-        $this->assertEquals('/media/1/conversions/thumb.png', $asset->getFileUrl('thumb'));
+        $this->assertEquals('/media/1/conversions/image-thumb.png', $asset->getFileUrl('thumb'));
     }
 
     /**
@@ -321,35 +321,11 @@ class AssetTest extends TestCase
     /**
      * @test
      */
-    public function it_can_prefix_the_conversions_with_the_filename()
-    {
-        $asset = AssetUploader::upload(UploadedFile::fake()->image('image.png'));
-
-        config(['assetlibrary.conversionPrefix' => true]);
-
-        $this->assertEquals('/media/1/conversions/image_thumb.png', $asset->getFileUrl('thumb'));
-    }
-
-    /**
-     * @test
-     */
-    public function it_can_prefix_the_conversions_with_the_filename_and_get_the_orginal()
-    {
-        $asset = AssetUploader::upload(UploadedFile::fake()->image('image.png'));
-
-        config(['assetlibrary.conversionPrefix' => true]);
-
-        $this->assertEquals('/media/1/image.png', $asset->getFileUrl());
-    }
-
-    /**
-     * @test
-     */
     public function it_will_keep_the_extension_after_upload()
     {
         $asset = AssetUploader::upload(UploadedFile::fake()->image('image.jpg', 100, 100));
 
-        $this->assertEquals('/media/1/conversions/thumb.jpg', $asset->getFileUrl('thumb'));
+        $this->assertEquals('/media/1/conversions/image-thumb.jpg', $asset->getFileUrl('thumb'));
     }
 
     /**
@@ -360,7 +336,7 @@ class AssetTest extends TestCase
         config(['assetlibrary.allowCropping' => true]);
         $asset = AssetUploader::upload(UploadedFile::fake()->image('image.jpg', 1000, 1000))->crop(600, 400, 60, 100);
 
-        $this->assertEquals('/media/1/conversions/cropped.jpg', $asset->getFileUrl('cropped'));
+        $this->assertEquals('/media/1/conversions/image-cropped.jpg', $asset->getFileUrl('cropped'));
         $this->assertEquals('600 x 400', $asset->getDimensions('cropped'));
     }
 
@@ -431,7 +407,7 @@ class AssetTest extends TestCase
 
         $article->addFile($article->assets()->first());
     }
-    
+
     /**
     * @test
     */

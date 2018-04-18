@@ -2,7 +2,7 @@
 
 namespace Thinktomorrow\AssetLibrary\Models;
 
-use Spatie\MediaLibrary\Media;
+use Spatie\MediaLibrary\Models\Media;
 use Thinktomorrow\AssetLibrary\Exceptions\CorruptMediaException;
 use Thinktomorrow\Locale\Locale;
 use Illuminate\Support\Collection;
@@ -10,12 +10,12 @@ use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Thinktomorrow\AssetLibrary\Exceptions\ConfigException;
 use Thinktomorrow\AssetLibrary\Exceptions\AssetUploadException;
-use Spatie\MediaLibrary\HasMedia\Interfaces\HasMediaConversions;
+use Spatie\MediaLibrary\HasMedia\HasMedia;
 
 /**
  * @property mixed media
  */
-class Asset extends Model implements HasMediaConversions
+class Asset extends Model implements HasMedia
 {
     use HasMediaTrait;
 
@@ -269,13 +269,7 @@ class Asset extends Model implements HasMediaConversions
         $conversionPrefix   = config('assetlibrary.conversionPrefix');
 
         foreach ($conversions as $key => $value) {
-            if ($conversionPrefix) {
-                $conversionName = $media->name.'_'.$key;
-            } else {
-                $conversionName = $key;
-            }
-
-            $this->addMediaConversion($conversionName)
+            $this->addMediaConversion($key)
                 ->width($value['width'])
                 ->height($value['height'])
                 ->sharpen(15)

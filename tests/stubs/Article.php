@@ -4,7 +4,7 @@ namespace Thinktomorrow\AssetLibrary\Test\stubs;
 
 use Illuminate\Database\Eloquent\Model;
 use Thinktomorrow\AssetLibrary\Traits\AssetTrait;
-use Spatie\MediaLibrary\HasMedia\Interfaces\HasMedia;
+use Spatie\MediaLibrary\HasMedia\HasMedia;
 
 class Article extends Model implements HasMedia
 {
