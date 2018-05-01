@@ -71,6 +71,9 @@ class Asset extends Model implements HasMediaConversions
     public function getFileUrl($size = ''): string
     {
         $media = $this->getMedia()->first();
+        if($media == null){
+            throw CorruptMediaException::corrupt($this->id);
+        }
 
         if (config('assetlibrary.conversionPrefix') && $size != '') {
             $conversionName = $media->name.'_'.$size;
@@ -78,9 +81,6 @@ class Asset extends Model implements HasMediaConversions
             $conversionName = $size;
         }
 
-        if($media == null){
-            throw CorruptMediaException::corrupt($this->id);
-        }
 
         return $media->getUrl($conversionName);
     }
@@ -119,11 +119,17 @@ class Asset extends Model implements HasMediaConversions
     }
 
     /**
-     * @return string|null
+     * @return null|string
+     * @throws CorruptMediaException
      */
     public function getExtensionType(): ?string
     {
-        $extension = explode('.', $this->getMedia()[0]->file_name);
+        $media = $this->getMedia()->first();
+        if($media == null){
+            throw CorruptMediaException::corrupt($this->id);
+        }
+
+        $extension = explode('.', $media->file_name);
         $extension = end($extension);
 
         if (in_array(strtolower($extension), ['xls', 'xlsx', 'numbers', 'sheets'])) {
