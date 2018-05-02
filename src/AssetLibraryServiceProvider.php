@@ -16,43 +16,19 @@ class AssetLibraryServiceProvider extends ServiceProvider
     protected $defer = false;
 
     /**
-     * Perform post-registration booting of services.
-     *
-     * @return void
-     */
-    public function boot()
-    {
-        $this->publishes([
-            __DIR__.'/../config/assetlibrary.php' => config_path('assetlibrary.php'),
-        ], 'config');
-
-        $this->publishMigrations();
-
-        $this->registerModelBindings();
-    }
-
-    /**
      * Register any package services.
      *
      * @return void
      */
     public function register()
     {
+        $this->publishes([
+            __DIR__.'/../config/assetlibrary.php' => config_path('assetlibrary.php'),
+        ], 'config');
+
         $this->mergeConfigFrom(__DIR__.'/../config/assetlibrary.php', 'assetlibrary');
 
-        $this->registerAssetLibrary();
-    }
-
-    protected function registerModelBindings()
-    {
-        //TODO implement this
-    }
-
-    private function registerAssetLibrary()
-    {
-        $this->app->singleton('asset', function ($app) {
-            return new Asset($app);
-        });
+        $this->publishMigrations();
     }
 
     public function publishMigrations(): void

@@ -2,7 +2,7 @@
 
 namespace Thinktomorrow\AssetLibrary\Models;
 
-use Spatie\MediaLibrary\Media;
+use Spatie\MediaLibrary\Models\Media;
 use Thinktomorrow\AssetLibrary\Exceptions\CorruptMediaException;
 use Thinktomorrow\Locale\Locale;
 use Illuminate\Support\Collection;
@@ -10,12 +10,12 @@ use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Thinktomorrow\AssetLibrary\Exceptions\ConfigException;
 use Thinktomorrow\AssetLibrary\Exceptions\AssetUploadException;
-use Spatie\MediaLibrary\HasMedia\Interfaces\HasMediaConversions;
+use Spatie\MediaLibrary\HasMedia\HasMedia;
 
 /**
  * @property mixed media
  */
-class Asset extends Model implements HasMediaConversions
+class Asset extends Model implements HasMedia
 {
     use HasMediaTrait;
 
@@ -40,7 +40,7 @@ class Asset extends Model implements HasMediaConversions
 
         $model->assets->where('pivot.type', $type)->where('pivot.locale', $locale);
 
-        $locale = $locale ?? Locale::getDefault();
+        $locale = $locale ?? config('app.locale');
 
         $model->assets()->attach($this, ['type' => $type, 'locale' => $locale, 'order' => $this->order]);
 
@@ -269,17 +269,13 @@ class Asset extends Model implements HasMediaConversions
      * @param Media|null $media
      * @throws \Spatie\Image\Exceptions\InvalidManipulation
      */
-    public function registerMediaConversions(Media $media = null): void
+    public function registerMediaConversions(Media $media = null)
     {
         $conversions        = config('assetlibrary.conversions');
-        $conversionPrefix   = config('assetlibrary.conversionPrefix');
 
         foreach ($conversions as $key => $value) {
-            if ($conversionPrefix) {
-                $conversionName = $media->name.'_'.$key;
-            } else {
-                $conversionName = $key;
-            }
+
+            $conversionName = $key;
 
             $this->addMediaConversion($conversionName)
                 ->width($value['width'])

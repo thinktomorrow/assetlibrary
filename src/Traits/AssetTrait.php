@@ -198,7 +198,7 @@ trait AssetTrait
      */
     private function normalizeLocaleString($locale = null): string
     {
-        $locale = $locale ?? Locale::getDefault();
+        $locale = $locale ?? config('app.locale');
 
         return $locale;
     }

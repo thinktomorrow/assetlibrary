@@ -59,7 +59,7 @@ class AssetTraitTest extends TestCase
 
         AssetUploader::upload(UploadedFile::fake()->image('image.png'))->attachToModel($article, 'banner');
 
-        $this->assertEquals('/media/1/conversions/thumb.png', $article->getFileUrl('banner', 'thumb'));
+        $this->assertEquals('/media/1/conversions/image-thumb.png', $article->getFileUrl('banner', 'thumb'));
     }
 
     /**
@@ -87,8 +87,8 @@ class AssetTraitTest extends TestCase
         AssetUploader::upload(UploadedFile::fake()->image('image.png'))->attachToModel($article, 'banner', 'nl');
         $article->addFile(UploadedFile::fake()->image('imageFR.png'), 'thumbnail', 'fr');
 
-        $this->assertEquals('/media/1/conversions/large.png', $article->getFileUrl('banner', 'large', 'nl'));
-        $this->assertEquals('/media/2/conversions/thumb.png', $article->getFileUrl('thumbnail', 'thumb', 'fr'));
+        $this->assertEquals('/media/1/conversions/image-large.png', $article->getFileUrl('banner', 'large', 'nl'));
+        $this->assertEquals('/media/2/conversions/imageFR-thumb.png', $article->getFileUrl('thumbnail', 'thumb', 'fr'));
     }
 
     /**
@@ -255,8 +255,8 @@ class AssetTraitTest extends TestCase
 
         $article2->addFile($asset, 'banner');
 
-        $this->assertEquals('/media/1/conversions/thumb.png', $article->getFileUrl('banner', 'thumb'));
-        $this->assertEquals('/media/1/conversions/thumb.png', $article2->getFileUrl('banner', 'thumb'));
+        $this->assertEquals('/media/1/conversions/image-thumb.png', $article->getFileUrl('banner', 'thumb'));
+        $this->assertEquals('/media/1/conversions/image-thumb.png', $article2->getFileUrl('banner', 'thumb'));
     }
 
     /**
