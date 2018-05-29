@@ -3,13 +3,13 @@
 namespace Thinktomorrow\AssetLibrary\Test;
 
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
-use Thinktomorrow\AssetLibrary\Exceptions\CorruptMediaException;
+use Illuminate\Support\Facades\Artisan;
 use Thinktomorrow\AssetLibrary\Models\Asset;
 use Thinktomorrow\AssetLibrary\Test\stubs\Article;
 use Thinktomorrow\AssetLibrary\Models\AssetUploader;
 use Thinktomorrow\AssetLibrary\Exceptions\AssetUploadException;
+use Thinktomorrow\AssetLibrary\Exceptions\CorruptMediaException;
 
 class AssetTest extends TestCase
 {
@@ -431,14 +431,15 @@ class AssetTest extends TestCase
 
         $article->addFile($article->assets()->first());
     }
-    
+
     /**
-    * @test
-    */
-    public function it_doesnt_remove_the_asset_if_you_dont_have_permissions(){
+     * @test
+     */
+    public function it_doesnt_remove_the_asset_if_you_dont_have_permissions()
+    {
         //upload a single image
         $asset = AssetUploader::upload(UploadedFile::fake()->image('image.png'));
-        $dir = public_path($asset->getFileUrl());
+        $dir   = public_path($asset->getFileUrl());
 
         @chmod($dir, 0444);
 
@@ -458,10 +459,10 @@ class AssetTest extends TestCase
     /**
      * @test
      */
-    public function it_throws_an_error_if_no_media_is_attached_to_an_asset(){
-
+    public function it_throws_an_error_if_no_media_is_attached_to_an_asset()
+    {
         $this->expectException(CorruptMediaException::class);
-        $this->expectExceptionMessage("There seems to be something wrong with asset id 1. There is no media attached at this time.");
+        $this->expectExceptionMessage('There seems to be something wrong with asset id 1. There is no media attached at this time.');
 
         //upload a single image
         $asset = AssetUploader::upload(UploadedFile::fake()->image('image.png'));
@@ -470,5 +471,4 @@ class AssetTest extends TestCase
 
         $asset->fresh()->getFileUrl();
     }
-
 }
