@@ -369,6 +369,24 @@ class AssetTraitTest extends TestCase
     /**
      * @test
      */
+    public function it_can_replace_an_asset_with_specific_type()
+    {
+        $article = Article::create();
+
+        $asset      = AssetUploader::upload(UploadedFile::fake()->image('oldImage.png'));
+        $article    = $asset->attachToModel($article, 'custom-type');
+
+        $this->assertCount(1, $article->fresh()->getAllFiles('custom-type'));
+
+        $article->replaceAsset($asset->id, AssetUploader::upload(UploadedFile::fake()->image('newImage.png'))->id);
+
+        $this->assertCount(1, $article->fresh()->getAllFiles('custom-type'));
+        $this->assertEquals('/media/2/newImage.png', $article->getFileUrl('custom-type'));
+    }
+
+    /**
+     * @test
+     */
     public function it_can_upload_a_base64_file()
     {
         $article = Article::create();
