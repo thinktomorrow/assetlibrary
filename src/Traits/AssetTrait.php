@@ -171,11 +171,20 @@ trait AssetTrait
      */
     public function getAllFiles($type = null, $locale = null)
     {
+        $assets = $this->assets;
+
+        // TODO: we should want to avoid checking locale if null is passed, which indicates locale should not be included in query.
         $locale = $this->normalizeLocaleString($locale);
 
-        $files = $this->assets->where('pivot.type', $type)->where('pivot.locale', $locale);
+        if($type) {
+            $assets = $assets->where('pivot.type', $type);
+        }
 
-        return $files->sortBy('pivot.order');
+        if($locale) {
+            $assets = $assets->where('pivot.locale', $locale);
+        }
+
+        return $assets->sortBy('pivot.order');
     }
 
     /**
