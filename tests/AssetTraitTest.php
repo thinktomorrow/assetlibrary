@@ -318,6 +318,23 @@ class AssetTraitTest extends TestCase
     /**
      * @test
      */
+    public function it_can_retrieve_all_files_regardless_of_type()
+    {
+        $images = [UploadedFile::fake()->image('image.png'), UploadedFile::fake()->image('image2.png')];
+
+        $article = Article::create();
+
+        $article->addFile($images[0], 'first-type');
+        $article->addFile($images[1], 'second-type');
+
+        $this->assertCount(2, $article->getAllFiles());
+        $this->assertCount(1, $article->getAllFiles('first-type'));
+        $this->assertCount(1, $article->getAllFiles('second-type'));
+    }
+
+    /**
+     * @test
+     */
     public function it_can_upload_multiple_images_with_the_same_type()
     {
         $original = Article::create();
