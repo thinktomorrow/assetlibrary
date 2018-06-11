@@ -3,7 +3,6 @@
 namespace Thinktomorrow\AssetLibrary\Models;
 
 use Spatie\MediaLibrary\Media;
-use Thinktomorrow\AssetLibrary\Exceptions\CorruptMediaException;
 use Thinktomorrow\Locale\Locale;
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
@@ -11,6 +10,7 @@ use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Thinktomorrow\AssetLibrary\Exceptions\ConfigException;
 use Thinktomorrow\AssetLibrary\Exceptions\AssetUploadException;
 use Spatie\MediaLibrary\HasMedia\Interfaces\HasMediaConversions;
+use Thinktomorrow\AssetLibrary\Exceptions\CorruptMediaException;
 
 /**
  * @property mixed media
@@ -78,7 +78,7 @@ class Asset extends Model implements HasMediaConversions
             $conversionName = $size;
         }
 
-        if($media == null){
+        if ($media == null) {
             throw CorruptMediaException::corrupt($this->id);
         }
 
@@ -198,8 +198,8 @@ class Asset extends Model implements HasMediaConversions
                 $asset = self::where('id', $id)->first();
                 $media = $asset->media;
 
-                foreach($media as $file){
-                    if(!is_file(public_path($file->getUrl())) || !is_writable(public_path($file->getUrl()))){
+                foreach ($media as $file) {
+                    if (! is_file(public_path($file->getUrl())) || ! is_writable(public_path($file->getUrl()))) {
                         return;
                     }
                 }
@@ -214,8 +214,8 @@ class Asset extends Model implements HasMediaConversions
             $asset = self::find($imageIds)->first();
             $media = $asset->media;
 
-            foreach($media as $file){
-                if(!is_file(public_path($file->getUrl())) || !is_writable(public_path($file->getUrl()))){
+            foreach ($media as $file) {
+                if (! is_file(public_path($file->getUrl())) || ! is_writable(public_path($file->getUrl()))) {
                     return;
                 }
             }
