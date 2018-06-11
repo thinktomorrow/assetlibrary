@@ -4,7 +4,6 @@ namespace Thinktomorrow\AssetLibrary;
 
 use Illuminate\Support\ServiceProvider;
 use Thinktomorrow\AssetLibrary\Models\Asset;
-use Illuminate\Database\Eloquent\Factory as EloquentFactory;
 
 class AssetLibraryServiceProvider extends ServiceProvider
 {
@@ -33,7 +32,6 @@ class AssetLibraryServiceProvider extends ServiceProvider
         });
 
         $this->publishMigrations();
-
     }
 
     public function publishMigrations(): void
