@@ -3,7 +3,6 @@
 namespace Thinktomorrow\AssetLibrary\Models;
 
 use Spatie\MediaLibrary\Media;
-use Thinktomorrow\Locale\Locale;
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;

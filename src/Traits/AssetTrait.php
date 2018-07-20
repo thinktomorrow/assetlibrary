@@ -3,7 +3,6 @@
 namespace Thinktomorrow\AssetLibrary\Traits;
 
 use Traversable;
-use Thinktomorrow\Locale\Locale;
 use Thinktomorrow\AssetLibrary\Models\Asset;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Thinktomorrow\AssetLibrary\Models\AssetUploader;
