@@ -252,7 +252,7 @@ class AssetTraitTest extends TestCase
         $article    = Article::create();
         $article2   = Article::create();
         $asset      = AssetUploader::upload(UploadedFile::fake()->image('image.png', 100, 100));
-        
+
         $asset->attachToModel($article, 'banner');
 
         $article2->addFile($asset, 'banner');

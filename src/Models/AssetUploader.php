@@ -95,10 +95,10 @@ class AssetUploader extends Model
         }
 
         $fileAdd = $asset->addMedia($files)
-                        ->sanitizingFileName(function($filename) {
+                        ->sanitizingFileName(function ($filename) {
                             $extension = substr($filename, strrpos($filename, '.') + 1);
                             $filename  = substr($filename, 0, strrpos($filename, '.'));
-                            $filename  = str_slug($filename) . '.' . $extension;
+                            $filename  = str_slug($filename).'.'.$extension;
 
                             return strtolower($filename);
                         })
@@ -111,7 +111,6 @@ class AssetUploader extends Model
         if ($filename) {
             $fileAdd->usingFileName($filename);
         }
-
 
         $fileAdd->toMediaCollection();
 
@@ -151,10 +150,10 @@ class AssetUploader extends Model
             $fileAdd->setFileName($filename.'.'.$extension);
         }
 
-        $fileAdd->sanitizingFileName(function($filename) {
+        $fileAdd->sanitizingFileName(function ($filename) {
             $extension = substr($filename, strrpos($filename, '.') + 1);
             $filename  = substr($filename, 0, strrpos($filename, '.'));
-            $filename  = str_slug($filename) . '.' . $extension;
+            $filename  = str_slug($filename).'.'.$extension;
 
             return strtolower($filename);
         })->toMediaCollection();

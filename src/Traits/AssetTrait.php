@@ -2,7 +2,6 @@
 
 namespace Thinktomorrow\AssetLibrary\Traits;
 
-use Traversable;
 use Thinktomorrow\AssetLibrary\Models\Asset;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Thinktomorrow\AssetLibrary\Models\AssetUploader;
@@ -94,9 +93,9 @@ trait AssetTrait
             if ($asset instanceof Asset) {
                 $asset->attachToModel($this, $type, $locale);
             }
+
             return $asset;
         }
-
     }
 
     /**
@@ -174,12 +173,12 @@ trait AssetTrait
 
         // TODO: we should want to avoid checking locale if null is passed, which indicates locale should not be included in query.
         $locale = $this->normalizeLocaleString($locale);
-        
-        if($type) {
+
+        if ($type) {
             $assets = $assets->where('pivot.type', $type);
         }
-        
-        if($locale) {
+
+        if ($locale) {
             $assets = $assets->where('pivot.locale', $locale);
         }
 
