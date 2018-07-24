@@ -3,8 +3,8 @@
 namespace Thinktomorrow\AssetLibrary\Test\stubs;
 
 use Illuminate\Database\Eloquent\Model;
-use Thinktomorrow\AssetLibrary\Traits\AssetTrait;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
+use Thinktomorrow\AssetLibrary\Traits\AssetTrait;
 
 class Article extends Model implements HasMedia
 {

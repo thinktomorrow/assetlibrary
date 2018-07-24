@@ -2,15 +2,15 @@
 
 namespace Thinktomorrow\AssetLibrary\Models;
 
-use Spatie\MediaLibrary\Models\Media;
-use Thinktomorrow\AssetLibrary\Exceptions\CorruptMediaException;
 use Thinktomorrow\Locale\Locale;
 use Illuminate\Support\Collection;
+use Spatie\MediaLibrary\Models\Media;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Thinktomorrow\AssetLibrary\Exceptions\ConfigException;
 use Thinktomorrow\AssetLibrary\Exceptions\AssetUploadException;
-use Spatie\MediaLibrary\HasMedia\HasMedia;
+use Thinktomorrow\AssetLibrary\Exceptions\CorruptMediaException;
 
 /**
  * @property mixed media
