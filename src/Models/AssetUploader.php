@@ -89,18 +89,29 @@ class AssetUploader extends Model
     {
         $customProps = [];
         if (self::isImage($files)) {
-            $customProps['dimensions'] = getimagesize($files)[0].' x '.getimagesize($files)[1];
+            $imagesize = getimagesize($files);
+
+            $customProps['dimensions'] = $imagesize[0].' x '.$imagesize[1];
         }
 
-        $fileAdd = $asset->addMedia($files)->withCustomProperties($customProps);
+        $fileAdd = $asset->addMedia($files)
+                        ->sanitizingFileName(function($filename) {
+                            $extension = substr($filename, strrpos($filename, '.') + 1);
+                            $filename  = substr($filename, 0, strrpos($filename, '.'));
+                            $filename  = str_slug($filename) . '.' . $extension;
+
+                            return strtolower($filename);
+                        })
+                        ->withCustomProperties($customProps);
+
         if ($keepOriginal) {
             $fileAdd = $fileAdd->preservingOriginal();
         }
 
         if ($filename) {
-            $fileAdd->setName(substr($filename, 0, strpos($filename, '.')));
-            $fileAdd->setFileName($filename);
+            $fileAdd->usingFileName($filename);
         }
+
 
         $fileAdd->toMediaCollection();
 
@@ -132,8 +143,7 @@ class AssetUploader extends Model
         }
 
         if ($filename) {
-            $fileAdd->setName(substr($filename, 0, strpos($filename, '.')));
-            $fileAdd->setFileName($filename);
+            $fileAdd->usingFileName($filename);
         } else {
             $extension = substr($file, 11, strpos($file, ';') - 11);
             $filename  = pathinfo($file, PATHINFO_BASENAME);
@@ -141,7 +151,13 @@ class AssetUploader extends Model
             $fileAdd->setFileName($filename.'.'.$extension);
         }
 
-        $fileAdd->toMediaCollection();
+        $fileAdd->sanitizingFileName(function($filename) {
+            $extension = substr($filename, strrpos($filename, '.') + 1);
+            $filename  = substr($filename, 0, strrpos($filename, '.'));
+            $filename  = str_slug($filename) . '.' . $extension;
+
+            return strtolower($filename);
+        })->toMediaCollection();
 
         return $asset->load('media');
     }

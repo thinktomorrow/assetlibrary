@@ -78,10 +78,10 @@ trait AssetTrait
      * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
      * @throws \Thinktomorrow\AssetLibrary\Exceptions\AssetUploadException
      */
-    public function addFile($file, $type = '', $locale = null, $filename = null, $keepOriginal = false): void
+    public function addFile($file, $type = '', $locale = null, $filename = null, $keepOriginal = false)
     {
-        if ($file instanceof Traversable || is_array($file)) {
-            $this->addFiles($file, $type, $locale, $keepOriginal);
+        if (is_iterable($file)) {
+            return $this->addFiles($file, $type, $locale, $keepOriginal);
         } else {
             $locale = $this->normalizeLocaleString($locale);
 
@@ -94,7 +94,9 @@ trait AssetTrait
             if ($asset instanceof Asset) {
                 $asset->attachToModel($this, $type, $locale);
             }
+            return $asset;
         }
+
     }
 
     /**
@@ -107,20 +109,18 @@ trait AssetTrait
      * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
      * @throws \Thinktomorrow\AssetLibrary\Exceptions\AssetUploadException
      */
-    public function addFiles($files, $type = '', $locale = null, $keepOriginal = false): void
+    public function addFiles($files, $type = '', $locale = null, $keepOriginal = false)
     {
         $files  = (array) $files;
         $locale = $this->normalizeLocaleString($locale);
+        $assets = collect();
 
-        if (is_string(array_values($files)[0])) {
-            foreach ($files as $filename => $file) {
-                $this->addFile($file, $type, $locale, $filename, $keepOriginal);
-            }
-        } else {
-            foreach ($files as $filename => $file) {
-                $this->addFile($file, $type, $locale, $filename, $keepOriginal);
-            }
+        foreach ($files as $filename => $file) {
+            $filename = is_string($filename) ? $filename : '';
+            $assets->push($this->addFile($file, $type, $locale, $filename, $keepOriginal));
         }
+
+        return $assets;
     }
 
     /**
@@ -174,11 +174,11 @@ trait AssetTrait
 
         // TODO: we should want to avoid checking locale if null is passed, which indicates locale should not be included in query.
         $locale = $this->normalizeLocaleString($locale);
-
+        
         if($type) {
             $assets = $assets->where('pivot.type', $type);
         }
-
+        
         if($locale) {
             $assets = $assets->where('pivot.locale', $locale);
         }

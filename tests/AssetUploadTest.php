@@ -40,6 +40,20 @@ class AssetUploadTest extends TestCase
 
     /**
      * @test
+     *
+     * This test currently doesn't fail if we set keepOriginal to false TODO FIX THIS.
+     */
+    public function it_can_sanitize_the_filename()
+    {
+        $source = UploadedFile::fake()->image('testSource (1).png');
+
+        $asset = AssetUploader::upload($source);
+
+        $this->assertEquals('testsource-1.png', $asset->getFilename());
+    }
+
+    /**
+     * @test
      */
     public function it_can_upload_an_array_of_assets()
     {
