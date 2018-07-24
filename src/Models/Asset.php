@@ -72,17 +72,11 @@ class Asset extends Model implements HasMedia
     {
         $media = $this->getMedia()->first();
 
-        if (config('assetlibrary.conversionPrefix') && $size != '') {
-            $conversionName = $media->name.'_'.$size;
-        } else {
-            $conversionName = $size;
-        }
-
-        if($media == null){
+        if ($media == null) {
             throw CorruptMediaException::corrupt($this->id);
         }
 
-        return $media->getUrl($conversionName);
+        return $media->getUrl($size);
     }
 
     /**
@@ -198,8 +192,8 @@ class Asset extends Model implements HasMedia
                 $asset = self::where('id', $id)->first();
                 $media = $asset->media;
 
-                foreach($media as $file){
-                    if(!is_file(public_path($file->getUrl())) || !is_writable(public_path($file->getUrl()))){
+                foreach ($media as $file) {
+                    if (! is_file(public_path($file->getUrl())) || ! is_writable(public_path($file->getUrl()))) {
                         return;
                     }
                 }
@@ -214,8 +208,8 @@ class Asset extends Model implements HasMedia
             $asset = self::find($imageIds)->first();
             $media = $asset->media;
 
-            foreach($media as $file){
-                if(!is_file(public_path($file->getUrl())) || !is_writable(public_path($file->getUrl()))){
+            foreach ($media as $file) {
+                if (! is_file(public_path($file->getUrl())) || ! is_writable(public_path($file->getUrl()))) {
                     return;
                 }
             }
@@ -266,7 +260,6 @@ class Asset extends Model implements HasMedia
     public function registerMediaConversions(Media $media = null): void
     {
         $conversions        = config('assetlibrary.conversions');
-        $conversionPrefix   = config('assetlibrary.conversionPrefix');
 
         foreach ($conversions as $key => $value) {
             $this->addMediaConversion($key)

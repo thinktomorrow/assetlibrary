@@ -3,7 +3,6 @@
 namespace Thinktomorrow\AssetLibrary\Traits;
 
 use Traversable;
-use Thinktomorrow\Locale\Locale;
 use Thinktomorrow\AssetLibrary\Models\Asset;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Thinktomorrow\AssetLibrary\Models\AssetUploader;
@@ -154,12 +153,14 @@ trait AssetTrait
      * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
      * @throws \Thinktomorrow\AssetLibrary\Exceptions\AssetUploadException
      */
-    public function replaceAsset($replace, $with): void
+    public function replaceAsset($replace, $with)
     {
-        $asset = Asset::findOrFail($replace);
-        Asset::remove($replace);
+        $old = $this->assets()->findOrFail($replace);
 
-        $this->addFile(Asset::findOrFail($with), $asset->type, $asset->locale);
+        $this->assets()->detach($old->id);
+        $old->delete();
+
+        $this->addFile(Asset::findOrFail($with), $old->pivot->type, $old->pivot->locale);
     }
 
     /**
@@ -169,11 +170,20 @@ trait AssetTrait
      */
     public function getAllFiles($type = null, $locale = null)
     {
+        $assets = $this->assets;
+
+        // TODO: we should want to avoid checking locale if null is passed, which indicates locale should not be included in query.
         $locale = $this->normalizeLocaleString($locale);
 
-        $files = $this->assets->where('pivot.type', $type)->where('pivot.locale', $locale);
+        if($type) {
+            $assets = $assets->where('pivot.type', $type);
+        }
 
-        return $files->sortBy('pivot.order');
+        if($locale) {
+            $assets = $assets->where('pivot.locale', $locale);
+        }
+
+        return $assets->sortBy('pivot.order');
     }
 
     /**

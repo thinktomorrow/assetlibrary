@@ -251,6 +251,7 @@ class AssetTraitTest extends TestCase
         $article    = Article::create();
         $article2   = Article::create();
         $asset      = AssetUploader::upload(UploadedFile::fake()->image('image.png', 100, 100));
+        
         $asset->attachToModel($article, 'banner');
 
         $article2->addFile($asset, 'banner');
@@ -318,6 +319,23 @@ class AssetTraitTest extends TestCase
     /**
      * @test
      */
+    public function it_can_retrieve_all_files_regardless_of_type()
+    {
+        $images = [UploadedFile::fake()->image('image.png'), UploadedFile::fake()->image('image2.png')];
+
+        $article = Article::create();
+
+        $article->addFile($images[0], 'first-type');
+        $article->addFile($images[1], 'second-type');
+
+        $this->assertCount(2, $article->getAllFiles());
+        $this->assertCount(1, $article->getAllFiles('first-type'));
+        $this->assertCount(1, $article->getAllFiles('second-type'));
+    }
+
+    /**
+     * @test
+     */
     public function it_can_upload_multiple_images_with_the_same_type()
     {
         $original = Article::create();
@@ -364,6 +382,24 @@ class AssetTraitTest extends TestCase
 
         $this->assertCount(1, $article->fresh()->getAllFiles());
         $this->assertEquals('/media/2/newImage.png', $article->getFileUrl());
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_replace_an_asset_with_specific_type()
+    {
+        $article = Article::create();
+
+        $asset      = AssetUploader::upload(UploadedFile::fake()->image('oldImage.png'));
+        $article    = $asset->attachToModel($article, 'custom-type');
+
+        $this->assertCount(1, $article->fresh()->getAllFiles('custom-type'));
+
+        $article->replaceAsset($asset->id, AssetUploader::upload(UploadedFile::fake()->image('newImage.png'))->id);
+
+        $this->assertCount(1, $article->fresh()->getAllFiles('custom-type'));
+        $this->assertEquals('/media/2/newImage.png', $article->getFileUrl('custom-type'));
     }
 
     /**
