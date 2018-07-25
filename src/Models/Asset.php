@@ -185,37 +185,29 @@ class Asset extends Model implements HasMedia
     {
         if (is_array($imageIds)) {
             foreach ($imageIds as $id) {
-                if (! $id) {
-                    continue;
-                }
-
-                $asset = self::where('id', $id)->first();
-                $media = $asset->media;
-
-                foreach ($media as $file) {
-                    if (! is_file(public_path($file->getUrl())) || ! is_writable(public_path($file->getUrl()))) {
-                        return;
-                    }
-                }
-
-                $asset->delete();
+                self::removeFile($id);
             }
         } else {
-            if (! $imageIds) {
-                return;
-            }
-
-            $asset = self::find($imageIds)->first();
-            $media = $asset->media;
-
-            foreach ($media as $file) {
-                if (! is_file(public_path($file->getUrl())) || ! is_writable(public_path($file->getUrl()))) {
-                    return;
-                }
-            }
-
-            self::find($imageIds)->first()->delete();
+            self::removeFile($imageIds);
         }
+    }
+
+    private static function removeFile($id)
+    {
+        if (! $id) {
+            return;
+        }
+
+        $asset = self::find($id)->first();
+
+        $media = $asset->media;
+
+        foreach ($media as $file) {
+            if (! is_file(public_path($file->getUrl())) || ! is_writable(public_path($file->getUrl()))) {
+                return false;
+            }
+        }
+        $asset->delete();
     }
 
     /**
