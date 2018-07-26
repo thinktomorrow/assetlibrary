@@ -25,13 +25,20 @@ tools:
             - vendor
             - tests
 build:
-    tests:
+  nodes:
+    analysis:
+      tests:
         override:
-            -
-                command: 'vendor/bin/phpunit --coverage-clover=build/logs/clover.xml --configuration phpunit.xml'
-                coverage:
-                    file: 'build/logs/clover.xml'
-                    format: 'clover'
+          - php-scrutinizer-run
+
+    tests-and-coverage:
+      tests:
+          override:
+              -
+                  command: 'vendor/bin/phpunit --coverage-clover=build/logs/clover.xml --configuration phpunit.xml'
+                  coverage:
+                      file: 'build/logs/clover.xml'
+                      format: 'clover'
 checks:
     php:
         code_rating: true
