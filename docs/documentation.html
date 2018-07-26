@@ -187,7 +187,76 @@ $asset = AssetUploader::uploadFromBase64('file', 'filename', 'keepOriginal');
 			<section id="retrieving">
 
 				<h2>Retrieving a file</h2>
+
+				<p>
+					Retrieving a file from a model is very simple. There are a few methods on the model available.
+
+				</p>
+				
+				<p>
+					hasFile() returns true if this model has a file for the given type and/or url.
+				</p>
+
+<pre>
+$article->hasFile($type, $locale);
+</pre>
+
+				<p>
+					getFileUrl() returns the url for the type/file/locale.
+				</p>
+
+<pre>
+$article->getFileUrl($type, $size, $locale);
+</pre>
+
+				<p>
+					getAllImages() returns all the assets which are images.
+				</p>
+
+<pre>
+$article->getAllImages();
+</pre>
+
+				<p>
+					getAllFiles() returns all the assets for the type/locale.
+				</p>
+
+<pre>
+$article->getAllFiles($type, $locale);
+</pre>
+
 			</section>
+
+			<section id="replace">
+					<h2>Replacing assets on a model</h2>
+
+					<p>
+						replaceAsset() takes the ids of the assets to replace and to replace with. Note: the replaced asset will be removed.
+					</p>
+		
+<pre>
+$article->replaceAsset($replaceId, $withId);
+</pre>
+			</section>
+
+			<section id="sorting">
+					<h2>Sorting assets on a model</h2>
+
+					<p>
+						sortFiles() takes the type and an array which defines the sorting order. The array should have the order as keys and the ids of the assets as value:
+					</p>
+		
+<pre>
+sorting = [
+	0 => "3"
+	1 => "1"
+	2 => "2"
+];
+
+$article->sortFiles($type, $sorting);
+</pre>
+			</section>
+
 
 			<section id="conversions">
 
