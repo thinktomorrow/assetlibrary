@@ -109,7 +109,7 @@ class AssetUploader extends Model
         }
 
         if ($filename) {
-            $fileAdd->usingFileName($filename);
+            $fileAdd = $fileAdd->usingFileName($filename);
         }
 
         $fileAdd->toMediaCollection();
@@ -131,11 +131,6 @@ class AssetUploader extends Model
      */
     public static function uploadBase64ToAsset($file, $asset, $filename = null, $keepOriginal = false): ?Asset
     {
-        //TODO find a way to save the dimensions for base64 uploads
-//        $customProps = [];
-//        $customProps['dimensions'] = getimagesize($file)[0].' x '.getimagesize($file)[1];
-
-//        $fileAdd    = $asset->addMediaFromBase64($file)->withCustomProperties($customProps);
         $fileAdd = $asset->addMediaFromBase64($file);
         if ($keepOriginal) {
             $fileAdd = $fileAdd->preservingOriginal();
