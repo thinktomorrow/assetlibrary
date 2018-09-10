@@ -23,7 +23,7 @@ trait TestHelpers{
         $asset = Asset::create();
         
         @mkdir(public_path('/media/'.$asset->id));
-        copy(public_path('/media-stubs/'. $filename), public_path('/media/'.$asset->id.'/'.$filename));
+        copy(public_path('/../media-stubs/'. $filename), public_path('/media/'.$asset->id.'/'.$filename));
 
         Media::create([
             'model_type'        => 'Thinktomorrow\AssetLibrary\Models\Asset',
