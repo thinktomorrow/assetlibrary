@@ -163,6 +163,7 @@ class Asset extends Model implements HasMedia
      */
     public function getDimensions($size = null): string
     {
+
         if ($this->isMediaEmpty()) {
             return '';
         }
@@ -190,6 +191,14 @@ class Asset extends Model implements HasMedia
         } else {
             self::removeFile($imageIds);
         }
+    }
+
+    /**
+     * Removes itself.
+     */
+    public function removeSelf()
+    {
+        $this->removeFile($this->id);
     }
 
     private static function removeFile($id)
@@ -251,7 +260,7 @@ class Asset extends Model implements HasMedia
      */
     public function registerMediaConversions(Media $media = null): void
     {
-        $conversions        = config('assetlibrary.conversions');
+        $conversions = config('assetlibrary.conversions');
 
         foreach ($conversions as $key => $value) {
             $this->addMediaConversion($key)

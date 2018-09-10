@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Artisan;
 use Thinktomorrow\AssetLibrary\Models\Asset;
 use Thinktomorrow\AssetLibrary\Test\stubs\Article;
-use Thinktomorrow\AssetLibrary\Models\AssetUploader;
 use Thinktomorrow\AssetLibrary\Exceptions\AssetUploadException;
 use Thinktomorrow\AssetLibrary\Exceptions\CorruptMediaException;
 
@@ -27,47 +26,18 @@ class AssetTest extends TestCase
     /**
      * @test
      */
-    public function it_can_upload_an_image()
-    {
-        //upload a single image
-        $asset = AssetUploader::upload(UploadedFile::fake()->image('image.png'));
-        $this->assertEquals('image.png', $asset->getFilename());
-        $this->assertEquals('/media/1/image.png', $asset->getImageUrl());
-
-        //upload a single image
-        $asset = AssetUploader::upload(UploadedFile::fake()->image('image2.png'));
-
-        $this->assertEquals('image2.png', $asset->getFilename());
-        $this->assertEquals('/media/2/image2.png', $asset->getImageUrl());
-    }
-
-    /**
-     * @test
-     */
-    public function it_returns_null_when_uploading_an_invalid_file()
-    {
-        //upload a single image
-        $asset = AssetUploader::upload(5);
-
-        $this->assertNull($asset);
-    }
-
-    /**
-     * @test
-     */
-    public function it_can_upload_an_image_to_a_model()
+    public function it_can_attach_an_image_to_a_model()
     {
         $original = Article::create();
 
         //upload a single image
-        $article = AssetUploader::upload(UploadedFile::fake()->image('image.png'))->attachToModel($original);
+        $article = $this->getUploadedAsset()->attachToModel($original);
 
         $this->assertEquals('image.png', $article->getFilename());
         $this->assertEquals('/media/1/image.png', $article->getFileUrl());
         $this->assertEquals($original->assets()->first()->getFilename(), $article->getFilename());
-
         //upload a single image
-        $asset = AssetUploader::upload(UploadedFile::fake()->image('image.png'));
+        $asset = $this->getUploadedAsset();
 
         $this->assertEquals('image.png', $asset->getFilename());
         $this->assertEquals('/media/2/image.png', $asset->getImageUrl());
@@ -79,7 +49,7 @@ class AssetTest extends TestCase
     public function it_can_get_all_the_media_files()
     {
         //upload a single image
-        $asset = AssetUploader::upload(UploadedFile::fake()->image('image.png'));
+        $asset = $this->getUploadedAsset();
 
         $this->assertEquals('image.png', $asset->getFilename());
         $this->assertEquals('/media/1/image.png', $asset->getFileUrl());
@@ -87,15 +57,15 @@ class AssetTest extends TestCase
         $article = Article::create();
 
         //upload a single image
-        $article = AssetUploader::upload(UploadedFile::fake()->image('image2.png'))->attachToModel($article, 'banner', 'nl');
+        $article = $this->getUploadedAsset('image.png')->attachToModel($article, 'banner', 'nl');
 
-        $this->assertEquals('image2.png', $article->getFilename('banner', 'nl'));
-        $this->assertEquals('/media/2/image2.png', $article->getFileUrl('banner', '', 'nl'));
+        $this->assertEquals('image.png', $article->getFilename('banner', 'nl'));
+        $this->assertEquals('/media/2/image.png', $article->getFileUrl('banner', '', 'nl'));
 
-        $article->addFile(UploadedFile::fake()->image('image3.png'), 'thumbnail', 'fr');
+        $article = $this->getUploadedAsset('image.png')->attachToModel($article, 'thumbnail', 'fr');
 
-        $this->assertEquals('image3.png', $article->getFilename('thumbnail', 'fr'));
-        $this->assertEquals('/media/3/image3.png', $article->getFileUrl('thumbnail', '', 'fr'));
+        $this->assertEquals('image.png', $article->getFilename('thumbnail', 'fr'));
+        $this->assertEquals('/media/3/image.png', $article->getFileUrl('thumbnail', '', 'fr'));
 
         $this->assertEquals(3, Asset::getAllAssets()->count());
     }
@@ -106,15 +76,15 @@ class AssetTest extends TestCase
     public function it_can_remove_an_image()
     {
         //upload a single image
-        $asset = AssetUploader::upload(UploadedFile::fake()->image('image.png'));
+        $asset = $this->getUploadedAsset();
 
         $this->assertEquals($asset->getFilename(), 'image.png');
         $this->assertEquals($asset->getImageUrl(), '/media/1/image.png');
 
-        $asset2 = AssetUploader::upload(UploadedFile::fake()->image('image2.png'));
+        $asset2 = $this->getUploadedAsset('image.png');
 
-        $this->assertEquals($asset2->getFilename(), 'image2.png');
-        $this->assertEquals($asset2->getImageUrl(), '/media/2/image2.png');
+        $this->assertEquals($asset2->getFilename(), 'image.png');
+        $this->assertEquals($asset2->getImageUrl(), '/media/2/image.png');
 
         Asset::remove($asset->id);
 
@@ -128,7 +98,7 @@ class AssetTest extends TestCase
     public function it_can_handle_invalid_inputs_to_remove_function()
     {
         //upload a single image
-        $asset = AssetUploader::upload(UploadedFile::fake()->image('image.png'));
+        $asset = $this->getUploadedAsset();
 
         $this->assertEquals($asset->getFilename(), 'image.png');
         $this->assertEquals($asset->getImageUrl(), '/media/1/image.png');
@@ -145,15 +115,15 @@ class AssetTest extends TestCase
     public function it_can_remove_multiple_images()
     {
         //upload a single image
-        $asset = AssetUploader::upload(UploadedFile::fake()->image('image.png'));
+        $asset = $this->getUploadedAsset();
 
         $this->assertEquals($asset->getFilename(), 'image.png');
         $this->assertEquals($asset->getImageUrl(), '/media/1/image.png');
 
-        $asset2 = AssetUploader::upload(UploadedFile::fake()->image('image2.png'));
+        $asset2 = $this->getUploadedAsset('image.png');
 
-        $this->assertEquals($asset2->getFilename(), 'image2.png');
-        $this->assertEquals($asset2->getImageUrl(), '/media/2/image2.png');
+        $this->assertEquals($asset2->getFilename(), 'image.png');
+        $this->assertEquals($asset2->getImageUrl(), '/media/2/image.png');
 
         Asset::remove([$asset->id, $asset2->id]);
 
@@ -163,27 +133,10 @@ class AssetTest extends TestCase
     /**
      * @test
      */
-    public function it_can_upload_multiple_images()
-    {
-        //upload multiple images
-        $images = [UploadedFile::fake()->image('image.png'), UploadedFile::fake()->image('image2.png')];
-
-        $asset = AssetUploader::upload($images);
-
-        $this->assertEquals($asset[0]->getFilename(), 'image.png');
-        $this->assertEquals($asset[0]->getImageUrl(), '/media/1/image.png');
-
-        $this->assertEquals($asset[1]->getFilename(), 'image2.png');
-        $this->assertEquals($asset[1]->getImageUrl(), '/media/2/image2.png');
-    }
-
-    /**
-     * @test
-     */
     public function it_can_create_conversions()
     {
-        $asset = AssetUploader::upload(UploadedFile::fake()->image('image.png'));
-
+        $asset = $this->getUploadedAsset();
+        
         $this->assertEquals($asset->getFilename(), 'image.png');
         $this->assertEquals($asset->getImageUrl(), '/media/1/image.png');
         $this->assertEquals('/media/1/conversions/image-thumb.png', $asset->getFileUrl('thumb'));
@@ -194,15 +147,14 @@ class AssetTest extends TestCase
      */
     public function it_can_return_the_url_for_pdf_or_xls()
     {
-        $images = [UploadedFile::fake()->create('foobar.pdf'), UploadedFile::fake()->create('foobar.xls')];
+        $asset = $this->getUploadedAsset('foobar.pdf');
+        $asset1 = $this->getUploadedAsset('foobar.xls');
 
-        $asset = AssetUploader::upload($images);
+        $this->assertEquals($asset->getFilename(), 'foobar.pdf');
+        $this->assertEquals($asset->getFileUrl(), '/media/1/foobar.pdf');
 
-        $this->assertEquals($asset[0]->getFilename(), 'foobar.pdf');
-        $this->assertEquals($asset[0]->getFileUrl(), '/media/1/foobar.pdf');
-
-        $this->assertEquals($asset[1]->getFilename(), 'foobar.xls');
-        $this->assertEquals($asset[1]->getFileUrl(), '/media/2/foobar.xls');
+        $this->assertEquals($asset1->getFilename(), 'foobar.xls');
+        $this->assertEquals($asset1->getFileUrl(), '/media/2/foobar.xls');
     }
 
     /**
@@ -210,18 +162,18 @@ class AssetTest extends TestCase
      */
     public function it_can_get_the_image_url()
     {
-        $files = [UploadedFile::fake()->create('foobar.pdf'), UploadedFile::fake()->create('foobar.xls'), UploadedFile::fake()->image('image.mp4')];
+        $asset = $this->getUploadedAsset('foobar.pdf');
+        $asset1 = $this->getUploadedAsset('foobar.xls');
+        $asset2 = $this->getUploadedAsset('foobar.mp4');
 
-        $asset = AssetUploader::upload($files);
+        $this->assertEquals($asset->getFilename(), 'foobar.pdf');
+        $this->assertEquals(asset('assets/back/img/pdf.png'), $asset->getImageUrl());
 
-        $this->assertEquals($asset[0]->getFilename(), 'foobar.pdf');
-        $this->assertEquals(asset('assets/back/img/pdf.png'), $asset[0]->getImageUrl());
+        $this->assertEquals($asset1->getFilename(), 'foobar.xls');
+        $this->assertEquals(asset('assets/back/img/xls.png'), $asset1->getImageUrl());
 
-        $this->assertEquals($asset[1]->getFilename(), 'foobar.xls');
-        $this->assertEquals(asset('assets/back/img/xls.png'), $asset[1]->getImageUrl());
-
-        $this->assertEquals($asset[2]->getFilename(), 'image.mp4');
-        $this->assertEquals(asset('assets/back/img/other.png'), $asset[2]->getImageUrl());
+        $this->assertEquals($asset2->getFilename(), 'foobar.mp4');
+        $this->assertEquals(asset('assets/back/img/other.png'), $asset2->getImageUrl());
     }
 
     /**
@@ -229,17 +181,19 @@ class AssetTest extends TestCase
      */
     public function it_can_get_its_mimetype()
     {
-        $asset = AssetUploader::upload(UploadedFile::fake()->image('image.png'));
+        $asset = $this->getUploadedAsset();
 
         $this->assertEquals($asset->getMimeType(), 'image/png');
     }
 
     /**
+     * This test fails locally but succeeds in our CI pipeline
+     * 
      * @test
      */
     public function it_can_get_its_size()
     {
-        $asset = AssetUploader::upload(UploadedFile::fake()->image('image.png', 100, 100));
+        $asset = $this->getUploadedAsset();
 
         $this->assertEquals($asset->getSize(), '109 B');
     }
@@ -249,8 +203,8 @@ class AssetTest extends TestCase
      */
     public function it_can_get_its_dimensions()
     {
-        $asset = AssetUploader::upload(UploadedFile::fake()->image('image.png', 100, 100));
-
+        $asset = $this->getUploadedAsset();
+        
         $this->assertEquals($asset->getDimensions(), '100 x 100');
     }
 
@@ -259,7 +213,7 @@ class AssetTest extends TestCase
      */
     public function it_can_check_if_it_has_a_file()
     {
-        $asset = AssetUploader::upload(UploadedFile::fake()->image('image.png', 100, 100));
+        $asset = $this->getUploadedAsset();
 
         $this->assertTrue($asset->hasFile());
     }
@@ -276,30 +230,7 @@ class AssetTest extends TestCase
         $this->assertEquals('', $asset->getDimensions());
     }
 
-    /**
-     * @test
-     */
-    public function it_can_attach_an_asset_instead_of_a_file()
-    {
-        $asset = AssetUploader::upload(UploadedFile::fake()->image('image.png'));
-
-        $asset2 = AssetUploader::upload($asset);
-
-        $this->assertEquals('/media/1/image.png', $asset2->getFileUrl());
-    }
-
-    /**
-     * @test
-     */
-    public function it_can_attach_an_asset_to_multiple_models()
-    {
-        $asset = AssetUploader::upload(UploadedFile::fake()->image('image.png'));
-
-        $asset2 = AssetUploader::upload($asset);
-
-        $this->assertEquals('/media/1/image.png', $asset->getFileUrl());
-        $this->assertEquals('/media/1/image.png', $asset2->getFileUrl());
-    }
+    
 
     /**
      * @test
@@ -307,10 +238,8 @@ class AssetTest extends TestCase
     public function it_can_get_the_extensions_for_filtering()
     {
         //TODO uncomment these when we can supply the mimetype to UploadedFile
-        $asset  =  AssetUploader::upload(UploadedFile::fake()->image('image.png'));
-//        $asset1 =  AssetUploader::upload(UploadedFile::fake()->create('image.pdf'));
-//        $asset2 =  AssetUploader::upload(UploadedFile::fake()->create('image.xls'));
-        $asset3 =  AssetUploader::upload(UploadedFile::fake()->create('image.test'));
+        $asset  =  $this->getUploadedAsset();
+        $asset3 =  $this->getUploadedAsset('image.test');
 
         $this->assertEquals('image', $asset->getExtensionForFilter());
 //        $this->assertEquals('pdf', $asset1->getExtensionForFilter());
@@ -321,22 +250,12 @@ class AssetTest extends TestCase
     /**
      * @test
      */
-    public function it_will_keep_the_extension_after_upload()
-    {
-        $asset = AssetUploader::upload(UploadedFile::fake()->image('image.jpg', 100, 100));
-
-        $this->assertEquals('/media/1/conversions/image-thumb.jpg', $asset->getFileUrl('thumb'));
-    }
-
-    /**
-     * @test
-     */
     public function it_can_crop_an_image()
     {
         config(['assetlibrary.allowCropping' => true]);
-        $asset = AssetUploader::upload(UploadedFile::fake()->image('image.jpg', 1000, 1000))->crop(600, 400, 60, 100);
+        $asset = $this->getUploadedAsset('image.png', 1000, 1000)->crop(600, 400, 60, 100);
 
-        $this->assertEquals('/media/1/conversions/image-cropped.jpg', $asset->getFileUrl('cropped'));
+        $this->assertEquals('/media/1/conversions/image-cropped.png', $asset->getFileUrl('cropped'));
         $this->assertEquals('600 x 400', $asset->getDimensions('cropped'));
     }
 
@@ -347,7 +266,7 @@ class AssetTest extends TestCase
     {
         $this->expectExceptionMessage("The cropping config setting needs to be turned on to crop images. See 'Config\assetlibrary.php' for the 'allowCropping' field.");
         config(['assetlibrary.allowCropping' => false]);
-        $asset = AssetUploader::upload(UploadedFile::fake()->image('image.jpg', 1000, 1000))->crop(600, 400, 60, 100);
+        $asset = $this->getUploadedAsset('image.png', 1000, 1000)->crop(600, 400, 60, 100);
 
         $this->assertEquals('1000 x 1000', $asset->getDimensions('cropped'));
     }
@@ -359,7 +278,7 @@ class AssetTest extends TestCase
     {
         $original = Article::create();
 
-        $asset = AssetUploader::upload(UploadedFile::fake()->image('image.jpg', 1000, 1000));
+        $asset = $this->getUploadedAsset();
 
         $asset->setOrder(6)->attachToModel($original);
 
@@ -373,10 +292,10 @@ class AssetTest extends TestCase
     {
         $original = Article::create();
 
-        $asset1 = AssetUploader::upload(UploadedFile::fake()->image('image.jpg', 1000, 1000));
+        $asset1 = $this->getUploadedAsset();
         $asset1->setOrder(2)->attachToModel($original);
 
-        $asset2 = AssetUploader::upload(UploadedFile::fake()->image('image1.jpg', 1000, 1000));
+        $asset2 = $this->getUploadedAsset('image.png');
         $asset2->setOrder(1)->attachToModel($original);
 
         $this->assertEquals($asset2->id, $original->assets->first()->id);
@@ -402,7 +321,7 @@ class AssetTest extends TestCase
         $original = Article::create();
 
         //upload a single image
-        $asset   = AssetUploader::upload(UploadedFile::fake()->image('image.png'));
+        $asset   = $this->getUploadedAsset();
         $article = $asset->attachToModel($original);
 
         $article->addFile($article->assets()->first());
@@ -414,7 +333,7 @@ class AssetTest extends TestCase
     public function it_doesnt_remove_the_asset_if_you_dont_have_permissions()
     {
         //upload a single image
-        $asset = AssetUploader::upload(UploadedFile::fake()->image('image.png'));
+        $asset = $this->getUploadedAsset();
         $dir   = public_path($asset->getFileUrl());
 
         @chmod($dir, 0444);
@@ -441,10 +360,28 @@ class AssetTest extends TestCase
         $this->expectExceptionMessage('There seems to be something wrong with asset id 1. There is no media attached at this time.');
 
         //upload a single image
-        $asset = AssetUploader::upload(UploadedFile::fake()->image('image.png'));
+        $asset = $this->getUploadedAsset();
 
         $asset->media->first()->delete();
 
         $asset->fresh()->getFileUrl();
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_remove_itself()
+    {
+        //upload a single image
+        $asset = $this->getUploadedAsset();
+
+        $this->assertEquals($asset->getFilename(), 'image.png');
+        $this->assertEquals($asset->getImageUrl(), '/media/1/image.png');
+        $this->assertFileExists(public_path($asset->getImageUrl()));
+
+        $asset->removeSelf();
+
+        $this->assertFileNotExists(public_path($asset->getImageUrl()));
+        $this->assertCount(0, Asset::all());
     }
 }

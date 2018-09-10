@@ -4,6 +4,7 @@ namespace Thinktomorrow\AssetLibrary;
 
 use Illuminate\Support\ServiceProvider;
 use Thinktomorrow\AssetLibrary\Models\Asset;
+use Thinktomorrow\AssetLibrary\Commands\ImageToAssetMigrateCommand;
 
 class AssetLibraryServiceProvider extends ServiceProvider
 {
@@ -15,23 +16,27 @@ class AssetLibraryServiceProvider extends ServiceProvider
     protected $defer = false;
 
     /**
-     * Register any package services.
+     * Bootstrap any application services.
      *
      * @return void
      */
-    public function register()
+    public function boot()
     {
-        $this->publishes([
-            __DIR__.'/../config/assetlibrary.php' => config_path('assetlibrary.php'),
-        ], 'config');
+        if ($this->app->runningInConsole()) {
+            $this->publishes([
+                __DIR__.'/../config/assetlibrary.php' => config_path('assetlibrary.php'),
+            ], 'config');
+    
+            $this->mergeConfigFrom(__DIR__.'/../config/assetlibrary.php', 'assetlibrary');
 
-        $this->mergeConfigFrom(__DIR__.'/../config/assetlibrary.php', 'assetlibrary');
+            $this->publishMigrations();
 
-        $this->app->singleton('asset', function ($app) {
-            return new Asset($app);
-        });
+            $this->app->bind('command.assetlibrary:migrate-image', ImageToAssetMigrateCommand::class);
 
-        $this->publishMigrations();
+            $this->commands([
+                'command.assetlibrary:migrate-image',
+            ]);
+        }
     }
 
     public function publishMigrations(): void

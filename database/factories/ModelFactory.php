@@ -2,6 +2,7 @@
 
 use Faker\Generator as Faker;
 use Thinktomorrow\AssetLibrary\Test\stubs\Article;
+use Thinktomorrow\AssetLibrary\Models\Asset;
 
 /*
 |--------------------------------------------------------------------------

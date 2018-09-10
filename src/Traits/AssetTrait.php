@@ -145,6 +145,16 @@ trait AssetTrait
     }
 
     /**
+     * Removes all assets completely.
+     *
+     * @param $ids
+     */
+    public function deleteAllAssets(): void
+    {
+        $this->assets->each->delete();
+    }
+
+    /**
      * Remove the asset and attaches a new one.
      *
      * @param $replace
@@ -181,7 +191,6 @@ trait AssetTrait
         if ($locale) {
             $assets = $assets->where('pivot.locale', $locale);
         }
-
         return $assets->sortBy('pivot.order');
     }
 

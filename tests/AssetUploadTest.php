@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Artisan;
 use Thinktomorrow\AssetLibrary\Models\Asset;
 use Thinktomorrow\AssetLibrary\Models\AssetUploader;
+use Thinktomorrow\AssetLibrary\Test\stubs\Article;
 
 class AssetUploadTest extends TestCase
 {
@@ -41,14 +42,12 @@ class AssetUploadTest extends TestCase
     /**
      * @test
      *
-     * This test currently doesn't fail if we set keepOriginal to false TODO FIX THIS.
      */
     public function it_can_sanitize_the_filename()
     {
         $source = UploadedFile::fake()->image('testSource (1).png');
 
         $asset = AssetUploader::upload($source);
-
         $this->assertEquals('testsource-1.png', $asset->getFilename());
     }
 
@@ -66,5 +65,102 @@ class AssetUploadTest extends TestCase
         AssetUploader::upload($assets);
 
         $this->assertEquals(3, Asset::getAllAssets()->count());
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_upload_multiple_images_with_the_same_type()
+    {
+        $original = Article::create();
+
+        //upload a single image
+        AssetUploader::upload(UploadedFile::fake()->image('image.png'))->attachToModel($original, 'images');
+
+        //upload a second single image
+        AssetUploader::upload(UploadedFile::fake()->image('image.png'))->attachToModel($original, 'images');
+
+        $this->assertCount(2, $original->fresh()->getAllFiles('images'));
+    }
+
+
+    /**
+     * @test
+     */
+    public function it_can_upload_an_image()
+    {
+        //upload a single image
+        $asset = AssetUploader::upload(UploadedFile::fake()->image('image.png'));
+        $this->assertEquals('image.png', $asset->getFilename());
+        $this->assertEquals('/media/1/image.png', $asset->getImageUrl());
+
+        //upload a single image
+        $asset = AssetUploader::upload(UploadedFile::fake()->image('image2.png'));
+
+        $this->assertEquals('image2.png', $asset->getFilename());
+        $this->assertEquals('/media/2/image2.png', $asset->getImageUrl());
+    }
+
+    /**
+     * @test
+     */
+    public function it_returns_null_when_uploading_an_invalid_file()
+    {
+        //upload a single image
+        $asset = AssetUploader::upload(5);
+
+        $this->assertNull($asset);
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_upload_multiple_images()
+    {
+        //upload multiple images
+        $images = [UploadedFile::fake()->image('image.png'), UploadedFile::fake()->image('image2.png')];
+
+        $asset = AssetUploader::upload($images);
+
+        $this->assertEquals($asset[0]->getFilename(), 'image.png');
+        $this->assertEquals($asset[0]->getImageUrl(), '/media/1/image.png');
+
+        $this->assertEquals($asset[1]->getFilename(), 'image2.png');
+        $this->assertEquals($asset[1]->getImageUrl(), '/media/2/image2.png');
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_attach_an_asset_instead_of_a_file()
+    {
+        $asset = AssetUploader::upload(UploadedFile::fake()->image('image.png'));
+
+        $asset2 = AssetUploader::upload($asset);
+
+        $this->assertEquals('/media/1/image.png', $asset2->getFileUrl());
+    }
+
+    /**
+     * @test
+     */
+    public function it_will_keep_the_extension_after_upload()
+    {
+        $asset = AssetUploader::upload(UploadedFile::fake()->image('image.jpg', 100, 100));
+
+        $this->assertEquals('/media/1/conversions/image-thumb.jpg', $asset->getFileUrl('thumb'));
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_attach_an_asset_to_multiple_models()
+    {
+        $asset = $this->getUploadedAsset();
+
+        $asset2 = AssetUploader::upload($asset);
+
+        $this->assertEquals('/media/1/image.png', $asset->getFileUrl());
+        $this->assertEquals('/media/1/image.png', $asset2->getFileUrl());
     }
 }
