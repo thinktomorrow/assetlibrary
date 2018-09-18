@@ -20,8 +20,9 @@ class Article extends Model implements HasMedia
     {
         Schema::table('test_models', function (Blueprint $table) {
             $table->string('imageurl')->nullable();
+            $table->integer('order')->nullable();
         });
     }
 
-
+    
 }
