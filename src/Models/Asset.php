@@ -277,14 +277,12 @@ class Asset extends Model implements HasMediaConversions
             $this->addMediaConversion($conversionName)
                 ->width($value['width'])
                 ->height($value['height'])
-                ->sharpen(15)
                 ->keepOriginalImageFormat()
                 ->optimize();
         }
 
         if (config('assetlibrary.allowCropping')) {
             $this->addMediaConversion('cropped')
-                ->sharpen(15)
                 ->keepOriginalImageFormat()
                 ->optimize();
         }
