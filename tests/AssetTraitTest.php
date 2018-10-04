@@ -94,13 +94,32 @@ class AssetTraitTest extends TestCase
     /**
      * @test
      */
-    public function it_can_get_the_default_locale_if_the_translation_does_not_exist()
+    public function it_can_get_the_fallback_locale_if_no_locale_is_passed()
     {
-        $article = Article::create();
+        // Fallback locale is used ( set to nl )
+        config()->set('app.locale', 'en');
+        config()->set('app.fallback_locale', 'nl');
 
+        $article = Article::create();
         AssetUploader::upload(UploadedFile::fake()->image('image.png'))->attachToModel($article, 'banner', 'nl');
 
         $this->assertEquals('/media/1/image.png', $article->getFileUrl('banner', '', 'nl'));
+        $this->assertEquals('/media/1/image.png', $article->getFileUrl('banner'));
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_get_the_fallback_locale_if_the_translation_does_not_exist()
+    {
+        config()->set('app.locale', 'xxx');
+        config()->set('app.fallback_locale', 'nl');
+
+        $article = Article::create();
+        AssetUploader::upload(UploadedFile::fake()->image('image.png'))->attachToModel($article, 'banner', 'nl');
+
+        $this->assertEquals('/media/1/image.png', $article->getFileUrl('banner', '', 'nl'));
+
         $this->assertEquals('/media/1/image.png', $article->getFileUrl('banner', '', 'fr'));
     }
 
@@ -138,7 +157,9 @@ class AssetTraitTest extends TestCase
     public function it_can_add_a_file_translation()
     {
         $article = Article::create();
-        config(['app.locale' => 'nl']);
+        config(['app.locale' => 'xxx']);
+        config(['app.fallback_locale' => 'nl']);
+
         $article->addFile(UploadedFile::fake()->image('image.png'), 'banner', 'nl');
         $article->addFile(UploadedFile::fake()->image('imagefr.png'), 'banner', 'fr');
 
@@ -308,7 +329,8 @@ class AssetTraitTest extends TestCase
         $images = [UploadedFile::fake()->image('image.png'), UploadedFile::fake()->image('image2.png')];
 
         $article = Article::create();
-        config(['app.locale' => 'nl']);
+        config(['app.locale' => 'xxx']);
+        config(['app.fallback_locale' => 'nl']);
 
         $article->addFiles($images, '', 'nl');
 
