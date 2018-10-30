@@ -17,7 +17,8 @@ class AssetTraitTest extends TestCase
     {
         parent::setUp();
 
-        config(['app.locale' => 'nl']);
+        config(['app.locale' => 'xxx']);
+        config(['app.fallback_locale' => 'nl']);
     }
 
     public function tearDown()
@@ -125,7 +126,7 @@ class AssetTraitTest extends TestCase
      * @test
      */
     public function it_can_add_a_file_translation()
-    {
+    {        
         $article = $this->getArticleWithAsset('banner', 'nl');
         $article->addFile(UploadedFile::fake()->image('imagefr.png'), 'banner', 'fr');
 
@@ -138,7 +139,7 @@ class AssetTraitTest extends TestCase
      * @test
      */
     public function it_can_add_a_file_translation_for_default_locale()
-    {
+    {        
         $article = $this->getArticleWithAsset('banner');
         $article->addFile(UploadedFile::fake()->image('imagefr.png'), 'banner', 'fr');
 
@@ -430,6 +431,9 @@ class AssetTraitTest extends TestCase
      */
     public function it_can_get_the_files_sorted()
     {
+        config(['app.locale' => 'xxx']);
+        config(['app.fallback_locale' => 'nl']);
+         
         $article = Article::create();
 
         $asset1 = Asset::create();

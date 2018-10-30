@@ -216,8 +216,8 @@ trait AssetTrait
      */
     private function normalizeLocaleString($locale = null): string
     {
-        $locale = $locale ?? config('app.locale');
-
+        $locale = $locale ?? config('app.fallback_locale');
+        
         return $locale;
     }
 }

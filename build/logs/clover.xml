@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1540911247">
-  <project timestamp="1540911247">
+<coverage generated="1540912645">
+  <project timestamp="1540912645">
     <package name="Thinktomorrow\AssetLibrary">
       <file name="/Users/philippedamen/projects/assetlibrary/src/AssetLibraryServiceProvider.php">
         <class name="Thinktomorrow\AssetLibrary\AssetLibraryServiceProvider" namespace="Thinktomorrow\AssetLibrary">
@@ -125,26 +125,26 @@
     <package name="Thinktomorrow\AssetLibrary\Models">
       <file name="/Users/philippedamen/projects/assetlibrary/src/Models/Asset.php">
         <class name="Thinktomorrow\AssetLibrary\Models\Asset" namespace="Thinktomorrow\AssetLibrary\Models">
-          <metrics complexity="43" methods="18" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="83" coveredstatements="4" elements="101" coveredelements="4"/>
+          <metrics complexity="43" methods="18" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="83" coveredstatements="7" elements="101" coveredelements="8"/>
         </class>
-        <line num="35" type="method" name="attachToModel" visibility="public" complexity="2" crap="6.00" count="0"/>
-        <line num="37" type="stmt" count="0"/>
+        <line num="35" type="method" name="attachToModel" visibility="public" complexity="2" crap="2.02" count="1"/>
+        <line num="37" type="stmt" count="1"/>
         <line num="38" type="stmt" count="0"/>
-        <line num="41" type="stmt" count="0"/>
-        <line num="43" type="stmt" count="0"/>
-        <line num="45" type="stmt" count="0"/>
-        <line num="47" type="stmt" count="0"/>
+        <line num="41" type="stmt" count="1"/>
+        <line num="43" type="stmt" count="1"/>
+        <line num="45" type="stmt" count="1"/>
+        <line num="47" type="stmt" count="1"/>
         <line num="53" type="method" name="hasFile" visibility="public" complexity="1" crap="2.00" count="0"/>
         <line num="55" type="stmt" count="0"/>
         <line num="62" type="method" name="getFilename" visibility="public" complexity="1" crap="2.00" count="0"/>
         <line num="64" type="stmt" count="0"/>
-        <line num="71" type="method" name="getFileUrl" visibility="public" complexity="3" crap="3.33" count="1"/>
-        <line num="73" type="stmt" count="1"/>
-        <line num="74" type="stmt" count="1"/>
+        <line num="71" type="method" name="getFileUrl" visibility="public" complexity="3" crap="12.00" count="0"/>
+        <line num="73" type="stmt" count="0"/>
+        <line num="74" type="stmt" count="0"/>
         <line num="75" type="stmt" count="0"/>
-        <line num="78" type="stmt" count="1"/>
+        <line num="78" type="stmt" count="0"/>
         <line num="79" type="stmt" count="0"/>
-        <line num="82" type="stmt" count="1"/>
+        <line num="82" type="stmt" count="0"/>
         <line num="91" type="method" name="getImageUrl" visibility="public" complexity="4" crap="20.00" count="0"/>
         <line num="93" type="stmt" count="0"/>
         <line num="94" type="stmt" count="0"/>
@@ -160,75 +160,75 @@
         <line num="115" type="stmt" count="0"/>
         <line num="122" type="method" name="getExtensionType" visibility="public" complexity="6" crap="42.00" count="0"/>
         <line num="124" type="stmt" count="0"/>
-        <line num="125" type="stmt" count="0"/>
         <line num="126" type="stmt" count="0"/>
-        <line num="129" type="stmt" count="0"/>
+        <line num="127" type="stmt" count="0"/>
         <line num="130" type="stmt" count="0"/>
-        <line num="132" type="stmt" count="0"/>
+        <line num="131" type="stmt" count="0"/>
         <line num="133" type="stmt" count="0"/>
-        <line num="135" type="stmt" count="0"/>
+        <line num="134" type="stmt" count="0"/>
         <line num="136" type="stmt" count="0"/>
-        <line num="138" type="stmt" count="0"/>
+        <line num="137" type="stmt" count="0"/>
         <line num="139" type="stmt" count="0"/>
-        <line num="142" type="stmt" count="0"/>
-        <line num="148" type="method" name="getMimeType" visibility="public" complexity="2" crap="6.00" count="0"/>
-        <line num="150" type="stmt" count="0"/>
-        <line num="156" type="method" name="isMediaEmpty" visibility="public" complexity="1" crap="2.00" count="0"/>
-        <line num="158" type="stmt" count="0"/>
-        <line num="164" type="method" name="getSize" visibility="public" complexity="2" crap="6.00" count="0"/>
-        <line num="166" type="stmt" count="0"/>
-        <line num="173" type="method" name="getDimensions" visibility="public" complexity="3" crap="12.00" count="0"/>
-        <line num="176" type="stmt" count="0"/>
+        <line num="140" type="stmt" count="0"/>
+        <line num="143" type="stmt" count="0"/>
+        <line num="149" type="method" name="getMimeType" visibility="public" complexity="2" crap="6.00" count="0"/>
+        <line num="151" type="stmt" count="0"/>
+        <line num="157" type="method" name="isMediaEmpty" visibility="public" complexity="1" crap="2.00" count="0"/>
+        <line num="159" type="stmt" count="0"/>
+        <line num="165" type="method" name="getSize" visibility="public" complexity="2" crap="6.00" count="0"/>
+        <line num="167" type="stmt" count="0"/>
+        <line num="174" type="method" name="getDimensions" visibility="public" complexity="3" crap="12.00" count="0"/>
         <line num="177" type="stmt" count="0"/>
-        <line num="181" type="stmt" count="0"/>
+        <line num="178" type="stmt" count="0"/>
         <line num="182" type="stmt" count="0"/>
-        <line num="184" type="stmt" count="0"/>
-        <line num="187" type="stmt" count="0"/>
-        <line num="194" type="method" name="remove" visibility="public" complexity="3" crap="12.00" count="0"/>
-        <line num="196" type="stmt" count="0"/>
+        <line num="183" type="stmt" count="0"/>
+        <line num="185" type="stmt" count="0"/>
+        <line num="188" type="stmt" count="0"/>
+        <line num="195" type="method" name="remove" visibility="public" complexity="3" crap="12.00" count="0"/>
         <line num="197" type="stmt" count="0"/>
         <line num="198" type="stmt" count="0"/>
-        <line num="201" type="stmt" count="0"/>
-        <line num="203" type="stmt" count="0"/>
-        <line num="208" type="method" name="removeSelf" visibility="public" complexity="1" crap="2.00" count="0"/>
-        <line num="210" type="stmt" count="0"/>
+        <line num="199" type="stmt" count="0"/>
+        <line num="202" type="stmt" count="0"/>
+        <line num="204" type="stmt" count="0"/>
+        <line num="209" type="method" name="removeSelf" visibility="public" complexity="1" crap="2.00" count="0"/>
         <line num="211" type="stmt" count="0"/>
-        <line num="213" type="method" name="removeFile" visibility="private" complexity="5" crap="30.00" count="0"/>
-        <line num="215" type="stmt" count="0"/>
+        <line num="212" type="stmt" count="0"/>
+        <line num="214" type="method" name="removeFile" visibility="private" complexity="5" crap="30.00" count="0"/>
         <line num="216" type="stmt" count="0"/>
-        <line num="219" type="stmt" count="0"/>
-        <line num="221" type="stmt" count="0"/>
-        <line num="223" type="stmt" count="0"/>
+        <line num="217" type="stmt" count="0"/>
+        <line num="220" type="stmt" count="0"/>
+        <line num="222" type="stmt" count="0"/>
         <line num="224" type="stmt" count="0"/>
         <line num="225" type="stmt" count="0"/>
-        <line num="228" type="stmt" count="0"/>
+        <line num="226" type="stmt" count="0"/>
         <line num="229" type="stmt" count="0"/>
-        <line num="235" type="method" name="getAllAssets" visibility="public" complexity="1" crap="2.00" count="0"/>
-        <line num="237" type="stmt" count="0"/>
-        <line num="248" type="method" name="crop" visibility="public" complexity="2" crap="6.00" count="0"/>
-        <line num="250" type="stmt" count="0"/>
+        <line num="230" type="stmt" count="0"/>
+        <line num="236" type="method" name="getAllAssets" visibility="public" complexity="1" crap="2.00" count="0"/>
+        <line num="238" type="stmt" count="0"/>
+        <line num="249" type="method" name="crop" visibility="public" complexity="2" crap="6.00" count="0"/>
         <line num="251" type="stmt" count="0"/>
-        <line num="253" type="stmt" count="0"/>
-        <line num="255" type="stmt" count="0"/>
-        <line num="259" type="stmt" count="0"/>
-        <line num="261" type="stmt" count="0"/>
-        <line num="270" type="method" name="registerMediaConversions" visibility="public" complexity="3" crap="12.00" count="0"/>
-        <line num="272" type="stmt" count="0"/>
-        <line num="274" type="stmt" count="0"/>
+        <line num="252" type="stmt" count="0"/>
+        <line num="254" type="stmt" count="0"/>
+        <line num="256" type="stmt" count="0"/>
+        <line num="260" type="stmt" count="0"/>
+        <line num="262" type="stmt" count="0"/>
+        <line num="271" type="method" name="registerMediaConversions" visibility="public" complexity="3" crap="12.00" count="0"/>
+        <line num="273" type="stmt" count="0"/>
         <line num="275" type="stmt" count="0"/>
         <line num="276" type="stmt" count="0"/>
         <line num="277" type="stmt" count="0"/>
         <line num="278" type="stmt" count="0"/>
         <line num="279" type="stmt" count="0"/>
-        <line num="282" type="stmt" count="0"/>
+        <line num="280" type="stmt" count="0"/>
         <line num="283" type="stmt" count="0"/>
         <line num="284" type="stmt" count="0"/>
         <line num="285" type="stmt" count="0"/>
-        <line num="287" type="stmt" count="0"/>
-        <line num="289" type="method" name="setOrder" visibility="public" complexity="1" crap="2.00" count="0"/>
-        <line num="291" type="stmt" count="0"/>
-        <line num="293" type="stmt" count="0"/>
-        <metrics loc="295" ncloc="217" classes="1" methods="18" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="83" coveredstatements="4" elements="101" coveredelements="4"/>
+        <line num="286" type="stmt" count="0"/>
+        <line num="288" type="stmt" count="0"/>
+        <line num="290" type="method" name="setOrder" visibility="public" complexity="1" crap="1" count="1"/>
+        <line num="292" type="stmt" count="1"/>
+        <line num="294" type="stmt" count="1"/>
+        <metrics loc="296" ncloc="218" classes="1" methods="18" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="83" coveredstatements="7" elements="101" coveredelements="8"/>
       </file>
       <file name="/Users/philippedamen/projects/assetlibrary/src/Models/AssetUploader.php">
         <class name="Thinktomorrow\AssetLibrary\Models\AssetUploader" namespace="Thinktomorrow\AssetLibrary\Models">
@@ -303,25 +303,25 @@
     <package name="Thinktomorrow\AssetLibrary\Traits">
       <file name="/Users/philippedamen/projects/assetlibrary/src/Traits/AssetTrait.php">
         <class name="AssetTrait" namespace="Thinktomorrow\AssetLibrary\Traits">
-          <metrics complexity="28" methods="13" coveredmethods="4" conditionals="0" coveredconditionals="0" statements="57" coveredstatements="12" elements="70" coveredelements="16"/>
+          <metrics complexity="28" methods="13" coveredmethods="3" conditionals="0" coveredconditionals="0" statements="57" coveredstatements="10" elements="70" coveredelements="13"/>
         </class>
         <line num="16" type="method" name="assets" visibility="public" complexity="1" crap="1" count="1"/>
         <line num="18" type="stmt" count="1"/>
-        <line num="26" type="method" name="hasFile" visibility="public" complexity="2" crap="2" count="1"/>
-        <line num="28" type="stmt" count="1"/>
-        <line num="30" type="stmt" count="1"/>
-        <line num="38" type="method" name="getFilename" visibility="public" complexity="1" crap="1" count="1"/>
-        <line num="40" type="stmt" count="1"/>
-        <line num="49" type="method" name="getFileUrl" visibility="public" complexity="7" crap="8.81" count="1"/>
-        <line num="51" type="stmt" count="1"/>
+        <line num="26" type="method" name="hasFile" visibility="public" complexity="2" crap="6.00" count="0"/>
+        <line num="28" type="stmt" count="0"/>
+        <line num="30" type="stmt" count="0"/>
+        <line num="38" type="method" name="getFilename" visibility="public" complexity="1" crap="2.00" count="0"/>
+        <line num="40" type="stmt" count="0"/>
+        <line num="49" type="method" name="getFileUrl" visibility="public" complexity="7" crap="56.00" count="0"/>
+        <line num="51" type="stmt" count="0"/>
         <line num="52" type="stmt" count="0"/>
-        <line num="55" type="stmt" count="1"/>
-        <line num="57" type="stmt" count="1"/>
-        <line num="59" type="stmt" count="1"/>
+        <line num="55" type="stmt" count="0"/>
+        <line num="57" type="stmt" count="0"/>
+        <line num="59" type="stmt" count="0"/>
         <line num="60" type="stmt" count="0"/>
-        <line num="63" type="stmt" count="1"/>
+        <line num="63" type="stmt" count="0"/>
         <line num="64" type="stmt" count="0"/>
-        <line num="67" type="stmt" count="1"/>
+        <line num="67" type="stmt" count="0"/>
         <line num="81" type="method" name="addFile" visibility="public" complexity="4" crap="20.00" count="0"/>
         <line num="83" type="stmt" count="0"/>
         <line num="84" type="stmt" count="0"/>
@@ -356,14 +356,14 @@
         <line num="171" type="stmt" count="0"/>
         <line num="173" type="stmt" count="0"/>
         <line num="174" type="stmt" count="0"/>
-        <line num="181" type="method" name="getAllFiles" visibility="public" complexity="3" crap="12.00" count="0"/>
-        <line num="183" type="stmt" count="0"/>
-        <line num="185" type="stmt" count="0"/>
-        <line num="187" type="stmt" count="0"/>
-        <line num="188" type="stmt" count="0"/>
-        <line num="191" type="stmt" count="0"/>
-        <line num="192" type="stmt" count="0"/>
-        <line num="194" type="stmt" count="0"/>
+        <line num="181" type="method" name="getAllFiles" visibility="public" complexity="3" crap="3" count="1"/>
+        <line num="183" type="stmt" count="1"/>
+        <line num="185" type="stmt" count="1"/>
+        <line num="187" type="stmt" count="1"/>
+        <line num="188" type="stmt" count="1"/>
+        <line num="191" type="stmt" count="1"/>
+        <line num="192" type="stmt" count="1"/>
+        <line num="194" type="stmt" count="1"/>
         <line num="201" type="method" name="sortFiles" visibility="public" complexity="2" crap="6.00" count="0"/>
         <line num="203" type="stmt" count="0"/>
         <line num="205" type="stmt" count="0"/>
@@ -375,7 +375,7 @@
         <line num="217" type="method" name="normalizeLocaleString" visibility="private" complexity="1" crap="1" count="1"/>
         <line num="219" type="stmt" count="1"/>
         <line num="221" type="stmt" count="1"/>
-        <metrics loc="223" ncloc="149" classes="1" methods="13" coveredmethods="4" conditionals="0" coveredconditionals="0" statements="57" coveredstatements="12" elements="70" coveredelements="16"/>
+        <metrics loc="223" ncloc="149" classes="1" methods="13" coveredmethods="3" conditionals="0" coveredconditionals="0" statements="57" coveredstatements="10" elements="70" coveredelements="13"/>
       </file>
     </package>
     <package name="Thinktomorrow\AssetLibrary\Utilities">
@@ -393,6 +393,6 @@
         <metrics loc="38" ncloc="22" classes="1" methods="2" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="5" coveredstatements="0" elements="7" coveredelements="0"/>
       </file>
     </package>
-    <metrics files="9" loc="1024" ncloc="737" classes="9" methods="51" coveredmethods="6" conditionals="0" coveredconditionals="0" statements="275" coveredstatements="36" elements="326" coveredelements="42"/>
+    <metrics files="9" loc="1025" ncloc="738" classes="9" methods="51" coveredmethods="6" conditionals="0" coveredconditionals="0" statements="275" coveredstatements="37" elements="326" coveredelements="43"/>
   </project>
 </coverage>

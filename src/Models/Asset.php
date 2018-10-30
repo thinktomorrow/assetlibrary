@@ -40,7 +40,7 @@ class Asset extends Model implements HasMedia
 
         $model->assets->where('pivot.type', $type)->where('pivot.locale', $locale);
 
-        $locale = $locale ?? config('app.locale');
+        $locale = $locale ?? config('app.fallback_locale');
 
         $model->assets()->attach($this, ['type' => $type, 'locale' => $locale, 'order' => $this->order]);
 
@@ -71,6 +71,9 @@ class Asset extends Model implements HasMedia
     public function getFileUrl($size = ''): string
     {
         $media = $this->getMedia()->first();
+        if($media == null){
+            throw CorruptMediaException::corrupt($this->id);
+        }
 
         if ($media == null) {
             throw CorruptMediaException::corrupt($this->id);
