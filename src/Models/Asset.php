@@ -81,6 +81,9 @@ class Asset extends Model implements HasMedia
             $conversionName = $size;
         }
 
+        if ($media == null) {
+            throw CorruptMediaException::corrupt($this->id);
+        }
 
         return $media->getUrl($conversionName);
     }
@@ -204,8 +207,8 @@ class Asset extends Model implements HasMedia
                 $asset = self::where('id', $id)->first();
                 $media = $asset->media;
 
-                foreach($media as $file){
-                    if(!is_file(public_path($file->getUrl())) || !is_writable(public_path($file->getUrl()))){
+                foreach ($media as $file) {
+                    if (! is_file(public_path($file->getUrl())) || ! is_writable(public_path($file->getUrl()))) {
                         return;
                     }
                 }
@@ -220,8 +223,8 @@ class Asset extends Model implements HasMedia
             $asset = self::find($imageIds)->first();
             $media = $asset->media;
 
-            foreach($media as $file){
-                if(!is_file(public_path($file->getUrl())) || !is_writable(public_path($file->getUrl()))){
+            foreach ($media as $file) {
+                if (! is_file(public_path($file->getUrl())) || ! is_writable(public_path($file->getUrl()))) {
                     return;
                 }
             }
@@ -280,14 +283,12 @@ class Asset extends Model implements HasMedia
             $this->addMediaConversion($conversionName)
                 ->width($value['width'])
                 ->height($value['height'])
-                ->sharpen(15)
                 ->keepOriginalImageFormat()
                 ->optimize();
         }
 
         if (config('assetlibrary.allowCropping')) {
             $this->addMediaConversion('cropped')
-                ->sharpen(15)
                 ->keepOriginalImageFormat()
                 ->optimize();
         }

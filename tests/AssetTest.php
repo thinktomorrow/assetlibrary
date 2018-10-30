@@ -3,13 +3,13 @@
 namespace Thinktomorrow\AssetLibrary\Test;
 
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
-use Thinktomorrow\AssetLibrary\Exceptions\CorruptMediaException;
+use Illuminate\Support\Facades\Artisan;
 use Thinktomorrow\AssetLibrary\Models\Asset;
 use Thinktomorrow\AssetLibrary\Test\stubs\Article;
 use Thinktomorrow\AssetLibrary\Models\AssetUploader;
 use Thinktomorrow\AssetLibrary\Exceptions\AssetUploadException;
+use Thinktomorrow\AssetLibrary\Exceptions\CorruptMediaException;
 
 class AssetTest extends TestCase
 {
@@ -186,7 +186,7 @@ class AssetTest extends TestCase
 
         $this->assertEquals($asset->getFilename(), 'image.png');
         $this->assertEquals($asset->getImageUrl(), '/media/1/image.png');
-        $this->assertEquals('/media/1/conversions/thumb.png', $asset->getFileUrl('thumb'));
+        $this->assertEquals('/media/1/conversions/image-thumb.png', $asset->getFileUrl('thumb'));
     }
 
     /**
@@ -323,9 +323,9 @@ class AssetTest extends TestCase
      */
     public function it_will_keep_the_extension_after_upload()
     {
-        $asset = AssetUploader::upload(UploadedFile::fake()->image('image.jpg', 100, 100));
+        $asset = AssetUploader::upload(UploadedFile::fake()->image('image.jpeg', 100, 100));
 
-        $this->assertEquals('/media/1/conversions/thumb.jpg', $asset->getFileUrl('thumb'));
+        $this->assertEquals('/media/1/conversions/image-thumb.jpeg', $asset->getFileUrl('thumb'));
     }
 
     /**
@@ -334,9 +334,9 @@ class AssetTest extends TestCase
     public function it_can_crop_an_image()
     {
         config(['assetlibrary.allowCropping' => true]);
-        $asset = AssetUploader::upload(UploadedFile::fake()->image('image.jpg', 1000, 1000))->crop(600, 400, 60, 100);
+        $asset = AssetUploader::upload(UploadedFile::fake()->image('image.jpeg', 1000, 1000))->crop(600, 400, 60, 100);
 
-        $this->assertEquals('/media/1/conversions/cropped.jpg', $asset->getFileUrl('cropped'));
+        $this->assertEquals('/media/1/conversions/image-cropped.jpeg', $asset->getFileUrl('cropped'));
         $this->assertEquals('600 x 400', $asset->getDimensions('cropped'));
     }
 
@@ -347,7 +347,7 @@ class AssetTest extends TestCase
     {
         $this->expectExceptionMessage("The cropping config setting needs to be turned on to crop images. See 'Config\assetlibrary.php' for the 'allowCropping' field.");
         config(['assetlibrary.allowCropping' => false]);
-        $asset = AssetUploader::upload(UploadedFile::fake()->image('image.jpg', 1000, 1000))->crop(600, 400, 60, 100);
+        $asset = AssetUploader::upload(UploadedFile::fake()->image('image.jpeg', 1000, 1000))->crop(600, 400, 60, 100);
 
         $this->assertEquals('1000 x 1000', $asset->getDimensions('cropped'));
     }
@@ -359,7 +359,7 @@ class AssetTest extends TestCase
     {
         $original = Article::create();
 
-        $asset = AssetUploader::upload(UploadedFile::fake()->image('image.jpg', 1000, 1000));
+        $asset = AssetUploader::upload(UploadedFile::fake()->image('image.jpeg', 1000, 1000));
 
         $asset->setOrder(6)->attachToModel($original);
 
@@ -373,10 +373,10 @@ class AssetTest extends TestCase
     {
         $original = Article::create();
 
-        $asset1 = AssetUploader::upload(UploadedFile::fake()->image('image.jpg', 1000, 1000));
+        $asset1 = AssetUploader::upload(UploadedFile::fake()->image('image.jpeg', 1000, 1000));
         $asset1->setOrder(2)->attachToModel($original);
 
-        $asset2 = AssetUploader::upload(UploadedFile::fake()->image('image1.jpg', 1000, 1000));
+        $asset2 = AssetUploader::upload(UploadedFile::fake()->image('image1.jpeg', 1000, 1000));
         $asset2->setOrder(1)->attachToModel($original);
 
         $this->assertEquals($asset2->id, $original->assets->first()->id);
@@ -409,12 +409,13 @@ class AssetTest extends TestCase
     }
 
     /**
-    * @test
-    */
-    public function it_doesnt_remove_the_asset_if_you_dont_have_permissions(){
+     * @test
+     */
+    public function it_doesnt_remove_the_asset_if_you_dont_have_permissions()
+    {
         //upload a single image
         $asset = AssetUploader::upload(UploadedFile::fake()->image('image.png'));
-        $dir = public_path($asset->getFileUrl());
+        $dir   = public_path($asset->getFileUrl());
 
         @chmod($dir, 0444);
 
@@ -434,10 +435,10 @@ class AssetTest extends TestCase
     /**
      * @test
      */
-    public function it_throws_an_error_if_no_media_is_attached_to_an_asset(){
-
+    public function it_throws_an_error_if_no_media_is_attached_to_an_asset()
+    {
         $this->expectException(CorruptMediaException::class);
-        $this->expectExceptionMessage("There seems to be something wrong with asset id 1. There is no media attached at this time.");
+        $this->expectExceptionMessage('There seems to be something wrong with asset id 1. There is no media attached at this time.');
 
         //upload a single image
         $asset = AssetUploader::upload(UploadedFile::fake()->image('image.png'));

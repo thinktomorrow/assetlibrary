@@ -94,13 +94,32 @@ class AssetTraitTest extends TestCase
     /**
      * @test
      */
-    public function it_can_get_the_default_locale_if_the_translation_does_not_exist()
+    public function it_can_get_the_fallback_locale_if_no_locale_is_passed()
     {
-        $article = Article::create();
+        // Fallback locale is used ( set to nl )
+        config()->set('app.locale', 'en');
+        config()->set('app.fallback_locale', 'nl');
 
+        $article = Article::create();
         AssetUploader::upload(UploadedFile::fake()->image('image.png'))->attachToModel($article, 'banner', 'nl');
 
         $this->assertEquals('/media/1/image.png', $article->getFileUrl('banner', '', 'nl'));
+        $this->assertEquals('/media/1/image.png', $article->getFileUrl('banner'));
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_get_the_fallback_locale_if_the_translation_does_not_exist()
+    {
+        config()->set('app.locale', 'xxx');
+        config()->set('app.fallback_locale', 'nl');
+
+        $article = Article::create();
+        AssetUploader::upload(UploadedFile::fake()->image('image.png'))->attachToModel($article, 'banner', 'nl');
+
+        $this->assertEquals('/media/1/image.png', $article->getFileUrl('banner', '', 'nl'));
+
         $this->assertEquals('/media/1/image.png', $article->getFileUrl('banner', '', 'fr'));
     }
 
@@ -138,7 +157,9 @@ class AssetTraitTest extends TestCase
     public function it_can_add_a_file_translation()
     {
         $article = Article::create();
-        config(['app.locale' => 'nl']);
+        config(['app.locale' => 'xxx']);
+        config(['app.fallback_locale' => 'nl']);
+
         $article->addFile(UploadedFile::fake()->image('image.png'), 'banner', 'nl');
         $article->addFile(UploadedFile::fake()->image('imagefr.png'), 'banner', 'fr');
 
@@ -308,11 +329,29 @@ class AssetTraitTest extends TestCase
         $images = [UploadedFile::fake()->image('image.png'), UploadedFile::fake()->image('image2.png')];
 
         $article = Article::create();
-        config(['app.locale' => 'nl']);
+        config(['app.locale' => 'xxx']);
+        config(['app.fallback_locale' => 'nl']);
 
         $article->addFiles($images, '', 'nl');
 
         $this->assertEquals(2, $article->getAllFiles()->count());
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_retrieve_all_files_regardless_of_type()
+    {
+        $images = [UploadedFile::fake()->image('image.png'), UploadedFile::fake()->image('image2.png')];
+
+        $article = Article::create();
+
+        $article->addFile($images[0], 'first-type');
+        $article->addFile($images[1], 'second-type');
+
+        $this->assertCount(2, $article->getAllFiles());
+        $this->assertCount(1, $article->getAllFiles('first-type'));
+        $this->assertCount(1, $article->getAllFiles('second-type'));
     }
 
     /**
@@ -364,6 +403,24 @@ class AssetTraitTest extends TestCase
 
         $this->assertCount(1, $article->fresh()->getAllFiles());
         $this->assertEquals('/media/2/newImage.png', $article->getFileUrl());
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_replace_an_asset_with_specific_type()
+    {
+        $article = Article::create();
+
+        $asset      = AssetUploader::upload(UploadedFile::fake()->image('oldImage.png'));
+        $article    = $asset->attachToModel($article, 'custom-type');
+
+        $this->assertCount(1, $article->fresh()->getAllFiles('custom-type'));
+
+        $article->replaceAsset($asset->id, AssetUploader::upload(UploadedFile::fake()->image('newImage.png'))->id);
+
+        $this->assertCount(1, $article->fresh()->getAllFiles('custom-type'));
+        $this->assertEquals('/media/2/newImage.png', $article->getFileUrl('custom-type'));
     }
 
     /**
