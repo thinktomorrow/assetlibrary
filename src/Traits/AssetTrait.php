@@ -55,7 +55,8 @@ trait AssetTrait
         $locale = $this->normalizeLocaleString($locale);
 
         $assets = $this->assets->where('pivot.type', $type);
-        if ($assets->count() > 1) {
+
+        if ($locale && $assets->count() > 1) {
             $assets = $assets->where('pivot.locale', $locale);
         }
 
@@ -181,7 +182,6 @@ trait AssetTrait
     {
         $assets = $this->assets;
 
-        // TODO: we should want to avoid checking locale if null is passed, which indicates locale should not be included in query.
         $locale = $this->normalizeLocaleString($locale);
 
         if ($type) {

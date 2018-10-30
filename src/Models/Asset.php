@@ -113,11 +113,18 @@ class Asset extends Model implements HasMedia
     }
 
     /**
-     * @return string|null
+     * @return null|string
+     * @throws CorruptMediaException
      */
     public function getExtensionType(): ?string
     {
-        $extension = explode('.', $this->getMedia()[0]->file_name);
+        $media = $this->getMedia()->first();
+        
+        if($media == null){
+            throw CorruptMediaException::corrupt($this->id);
+        }
+
+        $extension = explode('.', $media->file_name);
         $extension = end($extension);
 
         if (in_array(strtolower($extension), ['xls', 'xlsx', 'numbers', 'sheets'])) {
@@ -258,7 +265,7 @@ class Asset extends Model implements HasMedia
      * @param Media|null $media
      * @throws \Spatie\Image\Exceptions\InvalidManipulation
      */
-    public function registerMediaConversions(Media $media = null): void
+    public function registerMediaConversions(Media $media = null)
     {
         $conversions = config('assetlibrary.conversions');
 
@@ -266,14 +273,12 @@ class Asset extends Model implements HasMedia
             $this->addMediaConversion($key)
                 ->width($value['width'])
                 ->height($value['height'])
-                ->sharpen(15)
                 ->keepOriginalImageFormat()
                 ->optimize();
         }
 
         if (config('assetlibrary.allowCropping')) {
             $this->addMediaConversion('cropped')
-                ->sharpen(15)
                 ->keepOriginalImageFormat()
                 ->optimize();
         }

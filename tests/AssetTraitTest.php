@@ -84,11 +84,12 @@ class AssetTraitTest extends TestCase
     /**
      * @test
      */
-    public function it_can_get_the_default_locale_if_the_translation_does_not_exist()
+    public function it_can_get_the_fallback_locale_if_no_locale_is_passed()
     {
         $article = $this->getArticleWithAsset('banner', 'nl');
 
         $this->assertEquals('/media/1/image.png', $article->getFileUrl('banner', '', 'nl'));
+
         $this->assertEquals('/media/1/image.png', $article->getFileUrl('banner', '', 'fr'));
     }
 
@@ -125,8 +126,6 @@ class AssetTraitTest extends TestCase
      */
     public function it_can_add_a_file_translation()
     {
-        
-
         $article = $this->getArticleWithAsset('banner', 'nl');
         $article->addFile(UploadedFile::fake()->image('imagefr.png'), 'banner', 'fr');
 
@@ -341,7 +340,7 @@ class AssetTraitTest extends TestCase
 
         $this->assertCount(1, $assets = $article->fresh()->getAllFiles('custom-type'));
         $article->replaceAsset($assets->first()->id, AssetUploader::upload(UploadedFile::fake()->image('newImage.png'))->id);
-
+        
         $this->assertCount(1, $article->fresh()->getAllFiles('custom-type'));
         $this->assertEquals('/media/2/newimage.png', $article->getFileUrl('custom-type'));
     }

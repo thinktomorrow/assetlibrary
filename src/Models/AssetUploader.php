@@ -122,7 +122,7 @@ class AssetUploader extends Model
 
         $fileAdd = self::prepareOptions($fileAdd, $keepOriginal, $filename);
 
-        $fileAdd->toMediaCollection();
+        $fileAdd->withResponsiveImages()->toMediaCollection();
 
         return $asset->load('media');
     }
