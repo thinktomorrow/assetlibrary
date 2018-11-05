@@ -451,10 +451,10 @@ class AssetTest extends TestCase
     /**
      * @test
      */
-    public function it_throws_an_error_if_no_media_is_attached_to_an_asset_on_extension_filter(){
-
+    public function it_throws_an_error_if_no_media_is_attached_to_an_asset_on_extension_filter()
+    {
         $this->expectException(CorruptMediaException::class);
-        $this->expectExceptionMessage("There seems to be something wrong with asset id 1. There is no media attached at this time.");
+        $this->expectExceptionMessage('There seems to be something wrong with asset id 1. There is no media attached at this time.');
 
         //upload a single image
         $asset = AssetUploader::upload(UploadedFile::fake()->image('image.png'));
