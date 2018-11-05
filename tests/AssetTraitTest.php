@@ -5,9 +5,9 @@ namespace Thinktomorrow\AssetLibrary\Test;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Artisan;
+use Thinktomorrow\AssetLibrary\Models\Asset;
 use Thinktomorrow\AssetLibrary\Test\stubs\Article;
 use Thinktomorrow\AssetLibrary\Models\AssetUploader;
-use Thinktomorrow\AssetLibrary\Models\Asset;
 
 class AssetTraitTest extends TestCase
 {
@@ -126,7 +126,7 @@ class AssetTraitTest extends TestCase
      * @test
      */
     public function it_can_add_a_file_translation()
-    {        
+    {
         $article = $this->getArticleWithAsset('banner', 'nl');
         $article->addFile(UploadedFile::fake()->image('imagefr.png'), 'banner', 'fr');
 
@@ -139,7 +139,7 @@ class AssetTraitTest extends TestCase
      * @test
      */
     public function it_can_add_a_file_translation_for_default_locale()
-    {        
+    {
         $article = $this->getArticleWithAsset('banner');
         $article->addFile(UploadedFile::fake()->image('imagefr.png'), 'banner', 'fr');
 
@@ -341,7 +341,7 @@ class AssetTraitTest extends TestCase
 
         $this->assertCount(1, $assets = $article->fresh()->getAllFiles('custom-type'));
         $article->replaceAsset($assets->first()->id, AssetUploader::upload(UploadedFile::fake()->image('newImage.png'))->id);
-        
+
         $this->assertCount(1, $article->fresh()->getAllFiles('custom-type'));
         $this->assertEquals('/media/2/newimage.png', $article->getFileUrl('custom-type'));
     }
@@ -403,7 +403,7 @@ class AssetTraitTest extends TestCase
 
         $article->addFiles([
             'testImage1.png' => $this->base64Image,
-            'testImage2.png' => $this->base64Image, 
+            'testImage2.png' => $this->base64Image,
         ]);
 
         $this->assertEquals('/media/1/testimage1.png', $article->getFileUrl());
@@ -419,7 +419,7 @@ class AssetTraitTest extends TestCase
 
         $article->addFiles([
             'testImage1.png' => UploadedFile::fake()->image('newImage.png'),
-            'testImage2.png' => UploadedFile::fake()->image('newImage.png')
+            'testImage2.png' => UploadedFile::fake()->image('newImage.png'),
             ]);
 
         $this->assertEquals('/media/1/testimage1.png', $article->getFileUrl());
@@ -433,7 +433,7 @@ class AssetTraitTest extends TestCase
     {
         config(['app.locale' => 'xxx']);
         config(['app.fallback_locale' => 'nl']);
-         
+
         $article = Article::create();
 
         $asset1 = Asset::create();

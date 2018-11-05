@@ -71,7 +71,7 @@ class Asset extends Model implements HasMedia
     public function getFileUrl($size = ''): string
     {
         $media = $this->getMedia()->first();
-        if($media == null){
+        if ($media == null) {
             throw CorruptMediaException::corrupt($this->id);
         }
 
@@ -122,8 +122,8 @@ class Asset extends Model implements HasMedia
     public function getExtensionType(): ?string
     {
         $media = $this->getMedia()->first();
-        
-        if($media == null){
+
+        if ($media == null) {
             throw CorruptMediaException::corrupt($this->id);
         }
 
@@ -173,7 +173,6 @@ class Asset extends Model implements HasMedia
      */
     public function getDimensions($size = null): string
     {
-
         if ($this->isMediaEmpty()) {
             return '';
         }

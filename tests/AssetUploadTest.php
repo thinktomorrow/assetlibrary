@@ -7,8 +7,8 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Artisan;
 use Thinktomorrow\AssetLibrary\Models\Asset;
-use Thinktomorrow\AssetLibrary\Models\AssetUploader;
 use Thinktomorrow\AssetLibrary\Test\stubs\Article;
+use Thinktomorrow\AssetLibrary\Models\AssetUploader;
 
 class AssetUploadTest extends TestCase
 {
@@ -41,7 +41,6 @@ class AssetUploadTest extends TestCase
 
     /**
      * @test
-     *
      */
     public function it_can_sanitize_the_filename()
     {
@@ -82,7 +81,6 @@ class AssetUploadTest extends TestCase
 
         $this->assertCount(2, $original->fresh()->getAllFiles('images'));
     }
-
 
     /**
      * @test

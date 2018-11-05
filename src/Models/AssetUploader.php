@@ -44,7 +44,7 @@ class AssetUploader extends Model
      * asset that is needed to upload the files too.
      *
      * @param $files
-     * @param boolean $keepOriginal
+     * @param bool $keepOriginal
      * @return \Illuminate\Support\Collection
      */
     private static function uploadMultiple($files, $keepOriginal = false)
@@ -127,8 +127,6 @@ class AssetUploader extends Model
         return $asset->load('media');
     }
 
-    
-
     /**
      * Uploads the given file to this instance of asset
      * and sets the dimensions as a custom property.
@@ -145,9 +143,9 @@ class AssetUploader extends Model
     {
         $fileAdd = $asset->addMediaFromBase64($file);
 
-        if(!$filename){
+        if (! $filename) {
             $extension = substr($file, 11, strpos($file, ';') - 11);
-            $filename  = pathinfo($file, PATHINFO_BASENAME) . '.' . $extension;
+            $filename  = pathinfo($file, PATHINFO_BASENAME).'.'.$extension;
         }
 
         $fileAdd = self::prepareOptions($fileAdd, $keepOriginal, $filename);
@@ -179,10 +177,10 @@ class AssetUploader extends Model
         $fileAdd = self::prepareOptions($fileAdd, null, $filename);
 
         $fileAdd->toMediaCollection();
-        
+
         return $asset->load('media');
     }
-    
+
     /**
      * @param $file
      * @return bool
@@ -213,12 +211,13 @@ class AssetUploader extends Model
             $fileAdd->usingName(substr($filename, 0, strpos($filename, '.')));
             $fileAdd->usingFileName($filename);
         }
-        
-        // Sanitize filename by sluggifying the filename without the extension 
-        $fileAdd->sanitizingFileName(function($filename){
+
+        // Sanitize filename by sluggifying the filename without the extension
+        $fileAdd->sanitizingFileName(function ($filename) {
             $extension = substr($filename, strrpos($filename, '.') + 1);
             $filename  = substr($filename, 0, strrpos($filename, '.'));
             $filename  = str_slug($filename).'.'.$extension;
+
             return strtolower($filename);
         });
 

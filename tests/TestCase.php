@@ -7,7 +7,6 @@ use Illuminate\Foundation\Exceptions\Handler;
 use Orchestra\Testbench\TestCase as Orchestra;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Thinktomorrow\AssetLibrary\Test\stubs\Article;
-use Thinktomorrow\AssetLibrary\Test\TestHelpers;
 
 abstract class TestCase extends Orchestra
 {

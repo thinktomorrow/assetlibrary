@@ -191,6 +191,7 @@ trait AssetTrait
         if ($locale) {
             $assets = $assets->where('pivot.locale', $locale);
         }
+
         return $assets->sortBy('pivot.order');
     }
 
@@ -217,7 +218,7 @@ trait AssetTrait
     private function normalizeLocaleString($locale = null): string
     {
         $locale = $locale ?? config('app.fallback_locale');
-        
+
         return $locale;
     }
 }

@@ -3,7 +3,6 @@
 namespace Thinktomorrow\AssetLibrary;
 
 use Illuminate\Support\ServiceProvider;
-use Thinktomorrow\AssetLibrary\Models\Asset;
 use Thinktomorrow\AssetLibrary\Commands\ImageToAssetMigrateCommand;
 
 class AssetLibraryServiceProvider extends ServiceProvider
@@ -26,7 +25,7 @@ class AssetLibraryServiceProvider extends ServiceProvider
             $this->publishes([
                 __DIR__.'/../config/assetlibrary.php' => config_path('assetlibrary.php'),
             ], 'config');
-    
+
             $this->mergeConfigFrom(__DIR__.'/../config/assetlibrary.php', 'assetlibrary');
 
             $this->publishMigrations();
