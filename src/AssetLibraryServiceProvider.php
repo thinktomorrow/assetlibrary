@@ -3,7 +3,6 @@
 namespace Thinktomorrow\AssetLibrary;
 
 use Illuminate\Support\ServiceProvider;
-use Thinktomorrow\AssetLibrary\Models\Asset;
 
 class AssetLibraryServiceProvider extends ServiceProvider
 {
