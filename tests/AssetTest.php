@@ -136,7 +136,7 @@ class AssetTest extends TestCase
     public function it_can_create_conversions()
     {
         $asset = $this->getUploadedAsset();
-        
+
         $this->assertEquals($asset->getFilename(), 'image.png');
         $this->assertEquals($asset->getImageUrl(), '/media/1/image.png');
         $this->assertEquals('/media/1/conversions/image-thumb.png', $asset->getFileUrl('thumb'));
@@ -147,7 +147,7 @@ class AssetTest extends TestCase
      */
     public function it_can_return_the_url_for_pdf_or_xls()
     {
-        $asset = $this->getUploadedAsset('foobar.pdf');
+        $asset  = $this->getUploadedAsset('foobar.pdf');
         $asset1 = $this->getUploadedAsset('foobar.xls');
 
         $this->assertEquals($asset->getFilename(), 'foobar.pdf');
@@ -162,7 +162,7 @@ class AssetTest extends TestCase
      */
     public function it_can_get_the_image_url()
     {
-        $asset = $this->getUploadedAsset('foobar.pdf');
+        $asset  = $this->getUploadedAsset('foobar.pdf');
         $asset1 = $this->getUploadedAsset('foobar.xls');
         $asset2 = $this->getUploadedAsset('foobar.mp4');
 
@@ -187,8 +187,8 @@ class AssetTest extends TestCase
     }
 
     /**
-     * This test fails locally but succeeds in our CI pipeline
-     * 
+     * This test fails locally but succeeds in our CI pipeline.
+     *
      * @test
      */
     public function it_can_get_its_size()
@@ -204,7 +204,7 @@ class AssetTest extends TestCase
     public function it_can_get_its_dimensions()
     {
         $asset = $this->getUploadedAsset();
-        
+
         $this->assertEquals($asset->getDimensions(), '100 x 100');
     }
 
@@ -229,8 +229,6 @@ class AssetTest extends TestCase
         $this->assertEquals('', $asset->getSize());
         $this->assertEquals('', $asset->getDimensions());
     }
-
-    
 
     /**
      * @test
@@ -384,11 +382,11 @@ class AssetTest extends TestCase
         $this->assertFileNotExists(public_path($asset->getImageUrl()));
         $this->assertCount(0, Asset::all());
     }
-    
-    public function it_throws_an_error_if_no_media_is_attached_to_an_asset_on_extension_filter(){
 
+    public function it_throws_an_error_if_no_media_is_attached_to_an_asset_on_extension_filter()
+    {
         $this->expectException(CorruptMediaException::class);
-        $this->expectExceptionMessage("There seems to be something wrong with asset id 1. There is no media attached at this time.");
+        $this->expectExceptionMessage('There seems to be something wrong with asset id 1. There is no media attached at this time.');
 
         //upload a single image
         $asset = AssetUploader::upload(UploadedFile::fake()->image('image.png'));

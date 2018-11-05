@@ -5,13 +5,10 @@ namespace Thinktomorrow\AssetLibrary\Test;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Database\Schema\Blueprint;
 use Thinktomorrow\AssetLibrary\Models\Asset;
 use Thinktomorrow\AssetLibrary\Test\stubs\Article;
-use Thinktomorrow\AssetLibrary\Models\AssetUploader;
-use Thinktomorrow\AssetLibrary\Exceptions\AssetUploadException;
-use Thinktomorrow\AssetLibrary\Exceptions\CorruptMediaException;
 
 class ImageToAssetMigrateCommandTest extends TestCase
 {
@@ -37,10 +34,10 @@ class ImageToAssetMigrateCommandTest extends TestCase
         $this->testArticle->save();
 
         // run the migrate image command
-        Artisan::call('assetlibrary:migrate-image', [ 
+        Artisan::call('assetlibrary:migrate-image', [
                 'table'       => 'test_models',
                 'urlcolumn'   => 'imageurl',
-                'linkedmodel' => 'Thinktomorrow\AssetLibrary\Test\stubs\Article'
+                'linkedmodel' => 'Thinktomorrow\AssetLibrary\Test\stubs\Article',
             ]);
 
         // assert the image exists on both locations
@@ -59,15 +56,15 @@ class ImageToAssetMigrateCommandTest extends TestCase
         $this->testArticle->imageurl = '/uploads/warpaint-logo.svg';
         $this->testArticle->save();
 
-        $article = Article::create();
+        $article           = Article::create();
         $article->imageurl = '/uploads/warpaint-logo.svg';
         $article->save();
 
         // run the migrate image command
-        Artisan::call('assetlibrary:migrate-image', [ 
+        Artisan::call('assetlibrary:migrate-image', [
                 'table'       => 'test_models',
                 'urlcolumn'   => 'imageurl',
-                'linkedmodel' => 'Thinktomorrow\AssetLibrary\Test\stubs\Article'
+                'linkedmodel' => 'Thinktomorrow\AssetLibrary\Test\stubs\Article',
             ]);
 
         // assert the image exists on both locations
@@ -75,8 +72,8 @@ class ImageToAssetMigrateCommandTest extends TestCase
         $this->assertFileExists(public_path($article->fresh()->imageurl));
         $this->assertFileExists(public_path($this->testArticle->getFileUrl()));
         $this->assertFileExists(public_path($article->getFileUrl()));
-        $this->assertequals($article->fresh()->getFileName(), 'warpaint-logo.svg');        
-        $this->assertequals($this->testArticle->fresh()->getFileName(), 'warpaint-logo.svg');        
+        $this->assertequals($article->fresh()->getFileName(), 'warpaint-logo.svg');
+        $this->assertequals($this->testArticle->fresh()->getFileName(), 'warpaint-logo.svg');
     }
 
     /** @test */
@@ -89,20 +86,20 @@ class ImageToAssetMigrateCommandTest extends TestCase
         $this->testArticle->imageurl = 'foobar.svg';
         $this->testArticle->save();
 
-        $article = Article::create();
+        $article           = Article::create();
         $article->imageurl = '/uploads/warpaint-logo.svg';
         $article->save();
 
         // run the migrate image command
-        Artisan::call('assetlibrary:migrate-image', [ 
+        Artisan::call('assetlibrary:migrate-image', [
                 'table'       => 'test_models',
                 'urlcolumn'   => 'imageurl',
-                'linkedmodel' => 'Thinktomorrow\AssetLibrary\Test\stubs\Article'
+                'linkedmodel' => 'Thinktomorrow\AssetLibrary\Test\stubs\Article',
             ]);
         // assert the image exists on both locations
         $this->assertFileExists(public_path($article->fresh()->imageurl));
         $this->assertFileExists(public_path($article->getFileUrl()));
-        $this->assertequals($article->getFileName(), 'warpaint-logo.svg');        
+        $this->assertequals($article->getFileName(), 'warpaint-logo.svg');
     }
 
     /** @test */
@@ -122,17 +119,16 @@ class ImageToAssetMigrateCommandTest extends TestCase
         $this->assertFileExists(public_path($this->testArticle->fresh()->imageurl));
 
         // run the migrate image command
-        Artisan::call('assetlibrary:migrate-image', [ 
+        Artisan::call('assetlibrary:migrate-image', [
                 '--force'     => true,
                 'table'       => 'test_models',
                 'urlcolumn'   => 'imageurl',
-                'linkedmodel' => 'Thinktomorrow\AssetLibrary\Test\stubs\Article'
+                'linkedmodel' => 'Thinktomorrow\AssetLibrary\Test\stubs\Article',
             ]);
         // assert the image exists only on new location
         $this->assertFileNotExists(public_path($this->testArticle->fresh()->imageurl));
         $this->assertFileExists(public_path($this->testArticle->getFileUrl()));
-        $this->assertequals($this->testArticle->getFileName(), 'warpaint-logo-duplicate.svg');        
-        
+        $this->assertequals($this->testArticle->getFileName(), 'warpaint-logo-duplicate.svg');
     }
 
     /** @test */
@@ -150,11 +146,11 @@ class ImageToAssetMigrateCommandTest extends TestCase
         $this->assertCount(1, $this->testArticle->assets);
 
         // run the migrate image command
-        Artisan::call('assetlibrary:migrate-image', [ 
+        Artisan::call('assetlibrary:migrate-image', [
                 '--reset'     => true,
                 'table'       => 'test_models',
                 'urlcolumn'   => 'imageurl',
-                'linkedmodel' => 'Thinktomorrow\AssetLibrary\Test\stubs\Article'
+                'linkedmodel' => 'Thinktomorrow\AssetLibrary\Test\stubs\Article',
             ]);
         // assert the orginal asset was removed
         $this->assertCount(1, $this->testArticle->assets);
@@ -172,17 +168,16 @@ class ImageToAssetMigrateCommandTest extends TestCase
 
         // fill db with an entry
         $this->testArticle->imageurl = '/uploads/warpaint-logo.svg';
-        $this->testArticle->order = 7;
+        $this->testArticle->order    = 7;
         $this->testArticle->save();
 
         // run the migrate image command
-        Artisan::call('assetlibrary:migrate-image', [ 
+        Artisan::call('assetlibrary:migrate-image', [
                 'table'       => 'test_models',
                 'urlcolumn'   => 'imageurl',
                 'ordercolumn' => 'order',
-                'linkedmodel' => 'Thinktomorrow\AssetLibrary\Test\stubs\Article'
+                'linkedmodel' => 'Thinktomorrow\AssetLibrary\Test\stubs\Article',
             ]);
-
 
         $article = Article::first();
         // assert order is set on the asset
@@ -204,10 +199,10 @@ class ImageToAssetMigrateCommandTest extends TestCase
         $this->testArticle->save();
 
         // run the migrate image command
-        Artisan::call('assetlibrary:migrate-image', [ 
+        Artisan::call('assetlibrary:migrate-image', [
                 'table'       => 'test_models',
                 'urlcolumn'   => 'imageurl',
-                'linkedmodel' => 'Thinktomorrow\AssetLibrary\Test\stubs\Article'
+                'linkedmodel' => 'Thinktomorrow\AssetLibrary\Test\stubs\Article',
             ]);
 
         $article = Article::first();
@@ -226,21 +221,21 @@ class ImageToAssetMigrateCommandTest extends TestCase
         $this->testArticle->save();
 
         Schema::create('test_media', function (Blueprint $table) {
-        $table->string('imagepath')->nullable();
-        $table->integer('productid')->nullable();
-    });
+            $table->string('imagepath')->nullable();
+            $table->integer('productid')->nullable();
+        });
 
-    DB::table('test_media')->insert([
+        DB::table('test_media')->insert([
         ['productid' => $this->testArticle->id, 'imagepath' => '/uploads/warpaint-logo.svg'],
         ['productid' => 52, 'imagepath' => '/uploads/warpaint-logo.svg'],
     ]);
 
         // run the migrate image command
-        Artisan::call('assetlibrary:migrate-image', [ 
+        Artisan::call('assetlibrary:migrate-image', [
                 'table'       => 'test_media',
                 'urlcolumn'   => 'imagepath',
                 'linkedmodel' => 'Thinktomorrow\AssetLibrary\Test\stubs\Article',
-                'idcolumn'    => 'productid'
+                'idcolumn'    => 'productid',
             ]);
 
         $article = Article::first();
@@ -249,7 +244,7 @@ class ImageToAssetMigrateCommandTest extends TestCase
         $this->assertFileExists(public_path($article->imageurl));
         $this->assertFileExists(public_path($article->getFileUrl()));
     }
-    
+
     /** @test */
     public function it_can_migrate_multiple_images_for_the_same_model()
     {
@@ -260,8 +255,8 @@ class ImageToAssetMigrateCommandTest extends TestCase
         $this->testArticle->save();
 
         Schema::create('test_media', function (Blueprint $table) {
-           $table->string('imagepath')->nullable();
-           $table->integer('productid')->nullable();
+            $table->string('imagepath')->nullable();
+            $table->integer('productid')->nullable();
         });
 
         DB::table('test_media')->insert([
@@ -270,17 +265,17 @@ class ImageToAssetMigrateCommandTest extends TestCase
         ]);
 
         // run the migrate image command
-        Artisan::call('assetlibrary:migrate-image', [ 
+        Artisan::call('assetlibrary:migrate-image', [
                 'table'       => 'test_media',
                 'urlcolumn'   => 'imagepath',
                 'linkedmodel' => 'Thinktomorrow\AssetLibrary\Test\stubs\Article',
-                'idcolumn'    => 'productid'
+                'idcolumn'    => 'productid',
             ]);
 
         $article = Article::first();
 
         $this->assertCount(2, $article->assets);
-        
+
         // assert the image exists on both locations
         $this->assertFileExists(public_path($article->imageurl));
         $this->assertFileExists(public_path($article->getFileUrl()));
@@ -297,11 +292,11 @@ class ImageToAssetMigrateCommandTest extends TestCase
         $this->testArticle->save();
 
         // run the migrate image command
-        Artisan::call('assetlibrary:migrate-image', [ 
+        Artisan::call('assetlibrary:migrate-image', [
                 '--dry'       => true,
                 'table'       => 'test_models',
                 'urlcolumn'   => 'imageurl',
-                'linkedmodel' => 'Thinktomorrow\AssetLibrary\Test\stubs\Article'
+                'linkedmodel' => 'Thinktomorrow\AssetLibrary\Test\stubs\Article',
             ]);
 
         $article = Article::first();

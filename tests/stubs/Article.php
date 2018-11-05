@@ -2,11 +2,11 @@
 
 namespace Thinktomorrow\AssetLibrary\Test\stubs;
 
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Schema\Blueprint;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Thinktomorrow\AssetLibrary\Traits\AssetTrait;
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 
 class Article extends Model implements HasMedia
 {
@@ -23,6 +23,4 @@ class Article extends Model implements HasMedia
             $table->integer('order')->nullable();
         });
     }
-
-    
 }
