@@ -6,15 +6,14 @@ use Illuminate\Filesystem\Filesystem;
 
 trait DatabaseTransactions
 {
-    protected $connectionsToTransact = ['testing'];
+    protected $connectionsToTransact    = ['testing'];
     protected static $migrationsHaveRun = false;
 
     protected $testDatabasePath = __DIR__.'/../database/testing.sqlite';
 
     protected function setUpDatabase()
     {
-        if(!file_exists($this->testDatabasePath))
-        {
+        if (! file_exists($this->testDatabasePath)) {
             touch($this->testDatabasePath);
         }
 
@@ -89,10 +88,10 @@ trait DatabaseTransactions
      */
     private function guessClassNameFromFile($file)
     {
-        $fp = fopen($file, 'r');
+        $fp    = fopen($file, 'r');
         $class = $namespace = $buffer = '';
-        $i = 0;
-        while (!$class) {
+        $i     = 0;
+        while (! $class) {
             if (feof($fp)) {
                 break;
             }
@@ -104,9 +103,9 @@ trait DatabaseTransactions
                 continue;
             }
 
-            for (;$i<count($tokens);$i++) {
+            for (; $i < count($tokens); $i++) {
                 if ($tokens[$i][0] === T_NAMESPACE) {
-                    for ($j=$i+1;$j<count($tokens); $j++) {
+                    for ($j=$i + 1; $j < count($tokens); $j++) {
                         if ($tokens[$j][0] === T_STRING) {
                             $namespace .= '\\'.$tokens[$j][1];
                         } elseif ($tokens[$j] === '{' || $tokens[$j] === ';') {
@@ -116,9 +115,9 @@ trait DatabaseTransactions
                 }
 
                 if ($tokens[$i][0] === T_CLASS) {
-                    for ($j=$i+1;$j<count($tokens);$j++) {
+                    for ($j=$i + 1; $j < count($tokens); $j++) {
                         if ($tokens[$j] === '{') {
-                            $class = $tokens[$i+2][1];
+                            $class = $tokens[$i + 2][1];
                             break;
                         }
                     }
@@ -127,6 +126,7 @@ trait DatabaseTransactions
         }
 
         fclose($fp);
+
         return $class;
     }
 }

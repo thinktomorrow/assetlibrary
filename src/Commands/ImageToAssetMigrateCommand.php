@@ -32,7 +32,7 @@ class ImageToAssetMigrateCommand extends Command
 
     /**
      * Execute the console command.
-     * 
+     *
      * @return mixed
      */
     public function handle()
@@ -110,6 +110,7 @@ class ImageToAssetMigrateCommand extends Command
         } else {
             $results = DB::table($this->table)->select($this->urlcolumn, $this->idcolumn)->orderBy($this->idcolumn)->get();
         }
+
         return $results;
     }
 

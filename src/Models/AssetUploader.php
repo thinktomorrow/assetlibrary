@@ -5,10 +5,10 @@ namespace Thinktomorrow\AssetLibrary\Models;
 use Traversable;
 use Illuminate\Http\File;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\FileAdder\FileAdder;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded;
-use Illuminate\Support\Collection;
 
 class AssetUploader extends Model
 {
@@ -33,7 +33,7 @@ class AssetUploader extends Model
         }
 
         if (! ($files instanceof UploadedFile)) {
-            return null;
+            return;
         }
 
         $asset = Asset::create();
@@ -184,7 +184,7 @@ class AssetUploader extends Model
      */
     private static function isImage($file): bool
     {
-        return str_before($file->getMimetype()??'', '/') === 'image';
+        return str_before($file->getMimetype() ?? '', '/') === 'image';
     }
 
     /**

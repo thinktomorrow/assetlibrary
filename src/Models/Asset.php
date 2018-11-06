@@ -6,7 +6,6 @@ use Thinktomorrow\Locale\Locale;
 use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\Models\Media;
 use Illuminate\Database\Eloquent\Model;
-use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Thinktomorrow\AssetLibrary\Interfaces\HasAsset;
 use Thinktomorrow\AssetLibrary\Exceptions\ConfigException;
@@ -127,8 +126,7 @@ class Asset extends Model implements HasAsset
         $extension = explode('.', $media->file_name);
         $extension = end($extension);
 
-        if($extension)
-        {
+        if ($extension) {
             if (in_array(strtolower($extension), ['xls', 'xlsx', 'numbers', 'sheets'])) {
                 return 'xls';
             }
