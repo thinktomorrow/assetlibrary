@@ -5,9 +5,6 @@ namespace Thinktomorrow\AssetLibrary\Tests;
 use Illuminate\Foundation\Exceptions\Handler;
 use Orchestra\Testbench\TestCase as Orchestra;
 use Illuminate\Contracts\Debug\ExceptionHandler;
-use Thinktomorrow\AssetLibrary\Tests\TestHelpers;
-use Thinktomorrow\AssetLibrary\Tests\stubs\Article;
-use Thinktomorrow\AssetLibrary\Tests\DatabaseTransactions;
 
 abstract class TestCase extends Orchestra
 {
