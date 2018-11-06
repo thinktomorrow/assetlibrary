@@ -1,12 +1,13 @@
 <?php
 
-namespace Thinktomorrow\AssetLibrary\Test;
+namespace Thinktomorrow\AssetLibrary\Tests\unit;
 
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Artisan;
 use Thinktomorrow\AssetLibrary\Models\Asset;
-use Thinktomorrow\AssetLibrary\Test\stubs\Article;
+use Thinktomorrow\AssetLibrary\Tests\TestCase;
+use Thinktomorrow\AssetLibrary\Tests\stubs\Article;
 use Thinktomorrow\AssetLibrary\Models\AssetUploader;
 
 class AssetTraitTest extends TestCase
@@ -16,6 +17,9 @@ class AssetTraitTest extends TestCase
     public function setUp()
     {
         parent::setUp();
+
+        $this->setUpDatabase();
+        Article::migrate();
 
         config(['app.locale' => 'xxx']);
         config(['app.fallback_locale' => 'nl']);
@@ -310,11 +314,11 @@ class AssetTraitTest extends TestCase
     {
         $article = $this->getArticleWithAsset();
 
-        $this->assertCount(1, $article->fresh()->getAllFiles());
+        $this->assertCount(1, $article->getAllFiles());
 
         $article->deleteAsset($article->assets->first()->id);
 
-        $this->assertCount(0, $article->fresh()->getAllFiles());
+        $this->assertCount(0, Article::first()->getAllFiles());
     }
 
     /**
@@ -324,11 +328,11 @@ class AssetTraitTest extends TestCase
     {
         $article = $this->getArticleWithAsset();
 
-        $this->assertCount(1, $article->fresh()->getAllFiles());
+        $this->assertCount(1, $article->getAllFiles());
 
         $article->replaceAsset($article->assets->first()->id, AssetUploader::upload(UploadedFile::fake()->image('newImage.png'))->id);
 
-        $this->assertCount(1, $article->fresh()->getAllFiles());
+        $this->assertCount(1, $article->getAllFiles());
         $this->assertEquals('/media/2/newimage.png', $article->getFileUrl());
     }
 
@@ -339,10 +343,10 @@ class AssetTraitTest extends TestCase
     {
         $article = $this->getArticleWithAsset('custom-type');
 
-        $this->assertCount(1, $assets = $article->fresh()->getAllFiles('custom-type'));
+        $this->assertCount(1, $assets = $article->getAllFiles('custom-type'));
         $article->replaceAsset($assets->first()->id, AssetUploader::upload(UploadedFile::fake()->image('newImage.png'))->id);
 
-        $this->assertCount(1, $article->fresh()->getAllFiles('custom-type'));
+        $this->assertCount(1, $article->getAllFiles('custom-type'));
         $this->assertEquals('/media/2/newimage.png', $article->getFileUrl('custom-type'));
     }
 

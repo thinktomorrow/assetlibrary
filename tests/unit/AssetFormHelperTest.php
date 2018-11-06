@@ -1,7 +1,8 @@
 <?php
 
-namespace Thinktomorrow\AssetLibrary\Test;
+namespace Thinktomorrow\AssetLibrary\Tests\unit;
 
+use Thinktomorrow\AssetLibrary\Tests\TestCase;
 use Thinktomorrow\AssetLibrary\Utilities\AssetFormHelper;
 
 class AssetFormHelperTest extends TestCase

@@ -1,17 +1,26 @@
 <?php
 
-namespace Thinktomorrow\AssetLibrary\Test;
+namespace Thinktomorrow\AssetLibrary\Tests\unit;
 
 use Illuminate\Http\File;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Artisan;
 use Thinktomorrow\AssetLibrary\Models\Asset;
-use Thinktomorrow\AssetLibrary\Test\stubs\Article;
+use Thinktomorrow\AssetLibrary\Tests\TestCase;
+use Thinktomorrow\AssetLibrary\Tests\stubs\Article;
 use Thinktomorrow\AssetLibrary\Models\AssetUploader;
 
 class AssetUploadTest extends TestCase
 {
+    public function setUp()
+    {
+        parent::setUp();
+
+        $this->setUpDatabase();
+        Article::migrate();
+    }
+
     public function tearDown()
     {
         Artisan::call('medialibrary:clear');
@@ -79,7 +88,7 @@ class AssetUploadTest extends TestCase
         //upload a second single image
         AssetUploader::upload(UploadedFile::fake()->image('image.png'))->attachToModel($original, 'images');
 
-        $this->assertCount(2, $original->fresh()->getAllFiles('images'));
+        $this->assertCount(2, $original->getAllFiles('images'));
     }
 
     /**

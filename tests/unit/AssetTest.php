@@ -1,17 +1,26 @@
 <?php
 
-namespace Thinktomorrow\AssetLibrary\Test;
+namespace Thinktomorrow\AssetLibrary\Tests\unit;
 
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Artisan;
 use Thinktomorrow\AssetLibrary\Models\Asset;
-use Thinktomorrow\AssetLibrary\Test\stubs\Article;
+use Thinktomorrow\AssetLibrary\Tests\TestCase;
+use Thinktomorrow\AssetLibrary\Tests\stubs\Article;
 use Thinktomorrow\AssetLibrary\Exceptions\AssetUploadException;
 use Thinktomorrow\AssetLibrary\Exceptions\CorruptMediaException;
 
 class AssetTest extends TestCase
 {
+    public function setUp()
+    {
+        parent::setUp();
+
+        $this->setUpDatabase();
+        Article::migrate();
+    }
+
     public function tearDown()
     {
         $this->beforeApplicationDestroyed(function () {

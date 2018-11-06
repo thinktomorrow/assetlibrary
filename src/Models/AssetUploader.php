@@ -7,6 +7,8 @@ use Illuminate\Http\File;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\FileAdder\FileAdder;
+use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded;
+use Illuminate\Support\Collection;
 
 class AssetUploader extends Model
 {
@@ -14,11 +16,11 @@ class AssetUploader extends Model
      * Uploads the file/files or asset by creating the
      * asset that is needed to upload the files too.
      *
-     * @param $files
+     * @param Asset|Traversable|array|Collection|UploadedFile $files
      * @param string|null $filename
      * @param bool $keepOriginal
-     * @return \Illuminate\Support\Collection|null|Asset
-     * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
+     * @return Collection|null|Asset
+     * @throws FileCannotBeAdded
      */
     public static function upload($files, $filename = null, $keepOriginal = false)
     {
@@ -30,8 +32,8 @@ class AssetUploader extends Model
             return self::uploadMultiple($files, $keepOriginal);
         }
 
-        if (! ($files instanceof File) && ! ($files instanceof UploadedFile)) {
-            return;
+        if (! ($files instanceof UploadedFile)) {
+            return null;
         }
 
         $asset = Asset::create();
@@ -43,9 +45,9 @@ class AssetUploader extends Model
      * Uploads the multiple files or assets by creating the
      * asset that is needed to upload the files too.
      *
-     * @param $files
+     * @param Asset|Traversable|array $files
      * @param bool $keepOriginal
-     * @return \Illuminate\Support\Collection
+     * @return Collection
      */
     private static function uploadMultiple($files, $keepOriginal = false)
     {
@@ -67,11 +69,11 @@ class AssetUploader extends Model
      * Uploads the file/files or asset by creating the
      * asset that is needed to upload the files too.
      *
-     * @param $file
+     * @param string $file
      * @param string|null $filename
      * @param bool $keepOriginal
-     * @return \Illuminate\Support\Collection|null|Asset
-     * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
+     * @return Collection|null|Asset
+     * @throws FileCannotBeAdded
      */
     public static function uploadFromBase64($file, $filename = null, $keepOriginal = false)
     {
@@ -84,29 +86,27 @@ class AssetUploader extends Model
      * Uploads the url by creating the
      * asset that is needed to upload the files too.
      *
-     * @param $file
-     * @param string|null $filename
-     * @param bool $keepOriginal
-     * @return \Illuminate\Support\Collection|null|Asset
-     * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
+     * @param string $url
+     * @return Asset
+     * @throws FileCannotBeAdded
      */
-    public static function uploadFromUrl($url, $filename = null)
+    public static function uploadFromUrl($url)
     {
         $asset = Asset::create();
 
-        return self::uploadFromUrlToAsset($url, $asset, $filename);
+        return self::uploadFromUrlToAsset($url, $asset);
     }
 
     /**
      * Uploads the given file to this instance of asset
      * and sets the dimensions as a custom property.
      *
-     * @param $files
+     * @param UploadedFile $file
      * @param Asset $asset
      * @param string|null $filename
      * @param bool $keepOriginal
      * @return null|Asset
-     * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
+     * @throws FileCannotBeAdded
      */
     public static function uploadToAsset($file, $asset, $filename = null, $keepOriginal = false): ?Asset
     {
@@ -131,12 +131,12 @@ class AssetUploader extends Model
      * Uploads the given file to this instance of asset
      * and sets the dimensions as a custom property.
      *
-     * @param $file
+     * @param string $file
      * @param Asset $asset
      * @param string|null $filename
      * @param bool $keepOriginal
      * @return null|Asset
-     * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
+     * @throws FileCannotBeAdded
      * @internal param $files
      */
     public static function uploadBase64ToAsset($file, $asset, $filename = null, $keepOriginal = false): ?Asset
@@ -159,22 +159,19 @@ class AssetUploader extends Model
      * Uploads the given file to this instance of asset
      * and sets the dimensions as a custom property.
      *
-     * @param $file
+     * @param string $url
      * @param Asset $asset
-     * @param string|null $filename
-     * @param bool $keepOriginal
-     * @return null|Asset
-     * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
-     * @internal param $files
+     * @return Asset
+     * @throws FileCannotBeAdded
      */
-    public static function uploadFromUrlToAsset($url, $asset): ?Asset
+    public static function uploadFromUrlToAsset($url, $asset): Asset
     {
         $fileAdd = $asset->addMediaFromUrl($url);
 
         $filename = substr($url, strrpos($url, '/') + 1);
         $fileAdd->setName($filename);
 
-        $fileAdd = self::prepareOptions($fileAdd, null, $filename);
+        $fileAdd = self::prepareOptions($fileAdd, false, $filename);
 
         $fileAdd->toMediaCollection();
 
@@ -182,24 +179,23 @@ class AssetUploader extends Model
     }
 
     /**
-     * @param $file
+     * @param UploadedFile $file
      * @return bool
      */
     private static function isImage($file): bool
     {
-        return str_before($file->getMimetype(), '/') === 'image';
+        return str_before($file->getMimetype()??'', '/') === 'image';
     }
 
     /**
      * Set the possible options on the fileAdder. This includes preserveOriginal
      * and filename.
      *
-     * @param $files
-     * @param Asset $asset
+     * @param FileAdder $fileAdd
      * @param string|null $filename
      * @param bool $keepOriginal
-     * @return null|Asset
-     * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
+     * @return FileAdder
+     * @throws FileCannotBeAdded
      */
     private static function prepareOptions($fileAdd, $keepOriginal, $filename): FileAdder
     {

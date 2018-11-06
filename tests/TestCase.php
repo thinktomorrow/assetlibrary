@@ -1,31 +1,23 @@
 <?php
 
-namespace Thinktomorrow\AssetLibrary\Test;
+namespace Thinktomorrow\AssetLibrary\Tests;
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Foundation\Exceptions\Handler;
 use Orchestra\Testbench\TestCase as Orchestra;
 use Illuminate\Contracts\Debug\ExceptionHandler;
-use Thinktomorrow\AssetLibrary\Test\stubs\Article;
+use Thinktomorrow\AssetLibrary\Tests\TestHelpers;
+use Thinktomorrow\AssetLibrary\Tests\stubs\Article;
+use Thinktomorrow\AssetLibrary\Tests\DatabaseTransactions;
 
 abstract class TestCase extends Orchestra
 {
     protected $protectTestEnvironment = true;
     protected static $migrationsRun   = false;
 
-    /** @var \Thinktomorrow\AssetLibrary\Test\stubs\Article */
+    /** @var \Thinktomorrow\AssetLibrary\Tests\stubs\Article */
     protected $testArticle;
 
-    use TestHelpers;
-
-    protected function setUp()
-    {
-        parent::setUp();
-
-        $this->setUpDatabase($this->app);
-
-        $this->testArticle = Article::first();
-    }
+    use TestHelpers, DatabaseTransactions;
 
     protected function disableExceptionHandling()
     {
@@ -47,21 +39,6 @@ abstract class TestCase extends Orchestra
 
     /**
      * @param \Illuminate\Foundation\Application $app
-     */
-    protected function setUpDatabase($app)
-    {
-        $app['db']->connection()->getSchemaBuilder()->create('test_models', function (Blueprint $table) {
-            $table->increments('id');
-        });
-        Article::create();
-        include_once __DIR__.'/../database/migrations/create_asset_table.php';
-        include_once __DIR__.'/../vendor/spatie/laravel-medialibrary/database/migrations/create_media_table.php.stub';
-        (new \CreateAssetTable())->up();
-        (new \CreateMediaTable())->up();
-    }
-
-    /**
-     * @param \Illuminate\Foundation\Application $app
      *
      * @return array
      */
@@ -78,10 +55,10 @@ abstract class TestCase extends Orchestra
      */
     protected function getEnvironmentSetUp($app)
     {
-        $app['config']->set('database.default', 'sqlite');
-        $app['config']->set('database.connections.sqlite', [
+        // Connection is defined in the phpunit config xml
+        $app['config']->set('database.connections.testing', [
             'driver' => 'sqlite',
-            'database' => ':memory:',
+            'database' => env('DB_DATABASE', __DIR__.'/../database/testing.sqlite'),
             'prefix' => '',
         ]);
 

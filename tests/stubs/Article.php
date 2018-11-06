@@ -1,14 +1,15 @@
 <?php
 
-namespace Thinktomorrow\AssetLibrary\Test\stubs;
+namespace Thinktomorrow\AssetLibrary\Tests\stubs;
 
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Schema\Blueprint;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Thinktomorrow\AssetLibrary\Traits\AssetTrait;
+use Thinktomorrow\AssetLibrary\Interfaces\HasAsset;
 
-class Article extends Model implements HasMedia
+class Article extends Model implements HasAsset
 {
     use AssetTrait;
 
@@ -18,7 +19,8 @@ class Article extends Model implements HasMedia
 
     public static function migrate()
     {
-        Schema::table('test_models', function (Blueprint $table) {
+        Schema::create('test_models', function (Blueprint $table) {
+            $table->increments('id');
             $table->string('imageurl')->nullable();
             $table->integer('order')->nullable();
         });

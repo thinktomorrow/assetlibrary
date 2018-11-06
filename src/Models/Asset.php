@@ -8,14 +8,12 @@ use Spatie\MediaLibrary\Models\Media;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
+use Thinktomorrow\AssetLibrary\Interfaces\HasAsset;
 use Thinktomorrow\AssetLibrary\Exceptions\ConfigException;
 use Thinktomorrow\AssetLibrary\Exceptions\AssetUploadException;
 use Thinktomorrow\AssetLibrary\Exceptions\CorruptMediaException;
 
-/**
- * @property mixed media
- */
-class Asset extends Model implements HasMedia
+class Asset extends Model implements HasAsset
 {
     use HasMediaTrait;
 
@@ -26,13 +24,13 @@ class Asset extends Model implements HasMedia
      * sets the type and locale to the given values and
      * returns the model with the asset relationship.
      *
-     * @param Model $model
+     * @param HasAsset $model
      * @param string $type
      * @param null|string $locale
-     * @return Model
-     * @throws \Thinktomorrow\AssetLibrary\Exceptions\AssetUploadException
+     * @return HasAsset
+     * @throws AssetUploadException
      */
-    public function attachToModel(Model $model, $type = '', $locale = null): Model
+    public function attachToModel(HasAsset $model, $type = '', $locale = null): HasAsset
     {
         if ($model->assets()->get()->contains($this)) {
             throw AssetUploadException::create();
@@ -122,7 +120,6 @@ class Asset extends Model implements HasMedia
     public function getExtensionType(): ?string
     {
         $media = $this->getMedia()->first();
-
         if ($media == null) {
             throw CorruptMediaException::corrupt($this->id);
         }
@@ -130,14 +127,17 @@ class Asset extends Model implements HasMedia
         $extension = explode('.', $media->file_name);
         $extension = end($extension);
 
-        if (in_array(strtolower($extension), ['xls', 'xlsx', 'numbers', 'sheets'])) {
-            return 'xls';
-        }
-        if (in_array(strtolower($extension), ['png', 'jpg', 'jpeg', 'gif', 'svg', 'webp'])) {
-            return 'image';
-        }
-        if (strtolower($extension) === 'pdf') {
-            return 'pdf';
+        if($extension)
+        {
+            if (in_array(strtolower($extension), ['xls', 'xlsx', 'numbers', 'sheets'])) {
+                return 'xls';
+            }
+            if (in_array(strtolower($extension), ['png', 'jpg', 'jpeg', 'gif', 'svg', 'webp'])) {
+                return 'image';
+            }
+            if (strtolower($extension) === 'pdf') {
+                return 'pdf';
+            }
         }
 
         return null;
@@ -168,7 +168,7 @@ class Asset extends Model implements HasMedia
     }
 
     /**
-     * @param null $size
+     * @param string|null $size
      * @return string
      */
     public function getDimensions($size = null): string
@@ -189,7 +189,6 @@ class Asset extends Model implements HasMedia
 
     /**
      * Removes one or more assets by their ids.
-     * @param $imageIds
      */
     public static function remove($imageIds)
     {
@@ -238,10 +237,6 @@ class Asset extends Model implements HasMedia
     }
 
     /**
-     * @param $width
-     * @param $height
-     * @param $x
-     * @param $y
      * @return $this
      * @throws ConfigException
      */
