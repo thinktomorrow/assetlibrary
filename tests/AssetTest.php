@@ -325,7 +325,7 @@ class AssetTest extends TestCase
     {
         $asset = AssetUploader::upload(UploadedFile::fake()->image('image.jpeg', 100, 100));
 
-        $this->assertEquals('/media/1/conversions/image-thumb.jpeg', $asset->getFileUrl('thumb'));
+        $this->assertEquals('/media/1/conversions/image-thumb.jpg', $asset->getFileUrl('thumb'));
     }
 
     /**
@@ -336,7 +336,7 @@ class AssetTest extends TestCase
         config(['assetlibrary.allowCropping' => true]);
         $asset = AssetUploader::upload(UploadedFile::fake()->image('image.jpeg', 1000, 1000))->crop(600, 400, 60, 100);
 
-        $this->assertEquals('/media/1/conversions/image-cropped.jpeg', $asset->getFileUrl('cropped'));
+        $this->assertEquals('/media/1/conversions/image-cropped.jpg', $asset->getFileUrl('cropped'));
         $this->assertEquals('600 x 400', $asset->getDimensions('cropped'));
     }
 
