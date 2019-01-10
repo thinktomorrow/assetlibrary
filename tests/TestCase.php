@@ -52,8 +52,8 @@ abstract class TestCase extends Orchestra
             $table->increments('id');
         });
         Article::create();
-        include_once __DIR__.'/../database/migrations/create_asset_table.php';
-        include_once __DIR__.'/../vendor/spatie/laravel-medialibrary/database/migrations/create_media_table.php.stub';
+        include_once __DIR__.'/../database/migrations/2019_01_10_154909_create_media_table.php';
+        include_once __DIR__.'/../database/migrations/2019_01_10_154910_create_asset_table.php';
         (new \CreateAssetTable())->up();
         (new \CreateMediaTable())->up();
     }
