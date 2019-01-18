@@ -75,17 +75,11 @@ class Asset extends Model implements HasMedia
             throw CorruptMediaException::corrupt($this->id);
         }
 
-        if (config('assetlibrary.conversionPrefix') && $size != '') {
-            $conversionName = $media->name.'_'.$size;
-        } else {
-            $conversionName = $size;
-        }
-
         if ($media == null) {
             throw CorruptMediaException::corrupt($this->id);
         }
 
-        return $media->getUrl($conversionName);
+        return $media->getUrl($size);
     }
 
     /**

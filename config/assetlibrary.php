@@ -1,7 +1,6 @@
 <?php
 
 return [
-    'conversionPrefix'  => false,
     'conversions' => [
         'thumb' => [
             'width'     => 150,
