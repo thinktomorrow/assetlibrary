@@ -11,7 +11,7 @@ use Thinktomorrow\AssetLibrary\Models\AssetUploader;
 
 class AssetUploadTest extends TestCase
 {
-    public function tearDown()
+    public function tearDown(): void
     {
         Artisan::call('medialibrary:clear');
         $this->beforeApplicationDestroyed(function () {

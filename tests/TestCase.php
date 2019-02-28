@@ -16,7 +16,7 @@ abstract class TestCase extends Orchestra
     /** @var \Thinktomorrow\AssetLibrary\Test\stubs\Article */
     protected $testArticle;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
