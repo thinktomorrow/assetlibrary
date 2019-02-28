@@ -25,6 +25,8 @@ tools:
             - vendor
             - tests
 build:
+  environment:
+    php: 7.2.13
   nodes:
     analysis:
       tests:
