@@ -11,9 +11,8 @@ class AddNewMediaColumn extends Migration
      */
     public function up()
     {
-        Schema::table('media', function(Blueprint $table){
-            if(!Schema::hasColumn('media', 'responsive_images'))
-            {
+        Schema::table('media', function (Blueprint $table) {
+            if (! Schema::hasColumn('media', 'responsive_images')) {
                 $table->json('responsive_images');
             }
         });
