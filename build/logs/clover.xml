@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1551346274">
-  <project timestamp="1551346274">
+<coverage generated="1551348030">
+  <project timestamp="1551348030">
     <package name="Thinktomorrow\AssetLibrary">
       <file name="/Users/philippedamen/projects/assetlibrary/src/AssetLibraryServiceProvider.php">
         <class name="Thinktomorrow\AssetLibrary\AssetLibraryServiceProvider" namespace="Thinktomorrow\AssetLibrary">
@@ -49,7 +49,7 @@
     <package name="Thinktomorrow\AssetLibrary\Models">
       <file name="/Users/philippedamen/projects/assetlibrary/src/Models/Asset.php">
         <class name="Thinktomorrow\AssetLibrary\Models\Asset" namespace="Thinktomorrow\AssetLibrary\Models">
-          <metrics complexity="45" methods="16" coveredmethods="15" conditionals="0" coveredconditionals="0" statements="87" coveredstatements="86" elements="103" coveredelements="101"/>
+          <metrics complexity="43" methods="17" coveredmethods="16" conditionals="0" coveredconditionals="0" statements="84" coveredstatements="83" elements="101" coveredelements="99"/>
         </class>
         <line num="35" type="method" name="attachToModel" visibility="public" complexity="2" crap="2" count="38"/>
         <line num="37" type="stmt" count="38"/>
@@ -108,53 +108,51 @@
         <line num="181" type="stmt" count="1"/>
         <line num="183" type="stmt" count="1"/>
         <line num="186" type="stmt" count="1"/>
-        <line num="193" type="method" name="remove" visibility="public" complexity="11" crap="11" count="5"/>
+        <line num="193" type="method" name="removeByIds" visibility="public" complexity="5" crap="5" count="5"/>
         <line num="195" type="stmt" count="5"/>
         <line num="196" type="stmt" count="2"/>
         <line num="197" type="stmt" count="2"/>
         <line num="198" type="stmt" count="1"/>
-        <line num="201" type="stmt" count="1"/>
-        <line num="202" type="stmt" count="1"/>
-        <line num="204" type="stmt" count="1"/>
+        <line num="201" type="stmt" count="2"/>
+        <line num="204" type="stmt" count="4"/>
         <line num="205" type="stmt" count="1"/>
-        <line num="206" type="stmt" count="1"/>
-        <line num="210" type="stmt" count="2"/>
-        <line num="213" type="stmt" count="4"/>
-        <line num="214" type="stmt" count="1"/>
-        <line num="217" type="stmt" count="3"/>
-        <line num="218" type="stmt" count="3"/>
-        <line num="220" type="stmt" count="3"/>
-        <line num="221" type="stmt" count="3"/>
-        <line num="222" type="stmt" count="3"/>
-        <line num="226" type="stmt" count="3"/>
-        <line num="228" type="stmt" count="5"/>
-        <line num="234" type="method" name="getAllAssets" visibility="public" complexity="1" crap="1" count="6"/>
-        <line num="236" type="stmt" count="6"/>
-        <line num="247" type="method" name="crop" visibility="public" complexity="2" crap="2" count="2"/>
-        <line num="249" type="stmt" count="2"/>
-        <line num="250" type="stmt" count="1"/>
+        <line num="208" type="stmt" count="3"/>
+        <line num="210" type="stmt" count="5"/>
+        <line num="218" type="method" name="remove" visibility="public" complexity="4" crap="4" count="4"/>
+        <line num="220" type="stmt" count="4"/>
+        <line num="221" type="stmt" count="4"/>
+        <line num="223" type="stmt" count="4"/>
+        <line num="224" type="stmt" count="4"/>
+        <line num="225" type="stmt" count="4"/>
+        <line num="229" type="stmt" count="4"/>
+        <line num="230" type="stmt" count="4"/>
+        <line num="236" type="method" name="getAllAssets" visibility="public" complexity="1" crap="1" count="6"/>
+        <line num="238" type="stmt" count="6"/>
+        <line num="249" type="method" name="crop" visibility="public" complexity="2" crap="2" count="2"/>
+        <line num="251" type="stmt" count="2"/>
         <line num="252" type="stmt" count="1"/>
         <line num="254" type="stmt" count="1"/>
-        <line num="258" type="stmt" count="1"/>
+        <line num="256" type="stmt" count="1"/>
         <line num="260" type="stmt" count="1"/>
-        <line num="269" type="method" name="registerMediaConversions" visibility="public" complexity="3" crap="3" count="61"/>
-        <line num="271" type="stmt" count="61"/>
+        <line num="262" type="stmt" count="1"/>
+        <line num="271" type="method" name="registerMediaConversions" visibility="public" complexity="3" crap="3" count="61"/>
         <line num="273" type="stmt" count="61"/>
-        <line num="274" type="stmt" count="61"/>
+        <line num="275" type="stmt" count="61"/>
         <line num="276" type="stmt" count="61"/>
-        <line num="277" type="stmt" count="61"/>
         <line num="278" type="stmt" count="61"/>
         <line num="279" type="stmt" count="61"/>
         <line num="280" type="stmt" count="61"/>
-        <line num="283" type="stmt" count="61"/>
-        <line num="284" type="stmt" count="1"/>
-        <line num="285" type="stmt" count="1"/>
+        <line num="281" type="stmt" count="61"/>
+        <line num="282" type="stmt" count="61"/>
+        <line num="285" type="stmt" count="61"/>
         <line num="286" type="stmt" count="1"/>
-        <line num="288" type="stmt" count="61"/>
-        <line num="290" type="method" name="setOrder" visibility="public" complexity="1" crap="1" count="4"/>
-        <line num="292" type="stmt" count="4"/>
+        <line num="287" type="stmt" count="1"/>
+        <line num="288" type="stmt" count="1"/>
+        <line num="290" type="stmt" count="61"/>
+        <line num="292" type="method" name="setOrder" visibility="public" complexity="1" crap="1" count="4"/>
         <line num="294" type="stmt" count="4"/>
-        <metrics loc="296" ncloc="221" classes="1" methods="16" coveredmethods="15" conditionals="0" coveredconditionals="0" statements="87" coveredstatements="86" elements="103" coveredelements="101"/>
+        <line num="296" type="stmt" count="4"/>
+        <metrics loc="298" ncloc="217" classes="1" methods="17" coveredmethods="16" conditionals="0" coveredconditionals="0" statements="84" coveredstatements="83" elements="101" coveredelements="99"/>
       </file>
       <file name="/Users/philippedamen/projects/assetlibrary/src/Models/AssetUploader.php">
         <class name="Thinktomorrow\AssetLibrary\Models\AssetUploader" namespace="Thinktomorrow\AssetLibrary\Models">
@@ -304,6 +302,6 @@
         <metrics loc="38" ncloc="22" classes="1" methods="2" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="5" coveredstatements="5" elements="7" coveredelements="7"/>
       </file>
     </package>
-    <metrics files="8" loc="777" ncloc="556" classes="8" methods="41" coveredmethods="40" conditionals="0" coveredconditionals="0" statements="204" coveredstatements="203" elements="245" coveredelements="243"/>
+    <metrics files="8" loc="779" ncloc="552" classes="8" methods="42" coveredmethods="41" conditionals="0" coveredconditionals="0" statements="201" coveredstatements="200" elements="243" coveredelements="241"/>
   </project>
 </coverage>

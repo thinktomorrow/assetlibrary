@@ -116,7 +116,7 @@ class AssetTest extends TestCase
         $this->assertEquals($asset2->getFilename(), 'image2.png');
         $this->assertEquals($asset2->getImageUrl(), '/media/2/image2.png');
 
-        Asset::remove($asset->id);
+        Asset::removeByIds($asset->id);
 
         $this->assertEquals(1, Asset::getAllAssets()->count());
         $this->assertEquals($asset2->id, Asset::getAllAssets()->first()->id);
@@ -133,8 +133,8 @@ class AssetTest extends TestCase
         $this->assertEquals($asset->getFilename(), 'image.png');
         $this->assertEquals($asset->getImageUrl(), '/media/1/image.png');
 
-        Asset::remove([null]);
-        Asset::remove(null);
+        Asset::removeByIds([null]);
+        Asset::removeByIds(null);
 
         $this->assertEquals(1, Asset::getAllAssets()->count());
     }
@@ -155,7 +155,7 @@ class AssetTest extends TestCase
         $this->assertEquals($asset2->getFilename(), 'image2.png');
         $this->assertEquals($asset2->getImageUrl(), '/media/2/image2.png');
 
-        Asset::remove([$asset->id, $asset2->id]);
+        Asset::removeByIds([$asset->id, $asset2->id]);
 
         $this->assertEquals(0, Asset::getAllAssets()->count());
     }
@@ -423,13 +423,13 @@ class AssetTest extends TestCase
         $this->assertFileIsReadable($dir);
         $this->assertFileNotIsWritable($dir);
 
-        Asset::remove($asset->id);
+        Asset::removeByIds($asset->id);
 
         $this->assertEquals(1, Asset::getAllAssets()->count());
         $this->assertCount(1, $asset->fresh()->media);
 
         @chmod($dir, 0777);
-        Asset::remove($asset->id);
+        Asset::removeByIds($asset->id);
     }
 
     /**

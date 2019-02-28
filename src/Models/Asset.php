@@ -190,7 +190,7 @@ class Asset extends Model implements HasMedia
      * Removes one or more assets by their ids.
      * @param $imageIds
      */
-    public static function remove($imageIds)
+    public static function removeByIds($imageIds)
     {
         if (is_array($imageIds)) {
             foreach ($imageIds as $id) {
@@ -198,33 +198,35 @@ class Asset extends Model implements HasMedia
                     continue;
                 }
 
-                $asset = self::where('id', $id)->first();
-                $media = $asset->media;
-
-                foreach ($media as $file) {
-                    if (! is_file(public_path($file->getUrl())) || ! is_writable(public_path($file->getUrl()))) {
-                        return;
-                    }
-                }
-
-                $asset->delete();
+                self::remove($id);
             }
         } else {
             if (! $imageIds) {
                 return;
             }
 
-            $asset = self::find($imageIds)->first();
-            $media = $asset->media;
-
-            foreach ($media as $file) {
-                if (! is_file(public_path($file->getUrl())) || ! is_writable(public_path($file->getUrl()))) {
-                    return;
-                }
-            }
-
-            self::find($imageIds)->first()->delete();
+            self::remove($imageIds);
         }
+    }
+
+    /**
+     * Removes one assets by id.
+     * It also checks if you have the permissions to remove the file.
+     *
+     * @param $imageIds
+     */
+    public static function remove($id)
+    {
+        $asset = self::find($id)->first();
+        $media = $asset->media;
+
+        foreach ($media as $file) {
+            if (! is_file(public_path($file->getUrl())) || ! is_writable(public_path($file->getUrl()))) {
+                return;
+            }
+        }
+
+        $asset->delete();
     }
 
     /**
