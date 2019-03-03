@@ -4,7 +4,6 @@ namespace Thinktomorrow\AssetLibrary\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
-use Symfony\Component\Console\Helper\Table;
 use Thinktomorrow\AssetLibrary\Models\AssetUploader;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\UnreachableUrl;
 
@@ -15,7 +14,16 @@ class ImageToAssetMigrateCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'assetlibrary:migrate-image {table} {urlcolumn} {linkedmodel} {idcolumn=id} {ordercolumn?} {--force} {--reset} {--dry}';
+    protected $signature = 'assetlibrary:migrate-image
+                                    {table}
+                                    {urlcolumn}
+                                    {linkedmodel}
+                                    {idcolumn=id}
+                                    {ordercolumn?}
+                                    {localecolumn?}
+                                    {--force}
+                                    {--reset}
+                                    {--dry}';
 
     /**
      * The console command description.
@@ -29,6 +37,11 @@ class ImageToAssetMigrateCommand extends Command
     private $linkedmodel;
     private $idcolumn;
     private $ordercolumn;
+    private $localecolumn;
+
+    private $nomodel     = 0;
+    private $unreachable = 0;
+    private $files       = 0;
 
     /**
      * Execute the console command.
@@ -39,93 +52,77 @@ class ImageToAssetMigrateCommand extends Command
     {
         \ini_set('memory_limit', '256M');
 
-        $unreachable    = 0;
-        $files          = 0;
-
         $this->setArguments();
 
-        $results = $this->getResultsFromDatabase();
-
-        $orderedResults = $results->map(function ($result) {
-            $formattedResults['images'][] = $result->{$this->urlcolumn};
-            $formattedResults['model']    = $this->linkedmodel::find($result->{$this->idcolumn});
-
-            if ($this->ordercolumn) {
-                $formattedResults['order'] = $result->{$this->ordercolumn};
-            }
-
-            return $formattedResults;
-        });
+        $results        = $this->getResultsFromDatabase();
+        $bar            = $this->output->createProgressBar(count($results));
+        $orderedResults = $this->mapResults($results);
 
         $this->handleResetFlag($orderedResults);
 
         $this->info("\n".'Migrating images.');
 
-        $bar = $this->output->createProgressBar(count($results));
-        foreach ($orderedResults->toArray() as $result) {
-            if (! $persistedModel = $result['model']) {
-                continue;
-            }
-
+        foreach ($orderedResults as $result) {
             foreach ($result['images'] as $line) {
                 $bar->advance();
 
-                if (!$line) {
-                    $unreachable++;
+                if (!$line || $this->option('dry')) {
+                    $line ?? $this->unreachable++;
+                    $this->option('dry') ? $this->files++: '';
                     continue;
                 }
 
-                if (! $this->option('dry')) {
-                    try {
-                        $asset = AssetUploader::uploadFromUrl(public_path($line));
-                    } catch (UnreachableUrl $ex) {
-                        // increment the amount of unreachable files counter
-                        $unreachable++;
+                try {
+                    $asset = AssetUploader::uploadFromUrl(public_path($line));
+                } catch (UnreachableUrl $ex) {
+                    // increment the amount of unreachable files counter
+                    $this->unreachable++;
 
-                        continue;
-                    }
+                    continue;
+                }
 
-                    if ($this->argument('ordercolumn')) {
-                        $asset->setOrder($result['order'])->attachToModel($persistedModel);
-                    }else{
-                        $asset->attachToModel($persistedModel);
-                    }
+                $asset->setOrder($result['order']??null)->attachToModel($result['model']);
 
-                    if ($this->option('force')) {
-                        unlink(public_path($line));
-                    }
+                if ($this->option('force')) {
+                    unlink(public_path($line));
                 }
 
                 // increment the amount of files migrated counter
-                $files++;
+                $this->files++;
             }
         }
 
         $bar->finish();
 
         $this->info('Migrating done.');
-        $this->info('Migrated '.$files.' files.');
-        $this->info('Couldn\'t reach '.$unreachable.' files.');
+        $this->info('Migrated '.$this->files.' files.');
+        $this->info('Couldn\'t reach '.$this->unreachable.' files.');
+        $this->info('Couldn\'t find '.$this->nomodel.' model(s).');
     }
 
     private function getResultsFromDatabase()
     {
-        if ($this->ordercolumn) {
-            $results = DB::table($this->table)->select($this->urlcolumn, $this->idcolumn, $this->ordercolumn)->get();
-        } else {
-            $results = DB::table($this->table)->select($this->urlcolumn, $this->idcolumn)->orderBy($this->idcolumn)->get();
+        $columns = [$this->urlcolumn, $this->idcolumn, $this->ordercolumn, $this->localecolumn];
+
+        $builder = DB::table($this->table)->select($columns);
+
+        if (!$this->ordercolumn) {
+            $builder = $builder->orderBy($this->idcolumn);
         }
+
+        $results = $builder->get();
 
         return $results;
     }
 
     private function setArguments()
     {
-        $this->table       = $this->argument('table');
-        $this->urlcolumn   = $this->argument('urlcolumn');
-        $this->linkedmodel = $this->argument('linkedmodel');
-        $this->idcolumn    = $this->argument('idcolumn');
-        $this->ordercolumn = $this->argument('ordercolumn');
+        $this->table        = $this->argument('table');
+        $this->urlcolumn    = $this->argument('urlcolumn');
+        $this->linkedmodel  = $this->argument('linkedmodel');
+        $this->idcolumn     = $this->argument('idcolumn');
+        $this->ordercolumn  = $this->argument('ordercolumn');
+        $this->localecolumn = $this->argument('localecolumn');
     }
 
     private function handleResetFlag($orderedResults)
@@ -134,12 +131,34 @@ class ImageToAssetMigrateCommand extends Command
             $this->info('Resetting the assets on the models');
             $resetbar = $this->output->createProgressBar(count($orderedResults));
 
-            $orderedResults->each(function ($entry, $key) use ($resetbar) {
-                optional($entry['model'])->deleteAllAssets();
+            $orderedResults->each(function ($entry) use ($resetbar) {
+                $entry['model']->deleteAllAssets();
                 $resetbar->advance();
             });
 
             $resetbar->finish();
         }
+    }
+
+    private function mapResults($results)
+    {
+        return $results->map(function ($result) {
+            $formattedResults = [];
+
+            $formattedResults['images'][] = $result->{$this->urlcolumn};
+            $formattedResults['model']    = $this->linkedmodel::find($result->{$this->idcolumn});
+
+            if ($this->ordercolumn) {
+                $formattedResults['order'] = $result->{$this->ordercolumn};
+            }
+
+            return $formattedResults;
+        })->reject(function($value){
+            if($result = $value['model'] == null) {
+                $this->nomodel++;
+            }
+
+            return $result;
+        });
     }
 }

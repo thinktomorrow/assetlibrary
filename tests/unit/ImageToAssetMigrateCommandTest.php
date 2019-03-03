@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Database\Schema\Blueprint;
-use Thinktomorrow\AssetLibrary\Models\Asset;
 use Thinktomorrow\AssetLibrary\Tests\TestCase;
 use Thinktomorrow\AssetLibrary\Tests\stubs\Article;
 
@@ -98,7 +97,7 @@ class ImageToAssetMigrateCommandTest extends TestCase
         // assert the image exists on both locations
         $this->assertFileExists(public_path($article->fresh()->imageurl));
         $this->assertFileExists(public_path($article->getFileUrl()));
-        $this->assertequals($article->getFileName(), 'warpaint-logo.svg');
+        $this->assertEquals($article->getFileName(), 'warpaint-logo.svg');
     }
 
     /** @test */
@@ -179,6 +178,57 @@ class ImageToAssetMigrateCommandTest extends TestCase
     }
 
     /** @test */
+    public function it_can_migrate_images_with_locale()
+    {
+        // fill db with an entry
+        $this->testArticle->imageurl = '/uploads/warpaint-logo.svg';
+        $this->testArticle->order    = 7;
+        $this->testArticle->locale    = 'nl';
+        $this->testArticle->save();
+
+        // run the migrate image command
+        Artisan::call('assetlibrary:migrate-image', [
+                'table'       => 'test_models',
+                'urlcolumn'   => 'imageurl',
+                'localecolumn' => 'locale',
+                'linkedmodel' => 'Thinktomorrow\AssetLibrary\Tests\stubs\Article',
+            ]);
+
+
+        // assert order is set on the asset
+        $this->assertEquals('nl', $this->testArticle->fresh()->getAllImages()->first()->pivot->locale);
+
+        // assert the image exists on both locations
+        $this->assertFileExists(public_path($this->testArticle->imageurl));
+        $this->assertFileExists(public_path($this->testArticle->getFileUrl()));
+    }
+
+    /** @test */
+    public function it_can_migrate_images_with_empty_locale_sets_default_locale()
+    {
+        // fill db with an entry
+        $this->testArticle->imageurl = '/uploads/warpaint-logo.svg';
+        $this->testArticle->order    = 7;
+        $this->testArticle->save();
+
+        // run the migrate image command
+        Artisan::call('assetlibrary:migrate-image', [
+                'table'       => 'test_models',
+                'urlcolumn'   => 'imageurl',
+                'localecolumn' => 'locale',
+                'linkedmodel' => 'Thinktomorrow\AssetLibrary\Tests\stubs\Article',
+            ]);
+
+
+        // assert order is set on the asset
+        $this->assertEquals('nl', $this->testArticle->fresh()->getAllImages()->first()->pivot->locale);
+
+        // assert the image exists on both locations
+        $this->assertFileExists(public_path($this->testArticle->imageurl));
+        $this->assertFileExists(public_path($this->testArticle->getFileUrl()));
+    }
+
+    /** @test */
     public function it_can_migrate_images_without_order()
     {
         // fill db with an entry
@@ -210,9 +260,9 @@ class ImageToAssetMigrateCommandTest extends TestCase
         });
 
         DB::table('test_media')->insert([
-        ['productid' => $this->testArticle->id, 'imagepath' => '/uploads/warpaint-logo.svg'],
-        ['productid' => 52, 'imagepath' => '/uploads/warpaint-logo.svg'],
-    ]);
+            ['productid' => $this->testArticle->id, 'imagepath' => '/uploads/warpaint-logo.svg'],
+            ['productid' => 52, 'imagepath' => '/uploads/warpaint-logo.svg'],
+        ]);
 
         // run the migrate image command
         Artisan::call('assetlibrary:migrate-image', [
