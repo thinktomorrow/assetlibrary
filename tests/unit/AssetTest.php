@@ -13,15 +13,7 @@ use Thinktomorrow\AssetLibrary\Exceptions\CorruptMediaException;
 
 class AssetTest extends TestCase
 {
-    public function setUp()
-    {
-        parent::setUp();
-
-        $this->setUpDatabase();
-        Article::migrate();
-    }
-
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->beforeApplicationDestroyed(function () {
             DB::disconnect();
@@ -95,7 +87,7 @@ class AssetTest extends TestCase
         $this->assertEquals($asset2->getFilename(), 'image.png');
         $this->assertEquals($asset2->getImageUrl(), '/media/2/image.png');
 
-        Asset::remove($asset->id);
+        Asset::removeByIds($asset->id);
 
         $this->assertEquals(1, Asset::getAllAssets()->count());
         $this->assertEquals($asset2->id, Asset::getAllAssets()->first()->id);
@@ -112,8 +104,8 @@ class AssetTest extends TestCase
         $this->assertEquals($asset->getFilename(), 'image.png');
         $this->assertEquals($asset->getImageUrl(), '/media/1/image.png');
 
-        Asset::remove([null]);
-        Asset::remove(null);
+        Asset::removeByIds([null]);
+        Asset::removeByIds(null);
 
         $this->assertEquals(1, Asset::getAllAssets()->count());
     }
@@ -134,7 +126,7 @@ class AssetTest extends TestCase
         $this->assertEquals($asset2->getFilename(), 'image.png');
         $this->assertEquals($asset2->getImageUrl(), '/media/2/image.png');
 
-        Asset::remove([$asset->id, $asset2->id]);
+        Asset::removeByIds([$asset->id, $asset2->id]);
 
         $this->assertEquals(0, Asset::getAllAssets()->count());
     }
@@ -204,7 +196,7 @@ class AssetTest extends TestCase
     {
         $asset = $this->getUploadedAsset();
 
-        $this->assertEquals($asset->getSize(), '109 B');
+        $this->assertEquals($asset->getSize(), '130 B');
     }
 
     /**
@@ -257,12 +249,29 @@ class AssetTest extends TestCase
     /**
      * @test
      */
+<<<<<<< HEAD:tests/unit/AssetTest.php
+=======
+    public function it_will_keep_the_extension_after_upload()
+    {
+        $asset = AssetUploader::upload(UploadedFile::fake()->image('image.jpeg', 100, 100));
+
+        $this->assertEquals('/media/1/conversions/image-thumb.jpg', $asset->getFileUrl('thumb'));
+    }
+
+    /**
+     * @test
+     */
+>>>>>>> master:tests/AssetTest.php
     public function it_can_crop_an_image()
     {
         config(['assetlibrary.allowCropping' => true]);
         $asset = $this->getUploadedAsset('image.png', 1000, 1000)->crop(600, 400, 60, 100);
 
+<<<<<<< HEAD:tests/unit/AssetTest.php
         $this->assertEquals('/media/1/conversions/image-cropped.png', $asset->getFileUrl('cropped'));
+=======
+        $this->assertEquals('/media/1/conversions/image-cropped.jpg', $asset->getFileUrl('cropped'));
+>>>>>>> master:tests/AssetTest.php
         $this->assertEquals('600 x 400', $asset->getDimensions('cropped'));
     }
 
@@ -349,13 +358,13 @@ class AssetTest extends TestCase
         $this->assertFileIsReadable($dir);
         $this->assertFileNotIsWritable($dir);
 
-        Asset::remove($asset->id);
+        Asset::removeByIds($asset->id);
 
         $this->assertEquals(1, Asset::getAllAssets()->count());
         $this->assertCount(1, $asset->fresh()->media);
 
         @chmod($dir, 0777);
-        Asset::remove($asset->id);
+        Asset::removeByIds($asset->id);
     }
 
     /**

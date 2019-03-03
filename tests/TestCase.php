@@ -14,7 +14,14 @@ abstract class TestCase extends Orchestra
     /** @var \Thinktomorrow\AssetLibrary\Tests\stubs\Article */
     protected $testArticle;
 
-    use TestHelpers, DatabaseTransactions;
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->setUpDatabase($this->app);
+
+        $this->testArticle = Article::first();
+    }
 
     protected function disableExceptionHandling()
     {
@@ -36,6 +43,24 @@ abstract class TestCase extends Orchestra
 
     /**
      * @param \Illuminate\Foundation\Application $app
+<<<<<<< HEAD
+=======
+     */
+    protected function setUpDatabase($app)
+    {
+        $app['db']->connection()->getSchemaBuilder()->create('test_models', function (Blueprint $table) {
+            $table->increments('id');
+        });
+        Article::create();
+        include_once __DIR__.'/../database/migrations/2019_01_10_154909_create_media_table.php';
+        include_once __DIR__.'/../database/migrations/2019_01_10_154910_create_asset_table.php';
+        (new \CreateAssetTable())->up();
+        (new \CreateMediaTable())->up();
+    }
+
+    /**
+     * @param \Illuminate\Foundation\Application $app
+>>>>>>> master
      *
      * @return array
      */

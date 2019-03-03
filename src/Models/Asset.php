@@ -188,40 +188,38 @@ class Asset extends Model implements HasAsset
     /**
      * Removes one or more assets by their ids.
      */
-    public static function remove($imageIds)
+    public static function removeByIds($imageIds)
     {
         if (is_array($imageIds)) {
             foreach ($imageIds as $id) {
-                self::removeFile($id);
+                self::remove($id);
             }
         } else {
-            self::removeFile($imageIds);
+            if (! $imageIds) {
+                return;
+            }
+
+            self::remove($imageIds);
         }
     }
 
     /**
-     * Removes itself.
+     * Removes one assets by id.
+     * It also checks if you have the permissions to remove the file.
+     *
+     * @param $imageIds
      */
-    public function removeSelf()
+    public static function remove($id)
     {
-        $this->removeFile($this->id);
-    }
-
-    private static function removeFile($id)
-    {
-        if (! $id) {
-            return;
-        }
-
         $asset = self::find($id)->first();
-
         $media = $asset->media;
 
         foreach ($media as $file) {
             if (! is_file(public_path($file->getUrl())) || ! is_writable(public_path($file->getUrl()))) {
-                return false;
+                return;
             }
         }
+
         $asset->delete();
     }
 
