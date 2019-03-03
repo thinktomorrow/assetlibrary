@@ -18,18 +18,18 @@ class AssetUploader extends Model
      *
      * @param Asset|Traversable|array|Collection|UploadedFile $files
      * @param string|null $filename
-     * @param bool $keepOriginal
+     * @param bool $
      * @return Collection|null|Asset
      * @throws FileCannotBeAdded
      */
-    public static function upload($files, $filename = null, $keepOriginal = false)
+    public static function upload($files, $filename = null)
     {
         if ($files instanceof Asset) {
             return $files;
         }
 
         if (is_array($files) || $files instanceof Traversable) {
-            return self::uploadMultiple($files, $keepOriginal);
+            return self::uploadMultiple($files);
         }
 
         if (! ($files instanceof UploadedFile)) {
@@ -37,8 +37,7 @@ class AssetUploader extends Model
         }
 
         $asset = Asset::create();
-
-        return self::uploadToAsset($files, $asset, $filename, $keepOriginal);
+        return self::uploadToAsset($files, $asset, $filename);
     }
 
     /**
@@ -46,19 +45,18 @@ class AssetUploader extends Model
      * asset that is needed to upload the files too.
      *
      * @param Asset|Traversable|array $files
-     * @param bool $keepOriginal
      * @return Collection
      */
-    private static function uploadMultiple($files, $keepOriginal = false)
+    private static function uploadMultiple($files)
     {
         $list = collect([]);
-        collect($files)->each(function ($file) use ($list, $keepOriginal) {
+        collect($files)->each(function ($file) use ($list) {
             if ($file instanceof Asset) {
                 $list->push($file);
             } else {
                 $asset = new Asset();
                 $asset->save();
-                $list->push(self::uploadToAsset($file, $asset, null, $keepOriginal));
+                $list->push(self::uploadToAsset($file, $asset, null));
             }
         });
 
@@ -71,15 +69,14 @@ class AssetUploader extends Model
      *
      * @param string $file
      * @param string|null $filename
-     * @param bool $keepOriginal
      * @return Collection|null|Asset
      * @throws FileCannotBeAdded
      */
-    public static function uploadFromBase64($file, $filename = null, $keepOriginal = false)
+    public static function uploadFromBase64($file, $filename = null)
     {
         $asset = Asset::create();
 
-        return self::uploadBase64ToAsset($file, $asset, $filename, $keepOriginal);
+        return self::uploadBase64ToAsset($file, $asset, $filename);
     }
 
     /**
@@ -104,11 +101,10 @@ class AssetUploader extends Model
      * @param UploadedFile $file
      * @param Asset $asset
      * @param string|null $filename
-     * @param bool $keepOriginal
      * @return null|Asset
      * @throws FileCannotBeAdded
      */
-    public static function uploadToAsset($file, $asset, $filename = null, $keepOriginal = false): ?Asset
+    public static function uploadToAsset($file, $asset, $filename = null): ?Asset
     {
         $customProps = [];
         if (self::isImage($file)) {
@@ -120,7 +116,7 @@ class AssetUploader extends Model
         $fileAdd = $asset->addMedia($file)
                         ->withCustomProperties($customProps);
 
-        $fileAdd = self::prepareOptions($fileAdd, $keepOriginal, $filename);
+        $fileAdd = self::prepareOptions($fileAdd, $filename);
 
         $fileAdd->withResponsiveImages()->toMediaCollection();
 
@@ -134,12 +130,11 @@ class AssetUploader extends Model
      * @param string $file
      * @param Asset $asset
      * @param string|null $filename
-     * @param bool $keepOriginal
      * @return null|Asset
      * @throws FileCannotBeAdded
      * @internal param $files
      */
-    public static function uploadBase64ToAsset($file, $asset, $filename = null, $keepOriginal = false): ?Asset
+    public static function uploadBase64ToAsset($file, $asset, $filename = null): ?Asset
     {
         $fileAdd = $asset->addMediaFromBase64($file);
 
@@ -148,7 +143,7 @@ class AssetUploader extends Model
             $filename  = pathinfo($file, PATHINFO_BASENAME).'.'.$extension;
         }
 
-        $fileAdd = self::prepareOptions($fileAdd, $keepOriginal, $filename);
+        $fileAdd = self::prepareOptions($fileAdd, $filename);
 
         $fileAdd->toMediaCollection();
 
@@ -171,7 +166,7 @@ class AssetUploader extends Model
         $filename = substr($url, strrpos($url, '/') + 1);
         $fileAdd->setName($filename);
 
-        $fileAdd = self::prepareOptions($fileAdd, false, $filename);
+        $fileAdd = self::prepareOptions($fileAdd, $filename);
 
         $fileAdd->toMediaCollection();
 
@@ -193,27 +188,23 @@ class AssetUploader extends Model
      *
      * @param FileAdder $fileAdd
      * @param string|null $filename
-     * @param bool $keepOriginal
      * @return FileAdder
      * @throws FileCannotBeAdded
      */
-    private static function prepareOptions($fileAdd, $keepOriginal, $filename): FileAdder
+    private static function prepareOptions($fileAdd, $filename): FileAdder
     {
-        if ($keepOriginal) {
-            $fileAdd = $fileAdd->preservingOriginal();
-        }
-
         if ($filename) {
             $fileAdd->usingName(substr($filename, 0, strpos($filename, '.')));
             $fileAdd->usingFileName($filename);
         }
+
+        $fileAdd->preservingOriginal();
 
         // Sanitize filename by sluggifying the filename without the extension
         $fileAdd->sanitizingFileName(function ($filename) {
             $extension = substr($filename, strrpos($filename, '.') + 1);
             $filename  = substr($filename, 0, strrpos($filename, '.'));
             $filename  = str_slug($filename).'.'.$extension;
-
             return strtolower($filename);
         });
 

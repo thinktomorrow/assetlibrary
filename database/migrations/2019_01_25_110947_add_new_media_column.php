@@ -6,9 +6,6 @@ use Illuminate\Database\Migrations\Migration;
 
 class AddNewMediaColumn extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up()
     {
         Schema::table('media', function (Blueprint $table) {
@@ -18,9 +15,6 @@ class AddNewMediaColumn extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down()
     {
     }

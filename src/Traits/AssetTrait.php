@@ -4,6 +4,7 @@ namespace Thinktomorrow\AssetLibrary\Traits;
 
 use Thinktomorrow\AssetLibrary\Models\Asset;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
+use Thinktomorrow\AssetLibrary\Models\AssetLibrary;
 use Thinktomorrow\AssetLibrary\Models\AssetUploader;
 
 trait AssetTrait
@@ -74,21 +75,20 @@ trait AssetTrait
      * @param string $type
      * @param string|null $locale
      * @param null $filename
-     * @param bool $keepOriginal
      * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
      * @throws \Thinktomorrow\AssetLibrary\Exceptions\AssetUploadException
      */
-    public function addFile($file, $type = '', $locale = null, $filename = null, $keepOriginal = false)
+    public function addFile($file, $type = '', $locale = null, $filename = null)
     {
         if (is_iterable($file)) {
-            return $this->addFiles($file, $type, $locale, $keepOriginal);
+            return $this->addFiles($file, $type, $locale);
         } else {
             $locale = $this->normalizeLocaleString($locale);
 
             if (is_string($file)) {
-                $asset = AssetUploader::uploadFromBase64($file, $filename, $keepOriginal);
+                $asset = AssetUploader::uploadFromBase64($file, $filename);
             } else {
-                $asset = AssetUploader::upload($file, $filename, $keepOriginal);
+                $asset = AssetUploader::upload($file, $filename);
             }
 
             if ($asset instanceof Asset) {
@@ -105,11 +105,10 @@ trait AssetTrait
      * @param $files
      * @param string $type
      * @param string|null $locale
-     * @param bool $keepOriginal
      * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
      * @throws \Thinktomorrow\AssetLibrary\Exceptions\AssetUploadException
      */
-    public function addFiles($files, $type = '', $locale = null, $keepOriginal = false)
+    public function addFiles($files, $type = '', $locale = null)
     {
         $files  = (array) $files;
         $locale = $this->normalizeLocaleString($locale);
@@ -117,7 +116,7 @@ trait AssetTrait
 
         foreach ($files as $filename => $file) {
             $filename = is_string($filename) ? $filename : '';
-            $assets->push($this->addFile($file, $type, $locale, $filename, $keepOriginal));
+            $assets->push($this->addFile($file, $type, $locale, $filename));
         }
 
         return $assets;
@@ -142,7 +141,7 @@ trait AssetTrait
      */
     public function deleteAsset($ids): void
     {
-        Asset::removeByIds($ids);
+        AssetLibrary::removeByIds($ids);
     }
 
     /**

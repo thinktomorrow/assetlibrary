@@ -13,17 +13,14 @@ use Thinktomorrow\AssetLibrary\Tests\stubs\Article;
 
 class ImageToAssetMigrateCommandTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
-
-        $this->setUpDatabase();
-        Article::migrate();
 
         $this->testArticle = Article::create();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->beforeApplicationDestroyed(function () {
             DB::disconnect();
@@ -172,13 +169,13 @@ class ImageToAssetMigrateCommandTest extends TestCase
                 'linkedmodel' => 'Thinktomorrow\AssetLibrary\Tests\stubs\Article',
             ]);
 
-        $article = Article::first();
+
         // assert order is set on the asset
-        $this->assertEquals(7, $article->order);
+        $this->assertEquals(7, $this->testArticle->fresh()->getAllImages()->first()->pivot->order);
 
         // assert the image exists on both locations
-        $this->assertFileExists(public_path($article->imageurl));
-        $this->assertFileExists(public_path($article->getFileUrl()));
+        $this->assertFileExists(public_path($this->testArticle->imageurl));
+        $this->assertFileExists(public_path($this->testArticle->getFileUrl()));
     }
 
     /** @test */
@@ -257,13 +254,11 @@ class ImageToAssetMigrateCommandTest extends TestCase
                 'idcolumn'    => 'productid',
             ]);
 
-        $article = Article::first();
-
-        $this->assertCount(2, $article->assets);
+        $this->assertCount(2, $this->testArticle->fresh()->assets);
 
         // assert the image exists on both locations
-        $this->assertFileExists(public_path($article->imageurl));
-        $this->assertFileExists(public_path($article->getFileUrl()));
+        $this->assertFileExists(public_path($this->testArticle->imageurl));
+        $this->assertFileExists(public_path($this->testArticle->getFileUrl()));
     }
 
     /** @test */

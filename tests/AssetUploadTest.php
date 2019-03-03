@@ -7,6 +7,8 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Artisan;
 use Thinktomorrow\AssetLibrary\Models\Asset;
+use Thinktomorrow\AssetLibrary\Tests\TestCase;
+use Thinktomorrow\AssetLibrary\Models\AssetLibrary;
 use Thinktomorrow\AssetLibrary\Models\AssetUploader;
 
 class AssetUploadTest extends TestCase
@@ -26,14 +28,13 @@ class AssetUploadTest extends TestCase
     /**
      * @test
      *
-     * This test currently doesn't fail if we set keepOriginal to false TODO FIX THIS.
      */
     public function it_can_keep_original_source()
     {
         $source = UploadedFile::fake()->create('testSource.txt');
 
         // Second parameter is flag to preserve original source file
-        $asset = AssetUploader::upload($source, null, true);
+        $asset = AssetUploader::upload($source);
 
         $this->assertFileExists($source->getPath());
     }
@@ -51,6 +52,6 @@ class AssetUploadTest extends TestCase
 
         AssetUploader::upload($assets);
 
-        $this->assertEquals(3, Asset::getAllAssets()->count());
+        $this->assertEquals(3, AssetLibrary::getAllAssets()->count());
     }
 }

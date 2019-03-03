@@ -29,5 +29,10 @@ class AssetLibraryServiceProvider extends ServiceProvider
         (new MediaLibraryServiceProvider($this->app))->register();
 
         $this->mergeConfigFrom(__DIR__.'/../config/assetlibrary.php', 'assetlibrary');
+
+        $this->app->bind('command.assetlibrary:migrate-image', ImageToAssetMigrateCommand::class);
+        $this->commands([
+            'command.assetlibrary:migrate-image',
+        ]);
     }
 }

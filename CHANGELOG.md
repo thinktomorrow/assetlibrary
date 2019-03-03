@@ -10,6 +10,8 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 - Added HasAsset interface to replace the HasMedia interface on the models.
 - the remove method on asset now removes 1 asset by id
 - added removeByIds method on asset to remove multiple assets
+- added imagemigrate command
+- moved some of the static functions on asset to assetlibrary class
 
 ## NEXT - 2018-07-26
 

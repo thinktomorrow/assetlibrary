@@ -70,6 +70,11 @@ class ImageToAssetMigrateCommand extends Command
             foreach ($result['images'] as $line) {
                 $bar->advance();
 
+                if (!$line) {
+                    $unreachable++;
+                    continue;
+                }
+
                 if (! $this->option('dry')) {
                     try {
                         $asset = AssetUploader::uploadFromUrl(public_path($line));
@@ -80,10 +85,10 @@ class ImageToAssetMigrateCommand extends Command
                         continue;
                     }
 
-                    $asset->attachToModel($persistedModel);
-
                     if ($this->argument('ordercolumn')) {
-                        $asset->setOrder($result['order']);
+                        $asset->setOrder($result['order'])->attachToModel($persistedModel);
+                    }else{
+                        $asset->attachToModel($persistedModel);
                     }
 
                     if ($this->option('force')) {

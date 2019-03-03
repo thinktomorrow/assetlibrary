@@ -8,20 +8,13 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Artisan;
 use Thinktomorrow\AssetLibrary\Models\Asset;
 use Thinktomorrow\AssetLibrary\Tests\TestCase;
+use Thinktomorrow\AssetLibrary\Models\AssetLibrary;
 use Thinktomorrow\AssetLibrary\Tests\stubs\Article;
 use Thinktomorrow\AssetLibrary\Models\AssetUploader;
 
 class AssetUploadTest extends TestCase
 {
-    public function setUp()
-    {
-        parent::setUp();
-
-        $this->setUpDatabase();
-        Article::migrate();
-    }
-
-    public function tearDown()
+    public function tearDown(): void
     {
         Artisan::call('medialibrary:clear');
         $this->beforeApplicationDestroyed(function () {
@@ -36,7 +29,6 @@ class AssetUploadTest extends TestCase
     /**
      * @test
      *
-     * This test currently doesn't fail if we set keepOriginal to false TODO FIX THIS.
      */
     public function it_can_keep_original_source()
     {
@@ -72,7 +64,7 @@ class AssetUploadTest extends TestCase
 
         AssetUploader::upload($assets);
 
-        $this->assertEquals(3, Asset::getAllAssets()->count());
+        $this->assertEquals(3, AssetLibrary::getAllAssets()->count());
     }
 
     /**

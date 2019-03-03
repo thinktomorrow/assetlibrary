@@ -2,65 +2,65 @@
 
 namespace Thinktomorrow\AssetLibrary\Tests;
 
+use Mockery;
+
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Foundation\Exceptions\Handler;
-use Orchestra\Testbench\TestCase as Orchestra;
 use Illuminate\Contracts\Debug\ExceptionHandler;
+use Illuminate\Cookie\Middleware\EncryptCookies;
+use Orchestra\Testbench\TestCase as BaseTestCase;
+use Thinktomorrow\AssetLibrary\Tests\AssetlibraryDatabaseTransactions;
 
-abstract class TestCase extends Orchestra
+class TestCase extends BaseTestCase
 {
+    use TestHelpers, AssetlibraryDatabaseTransactions;
+
     protected $protectTestEnvironment = true;
-    protected static $migrationsRun   = false;
 
-    /** @var \Thinktomorrow\AssetLibrary\Tests\stubs\Article */
-    protected $testArticle;
-
-    protected function setUp(): void
+    public function setUp(): void
     {
         parent::setUp();
 
-        $this->setUpDatabase($this->app);
+        $this->protectTestEnvironment();
 
-        $this->testArticle = Article::first();
+        $this->setUpDatabase();
+        config(['app.fallback_locale' => 'nl']);
+    }
+
+    public function tearDown(): void
+    {
+        Mockery::close();
+
+        parent::tearDown();
     }
 
     protected function disableExceptionHandling()
     {
-        $this->app->instance(ExceptionHandler::class, new class extends Handler {
-            public function __construct()
-            {
-            }
-
-            public function report(\Exception $e)
-            {
-            }
-
-            public function render($request, \Exception $e)
-            {
-                throw $e;
-            }
+        $this->app->instance(ExceptionHandler::class, new class extends Handler{
+            public function __construct(){}
+            public function report(\Exception $e){}
+            public function render($request, \Exception $e){ throw $e; }
         });
     }
 
-    /**
-     * @param \Illuminate\Foundation\Application $app
-<<<<<<< HEAD
-=======
-     */
-    protected function setUpDatabase($app)
+    protected function protectTestEnvironment()
     {
-        $app['db']->connection()->getSchemaBuilder()->create('test_models', function (Blueprint $table) {
-            $table->increments('id');
-        });
-        Article::create();
-        include_once __DIR__.'/../database/migrations/2019_01_10_154909_create_media_table.php';
-        include_once __DIR__.'/../database/migrations/2019_01_10_154910_create_asset_table.php';
-        (new \CreateAssetTable())->up();
-        (new \CreateMediaTable())->up();
+        if( ! $this->protectTestEnvironment) return;
+
+        if("testing" !== $this->app->environment())
+        {
+            throw new \Exception('Make sure your testing environment is properly set. You are now running tests in the ['.$this->app->environment().'] environment');
+        }
+
+        if(DB::getName() != "testing" && DB::getName() != "setup")
+        {
+            throw new \Exception('Make sure to use a dedicated testing database connection. Currently you are using ['.DB::getName().']. Are you crazy?');
+        }
     }
 
-    /**
+     /**
      * @param \Illuminate\Foundation\Application $app
->>>>>>> master
      *
      * @return array
      */
@@ -68,7 +68,6 @@ abstract class TestCase extends Orchestra
     {
         return [
             \Thinktomorrow\AssetLibrary\AssetLibraryServiceProvider::class,
-            \Spatie\MediaLibrary\MediaLibraryServiceProvider::class,
         ];
     }
 
@@ -107,4 +106,5 @@ abstract class TestCase extends Orchestra
     {
         return $this->getTempDirectory().'/media'.($suffix == '' ? '' : '/'.$suffix);
     }
+
 }
