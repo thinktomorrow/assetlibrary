@@ -196,7 +196,7 @@ class AssetTest extends TestCase
     {
         $asset = $this->getUploadedAsset();
 
-        $this->assertEquals($asset->getSize(), '109 B');
+        $this->assertEquals($asset->getSize(), '130 B');
     }
 
     /**
@@ -244,6 +244,16 @@ class AssetTest extends TestCase
 //        $this->assertEquals('pdf', $asset1->getExtensionForFilter());
 //        $this->assertEquals('excel', $asset2->getExtensionForFilter());
         $this->assertEquals('', $asset3->getExtensionForFilter());
+    }
+
+    /**
+     * @test
+     */
+    public function it_will_keep_the_extension_after_upload()
+    {
+        $asset = AssetUploader::upload(UploadedFile::fake()->image('image.jpeg', 100, 100));
+
+        $this->assertEquals('/media/1/conversions/image-thumb.jpg', $asset->getFileUrl('thumb'));
     }
 
     /**

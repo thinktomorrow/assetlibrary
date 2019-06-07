@@ -18,7 +18,7 @@ class TestCase extends BaseTestCase
 
     protected $protectTestEnvironment = true;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -57,6 +57,14 @@ class TestCase extends BaseTestCase
         {
             throw new \Exception('Make sure to use a dedicated testing database connection. Currently you are using ['.DB::getName().']. Are you crazy?');
         }
+        // $app['db']->connection()->getSchemaBuilder()->create('test_models', function (Blueprint $table) {
+        //     $table->increments('id');
+        // });
+        // Article::create();
+        // include_once __DIR__.'/../database/migrations/2019_01_10_154909_create_media_table.php';
+        // include_once __DIR__.'/../database/migrations/2019_01_10_154910_create_asset_table.php';
+        // (new \CreateAssetTable())->up();
+        // (new \CreateMediaTable())->up();
     }
 
      /**
