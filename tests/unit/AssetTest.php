@@ -394,6 +394,7 @@ class AssetTest extends TestCase
         $this->assertCount(0, Asset::all());
     }
 
+    /** @test */
     public function it_throws_an_error_if_no_media_is_attached_to_an_asset_on_extension_filter()
     {
         $this->expectException(CorruptMediaException::class);

@@ -2,7 +2,6 @@
 
 namespace Thinktomorrow\AssetLibrary\Models;
 
-use Thinktomorrow\Locale\Locale;
 use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\Models\Media;
 use Illuminate\Database\Eloquent\Model;
@@ -68,9 +67,6 @@ class Asset extends Model implements HasAsset
     public function getFileUrl($size = ''): string
     {
         $media = $this->getMedia()->first();
-        if ($media == null) {
-            throw CorruptMediaException::corrupt($this->id);
-        }
 
         if ($media == null) {
             throw CorruptMediaException::corrupt($this->id);
@@ -119,6 +115,7 @@ class Asset extends Model implements HasAsset
     public function getExtensionType(): ?string
     {
         $media = $this->getMedia()->first();
+
         if ($media == null) {
             throw CorruptMediaException::corrupt($this->id);
         }
@@ -183,58 +180,6 @@ class Asset extends Model implements HasAsset
         }
 
         return $this->getMedia()[0]->getCustomProperty('dimensions');
-    }
-
-    /**
-     * Removes one or more assets by their ids.
-     * @param $imageIds
-     */
-    public static function removeByIds($imageIds)
-    {
-        if (is_array($imageIds)) {
-            foreach ($imageIds as $id) {
-                if (! $id) {
-                    continue;
-                }
-
-                self::remove($id);
-            }
-        } else {
-            if (! $imageIds) {
-                return;
-            }
-
-            self::remove($imageIds);
-        }
-    }
-
-    /**
-     * Removes one assets by id.
-     * It also checks if you have the permissions to remove the file.
-     *
-     * @param $imageIds
-     */
-    public static function remove($id)
-    {
-        $asset = self::find($id)->first();
-        $media = $asset->media;
-
-        foreach ($media as $file) {
-            if (! is_file(public_path($file->getUrl())) || ! is_writable(public_path($file->getUrl()))) {
-                return;
-            }
-        }
-
-        $asset->delete();
-    }
-
-    /**
-     * Returns a collection of all the assets in the library.
-     * @return \Illuminate\Support\Collection
-     */
-    public static function getAllAssets(): Collection
-    {
-        return self::all()->sortByDesc('created_at');
     }
 
     /**
