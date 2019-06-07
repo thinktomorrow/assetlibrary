@@ -37,6 +37,7 @@ class AssetUploader extends Model
         }
 
         $asset = Asset::create();
+
         return self::uploadToAsset($files, $asset, $filename);
     }
 
@@ -205,6 +206,7 @@ class AssetUploader extends Model
             $extension = substr($filename, strrpos($filename, '.') + 1);
             $filename  = substr($filename, 0, strrpos($filename, '.'));
             $filename  = str_slug($filename).'.'.$extension;
+
             return strtolower($filename);
         });
 

@@ -3,8 +3,8 @@
 namespace Thinktomorrow\AssetLibrary;
 
 use Illuminate\Support\ServiceProvider;
-use Thinktomorrow\AssetLibrary\Commands\ImageToAssetMigrateCommand;
 use Spatie\MediaLibrary\MediaLibraryServiceProvider;
+use Thinktomorrow\AssetLibrary\Commands\ImageToAssetMigrateCommand;
 
 class AssetLibraryServiceProvider extends ServiceProvider
 {
