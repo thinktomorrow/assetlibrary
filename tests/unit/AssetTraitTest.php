@@ -494,4 +494,27 @@ class AssetTraitTest extends TestCase
         $this->assertEquals($asset3->id, $images->pop()->id);
         $this->assertEquals($asset1->id, $images->pop()->id);
     }
+
+    /** @test */
+    public function it_has_no_problem_with_upper_case_extentions()
+    {
+        $article = $this->getArticleWithAsset('banner', 'nl');
+
+        $image_name = json_decode($this->getBase64WithName("test.PNG"))->output->name;
+        $article->addFile(json_decode($this->getBase64WithName("test.PNG"))->output->image, 'thumbnail', null, $image_name, $article);
+
+        $this->assertEquals('test.png', $article->getFilename("thumbnail"));
+    }
+
+    /**
+     * @test
+     */
+    public function addFile_returns_asset()
+    {
+        $article = $this->getArticleWithAsset('banner');
+
+        $asset = $article->addFile(UploadedFile::fake()->image('imageFR.png'), 'banner', 'fr');
+
+        $this->assertInstanceOf(Asset::class, $asset);
+    }
 }
