@@ -3,7 +3,6 @@
 namespace Thinktomorrow\AssetLibrary\Models;
 
 use Illuminate\Support\Collection;
-use Thinktomorrow\AssetLibrary\Models\Asset;
 
 class AssetLibrary
 {
@@ -33,7 +32,9 @@ class AssetLibrary
      */
     public static function remove($id)
     {
-        if(!$id) return false;
+        if (! $id) {
+            return false;
+        }
 
         $asset = Asset::find($id)->first();
         $media = $asset->media;

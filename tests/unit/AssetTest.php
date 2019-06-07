@@ -3,7 +3,6 @@
 namespace Thinktomorrow\AssetLibrary\Tests\unit;
 
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Artisan;
 use Thinktomorrow\AssetLibrary\Models\Asset;
 use Thinktomorrow\AssetLibrary\Tests\TestCase;
@@ -12,11 +11,9 @@ use Thinktomorrow\AssetLibrary\Tests\stubs\Article;
 use Thinktomorrow\AssetLibrary\Models\AssetUploader;
 use Thinktomorrow\AssetLibrary\Exceptions\AssetUploadException;
 use Thinktomorrow\AssetLibrary\Exceptions\CorruptMediaException;
-use Thinktomorrow\AssetLibrary\Tests\AssetlibraryDatabaseTransactions;
 
 class AssetTest extends TestCase
 {
-
     public function tearDown(): void
     {
         Artisan::call('medialibrary:clear');

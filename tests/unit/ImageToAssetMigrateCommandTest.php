@@ -168,7 +168,6 @@ class ImageToAssetMigrateCommandTest extends TestCase
                 'linkedmodel' => 'Thinktomorrow\AssetLibrary\Tests\stubs\Article',
             ]);
 
-
         // assert order is set on the asset
         $this->assertEquals(7, $this->testArticle->fresh()->getAllImages()->first()->pivot->order);
 
@@ -181,8 +180,8 @@ class ImageToAssetMigrateCommandTest extends TestCase
     public function it_can_migrate_images_with_locale()
     {
         // fill db with an entry
-        $this->testArticle->imageurl = '/uploads/warpaint-logo.svg';
-        $this->testArticle->order    = 7;
+        $this->testArticle->imageurl  = '/uploads/warpaint-logo.svg';
+        $this->testArticle->order     = 7;
         $this->testArticle->locale    = 'nl';
         $this->testArticle->save();
 
@@ -193,7 +192,6 @@ class ImageToAssetMigrateCommandTest extends TestCase
                 'localecolumn' => 'locale',
                 'linkedmodel' => 'Thinktomorrow\AssetLibrary\Tests\stubs\Article',
             ]);
-
 
         // assert order is set on the asset
         $this->assertEquals('nl', $this->testArticle->fresh()->getAllImages()->first()->pivot->locale);
@@ -218,7 +216,6 @@ class ImageToAssetMigrateCommandTest extends TestCase
                 'localecolumn' => 'locale',
                 'linkedmodel' => 'Thinktomorrow\AssetLibrary\Tests\stubs\Article',
             ]);
-
 
         // assert order is set on the asset
         $this->assertEquals('nl', $this->testArticle->fresh()->getAllImages()->first()->pivot->locale);
