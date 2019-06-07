@@ -196,7 +196,7 @@ class AssetTest extends TestCase
     {
         $asset = $this->getUploadedAsset();
 
-        $this->assertEquals($asset->getSize(), '130 B');
+        $this->assertEquals($asset->getSize(), '109 B');
     }
 
     /**
