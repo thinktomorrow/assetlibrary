@@ -2,7 +2,6 @@
 
 namespace Thinktomorrow\AssetLibrary\Models;
 
-use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\Models\Media;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;

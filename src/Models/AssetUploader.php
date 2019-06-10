@@ -200,6 +200,7 @@ class AssetUploader extends Model
             $extension = substr($filename, strrpos($filename, '.') + 1);
             $filename  = substr($filename, 0, strrpos($filename, '.'));
             $filename  = Str::slug($filename).'.'.$extension;
+
             return strtolower($filename);
         });
 
