@@ -21,7 +21,6 @@ class AssetUploadTest extends TestCase
 
     /**
      * @test
-     *
      */
     public function it_can_keep_original_source()
     {

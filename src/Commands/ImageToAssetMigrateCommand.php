@@ -66,9 +66,9 @@ class ImageToAssetMigrateCommand extends Command
             foreach ($result['images'] as $line) {
                 $bar->advance();
 
-                if (!$line || $this->option('dry')) {
+                if (! $line || $this->option('dry')) {
                     $line ?? $this->unreachable++;
-                    $this->option('dry') ? $this->files++: '';
+                    $this->option('dry') ? $this->files++ : '';
                     continue;
                 }
 
@@ -81,7 +81,7 @@ class ImageToAssetMigrateCommand extends Command
                     continue;
                 }
 
-                $asset->setOrder($result['order']??null)->attachToModel($result['model']);
+                $asset->setOrder($result['order'] ?? null)->attachToModel($result['model']);
 
                 if ($this->option('force')) {
                     unlink(public_path($line));
@@ -106,7 +106,7 @@ class ImageToAssetMigrateCommand extends Command
 
         $builder = DB::table($this->table)->select($columns);
 
-        if (!$this->ordercolumn) {
+        if (! $this->ordercolumn) {
             $builder = $builder->orderBy($this->idcolumn);
         }
 
@@ -153,8 +153,8 @@ class ImageToAssetMigrateCommand extends Command
             }
 
             return $formattedResults;
-        })->reject(function($value){
-            if($result = $value['model'] == null) {
+        })->reject(function ($value) {
+            if ($result = $value['model'] == null) {
                 $this->nomodel++;
             }
 

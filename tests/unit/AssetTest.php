@@ -14,7 +14,6 @@ use Thinktomorrow\AssetLibrary\Exceptions\CorruptMediaException;
 
 class AssetTest extends TestCase
 {
-
     public function tearDown(): void
     {
         Artisan::call('medialibrary:clear');

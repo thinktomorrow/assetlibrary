@@ -3,14 +3,10 @@
 namespace Thinktomorrow\AssetLibrary\Tests;
 
 use Mockery;
-
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Foundation\Exceptions\Handler;
 use Illuminate\Contracts\Debug\ExceptionHandler;
-use Illuminate\Cookie\Middleware\EncryptCookies;
 use Orchestra\Testbench\TestCase as BaseTestCase;
-use Thinktomorrow\AssetLibrary\Tests\AssetlibraryDatabaseTransactions;
 
 class TestCase extends BaseTestCase
 {
@@ -38,24 +34,33 @@ class TestCase extends BaseTestCase
 
     protected function disableExceptionHandling()
     {
-        $this->app->instance(ExceptionHandler::class, new class extends Handler{
-            public function __construct(){}
-            public function report(\Exception $e){}
-            public function render($request, \Exception $e){ throw $e; }
+        $this->app->instance(ExceptionHandler::class, new class extends Handler {
+            public function __construct()
+            {
+            }
+
+            public function report(\Exception $e)
+            {
+            }
+
+            public function render($request, \Exception $e)
+            {
+                throw $e;
+            }
         });
     }
 
     protected function protectTestEnvironment()
     {
-        if( ! $this->protectTestEnvironment) return;
+        if (! $this->protectTestEnvironment) {
+            return;
+        }
 
-        if("testing" !== $this->app->environment())
-        {
+        if ('testing' !== $this->app->environment()) {
             throw new \Exception('Make sure your testing environment is properly set. You are now running tests in the ['.$this->app->environment().'] environment');
         }
 
-        if(DB::getName() != "testing" && DB::getName() != "setup")
-        {
+        if (DB::getName() != 'testing' && DB::getName() != 'setup') {
             throw new \Exception('Make sure to use a dedicated testing database connection. Currently you are using ['.DB::getName().']. Are you crazy?');
         }
         // $app['db']->connection()->getSchemaBuilder()->create('test_models', function (Blueprint $table) {
@@ -68,7 +73,7 @@ class TestCase extends BaseTestCase
         // (new \CreateMediaTable())->up();
     }
 
-     /**
+    /**
      * @param \Illuminate\Foundation\Application $app
      *
      * @return array
@@ -115,5 +120,4 @@ class TestCase extends BaseTestCase
     {
         return $this->getTempDirectory().'/media'.($suffix == '' ? '' : '/'.$suffix);
     }
-
 }

@@ -477,10 +477,10 @@ class AssetTraitTest extends TestCase
     {
         $article = $this->getArticleWithAsset('banner', 'nl');
 
-        $image_name = json_decode($this->getBase64WithName("test.PNG"))->output->name;
-        $article->addFile(json_decode($this->getBase64WithName("test.PNG"))->output->image, 'thumbnail', null, $image_name, $article);
+        $image_name = json_decode($this->getBase64WithName('test.PNG'))->output->name;
+        $article->addFile(json_decode($this->getBase64WithName('test.PNG'))->output->image, 'thumbnail', null, $image_name, $article);
 
-        $this->assertEquals('test.png', $article->getFilename("thumbnail"));
+        $this->assertEquals('test.png', $article->getFilename('thumbnail'));
     }
 
     /**
