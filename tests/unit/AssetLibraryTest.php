@@ -8,7 +8,6 @@ use Thinktomorrow\AssetLibrary\Models\AssetLibrary;
 
 class AssetLibraryTest extends TestCase
 {
-
     public function tearDown(): void
     {
         Artisan::call('medialibrary:clear');
@@ -38,7 +37,7 @@ class AssetLibraryTest extends TestCase
         $this->assertEquals($asset2->id, AssetLibrary::getAllAssets()->first()->id);
     }
 
-     /**
+    /**
      * @test
      */
     public function it_can_handle_invalid_inputs_to_remove_function()
