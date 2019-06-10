@@ -4,3 +4,4 @@ build
 /report
 /build
 /tests/temp
+.phpunit.result.cache

@@ -3,7 +3,6 @@
 namespace Thinktomorrow\AssetLibrary\Tests\unit;
 
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Artisan;
 use Thinktomorrow\AssetLibrary\Models\Asset;
 use Thinktomorrow\AssetLibrary\Tests\TestCase;
@@ -12,7 +11,6 @@ use Thinktomorrow\AssetLibrary\Tests\stubs\Article;
 use Thinktomorrow\AssetLibrary\Models\AssetUploader;
 use Thinktomorrow\AssetLibrary\Exceptions\AssetUploadException;
 use Thinktomorrow\AssetLibrary\Exceptions\CorruptMediaException;
-use Thinktomorrow\AssetLibrary\Tests\AssetlibraryDatabaseTransactions;
 
 class AssetTest extends TestCase
 {
@@ -69,66 +67,6 @@ class AssetTest extends TestCase
         $this->assertEquals('/media/3/image.png', $article->getFileUrl('thumbnail', '', 'fr'));
 
         $this->assertEquals(3, AssetLibrary::getAllAssets()->count());
-    }
-
-    /**
-     * @test
-     */
-    public function it_can_remove_an_image()
-    {
-        //upload a single image
-        $asset = $this->getUploadedAsset();
-
-        $this->assertEquals($asset->getFilename(), 'image.png');
-        $this->assertEquals($asset->getImageUrl(), '/media/1/image.png');
-
-        $asset2 = $this->getUploadedAsset('image.png');
-
-        $this->assertEquals($asset2->getFilename(), 'image.png');
-        $this->assertEquals($asset2->getImageUrl(), '/media/2/image.png');
-
-        AssetLibrary::removeByIds($asset->id);
-
-        $this->assertEquals(1, AssetLibrary::getAllAssets()->count());
-        $this->assertEquals($asset2->id, AssetLibrary::getAllAssets()->first()->id);
-    }
-
-    /**
-     * @test
-     */
-    public function it_can_handle_invalid_inputs_to_remove_function()
-    {
-        //upload a single image
-        $asset = $this->getUploadedAsset();
-
-        $this->assertEquals($asset->getFilename(), 'image.png');
-        $this->assertEquals($asset->getImageUrl(), '/media/1/image.png');
-
-        AssetLibrary::removeByIds([null]);
-        AssetLibrary::removeByIds(null);
-
-        $this->assertEquals(1, AssetLibrary::getAllAssets()->count());
-    }
-
-    /**
-     * @test
-     */
-    public function it_can_remove_multiple_images()
-    {
-        //upload a single image
-        $asset = $this->getUploadedAsset();
-
-        $this->assertEquals($asset->getFilename(), 'image.png');
-        $this->assertEquals($asset->getImageUrl(), '/media/1/image.png');
-
-        $asset2 = $this->getUploadedAsset('image.png');
-
-        $this->assertEquals($asset2->getFilename(), 'image.png');
-        $this->assertEquals($asset2->getImageUrl(), '/media/2/image.png');
-
-        AssetLibrary::removeByIds([$asset->id, $asset2->id]);
-
-        $this->assertEquals(0, AssetLibrary::getAllAssets()->count());
     }
 
     /**
@@ -334,30 +272,6 @@ class AssetTest extends TestCase
         $article = $asset->attachToModel($original);
 
         $article->addFile($article->assets()->first());
-    }
-
-    /**
-     * @test
-     */
-    public function it_doesnt_remove_the_asset_if_you_dont_have_permissions()
-    {
-        //upload a single image
-        $asset = $this->getUploadedAsset();
-        $dir   = public_path($asset->getFileUrl());
-
-        @chmod($dir, 0444);
-
-        $this->assertFileExists($dir);
-        $this->assertFileIsReadable($dir);
-        $this->assertFileNotIsWritable($dir);
-
-        AssetLibrary::removeByIds($asset->id);
-
-        $this->assertEquals(1, AssetLibrary::getAllAssets()->count());
-        $this->assertCount(1, $asset->fresh()->media);
-
-        @chmod($dir, 0777);
-        AssetLibrary::removeByIds($asset->id);
     }
 
     /**

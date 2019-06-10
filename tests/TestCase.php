@@ -25,6 +25,7 @@ class TestCase extends BaseTestCase
         $this->protectTestEnvironment();
 
         $this->setUpDatabase();
+
         config(['app.fallback_locale' => 'nl']);
     }
 

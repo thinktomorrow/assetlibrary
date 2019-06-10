@@ -3,7 +3,7 @@
 namespace Thinktomorrow\AssetLibrary\Models;
 
 use Traversable;
-use Illuminate\Http\File;
+use Illuminate\Support\Str;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
@@ -36,8 +36,7 @@ class AssetUploader extends Model
             return;
         }
 
-        $asset = Asset::create();
-        return self::uploadToAsset($files, $asset, $filename);
+        return self::uploadToAsset($files, Asset::create(), $filename);
     }
 
     /**
@@ -74,9 +73,7 @@ class AssetUploader extends Model
      */
     public static function uploadFromBase64($file, $filename = null)
     {
-        $asset = Asset::create();
-
-        return self::uploadBase64ToAsset($file, $asset, $filename);
+        return self::uploadBase64ToAsset($file, Asset::create(), $filename);
     }
 
     /**
@@ -89,9 +86,7 @@ class AssetUploader extends Model
      */
     public static function uploadFromUrl($url)
     {
-        $asset = Asset::create();
-
-        return self::uploadFromUrlToAsset($url, $asset);
+        return self::uploadFromUrlToAsset($url, Asset::create());
     }
 
     /**
@@ -179,7 +174,7 @@ class AssetUploader extends Model
      */
     private static function isImage($file): bool
     {
-        return str_before($file->getMimetype() ?? '', '/') === 'image';
+        return Str::before($file->getMimetype() ?? '', '/') === 'image';
     }
 
     /**
@@ -204,7 +199,7 @@ class AssetUploader extends Model
         $fileAdd->sanitizingFileName(function ($filename) {
             $extension = substr($filename, strrpos($filename, '.') + 1);
             $filename  = substr($filename, 0, strrpos($filename, '.'));
-            $filename  = str_slug($filename).'.'.$extension;
+            $filename  = Str::slug($filename).'.'.$extension;
             return strtolower($filename);
         });
 

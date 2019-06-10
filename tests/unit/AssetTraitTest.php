@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Artisan;
 use Thinktomorrow\AssetLibrary\Models\Asset;
 use Thinktomorrow\AssetLibrary\Tests\TestCase;
+use Thinktomorrow\AssetLibrary\Models\AssetLibrary;
 use Thinktomorrow\AssetLibrary\Tests\stubs\Article;
 use Thinktomorrow\AssetLibrary\Models\AssetUploader;
 
@@ -16,11 +17,6 @@ class AssetTraitTest extends TestCase
 
     public function tearDown(): void
     {
-        Artisan::call('medialibrary:clear');
-        $this->beforeApplicationDestroyed(function () {
-            DB::disconnect();
-        });
-
         Artisan::call('medialibrary:clear');
 
         parent::tearDown();
@@ -222,25 +218,6 @@ class AssetTraitTest extends TestCase
 
         $this->assertEquals('/media/1/conversions/image-thumb.png', $article->getFileUrl('banner', 'thumb'));
         $this->assertEquals('/media/1/conversions/image-thumb.png', $article2->getFileUrl('banner', 'thumb'));
-    }
-
-    /**
-     * @test
-     */
-    public function it_can_change_an_image_connected_to_multiple_models_without_changing_the_other_models()
-    {
-        $this->markTestIncomplete();
-
-        $article    = Article::create();
-        $article2   = Article::create();
-        $asset      = AssetUploader::upload(UploadedFile::fake()->image('image.png', 100, 100));
-        $asset->attachToModel($article, 'banner');
-
-        $article2->addFile($asset, 'banner');
-        $article->addFile(UploadedFile::fake()->image('image2.png', 100, 100), 'banner');
-
-        $this->assertEquals('/media/2/image2.png', $article->getFileUrl('banner'));
-        $this->assertEquals('/media/1/image.png', $article2->getFileUrl('banner'));
     }
 
     /**
