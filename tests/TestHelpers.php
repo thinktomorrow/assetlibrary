@@ -5,12 +5,21 @@ namespace Thinktomorrow\AssetLibrary\Tests;
 use Spatie\MediaLibrary\Models\Media;
 use Thinktomorrow\AssetLibrary\Models\Asset;
 use Thinktomorrow\AssetLibrary\Tests\stubs\Article;
+use Thinktomorrow\AssetLibrary\Tests\stubs\ArticleWithSoftdelete;
 
 trait TestHelpers
 {
     public function getArticleWithAsset($type = '', $locale = 'nl')
     {
         $article = Article::create();
+        $article->assets()->attach($this->getUploadedAsset(), ['type' => $type, 'locale' => $locale]);
+
+        return $article->load('assets');
+    }
+
+    public function getSoftdeleteArticleWithAsset($type = '', $locale = 'nl')
+    {
+        $article = ArticleWithSoftdelete::create();
         $article->assets()->attach($this->getUploadedAsset(), ['type' => $type, 'locale' => $locale]);
 
         return $article->load('assets');

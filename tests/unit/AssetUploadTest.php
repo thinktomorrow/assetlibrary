@@ -11,6 +11,13 @@ use Thinktomorrow\AssetLibrary\Models\AssetUploader;
 
 class AssetUploadTest extends TestCase
 {
+    public function setUp(): void
+    {
+        parent::setUp();
+    
+        Article::migrate();
+    }
+
     public function tearDown(): void
     {
         Artisan::call('medialibrary:clear');

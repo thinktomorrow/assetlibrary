@@ -32,8 +32,6 @@ trait AssetlibraryDatabaseTransactions
         }
 
         $this->beginDatabaseTransaction();
-        Article::migrate();
-        Article::create();
     }
 
     protected function removeTestDatabase()

@@ -14,6 +14,13 @@ use Thinktomorrow\AssetLibrary\Exceptions\CorruptMediaException;
 
 class AssetTest extends TestCase
 {
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        Article::migrate();
+    }
+
     public function tearDown(): void
     {
         Artisan::call('medialibrary:clear');

@@ -25,12 +25,12 @@ class TestCase extends BaseTestCase
         config(['app.fallback_locale' => 'nl']);
     }
 
-    public function tearDown(): void
-    {
-        Mockery::close();
+    // public function tearDown(): void
+    // {
+    //     Mockery::close();
 
-        parent::tearDown();
-    }
+    //     parent::tearDown();
+    // }
 
     protected function disableExceptionHandling()
     {

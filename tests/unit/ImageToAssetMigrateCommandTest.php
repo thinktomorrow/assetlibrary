@@ -16,6 +16,8 @@ class ImageToAssetMigrateCommandTest extends TestCase
     {
         parent::setUp();
 
+        Article::migrate();
+
         $this->testArticle = Article::create();
     }
 

@@ -11,6 +11,15 @@ trait AssetTrait
 {
     use HasMediaTrait;
 
+    public static function bootAssetTrait()
+    {
+        static::deleted(function($model){
+            $model->assets->each(function($asset) use($model){
+               $model->assets()->updateExistingPivot($asset->id, ['unused'=> true]);
+            });
+        });
+    }
+
     /**
      * @return mixed
      */
