@@ -18,7 +18,7 @@ class AssetTraitTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-    
+
         Article::migrate();
     }
 

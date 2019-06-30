@@ -3,7 +3,6 @@
 namespace Thinktomorrow\AssetLibrary\Tests;
 
 use Illuminate\Filesystem\Filesystem;
-use Thinktomorrow\AssetLibrary\Tests\stubs\Article;
 
 trait AssetlibraryDatabaseTransactions
 {

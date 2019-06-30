@@ -13,9 +13,9 @@ trait AssetTrait
 
     public static function bootAssetTrait()
     {
-        static::deleted(function($model){
-            $model->assets->each(function($asset) use($model){
-               $model->assets()->updateExistingPivot($asset->id, ['unused'=> true]);
+        static::deleted(function ($model) {
+            $model->assets->each(function ($asset) use ($model) {
+                $model->assets()->updateExistingPivot($asset->id, ['unused'=> true]);
             });
         });
     }

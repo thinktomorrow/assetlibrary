@@ -5,9 +5,9 @@ namespace Thinktomorrow\AssetLibrary\Tests\stubs;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Thinktomorrow\AssetLibrary\Traits\AssetTrait;
 use Thinktomorrow\AssetLibrary\Interfaces\HasAsset;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ArticleWithSoftdelete extends Model implements HasAsset
 {
