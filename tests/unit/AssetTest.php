@@ -14,7 +14,6 @@ use Thinktomorrow\AssetLibrary\Exceptions\CorruptMediaException;
 
 class AssetTest extends TestCase
 {
-
     public function setUp(): void
     {
         parent::setUp();

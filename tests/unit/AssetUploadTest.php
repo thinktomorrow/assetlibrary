@@ -14,7 +14,7 @@ class AssetUploadTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-    
+
         Article::migrate();
     }
 
