@@ -14,21 +14,10 @@ cache:
 env:
   matrix:
     - COMPOSER_FLAGS="--prefer-lowest"
-      LARAVEL_VERSION="5.6.30"
-    - COMPOSER_FLAGS="--prefer-lowest"
-      LARAVEL_VERSION="5.7.*"
-    - COMPOSER_FLAGS="--prefer-lowest"
-      LARAVEL_VERSION="5.8.*"
     - COMPOSER_FLAGS=""
-      LARAVEL_VERSION="5.6.30"
-    - COMPOSER_FLAGS=""
-      LARAVEL_VERSION="5.7.*"
-    - COMPOSER_FLAGS=""
-      LARAVEL_VERSION="5.8.*"
 
 before_script:
   - travis_retry composer self-update
-  - travis_retry composer require "laravel/framework:${LARAVEL_VERSION}" --no-update
   - travis_retry composer update ${COMPOSER_FLAGS} --no-interaction --prefer-dist --dev
 script:
   - vendor/bin/phpunit --no-coverage
