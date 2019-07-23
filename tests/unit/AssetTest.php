@@ -196,7 +196,7 @@ class AssetTest extends TestCase
     {
         $asset = AssetUploader::upload(UploadedFile::fake()->image('image.jpeg', 100, 100));
 
-        $this->assertEquals('/media/1/conversions/image-thumb.jpg', $asset->getFileUrl('thumb'));
+        $this->assertEquals('/media/1/conversions/image-thumb.jpeg', $asset->getFileUrl('thumb'));
     }
 
     /**
