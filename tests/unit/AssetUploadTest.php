@@ -46,7 +46,7 @@ class AssetUploadTest extends TestCase
         $source = UploadedFile::fake()->image('testSource (1).png');
 
         $asset = AssetUploader::upload($source);
-        $this->assertEquals('testsource-1.png', $asset->getFilename());
+        $this->assertEquals('testsource-1.png', $asset->filename());
     }
 
     /**
@@ -78,7 +78,7 @@ class AssetUploadTest extends TestCase
         //upload a second single image
         AssetUploader::upload(UploadedFile::fake()->image('image.png'))->attachToModel($original, 'images');
 
-        $this->assertCount(2, $original->getAllFiles('images'));
+        $this->assertCount(2, $original->assets('images'));
     }
 
     /**
@@ -88,14 +88,14 @@ class AssetUploadTest extends TestCase
     {
         //upload a single image
         $asset = AssetUploader::upload(UploadedFile::fake()->image('image.png'));
-        $this->assertEquals('image.png', $asset->getFilename());
-        $this->assertEquals('/media/1/image.png', $asset->getImageUrl());
+        $this->assertEquals('image.png', $asset->filename());
+        $this->assertEquals('/media/1/image.png', $asset->url());
 
         //upload a single image
         $asset = AssetUploader::upload(UploadedFile::fake()->image('image2.png'));
 
-        $this->assertEquals('image2.png', $asset->getFilename());
-        $this->assertEquals('/media/2/image2.png', $asset->getImageUrl());
+        $this->assertEquals('image2.png', $asset->filename());
+        $this->assertEquals('/media/2/image2.png', $asset->url());
     }
 
     /**
@@ -119,11 +119,11 @@ class AssetUploadTest extends TestCase
 
         $asset = AssetUploader::upload($images);
 
-        $this->assertEquals($asset[0]->getFilename(), 'image.png');
-        $this->assertEquals($asset[0]->getImageUrl(), '/media/1/image.png');
+        $this->assertEquals($asset[0]->filename(), 'image.png');
+        $this->assertEquals($asset[0]->url(), '/media/1/image.png');
 
-        $this->assertEquals($asset[1]->getFilename(), 'image2.png');
-        $this->assertEquals($asset[1]->getImageUrl(), '/media/2/image2.png');
+        $this->assertEquals($asset[1]->filename(), 'image2.png');
+        $this->assertEquals($asset[1]->url(), '/media/2/image2.png');
     }
 
     /**
@@ -135,7 +135,7 @@ class AssetUploadTest extends TestCase
 
         $asset2 = AssetUploader::upload($asset);
 
-        $this->assertEquals('/media/1/image.png', $asset2->getFileUrl());
+        $this->assertEquals('/media/1/image.png', $asset2->url());
     }
 
     /**
@@ -145,7 +145,7 @@ class AssetUploadTest extends TestCase
     {
         $asset = AssetUploader::upload(UploadedFile::fake()->image('image.jpg', 100, 100));
 
-        $this->assertEquals('/media/1/conversions/image-thumb.jpg', $asset->getFileUrl('thumb'));
+        $this->assertEquals('/media/1/conversions/image-thumb.jpg', $asset->url('thumb'));
     }
 
     /**
@@ -157,7 +157,7 @@ class AssetUploadTest extends TestCase
 
         $asset2 = AssetUploader::upload($asset);
 
-        $this->assertEquals('/media/1/image.png', $asset->getFileUrl());
-        $this->assertEquals('/media/1/image.png', $asset2->getFileUrl());
+        $this->assertEquals('/media/1/image.png', $asset->url());
+        $this->assertEquals('/media/1/image.png', $asset2->url());
     }
 }

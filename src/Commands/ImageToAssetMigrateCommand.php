@@ -5,6 +5,7 @@ namespace Thinktomorrow\AssetLibrary\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Thinktomorrow\AssetLibrary\Models\AssetUploader;
+use Thinktomorrow\AssetLibrary\Models\Application\DeleteAsset;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\UnreachableUrl;
 
 class ImageToAssetMigrateCommand extends Command
@@ -132,7 +133,7 @@ class ImageToAssetMigrateCommand extends Command
             $resetbar = $this->output->createProgressBar(count($orderedResults));
 
             $orderedResults->each(function ($entry) use ($resetbar) {
-                $entry['model']->deleteAllAssets();
+                app(DeleteAsset::class)->deleteAll($entry['model']);
                 $resetbar->advance();
             });
 

@@ -29,17 +29,15 @@ class Asset extends Model implements HasAsset
      */
     public function attachToModel(HasAsset $model, $type = '', $locale = null): HasAsset
     {
-        if ($model->assets()->get()->contains($this)) {
+        if ($model->assetRelation()->get()->contains($this)) {
             throw AssetUploadException::create();
         }
 
-        $model->assets->where('pivot.type', $type)->where('pivot.locale', $locale);
-
         $locale = $locale ?? config('app.fallback_locale');
 
-        $model->assets()->attach($this, ['type' => $type, 'locale' => $locale, 'order' => $this->order]);
+        $model->assetRelation()->attach($this, ['type' => $type, 'locale' => $locale, 'order' => $this->order]);
 
-        return $model->load('assets');
+        return $model->load('assetRelation');
     }
 
     /**
@@ -47,23 +45,22 @@ class Asset extends Model implements HasAsset
      */
     public function hasFile(): bool
     {
-        return (bool) $this->getFileUrl();
+        return (bool) $this->url();
     }
 
     /**
      * @param string $size
      * @return string
      */
-    public function getFilename($size = ''): string
+    public function filename($size = ''): string
     {
-        return basename($this->getFileUrl($size));
+        return basename($this->url($size));
     }
-
     /**
      * @param string $size
      * @return string
      */
-    public function getFileUrl($size = ''): string
+    public function url($size = ''): string
     {
         $media = $this->getMedia()->first();
 
@@ -72,27 +69,6 @@ class Asset extends Model implements HasAsset
         }
 
         return $media->getUrl($size);
-    }
-
-    /**
-     * Returns the image url or a fallback specific per filetype.
-     *
-     * @param string $type
-     * @return string
-     */
-    public function getImageUrl($type = ''): string
-    {
-        if ($this->getMedia()->isEmpty()) {
-            return asset('assets/back/img/other.png');
-        }
-        $extension = $this->getExtensionType();
-        if ($extension === 'image') {
-            return $this->getFileUrl($type);
-        } elseif ($extension) {
-            return asset('assets/back/img/'.$extension.'.png');
-        }
-
-        return asset('assets/back/img/other.png');
     }
 
     /**

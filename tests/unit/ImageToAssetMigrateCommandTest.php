@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Database\Schema\Blueprint;
 use Thinktomorrow\AssetLibrary\Tests\TestCase;
 use Thinktomorrow\AssetLibrary\Tests\stubs\Article;
+use Thinktomorrow\AssetLibrary\Models\Application\AddAsset;
 
 class ImageToAssetMigrateCommandTest extends TestCase
 {
@@ -49,7 +50,7 @@ class ImageToAssetMigrateCommandTest extends TestCase
         // assert the image exists on both locations
         $this->assertFileExists(public_path(Article::first()->imageurl));
         $this->assertFileExists(public_path(Article::first()->getFileUrl()));
-        $this->assertequals($this->testArticle->getFileName(), 'warpaint-logo.svg');
+        $this->assertequals($this->testArticle->asset()->filename(), 'warpaint-logo.svg');
     }
 
     /** @test */
@@ -75,8 +76,8 @@ class ImageToAssetMigrateCommandTest extends TestCase
         $this->assertFileExists(public_path($article->fresh()->imageurl));
         $this->assertFileExists(public_path($this->testArticle->getFileUrl()));
         $this->assertFileExists(public_path($article->getFileUrl()));
-        $this->assertequals($article->fresh()->getFileName(), 'warpaint-logo.svg');
-        $this->assertequals($this->testArticle->fresh()->getFileName(), 'warpaint-logo.svg');
+        $this->assertequals($article->fresh()->asset()->filename(), 'warpaint-logo.svg');
+        $this->assertequals($this->testArticle->fresh()->asset()->filename(), 'warpaint-logo.svg');
     }
 
     /** @test */
@@ -99,7 +100,7 @@ class ImageToAssetMigrateCommandTest extends TestCase
         // assert the image exists on both locations
         $this->assertFileExists(public_path($article->fresh()->imageurl));
         $this->assertFileExists(public_path($article->getFileUrl()));
-        $this->assertEquals($article->getFileName(), 'warpaint-logo.svg');
+        $this->assertEquals($article->asset()->filename(), 'warpaint-logo.svg');
     }
 
     /** @test */
@@ -125,7 +126,7 @@ class ImageToAssetMigrateCommandTest extends TestCase
         // assert the image exists only on new location
         $this->assertFileNotExists(public_path($this->testArticle->fresh()->imageurl));
         $this->assertFileExists(public_path($this->testArticle->getFileUrl()));
-        $this->assertequals($this->testArticle->getFileName(), 'warpaint-logo-duplicate.svg');
+        $this->assertequals($this->testArticle->asset()->filename(), 'warpaint-logo-duplicate.svg');
     }
 
     /** @test */
@@ -135,9 +136,9 @@ class ImageToAssetMigrateCommandTest extends TestCase
         $this->testArticle->imageurl = '/uploads/warpaint-logo.svg';
         $this->testArticle->save();
 
-        $this->testArticle->addFile(UploadedFile::fake()->image('image.png'));
+        app(AddAsset::class)->add($this->testArticle, UploadedFile::fake()->image('image.png'));
 
-        $this->assertCount(1, $this->testArticle->assets);
+        $this->assertCount(1, $this->testArticle->assetRelation);
 
         // run the migrate image command
         Artisan::call('assetlibrary:migrate-image', [
@@ -147,11 +148,11 @@ class ImageToAssetMigrateCommandTest extends TestCase
                 'linkedmodel' => 'Thinktomorrow\AssetLibrary\Tests\stubs\Article',
             ]);
         // assert the orginal asset was removed
-        $this->assertCount(1, $this->testArticle->assets);
+        $this->assertCount(1, $this->testArticle->assetRelation);
 
         // assert the image exists on both locations
         $this->assertFileExists(public_path($this->testArticle->fresh()->imageurl));
-        $this->assertequals($this->testArticle->fresh()->getFileName(), 'warpaint-logo.svg');
+        $this->assertequals($this->testArticle->fresh()->asset()->filename(), 'warpaint-logo.svg');
     }
 
     /** @test */
@@ -171,7 +172,7 @@ class ImageToAssetMigrateCommandTest extends TestCase
             ]);
 
         // assert order is set on the asset
-        $this->assertEquals(7, $this->testArticle->fresh()->getAllImages()->first()->pivot->order);
+        $this->assertEquals(7, $this->testArticle->fresh()->assets()->first()->pivot->order);
 
         // assert the image exists on both locations
         $this->assertFileExists(public_path($this->testArticle->imageurl));
@@ -196,7 +197,7 @@ class ImageToAssetMigrateCommandTest extends TestCase
             ]);
 
         // assert order is set on the asset
-        $this->assertEquals('nl', $this->testArticle->fresh()->getAllImages()->first()->pivot->locale);
+        $this->assertEquals('nl', $this->testArticle->fresh()->assets()->first()->pivot->locale);
 
         // assert the image exists on both locations
         $this->assertFileExists(public_path($this->testArticle->imageurl));
@@ -220,7 +221,7 @@ class ImageToAssetMigrateCommandTest extends TestCase
             ]);
 
         // assert order is set on the asset
-        $this->assertEquals('nl', $this->testArticle->fresh()->getAllImages()->first()->pivot->locale);
+        $this->assertEquals('nl', $this->testArticle->fresh()->assets()->first()->pivot->locale);
 
         // assert the image exists on both locations
         $this->assertFileExists(public_path($this->testArticle->imageurl));
@@ -303,7 +304,7 @@ class ImageToAssetMigrateCommandTest extends TestCase
                 'idcolumn'    => 'productid',
             ]);
 
-        $this->assertCount(2, $this->testArticle->fresh()->assets);
+        $this->assertCount(2, $this->testArticle->fresh()->assetRelation);
 
         // assert the image exists on both locations
         $this->assertFileExists(public_path($this->testArticle->imageurl));
@@ -327,9 +328,9 @@ class ImageToAssetMigrateCommandTest extends TestCase
 
         $article = Article::first();
 
-        // assert the image exists on both locations
+        // assert the image exists only on first location
         $this->assertFileExists(public_path($article->imageurl));
-        $this->assertEquals('', $article->getFileName());
-        $this->assertCount(0, $article->assets);
+        $this->assertNull($article->asset());
+        $this->assertCount(0, $article->assetRelation);
     }
 }

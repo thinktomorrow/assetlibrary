@@ -9,6 +9,7 @@ use Thinktomorrow\AssetLibrary\Tests\TestCase;
 use Thinktomorrow\AssetLibrary\Models\AssetLibrary;
 use Thinktomorrow\AssetLibrary\Tests\stubs\Article;
 use Thinktomorrow\AssetLibrary\Models\AssetUploader;
+use Thinktomorrow\AssetLibrary\Models\Application\AddAsset;
 use Thinktomorrow\AssetLibrary\Exceptions\AssetUploadException;
 use Thinktomorrow\AssetLibrary\Exceptions\CorruptMediaException;
 
@@ -37,14 +38,14 @@ class AssetTest extends TestCase
         //upload a single image
         $article = $this->getUploadedAsset()->attachToModel($original);
 
-        $this->assertEquals('image.png', $article->getFilename());
-        $this->assertEquals('/media/1/image.png', $article->getFileUrl());
-        $this->assertEquals($original->assets()->first()->getFilename(), $article->getFilename());
+        $this->assertEquals('image.png', $article->asset()->filename());
+        $this->assertEquals('/media/1/image.png', $article->asset()->url());
+        $this->assertEquals($original->assetRelation()->first()->filename(), $article->asset()->filename());
         //upload a single image
         $asset = $this->getUploadedAsset();
 
-        $this->assertEquals('image.png', $asset->getFilename());
-        $this->assertEquals('/media/2/image.png', $asset->getImageUrl());
+        $this->assertEquals('image.png', $asset->filename());
+        $this->assertEquals('/media/2/image.png', $asset->url());
     }
 
     /**
@@ -55,21 +56,21 @@ class AssetTest extends TestCase
         //upload a single image
         $asset = $this->getUploadedAsset();
 
-        $this->assertEquals('image.png', $asset->getFilename());
-        $this->assertEquals('/media/1/image.png', $asset->getFileUrl());
+        $this->assertEquals('image.png', $asset->filename());
+        $this->assertEquals('/media/1/image.png', $asset->url());
 
         $article = Article::create();
 
         //upload a single image
         $article = $this->getUploadedAsset('image.png')->attachToModel($article, 'banner', 'nl');
 
-        $this->assertEquals('image.png', $article->getFilename('banner', 'nl'));
-        $this->assertEquals('/media/2/image.png', $article->getFileUrl('banner', '', 'nl'));
+        $this->assertEquals('image.png', $article->asset('banner', 'nl')->filename());
+        $this->assertEquals('/media/2/image.png', $article->asset('banner', 'nl')->url());
 
         $article = $this->getUploadedAsset('image.png')->attachToModel($article, 'thumbnail', 'fr');
 
-        $this->assertEquals('image.png', $article->getFilename('thumbnail', 'fr'));
-        $this->assertEquals('/media/3/image.png', $article->getFileUrl('thumbnail', '', 'fr'));
+        $this->assertEquals('image.png', $article->asset('thumbnail', 'fr')->filename());
+        $this->assertEquals('/media/3/image.png', $article->asset('thumbnail', 'fr')->url());
 
         $this->assertEquals(3, AssetLibrary::getAllAssets()->count());
     }
@@ -81,9 +82,9 @@ class AssetTest extends TestCase
     {
         $asset = $this->getUploadedAsset();
 
-        $this->assertEquals($asset->getFilename(), 'image.png');
-        $this->assertEquals($asset->getImageUrl(), '/media/1/image.png');
-        $this->assertEquals('/media/1/conversions/image-thumb.png', $asset->getFileUrl('thumb'));
+        $this->assertEquals($asset->filename(), 'image.png');
+        $this->assertEquals($asset->url(), '/media/1/image.png');
+        $this->assertEquals('/media/1/conversions/image-thumb.png', $asset->url('thumb'));
     }
 
     /**
@@ -94,30 +95,11 @@ class AssetTest extends TestCase
         $asset  = $this->getUploadedAsset('foobar.pdf');
         $asset1 = $this->getUploadedAsset('foobar.xls');
 
-        $this->assertEquals($asset->getFilename(), 'foobar.pdf');
-        $this->assertEquals($asset->getFileUrl(), '/media/1/foobar.pdf');
+        $this->assertEquals($asset->filename(), 'foobar.pdf');
+        $this->assertEquals($asset->url(), '/media/1/foobar.pdf');
 
-        $this->assertEquals($asset1->getFilename(), 'foobar.xls');
-        $this->assertEquals($asset1->getFileUrl(), '/media/2/foobar.xls');
-    }
-
-    /**
-     * @test
-     */
-    public function it_can_get_the_image_url()
-    {
-        $asset  = $this->getUploadedAsset('foobar.pdf');
-        $asset1 = $this->getUploadedAsset('foobar.xls');
-        $asset2 = $this->getUploadedAsset('foobar.mp4');
-
-        $this->assertEquals($asset->getFilename(), 'foobar.pdf');
-        $this->assertEquals(asset('assets/back/img/pdf.png'), $asset->getImageUrl());
-
-        $this->assertEquals($asset1->getFilename(), 'foobar.xls');
-        $this->assertEquals(asset('assets/back/img/xls.png'), $asset1->getImageUrl());
-
-        $this->assertEquals($asset2->getFilename(), 'foobar.mp4');
-        $this->assertEquals(asset('assets/back/img/other.png'), $asset2->getImageUrl());
+        $this->assertEquals($asset1->filename(), 'foobar.xls');
+        $this->assertEquals($asset1->url(), '/media/2/foobar.xls');
     }
 
     /**
@@ -196,7 +178,7 @@ class AssetTest extends TestCase
     {
         $asset = AssetUploader::upload(UploadedFile::fake()->image('image.jpeg', 100, 100));
 
-        $this->assertEquals('/media/1/conversions/image-thumb.jpeg', $asset->getFileUrl('thumb'));
+        $this->assertEquals('/media/1/conversions/image-thumb.jpeg', $asset->url('thumb'));
     }
 
     /**
@@ -207,7 +189,7 @@ class AssetTest extends TestCase
         config(['assetlibrary.allowCropping' => true]);
         $asset = $this->getUploadedAsset('image.png', 1000, 1000)->crop(600, 400, 60, 100);
 
-        $this->assertEquals('/media/1/conversions/image-cropped.png', $asset->getFileUrl('cropped'));
+        $this->assertEquals('/media/1/conversions/image-cropped.png', $asset->url('cropped'));
         $this->assertEquals('600 x 400', $asset->getDimensions('cropped'));
     }
 
@@ -234,7 +216,7 @@ class AssetTest extends TestCase
 
         $asset->setOrder(6)->attachToModel($original);
 
-        $this->assertEquals($asset->id, $original->assets->where('pivot.order', 6)->first()->id);
+        $this->assertEquals($asset->id, $original->assetRelation->where('pivot.order', 6)->first()->id);
     }
 
     /**
@@ -250,17 +232,8 @@ class AssetTest extends TestCase
         $asset2 = $this->getUploadedAsset('image.png');
         $asset2->setOrder(1)->attachToModel($original);
 
-        $this->assertEquals($asset2->id, $original->assets->first()->id);
-        $this->assertEquals($asset1->id, $original->assets->where('pivot.order', 2)->last()->id);
-    }
-
-    /**
-     * @test
-     */
-    public function it_can_get_a_fallback_image()
-    {
-        $asset = new Asset;
-        $this->assertEquals('http://localhost/assets/back/img/other.png', $asset->getImageUrl());
+        $this->assertEquals($asset2->id, $original->assetRelation->first()->id);
+        $this->assertEquals($asset1->id, $original->assetRelation->where('pivot.order', 2)->last()->id);
     }
 
     /**
@@ -276,7 +249,7 @@ class AssetTest extends TestCase
         $asset   = $this->getUploadedAsset();
         $article = $asset->attachToModel($original);
 
-        $article->addFile($article->assets()->first());
+        app(AddAsset::class)->add($article, $article->assetRelation()->first());
     }
 
     /**
@@ -292,7 +265,7 @@ class AssetTest extends TestCase
 
         $asset->media->first()->delete();
 
-        $asset->fresh()->getFileUrl();
+        $asset->fresh()->url();
     }
 
     /**
@@ -303,13 +276,14 @@ class AssetTest extends TestCase
         //upload a single image
         $asset = $this->getUploadedAsset();
 
-        $this->assertEquals($asset->getFilename(), 'image.png');
-        $this->assertEquals($asset->getImageUrl(), '/media/1/image.png');
-        $this->assertFileExists(public_path($asset->getImageUrl()));
+        $this->assertEquals($asset->filename(), 'image.png');
+        $this->assertEquals($asset->url(), '/media/1/image.png');
+        $this->assertFileExists(public_path($asset->url()));
 
+        $filepath = $asset->url();
         $asset->delete();
 
-        $this->assertFileNotExists(public_path($asset->getImageUrl()));
+        $this->assertFileNotExists(public_path($filepath));
         $this->assertCount(0, Asset::all());
     }
 

@@ -23,13 +23,13 @@ class AssetLibraryTest extends TestCase
         //upload a single image
         $asset = $this->getUploadedAsset();
 
-        $this->assertEquals($asset->getFilename(), 'image.png');
-        $this->assertEquals($asset->getImageUrl(), '/media/1/image.png');
+        $this->assertEquals($asset->filename(), 'image.png');
+        $this->assertEquals($asset->url(), '/media/1/image.png');
 
         $asset2 = $this->getUploadedAsset('image.png');
 
-        $this->assertEquals($asset2->getFilename(), 'image.png');
-        $this->assertEquals($asset2->getImageUrl(), '/media/2/image.png');
+        $this->assertEquals($asset2->filename(), 'image.png');
+        $this->assertEquals($asset2->url(), '/media/2/image.png');
 
         AssetLibrary::removeByIds($asset->id);
 
@@ -45,8 +45,8 @@ class AssetLibraryTest extends TestCase
         //upload a single image
         $asset = $this->getUploadedAsset();
 
-        $this->assertEquals($asset->getFilename(), 'image.png');
-        $this->assertEquals($asset->getImageUrl(), '/media/1/image.png');
+        $this->assertEquals($asset->filename(), 'image.png');
+        $this->assertEquals($asset->url(), '/media/1/image.png');
 
         AssetLibrary::removeByIds([null]);
         AssetLibrary::removeByIds(null);
@@ -62,13 +62,13 @@ class AssetLibraryTest extends TestCase
         //upload a single image
         $asset = $this->getUploadedAsset();
 
-        $this->assertEquals($asset->getFilename(), 'image.png');
-        $this->assertEquals($asset->getImageUrl(), '/media/1/image.png');
+        $this->assertEquals($asset->filename(), 'image.png');
+        $this->assertEquals($asset->url(), '/media/1/image.png');
 
         $asset2 = $this->getUploadedAsset('image.png');
 
-        $this->assertEquals($asset2->getFilename(), 'image.png');
-        $this->assertEquals($asset2->getImageUrl(), '/media/2/image.png');
+        $this->assertEquals($asset2->filename(), 'image.png');
+        $this->assertEquals($asset2->url(), '/media/2/image.png');
 
         AssetLibrary::removeByIds([$asset->id, $asset2->id]);
 
@@ -82,7 +82,7 @@ class AssetLibraryTest extends TestCase
     {
         //upload a single image
         $asset = $this->getUploadedAsset();
-        $dir   = public_path($asset->getFileUrl());
+        $dir   = public_path($asset->url());
 
         @chmod($dir, 0444);
 

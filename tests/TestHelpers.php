@@ -12,17 +12,17 @@ trait TestHelpers
     public function getArticleWithAsset($type = '', $locale = 'nl')
     {
         $article = Article::create();
-        $article->assets()->attach($this->getUploadedAsset(), ['type' => $type, 'locale' => $locale]);
+        $article->assetRelation()->attach($this->getUploadedAsset(), ['type' => $type, 'locale' => $locale]);
 
-        return $article->load('assets');
+        return $article->load('assetRelation');
     }
 
     public function getSoftdeleteArticleWithAsset($type = '', $locale = 'nl')
     {
         $article = ArticleWithSoftdelete::create();
-        $article->assets()->attach($this->getUploadedAsset(), ['type' => $type, 'locale' => $locale]);
+        $article->assetRelation()->attach($this->getUploadedAsset(), ['type' => $type, 'locale' => $locale]);
 
-        return $article->load('assets');
+        return $article->load('assetRelation');
     }
 
     public function getUploadedAsset($filename = 'image.png', $width = 100, $height = 100)
