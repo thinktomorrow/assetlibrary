@@ -70,29 +70,4 @@ trait AssetTrait
         return $assets->sortBy('pivot.order');
     }
 
-    // /**
-    //  * @param string $type
-    //  * @param string|null $locale
-    //  * @return string
-    //  */
-    // public function getFilename($type = '', $locale = null): string
-    // {
-    //     return basename($this->getFileUrl($type, '', $locale));
-    // }
-
-    public function getFileUrl($type = '', $size = '', $locale = null): ?string
-    {
-       return optional($this->asset($type, $locale))->url($size);
-    }
-
-    /**
-     * @param string|null $locale
-     * @return string
-     */
-    private function normalizeLocaleString($locale = null): string
-    {
-        $locale = $locale ?? config('app.fallback_locale');
-
-        return $locale;
-    }
 }

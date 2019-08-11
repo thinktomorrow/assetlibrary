@@ -161,13 +161,14 @@ class AssetTest extends TestCase
      */
     public function it_can_get_the_extensions_for_filtering()
     {
-        //TODO uncomment these when we can supply the mimetype to UploadedFile
         $asset  =  $this->getUploadedAsset();
+        $asset1 =  $this->getUploadedAsset('foobar.pdf');
+        $asset2 =  $this->getUploadedAsset('foobar.xls');
         $asset3 =  $this->getUploadedAsset('image.test');
 
         $this->assertEquals('image', $asset->getExtensionForFilter());
-//        $this->assertEquals('pdf', $asset1->getExtensionForFilter());
-//        $this->assertEquals('excel', $asset2->getExtensionForFilter());
+        $this->assertEquals('pdf', $asset1->getExtensionForFilter());
+        $this->assertEquals('xls', $asset2->getExtensionForFilter());
         $this->assertEquals('', $asset3->getExtensionForFilter());
     }
 
