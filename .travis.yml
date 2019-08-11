@@ -23,6 +23,9 @@ env:
       LARAVEL_VERSION="5.8.*"
 
 before_script:
+  - pear config-set preferred_state beta
+  - pecl channel-update pecl.php.net
+  - yes | pecl install imagick
   - travis_retry composer self-update
   - travis_retry composer require "laravel/framework:${LARAVEL_VERSION}" --no-update
   - travis_retry composer update ${COMPOSER_FLAGS} --no-interaction --prefer-dist --dev
