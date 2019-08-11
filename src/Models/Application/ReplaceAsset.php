@@ -4,7 +4,6 @@ namespace Thinktomorrow\AssetLibrary\Models\Application;
 
 use Thinktomorrow\AssetLibrary\Models\Asset;
 use Thinktomorrow\AssetLibrary\Interfaces\HasAsset;
-use Thinktomorrow\AssetLibrary\Models\Application\AddAsset;
 
 class ReplaceAsset
 {
