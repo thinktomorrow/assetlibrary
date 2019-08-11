@@ -56,6 +56,7 @@ class Asset extends Model implements HasAsset
     {
         return basename($this->url($size));
     }
+
     /**
      * @param string $size
      * @return string

@@ -37,8 +37,7 @@ trait AssetTrait
 
         $assets = $this->assetRelation;
 
-        if($type != '')
-        {
+        if ($type != '') {
             $assets = $this->assetRelation->where('pivot.type', $type);
         }
 
@@ -69,5 +68,4 @@ trait AssetTrait
 
         return $assets->sortBy('pivot.order');
     }
-
 }

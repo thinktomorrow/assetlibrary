@@ -2,14 +2,13 @@
 
 namespace Thinktomorrow\AssetLibrary\Models\Application;
 
+use Illuminate\Support\Collection;
 use Thinktomorrow\AssetLibrary\Models\Asset;
 use Thinktomorrow\AssetLibrary\Interfaces\HasAsset;
 use Thinktomorrow\AssetLibrary\Models\AssetUploader;
-use Illuminate\Support\Collection;
 
 class AddAsset
 {
-
     /**
      * Add a file to this model, accepts a type and locale to be saved with the file.
      *
@@ -50,7 +49,7 @@ class AddAsset
         $locale = $this->normalizeLocaleString($locale);
         $assets = collect();
 
-        $files->each(function($file, $filename) use($assets, $model, $type, $locale){
+        $files->each(function ($file, $filename) use ($assets, $model, $type, $locale) {
             $filename = is_string($filename) ? $filename : '';
             $assets->push($this->add($model, $file, $type, $locale, $filename));
         });

@@ -82,7 +82,6 @@ class AssetTraitTest extends TestCase
         $this->assertEquals('/media/2/conversions/imagefr-thumb.png', $article->asset('thumbnail', 'fr')->url('thumb'));
     }
 
-
     /**
      * @test
      */
