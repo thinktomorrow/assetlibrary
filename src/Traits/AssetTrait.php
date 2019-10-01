@@ -2,10 +2,10 @@
 
 namespace Thinktomorrow\AssetLibrary\Traits;
 
+use Illuminate\Support\Collection;
 use Thinktomorrow\AssetLibrary\Models\Asset;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
-use Illuminate\Support\Collection;
 
 trait AssetTrait
 {
