@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "27d847a54d097f68857b3bf00f6de8a7",
+    "content-hash": "7cd924478f508aa1dc707693d9a585e1",
     "packages": [
         {
             "name": "doctrine/inflector",
@@ -436,16 +436,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v6.0.3",
+            "version": "v6.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "56789e9dec750e0fbe8e9e6ae90a01a4e6887902"
+                "reference": "372e0add8a58e0e3deb78f87cbb2dc40d3e0ff08"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/56789e9dec750e0fbe8e9e6ae90a01a4e6887902",
-                "reference": "56789e9dec750e0fbe8e9e6ae90a01a4e6887902",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/372e0add8a58e0e3deb78f87cbb2dc40d3e0ff08",
+                "reference": "372e0add8a58e0e3deb78f87cbb2dc40d3e0ff08",
                 "shasum": ""
             },
             "require": {
@@ -577,7 +577,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2019-09-10T18:46:24+00:00"
+            "time": "2019-09-24T13:40:36+00:00"
         },
         {
             "name": "league/flysystem",
@@ -1555,16 +1555,16 @@
         },
         {
             "name": "spatie/laravel-medialibrary",
-            "version": "7.12.1",
+            "version": "7.14.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-medialibrary.git",
-                "reference": "8c4adaeb16985a108da4e0dab186bc7561bbbf8f"
+                "reference": "34f3700a2dc58032d0ab443dcb09c2be72d2a826"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-medialibrary/zipball/8c4adaeb16985a108da4e0dab186bc7561bbbf8f",
-                "reference": "8c4adaeb16985a108da4e0dab186bc7561bbbf8f",
+                "url": "https://api.github.com/repos/spatie/laravel-medialibrary/zipball/34f3700a2dc58032d0ab443dcb09c2be72d2a826",
+                "reference": "34f3700a2dc58032d0ab443dcb09c2be72d2a826",
                 "shasum": ""
             },
             "require": {
@@ -1635,7 +1635,7 @@
                 "media",
                 "spatie"
             ],
-            "time": "2019-09-12T22:01:47+00:00"
+            "time": "2019-09-26T22:59:00+00:00"
         },
         {
             "name": "spatie/pdf-to-image",
@@ -3367,16 +3367,16 @@
         },
         {
             "name": "mockery/mockery",
-            "version": "1.2.3",
+            "version": "1.2.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mockery/mockery.git",
-                "reference": "4eff936d83eb809bde2c57a3cea0ee9643769031"
+                "reference": "b3453f75fd23d9fd41685f2148f4abeacabc6405"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mockery/mockery/zipball/4eff936d83eb809bde2c57a3cea0ee9643769031",
-                "reference": "4eff936d83eb809bde2c57a3cea0ee9643769031",
+                "url": "https://api.github.com/repos/mockery/mockery/zipball/b3453f75fd23d9fd41685f2148f4abeacabc6405",
+                "reference": "b3453f75fd23d9fd41685f2148f4abeacabc6405",
                 "shasum": ""
             },
             "require": {
@@ -3390,7 +3390,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.0.x-dev"
+                    "dev-master": "1.2.x-dev"
                 }
             },
             "autoload": {
@@ -3428,7 +3428,7 @@
                 "test double",
                 "testing"
             ],
-            "time": "2019-08-07T15:01:07+00:00"
+            "time": "2019-09-30T08:30:27+00:00"
         },
         {
             "name": "myclabs/deep-copy",
@@ -3480,21 +3480,21 @@
         },
         {
             "name": "orchestra/testbench",
-            "version": "v3.9.0",
+            "version": "v3.9.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/orchestral/testbench.git",
-                "reference": "62af00a2d39132a062c9011206c1b69ba1bfcc5f"
+                "reference": "b02947e93f339cec6860d4216a6ac8c5a3abaa81"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/orchestral/testbench/zipball/62af00a2d39132a062c9011206c1b69ba1bfcc5f",
-                "reference": "62af00a2d39132a062c9011206c1b69ba1bfcc5f",
+                "url": "https://api.github.com/repos/orchestral/testbench/zipball/b02947e93f339cec6860d4216a6ac8c5a3abaa81",
+                "reference": "b02947e93f339cec6860d4216a6ac8c5a3abaa81",
                 "shasum": ""
             },
             "require": {
                 "laravel/framework": "^6.0",
-                "mockery/mockery": "^1.0",
+                "mockery/mockery": "^1.2",
                 "orchestra/testbench-core": "^3.9.0",
                 "php": ">=7.2",
                 "phpunit/phpunit": "^8.0"
@@ -3526,7 +3526,7 @@
                 "orchestral",
                 "testing"
             ],
-            "time": "2019-09-03T19:58:40+00:00"
+            "time": "2019-09-24T06:17:46+00:00"
         },
         {
             "name": "orchestra/testbench-core",

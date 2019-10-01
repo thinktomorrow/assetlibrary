@@ -5,6 +5,7 @@ namespace Thinktomorrow\AssetLibrary\Traits;
 use Thinktomorrow\AssetLibrary\Models\Asset;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Illuminate\Support\Collection;
 
 trait AssetTrait
 {
@@ -45,14 +46,10 @@ trait AssetTrait
             $assets = $assets->where('pivot.locale', $locale);
         }
 
-        if ($assets->isEmpty()) {
-            return null;
-        }
-
         return $assets->first();
     }
 
-    public function assets(string $type = '', string $locale = null)
+    public function assets(string $type = '', string $locale = null): Collection
     {
         $this->load('assetRelation');
 
