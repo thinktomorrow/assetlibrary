@@ -12,10 +12,11 @@ class AddAsset
     /**
      * Add a file to this model, accepts a type and locale to be saved with the file.
      *
-     * @param Thinktomorrow\AssetLibrary\Interfaces\HasAsset $model
+     * @param \Thinktomorrow\AssetLibrary\Interfaces\HasAsset $model
      * @param $file
      * @param string $type
      * @param string|null $locale
+     * @return Asset
      * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
      * @throws \Thinktomorrow\AssetLibrary\Exceptions\AssetUploadException
      */
@@ -28,6 +29,7 @@ class AddAsset
         } else {
             $asset = AssetUploader::upload($file, $filename);
         }
+
         if ($asset instanceof Asset) {
             $asset->attachToModel($model, $type, $locale);
         }

@@ -18,7 +18,6 @@ class AssetUploader extends Model
      *
      * @param Asset|Traversable|array|Collection|UploadedFile $files
      * @param string|null $filename
-     * @param bool $
      * @return Collection|null|Asset
      * @throws FileCannotBeAdded
      */

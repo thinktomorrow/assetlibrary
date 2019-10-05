@@ -64,39 +64,9 @@ class ImageToAssetMigrateCommand extends Command
 
         $this->info("\n".'Migrating images.');
 
-        foreach ($orderedResults as $result) {
-            foreach ($result['images'] as $line) {
-                $bar->advance();
-
-                if(! $line) {
-                    $this->unreachable++;
-                    continue;
-                }
-
-                if($isDry){
-                    $this->files++;
-                    continue;
-                }
-
-                try {
-                    $asset = AssetUploader::uploadFromUrl(public_path($line));
-                } catch (UnreachableUrl $ex) {
-                    // increment the amount of unreachable files counter
-                    $this->unreachable++;
-
-                    continue;
-                }
-
-                $asset->setOrder($result['order'])->attachToModel($result['model']);
-
-                if ($this->option('force')) {
-                    unlink(public_path($line));
-                }
-
-                // increment the amount of files migrated counter
-                $this->files++;
-            }
-        }
+        $orderedResults->each(function($result) use($bar, $isDry){
+            $this->processLines($result, $bar, $isDry);
+        });
 
         $bar->finish();
 
@@ -104,6 +74,41 @@ class ImageToAssetMigrateCommand extends Command
         $this->info('Migrated '.$this->files.' files.');
         $this->info('Couldn\'t reach '.$this->unreachable.' files.');
         $this->info('Couldn\'t find '.$this->nomodel.' model(s).');
+    }
+
+    private function processLines($result, $bar, $isDry)
+    {
+        foreach ($result['images'] as $line) {
+            $bar->advance();
+
+            if(! $line) {
+                $this->unreachable++;
+                continue;
+            }
+
+            if($isDry){
+                $this->files++;
+                continue;
+            }
+
+            try {
+                $asset = AssetUploader::uploadFromUrl(public_path($line));
+            } catch (UnreachableUrl $ex) {
+                // increment the amount of unreachable files counter
+                $this->unreachable++;
+
+                continue;
+            }
+
+            $asset->setOrder($result['order'])->attachToModel($result['model']);
+
+            if ($this->option('force')) {
+                unlink(public_path($line));
+            }
+
+            // increment the amount of files migrated counter
+            $this->files++;
+        }
     }
 
     private function getResultsFromDatabase()
