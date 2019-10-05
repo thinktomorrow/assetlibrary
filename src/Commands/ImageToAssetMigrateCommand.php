@@ -87,7 +87,7 @@ class ImageToAssetMigrateCommand extends Command
                     continue;
                 }
 
-                $asset->setOrder($result['order'] ?? null)->attachToModel($result['model']);
+                $asset->setOrder($result['order'])->attachToModel($result['model']);
 
                 if ($this->option('force')) {
                     unlink(public_path($line));
@@ -156,6 +156,8 @@ class ImageToAssetMigrateCommand extends Command
 
             if ($this->ordercolumn) {
                 $formattedResults['order'] = $result->{$this->ordercolumn};
+            }else{
+                $formattedResults['order'] = null;
             }
 
             return $formattedResults;
