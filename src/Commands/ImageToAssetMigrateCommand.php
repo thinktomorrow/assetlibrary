@@ -58,6 +58,7 @@ class ImageToAssetMigrateCommand extends Command
         $results        = $this->getResultsFromDatabase();
         $bar            = $this->output->createProgressBar(count($results));
         $orderedResults = $this->mapResults($results);
+        $isDry          = $this->option('dry');
 
         $this->handleResetFlag($orderedResults);
 
@@ -67,9 +68,13 @@ class ImageToAssetMigrateCommand extends Command
             foreach ($result['images'] as $line) {
                 $bar->advance();
 
-                if (! $line || $this->option('dry')) {
-                    $line ?? $this->unreachable++;
-                    $this->option('dry') ? $this->files++ : '';
+                if(! $line) {
+                    $this->unreachable++;
+                    continue;
+                }
+
+                if($isDry){
+                    $this->files++;
                     continue;
                 }
 

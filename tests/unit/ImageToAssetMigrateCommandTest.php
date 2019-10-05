@@ -333,4 +333,32 @@ class ImageToAssetMigrateCommandTest extends TestCase
         $this->assertNull($article->asset());
         $this->assertCount(0, $article->assetRelation);
     }
+
+    /** @test */
+    public function it_can_migrate_images_if_some_assets_dont_exist()
+    {
+        $this->testArticle->save();
+
+        Schema::create('test_media', function (Blueprint $table) {
+            $table->string('imagepath')->nullable();
+            $table->integer('productid')->nullable();
+        });
+
+        DB::table('test_media')->insert([
+            ['productid' => $this->testArticle->id, 'imagepath' => ''],
+        ]);
+
+        // run the migrate image command
+        Artisan::call('assetlibrary:migrate-image', [
+                'table'       => 'test_media',
+                'urlcolumn'   => 'imagepath',
+                'linkedmodel' => 'Thinktomorrow\AssetLibrary\Tests\stubs\Article',
+                'idcolumn'    => 'productid',
+            ]);
+
+        $article = Article::first();
+
+        // assert the image exists on both locations
+        $this->assertNull($article->asset());
+    }
 }
