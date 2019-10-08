@@ -7,6 +7,10 @@ use Illuminate\Foundation\Exceptions\Handler;
 use Orchestra\Testbench\TestCase as Orchestra;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Thinktomorrow\AssetLibrary\Test\stubs\Article;
+use Spatie\MediaLibrary\ImageGenerators\FileTypes\Svg;
+use Spatie\MediaLibrary\ImageGenerators\FileTypes\Webp;
+use Spatie\MediaLibrary\ImageGenerators\FileTypes\Image;
+use Spatie\MediaLibrary\ImageGenerators\FileTypes\Video;
 
 abstract class TestCase extends Orchestra
 {
@@ -95,6 +99,13 @@ abstract class TestCase extends Orchestra
             return $this->getTempDirectory();
         });
         $app['config']->set('app.key', '6rE9Nz59bGRbeMATftriyQjrpF7DcOQm');
+
+        $app['config']->set('medialibrary.image_generators', [
+            Image::class,
+            Webp::class,
+            Svg::class,
+            Video::class,
+        ]);
     }
 
     public function getTempDirectory($suffix = '')

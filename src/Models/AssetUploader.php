@@ -4,6 +4,7 @@ namespace Thinktomorrow\AssetLibrary\Models;
 
 use Traversable;
 use Illuminate\Http\File;
+use Illuminate\Support\Str;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Database\Eloquent\Model;
 
@@ -152,6 +153,6 @@ class AssetUploader extends Model
      */
     private static function isImage($file): bool
     {
-        return str_before($file->getMimetype(), '/') === 'image';
+        return Str::before($file->getMimetype(), '/') === 'image';
     }
 }
