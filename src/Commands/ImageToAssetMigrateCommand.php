@@ -5,6 +5,7 @@ namespace Thinktomorrow\AssetLibrary\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Thinktomorrow\AssetLibrary\Models\AssetUploader;
+use Thinktomorrow\AssetLibrary\Models\Application\AddAsset;
 use Thinktomorrow\AssetLibrary\Models\Application\DeleteAsset;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\UnreachableUrl;
 
@@ -100,7 +101,7 @@ class ImageToAssetMigrateCommand extends Command
                 continue;
             }
 
-            $asset->setOrder($result['order'])->attachToModel($result['model']);
+            app(AddAsset::class)->setOrder($result['order'])->add($result['model'], $asset);
 
             if ($this->option('force')) {
                 unlink(public_path($line));

@@ -36,11 +36,11 @@ class AssetTest extends TestCase
         $original = Article::create();
 
         //upload a single image
-        $article = $this->getUploadedAsset()->attachToModel($original);
+        app(AddAsset::class)->add($original, $this->getUploadedAsset());
 
-        $this->assertEquals('image.png', $article->asset()->filename());
-        $this->assertEquals('/media/1/image.png', $article->asset()->url());
-        $this->assertEquals($original->assetRelation()->first()->filename(), $article->asset()->filename());
+        $this->assertEquals('image.png', $original->asset()->filename());
+        $this->assertEquals('/media/1/image.png', $original->asset()->url());
+        $this->assertEquals($original->assetRelation()->first()->filename(), $original->asset()->filename());
         //upload a single image
         $asset = $this->getUploadedAsset();
 
@@ -62,12 +62,12 @@ class AssetTest extends TestCase
         $article = Article::create();
 
         //upload a single image
-        $article = $this->getUploadedAsset('image.png')->attachToModel($article, 'banner', 'nl');
+        app(AddAsset::class)->add($article, $this->getUploadedAsset('image.png'), 'banner', 'nl');
 
         $this->assertEquals('image.png', $article->asset('banner', 'nl')->filename());
         $this->assertEquals('/media/2/image.png', $article->asset('banner', 'nl')->url());
 
-        $article = $this->getUploadedAsset('image.png')->attachToModel($article, 'thumbnail', 'fr');
+        app(AddAsset::class)->add($article, $this->getUploadedAsset('image.png'), 'thumbnail', 'fr');
 
         $this->assertEquals('image.png', $article->asset('thumbnail', 'fr')->filename());
         $this->assertEquals('/media/3/image.png', $article->asset('thumbnail', 'fr')->url());
@@ -214,10 +214,9 @@ class AssetTest extends TestCase
         $original = Article::create();
 
         $asset = $this->getUploadedAsset();
+        app(AddAsset::class)->setOrder(6)->add($original, $asset);
 
-        $asset->setOrder(6)->attachToModel($original);
-
-        $this->assertEquals($asset->id, $original->assetRelation->where('pivot.order', 6)->first()->id);
+        $this->assertEquals($asset->id, $original->fresh()->assetRelation->where('pivot.order', 6)->first()->id);
     }
 
     /**
@@ -228,10 +227,10 @@ class AssetTest extends TestCase
         $original = Article::create();
 
         $asset1 = $this->getUploadedAsset();
-        $asset1->setOrder(2)->attachToModel($original);
+        app(AddAsset::class)->setOrder(2)->add($original, $asset1);
 
         $asset2 = $this->getUploadedAsset('image.png');
-        $asset2->setOrder(1)->attachToModel($original);
+        app(AddAsset::class)->setOrder(1)->add($original, $asset2);
 
         $this->assertEquals($asset2->id, $original->assetRelation->first()->id);
         $this->assertEquals($asset1->id, $original->assetRelation->where('pivot.order', 2)->last()->id);
@@ -248,9 +247,9 @@ class AssetTest extends TestCase
 
         //upload a single image
         $asset   = $this->getUploadedAsset();
-        $article = $asset->attachToModel($original);
 
-        app(AddAsset::class)->add($article, $article->assetRelation()->first());
+        app(AddAsset::class)->add($original->fresh(), $asset);
+        app(AddAsset::class)->add($original, $original->assetRelation()->first());
     }
 
     /**

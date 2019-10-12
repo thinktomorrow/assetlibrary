@@ -223,8 +223,7 @@ class AssetTraitTest extends TestCase
         $article2   = Article::create();
         $asset      = AssetUploader::upload(UploadedFile::fake()->image('image.png', 100, 100));
 
-        $asset->attachToModel($article, 'banner');
-
+        app(AddAsset::class)->add($article, $asset, 'banner');
         app(AddAsset::class)->add($article2, $asset, 'banner');
 
         $this->assertEquals('/media/1/conversions/image-thumb.png', $article->asset('banner')->url('thumb'));
@@ -403,31 +402,6 @@ class AssetTraitTest extends TestCase
         $this->assertEquals('/media/2/testimage2.png', $article->assets()->last()->url());
     }
 
-    /**
-     * @test
-     */
-    public function it_can_get_the_files_sorted()
-    {
-        config(['app.locale' => 'xxx']);
-        config(['app.fallback_locale' => 'nl']);
-
-        $article = Article::create();
-
-        $asset1 = Asset::create();
-        $asset1->setOrder(3)->attachToModel($article, 'banner');
-        $asset2 = Asset::create();
-        $asset2->setOrder(1)->attachToModel($article, 'banner');
-        $asset3 = Asset::create();
-        $asset3->setOrder(2)->attachToModel($article, 'banner');
-        $article = Asset::create()->attachToModel($article, 'fail');
-
-        $images = $article->assets('banner');
-
-        $this->assertCount(3, $images);
-        $this->assertEquals($asset1->id, $images->pop()->id);
-        $this->assertEquals($asset3->id, $images->pop()->id);
-        $this->assertEquals($asset2->id, $images->pop()->id);
-    }
 
     /**
      * @test
@@ -437,12 +411,16 @@ class AssetTraitTest extends TestCase
         $article = Article::create();
 
         $asset1 = Asset::create();
-        $asset1->attachToModel($article, 'banner');
+        app(AddAsset::class)->add($article, $asset1, 'banner');
+
         $asset2 = Asset::create();
-        $asset2->attachToModel($article, 'banner');
+        app(AddAsset::class)->add($article, $asset2, 'banner');
+
         $asset3 = Asset::create();
-        $asset3->attachToModel($article, 'banner');
-        $article = Asset::create()->attachToModel($article, 'fail');
+        app(AddAsset::class)->add($article, $asset3, 'banner');
+
+        app(AddAsset::class)->add($article, Asset::create(), 'fail');
+
 
         app(SortAssets::class)->handle($article, 'banner', [(string) $asset3->id, (string) $asset1->id, (string) $asset2->id]);
 
@@ -462,12 +440,19 @@ class AssetTraitTest extends TestCase
         $article = Article::create();
 
         $asset1 = Asset::create();
-        $asset1->attachToModel($article, 'banner');
+        // $asset1->attachToModel($article, 'banner');
+        app(AddAsset::class)->add($article, $asset1, 'banner');
+
         $asset2 = Asset::create();
-        $asset2->attachToModel($article, 'banner');
+        // $asset2->attachToModel($article, 'banner');
+        app(AddAsset::class)->add($article, $asset2, 'banner');
+
         $asset3 = Asset::create();
-        $asset3->attachToModel($article, 'banner');
-        $article = Asset::create()->attachToModel($article, 'fail');
+        // $asset3->attachToModel($article, 'banner');
+        app(AddAsset::class)->add($article, $asset3, 'banner');
+
+        // $article = Asset::create()->attachToModel($article, 'fail');
+        app(AddAsset::class)->add($article, Asset::create(), 'fail');
 
         app(SortAssets::class)->handle($article, 'banner', [5 => (string) $asset3->id, 1 => (string) $asset1->id, 9 => (string) $asset2->id]);
 

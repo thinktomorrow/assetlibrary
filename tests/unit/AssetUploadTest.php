@@ -8,6 +8,7 @@ use Thinktomorrow\AssetLibrary\Tests\TestCase;
 use Thinktomorrow\AssetLibrary\Models\AssetLibrary;
 use Thinktomorrow\AssetLibrary\Tests\stubs\Article;
 use Thinktomorrow\AssetLibrary\Models\AssetUploader;
+use Thinktomorrow\AssetLibrary\Models\Application\AddAsset;
 
 class AssetUploadTest extends TestCase
 {
@@ -73,10 +74,11 @@ class AssetUploadTest extends TestCase
         $original = Article::create();
 
         //upload a single image
-        AssetUploader::upload(UploadedFile::fake()->image('image.png'))->attachToModel($original, 'images');
+        app(AddAsset::class)->add($original, AssetUploader::upload(UploadedFile::fake()->image('image.png')), 'images');
 
         //upload a second single image
-        AssetUploader::upload(UploadedFile::fake()->image('image.png'))->attachToModel($original, 'images');
+        app(AddAsset::class)->add($original, AssetUploader::upload(UploadedFile::fake()->image('image.png')), 'images');
+
 
         $this->assertCount(2, $original->assets('images'));
     }

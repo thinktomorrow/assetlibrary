@@ -17,30 +17,6 @@ class Asset extends Model implements HasAsset
     private $order;
 
     /**
-     * Attaches this asset instance to the given model and
-     * sets the type and locale to the given values and
-     * returns the model with the asset relationship.
-     *
-     * @param HasAsset $model
-     * @param string $type
-     * @param null|string $locale
-     * @return HasAsset
-     * @throws AssetUploadException
-     */
-    public function attachToModel(HasAsset $model, $type = '', $locale = null): HasAsset
-    {
-        if ($model->assetRelation()->get()->contains($this)) {
-            throw AssetUploadException::create();
-        }
-
-        $locale = $locale ?? config('app.fallback_locale');
-
-        $model->assetRelation()->attach($this, ['type' => $type, 'locale' => $locale, 'order' => $this->order]);
-
-        return $model->load('assetRelation');
-    }
-
-    /**
      * @return bool
      */
     public function hasFile(): bool
@@ -205,12 +181,5 @@ class Asset extends Model implements HasAsset
                 ->keepOriginalImageFormat()
                 ->optimize();
         }
-    }
-
-    public function setOrder($order)
-    {
-        $this->order = $order;
-
-        return $this;
     }
 }
