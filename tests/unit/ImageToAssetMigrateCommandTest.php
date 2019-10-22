@@ -50,7 +50,7 @@ class ImageToAssetMigrateCommandTest extends TestCase
         // assert the image exists on both locations
         $this->assertFileExists(public_path(Article::first()->imageurl));
         $this->assertFileExists(public_path(Article::first()->asset()->url()));
-        $this->assertequals($this->testArticle->asset()->filename(), 'warpaint-logo.svg');
+        $this->assertEquals($this->testArticle->asset()->filename(), 'warpaint-logo.svg');
     }
 
     /** @test */
@@ -77,7 +77,7 @@ class ImageToAssetMigrateCommandTest extends TestCase
         $this->assertFileExists(public_path($this->testArticle->asset()->url()));
         $this->assertFileExists(public_path($article->asset()->url()));
         $this->assertequals($article->fresh()->asset()->filename(), 'warpaint-logo.svg');
-        $this->assertequals($this->testArticle->fresh()->asset()->filename(), 'warpaint-logo.svg');
+        $this->assertEquals($this->testArticle->fresh()->asset()->filename(), 'warpaint-logo.svg');
     }
 
     /** @test */

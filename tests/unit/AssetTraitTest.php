@@ -33,25 +33,19 @@ class AssetTraitTest extends TestCase
         parent::tearDown();
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_can_get_a_file_url_with_a_type()
     {
         $this->assertEquals('/media/1/image.png', $this->getArticleWithAsset('banner')->asset('banner')->url());
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_can_get_a_file_url_with_a_type_and_size()
     {
         $this->assertEquals('/media/1/conversions/image-thumb.png', $this->getArticleWithAsset('banner')->asset('banner')->url('thumb'));
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_can_get_a_file_url_with_type_for_locale()
     {
         $article = $this->getArticleWithAsset('banner');
@@ -62,9 +56,7 @@ class AssetTraitTest extends TestCase
         $this->assertEquals('/media/2/imagefr.png', $article->asset('banner', 'fr')->url());
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_can_get_a_file_url_with_all_variables()
     {
         $article = $this->getArticleWithAsset('banner', 'nl');
@@ -74,9 +66,7 @@ class AssetTraitTest extends TestCase
         $this->assertEquals('/media/2/conversions/imagefr-thumb.png', $article->asset('thumbnail', 'fr')->url('thumb'));
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_can_get_the_fallback_locale_if_no_locale_is_passed()
     {
         $article = $this->getArticleWithAsset('banner', 'nl');
@@ -86,23 +76,7 @@ class AssetTraitTest extends TestCase
         $this->assertEquals('/media/1/image.png', $article->asset('banner', 'fr')->url());
     }
 
-    /**
-     * @test
-     */
-    public function it_can_check_if_it_has_a_file_without_a_type()
-    {
-        $article = Article::create();
-
-        $this->assertNull($article->asset());
-
-        $article = $this->getArticleWithAsset();
-
-        $this->assertNotNull($article->asset());
-    }
-
-    /**
-     * @test
-     */
+    /** @test */
     public function it_can_check_if_it_has_a_file_with_a_type()
     {
         $article = Article::create();
@@ -114,195 +88,32 @@ class AssetTraitTest extends TestCase
         $this->assertNotNull($article->asset('banner'));
     }
 
-    /**
-     * @test
-     */
-    public function it_can_add_a_file_translation()
-    {
-        $article = $this->getArticleWithAsset('banner', 'nl');
-        app(AddAsset::class)->add($article, UploadedFile::fake()->image('imagefr.png'), 'banner', 'fr');
-
-        $this->assertNotNull($article->asset('banner'));
-        $this->assertNotNull($article->asset('banner', 'fr'));
-        $this->assertNull($article->asset('banner', 'en'));
-    }
-
-    /**
-     * @test
-     */
-    public function it_can_add_a_file_translation_for_default_locale()
-    {
-        $article = $this->getArticleWithAsset('banner');
-        app(AddAsset::class)->add($article, UploadedFile::fake()->image('imagefr.png'), 'banner', 'fr');
-
-        $this->assertNotNull($article->asset('banner'));
-        $this->assertNotNull($article->asset('banner', 'fr'));
-    }
-
-    /**
-     * @test
-     */
-    public function it_can_attach_an_asset_if_it_is_given_instead_of_a_file()
-    {
-        $article = $this->getArticleWithAsset();
-
-        $this->assertEquals('/media/1/image.png', $article->asset()->url());
-    }
-
-    /**
-     * @test
-     */
-    public function it_can_attach_multiple_assets()
-    {
-        $article  = Article::create();
-        $assets[] = AssetUploader::upload(UploadedFile::fake()->image('image.png', 100, 100));
-        $assets[] = AssetUploader::upload(UploadedFile::fake()->image('image.png', 100, 100));
-
-        app(AddAsset::class)->addMultiple($article, collect($assets));
-
-        $this->assertEquals('/media/1/image.png', $article->asset()->url());
-    }
-
-    /**
-     * @test
-     */
-    public function it_can_attach_array_of_assets_with_the_add_file_method()
-    {
-        $article  = Article::create();
-        $assets[] = AssetUploader::upload(UploadedFile::fake()->image('image.png', 100, 100));
-        $assets[] = AssetUploader::upload(UploadedFile::fake()->image('image.png', 100, 100));
-
-        app(AddAsset::class)->addMultiple($article, collect($assets));
-
-        $this->assertEquals('/media/1/image.png', $article->asset()->url());
-    }
-
-    /**
-     * @test
-     */
-    public function it_can_attach_collection_of_assets_with_the_add_file_method()
-    {
-        $article    = Article::create();
-        $assets     = collect([AssetUploader::upload(UploadedFile::fake()->image('image.png', 100, 100)), AssetUploader::upload(UploadedFile::fake()->image('image.png', 100, 100))]);
-
-        app(AddAsset::class)->addMultiple($article, $assets);
-
-        $this->assertEquals('/media/1/image.png', $article->asset()->url());
-    }
-
-    /**
-     * @test
-     */
-    public function it_can_attach_multiple_assets_and_files()
-    {
-        $article  = Article::create();
-
-        $assets[] = AssetUploader::upload(UploadedFile::fake()->image('image.png', 100, 100));
-        $assets[] = AssetUploader::upload(UploadedFile::fake()->image('image.png', 100, 100));
-        $assets[] = UploadedFile::fake()->image('image.png');
-
-        app(AddAsset::class)->addMultiple($article, collect($assets));
-
-        $this->assertEquals('/media/1/image.png', $article->asset()->url());
-    }
-
-    /**
-     * @test
-     */
-    public function it_can_attach_an_asset_to_multiple_models()
-    {
-        $article    = Article::create();
-        $article2   = Article::create();
-        $asset      = AssetUploader::upload(UploadedFile::fake()->image('image.png', 100, 100));
-
-        app(AddAsset::class)->add($article, $asset, 'banner');
-        app(AddAsset::class)->add($article2, $asset, 'banner');
-
-        $this->assertEquals('/media/1/conversions/image-thumb.png', $article->asset('banner')->url('thumb'));
-        $this->assertEquals('/media/1/conversions/image-thumb.png', $article2->asset('banner')->url('thumb'));
-    }
-
-    /**
-     * @test
-     */
-    public function it_can_upload_multiple_files()
-    {
-        //upload multiple images
-        $images = collect([UploadedFile::fake()->image('image.png'), UploadedFile::fake()->image('image2.png')]);
-
-        $article = Article::create();
-
-        app(AddAsset::class)->addMultiple($article, $images, '', 'nl');
-
-        $this->assertEquals(2, $article->assets()->count());
-    }
-
-    /**
-     * @test
-     */
-    public function it_can_retrieve_all_files_regardless_of_type()
-    {
-        $images = [UploadedFile::fake()->image('image.png'), UploadedFile::fake()->image('image2.png')];
-
-        $article = Article::create();
-
-        app(AddAsset::class)->add($article, $images[0], 'first-type');
-        app(AddAsset::class)->add($article, $images[1], 'second-type');
-
-        $this->assertCount(2, $article->assets());
-        $this->assertCount(1, $article->assets('first-type'));
-        $this->assertCount(1, $article->assets('second-type'));
-    }
-
-    /**
-     * @test
-     */
-    public function it_can_retrieve_all_files_for_locale()
-    {
-        $images = [UploadedFile::fake()->image('image.png'), UploadedFile::fake()->image('image2.png')];
-
-        $article = Article::create();
-
-        app(AddAsset::class)->add($article, $images[0], 'first-type', 'nl');
-        app(AddAsset::class)->add($article, $images[1], 'first-type', 'fr');
-
-        $this->assertCount(2, $article->assets());
-        $this->assertCount(1, $article->assets('first-type', 'nl'));
-        $this->assertCount(1, $article->assets('first-type', 'fr'));
-    }
-
-    /**
-     * @test
-     */
+    /** @test */
     public function it_can_remove_an_asset()
     {
-        $article = $this->getArticleWithAsset();
+        $article = $this->getArticleWithAsset('xxx');
 
-        $this->assertCount(1, $article->assets());
+        $this->assertCount(1, $article->assets('xxx'));
 
         app(DeleteAsset::class)->delete($article->assetRelation->first()->id);
 
         $this->assertCount(0, Article::first()->assets());
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_can_replace_an_asset()
     {
-        $article = $this->getArticleWithAsset();
+        $article = $this->getArticleWithAsset('xxx');
 
-        $this->assertCount(1, $article->assets());
+        $this->assertCount(1, $article->assets('xxx'));
 
         app(ReplaceAsset::class)->handle($article, $article->assetRelation->first()->id, AssetUploader::upload(UploadedFile::fake()->image('newImage.png'))->id);
 
-        $this->assertCount(1, $article->assets());
-        $this->assertEquals('/media/2/newimage.png', $article->asset()->url());
+        $this->assertCount(1, $article->assets('xxx'));
+        $this->assertEquals('/media/2/newimage.png', $article->asset('xxx')->url());
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_can_replace_an_asset_with_specific_type()
     {
         $article = $this->getArticleWithAsset('custom-type');
@@ -314,90 +125,7 @@ class AssetTraitTest extends TestCase
         $this->assertEquals('/media/2/newimage.png', $article->asset('custom-type')->url());
     }
 
-    /**
-     * @test
-     */
-    public function it_can_upload_a_base64_file()
-    {
-        $article = Article::create();
-
-        app(AddAsset::class)->add($article, $this->base64Image);
-
-        $this->assertStringEndsWith('.gif', $article->asset()->url());
-    }
-
-    /**
-     * @test
-     */
-    public function it_can_set_a_name_when_uploading_a_base64_file()
-    {
-        $article = Article::create();
-
-        app(AddAsset::class)->add($article, $this->base64Image, '', '', 'testImage.png');
-
-        $this->assertEquals('/media/1/testimage.png', $article->asset()->url());
-    }
-
-    /**
-     * @test
-     */
-    public function it_can_set_a_name_when_uploading_a_base64_file_keeping_original()
-    {
-        $article = Article::create();
-
-        app(AddAsset::class)->add($article, $this->base64Image, '', '', 'testImage.png', true);
-
-        $this->assertEquals('/media/1/testimage.png', $article->asset()->url());
-    }
-
-    /**
-     * @test
-     */
-    public function it_can_set_a_name_when_uploading_a_file()
-    {
-        $article = Article::create();
-
-        app(AddAsset::class)->add($article, UploadedFile::fake()->image('newImage.png'), '', '', 'testImage.png');
-
-        $this->assertEquals('/media/1/testimage.png', $article->asset()->url());
-    }
-
-    /**
-     * @test
-     */
-    public function it_can_upload_multiple_base64_files_with_names()
-    {
-        $article = Article::create();
-
-        app(AddAsset::class)->addMultiple($article, collect([
-            'testImage1.png' => $this->base64Image,
-            'testImage2.png' => $this->base64Image,
-        ]));
-
-        $this->assertEquals('/media/1/testimage1.png', $article->asset()->url());
-        $this->assertEquals('/media/2/testimage2.png', $article->assets()->last()->url());
-    }
-
-    /**
-     * @test
-     */
-    public function it_can_upload_multiple_files_with_names()
-    {
-        $article = Article::create();
-
-        app(AddAsset::class)->addMultiple($article, collect([
-            'testImage1.png' => UploadedFile::fake()->image('newImage.png'),
-            'testImage2.png' => UploadedFile::fake()->image('newImage.png'),
-            ]));
-
-        $this->assertEquals('/media/1/testimage1.png', $article->asset()->url());
-        $this->assertEquals('/media/2/testimage2.png', $article->assets()->last()->url());
-    }
-
-
-    /**
-     * @test
-     */
+    /** @test */
     public function it_can_sort_images()
     {
         $article = Article::create();
@@ -424,9 +152,7 @@ class AssetTraitTest extends TestCase
         $this->assertEquals($asset3->id, $images->pop()->id);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_can_sort_images_with_specified_keys()
     {
         $article = Article::create();
@@ -467,9 +193,7 @@ class AssetTraitTest extends TestCase
         $this->assertEquals('test.png', $article->asset('thumbnail')->filename());
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function addFile_returns_asset()
     {
         $article = $this->getArticleWithAsset('banner');

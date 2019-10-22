@@ -36,17 +36,9 @@ class AssetTest extends TestCase
     {
         $original = Article::create();
 
-        //upload a single image
         app(AddAsset::class)->add($original, $this->getUploadedAsset());
 
-        $this->assertEquals('image.png', $original->asset()->filename());
-        $this->assertEquals('/media/1/image.png', $original->asset()->url());
-        $this->assertEquals($original->assetRelation()->first()->filename(), $original->asset()->filename());
-        //upload a single image
-        $asset = $this->getUploadedAsset();
-
-        $this->assertEquals('image.png', $asset->filename());
-        $this->assertEquals('/media/2/image.png', $asset->url());
+        $this->assertCount(1, $original->assetRelation()->get());
     }
 
     /**

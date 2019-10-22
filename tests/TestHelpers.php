@@ -9,7 +9,7 @@ use Thinktomorrow\AssetLibrary\Tests\stubs\ArticleWithSoftdelete;
 
 trait TestHelpers
 {
-    public function getArticleWithAsset($type = '', $locale = 'nl')
+    public function getArticleWithAsset(string $type, string $locale = 'nl'): Article
     {
         $article = Article::create();
         $article->assetRelation()->attach($this->getUploadedAsset(), ['type' => $type, 'locale' => $locale]);
@@ -17,7 +17,7 @@ trait TestHelpers
         return $article->load('assetRelation');
     }
 
-    public function getSoftdeleteArticleWithAsset($type = '', $locale = 'nl')
+    public function getSoftdeleteArticleWithAsset($type = '', $locale = 'nl'): ArticleWithSoftdelete
     {
         $article = ArticleWithSoftdelete::create();
         $article->assetRelation()->attach($this->getUploadedAsset(), ['type' => $type, 'locale' => $locale]);
@@ -25,12 +25,11 @@ trait TestHelpers
         return $article->load('assetRelation');
     }
 
-    public function getUploadedAsset($filename = 'image.png', $width = 100, $height = 100)
+    public function getUploadedAsset($filename = 'image.png', $width = 100, $height = 100): Asset
     {
         $asset = Asset::create();
 
-        @mkdir(public_path('/media/'));
-        @mkdir(public_path('/media/'.$asset->id));
+        @mkdir(public_path('/media/'.$asset->id), 0777, true);
         copy(public_path('/../media-stubs/'.$filename), public_path('/media/'.$asset->id.'/'.$filename));
 
         Media::create([
