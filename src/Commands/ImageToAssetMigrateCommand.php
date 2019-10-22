@@ -4,10 +4,10 @@ namespace Thinktomorrow\AssetLibrary\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
-use Thinktomorrow\AssetLibrary\Models\AssetUploader;
-use Thinktomorrow\AssetLibrary\Models\Application\AddAsset;
-use Thinktomorrow\AssetLibrary\Models\Application\DeleteAsset;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\UnreachableUrl;
+use Thinktomorrow\AssetLibrary\Application\AddAsset;
+use Thinktomorrow\AssetLibrary\Application\DeleteAsset;
+use Thinktomorrow\AssetLibrary\Models\AssetUploader;
 
 class ImageToAssetMigrateCommand extends Command
 {

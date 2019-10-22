@@ -1,6 +1,6 @@
 <?php
 
-namespace Thinktomorrow\AssetLibrary\Models\Application;
+namespace Thinktomorrow\AssetLibrary\Application;
 
 use Thinktomorrow\AssetLibrary\HasAsset;
 use Thinktomorrow\AssetLibrary\Models\Asset;

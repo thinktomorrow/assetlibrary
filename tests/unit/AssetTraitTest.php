@@ -3,17 +3,17 @@
 namespace Thinktomorrow\AssetLibrary\Tests\unit;
 
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\DB;
+use Thinktomorrow\AssetLibrary\Application\AddAsset;
+use Thinktomorrow\AssetLibrary\Application\DeleteAsset;
+use Thinktomorrow\AssetLibrary\Application\ReplaceAsset;
+use Thinktomorrow\AssetLibrary\Application\SortAssets;
 use Thinktomorrow\AssetLibrary\Models\Asset;
-use Thinktomorrow\AssetLibrary\Tests\TestCase;
-use Thinktomorrow\AssetLibrary\Tests\stubs\Article;
 use Thinktomorrow\AssetLibrary\Models\AssetUploader;
-use Thinktomorrow\AssetLibrary\Models\Application\AddAsset;
-use Thinktomorrow\AssetLibrary\Models\Application\SortAssets;
-use Thinktomorrow\AssetLibrary\Models\Application\DeleteAsset;
-use Thinktomorrow\AssetLibrary\Models\Application\ReplaceAsset;
+use Thinktomorrow\AssetLibrary\Tests\stubs\Article;
 use Thinktomorrow\AssetLibrary\Tests\stubs\ArticleWithSoftdelete;
+use Thinktomorrow\AssetLibrary\Tests\TestCase;
 
 class AssetTraitTest extends TestCase
 {

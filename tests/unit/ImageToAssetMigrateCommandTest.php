@@ -2,14 +2,14 @@
 
 namespace Thinktomorrow\AssetLibrary\Tests\unit;
 
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Support\Facades\Artisan;
-use Illuminate\Database\Schema\Blueprint;
-use Thinktomorrow\AssetLibrary\Tests\TestCase;
+use Thinktomorrow\AssetLibrary\Application\AddAsset;
 use Thinktomorrow\AssetLibrary\Tests\stubs\Article;
-use Thinktomorrow\AssetLibrary\Models\Application\AddAsset;
+use Thinktomorrow\AssetLibrary\Tests\TestCase;
 
 class ImageToAssetMigrateCommandTest extends TestCase
 {

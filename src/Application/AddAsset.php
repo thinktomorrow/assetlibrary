@@ -1,6 +1,6 @@
 <?php
 
-namespace Thinktomorrow\AssetLibrary\Models\Application;
+namespace Thinktomorrow\AssetLibrary\Application;
 
 use Illuminate\Support\Collection;
 use Thinktomorrow\AssetLibrary\Exceptions\AssetUploadException;
