@@ -84,7 +84,7 @@ class AddAsset
     private function attachAssetToModel(Asset $asset, HasAsset $model, $type = '', $locale = null): HasAsset
     {
         if ($model->assetRelation()->get()->contains($asset)) {
-            throw AssetUploadException::create();
+            throw AssetUploadException::assetAlreadyLinked();
         }
 
         $locale = $locale ?? config('app.fallback_locale');

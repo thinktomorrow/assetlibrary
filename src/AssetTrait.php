@@ -27,8 +27,6 @@ trait AssetTrait
 
     public function asset(string $type, ?string $locale = null): ?Asset
     {
-        $this->load('assetRelation');
-
         if ($this->assetRelation->first() === null || $this->assetRelation->first()->pivot === null) {
             return null;
         }
@@ -44,8 +42,6 @@ trait AssetTrait
 
     public function assets(string $type = '', ?string $locale = null): Collection
     {
-        $this->load('assetRelation');
-
         $assets = $this->assetRelation;
 
         if ($type) {
