@@ -36,14 +36,6 @@ class AssetTraitTest extends TestCase
     /**
      * @test
      */
-    public function it_can_get_a_file_url_without_a_type()
-    {
-        $this->assertEquals('/media/1/image.png', $this->getArticleWithAsset()->asset()->url());
-    }
-
-    /**
-     * @test
-     */
     public function it_can_get_a_file_url_with_a_type()
     {
         $this->assertEquals('/media/1/image.png', $this->getArticleWithAsset('banner')->asset('banner')->url());

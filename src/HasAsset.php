@@ -11,7 +11,7 @@ interface HasAsset extends HasMedia
 {
     public function assetRelation(): MorphToMany;
 
-    public function asset(string $type = '', ?string $locale = null): ?Asset;
+    public function asset(string $type, ?string $locale = null): ?Asset;
 
-    public function assets(string $type = '', string $locale = null): Collection;
+    public function assets(string $type, string $locale = null): Collection;
 }

@@ -20,15 +20,12 @@ trait AssetTrait
         });
     }
 
-    /**
-     * @return mixed
-     */
     public function assetRelation(): MorphToMany
     {
         return $this->morphToMany(Asset::class, 'entity', 'asset_pivots')->withPivot('type', 'locale', 'order')->orderBy('order');
     }
 
-    public function asset(string $type = '', ?string $locale = null): ?Asset
+    public function asset(string $type, ?string $locale = null): ?Asset
     {
         $this->load('assetRelation');
 
@@ -36,11 +33,7 @@ trait AssetTrait
             return null;
         }
 
-        $assets = $this->assetRelation;
-
-        if ($type != '') {
-            $assets = $this->assetRelation->where('pivot.type', $type);
-        }
+        $assets = $this->assetRelation->where('pivot.type', $type);
 
         if ($locale && $assets->count() > 1) {
             $assets = $assets->where('pivot.locale', $locale);
@@ -49,7 +42,7 @@ trait AssetTrait
         return $assets->first();
     }
 
-    public function assets(string $type = '', string $locale = null): Collection
+    public function assets(string $type = '', ?string $locale = null): Collection
     {
         $this->load('assetRelation');
 
