@@ -4,6 +4,7 @@ namespace Thinktomorrow\AssetLibrary\Tests\unit;
 
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Artisan;
+use Thinktomorrow\AssetLibrary\Exceptions\ConfigException;
 use Thinktomorrow\AssetLibrary\Models\Asset;
 use Thinktomorrow\AssetLibrary\Tests\TestCase;
 use Thinktomorrow\AssetLibrary\Models\AssetLibrary;
@@ -199,7 +200,8 @@ class AssetTest extends TestCase
      */
     public function it_can_not_crop_an_image_if_the_setting_is_turned_off()
     {
-        $this->expectExceptionMessage("The cropping config setting needs to be turned on to crop images. See 'Config\assetlibrary.php' for the 'allowCropping' field.");
+        $this->expectException(ConfigException::class);
+
         config(['assetlibrary.allowCropping' => false]);
         $asset = $this->getUploadedAsset('image.png', 1000, 1000)->crop(600, 400, 60, 100);
 

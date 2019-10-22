@@ -1,11 +1,11 @@
 <?php
 
-namespace Thinktomorrow\AssetLibrary\Traits;
+namespace Thinktomorrow\AssetLibrary;
 
-use Illuminate\Support\Collection;
-use Thinktomorrow\AssetLibrary\Models\Asset;
-use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Illuminate\Support\Collection;
+use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
+use Thinktomorrow\AssetLibrary\Models\Asset;
 
 trait AssetTrait
 {

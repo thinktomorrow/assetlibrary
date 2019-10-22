@@ -2,12 +2,12 @@
 
 namespace Thinktomorrow\AssetLibrary\Tests\stubs;
 
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Thinktomorrow\AssetLibrary\Traits\AssetTrait;
-use Thinktomorrow\AssetLibrary\Interfaces\HasAsset;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+use Thinktomorrow\AssetLibrary\AssetTrait;
+use Thinktomorrow\AssetLibrary\HasAsset;
 
 class ArticleWithSoftdelete extends Model implements HasAsset
 {

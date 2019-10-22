@@ -3,10 +3,10 @@
 namespace Thinktomorrow\AssetLibrary\Models\Application;
 
 use Illuminate\Support\Collection;
-use Thinktomorrow\AssetLibrary\Models\Asset;
-use Thinktomorrow\AssetLibrary\Interfaces\HasAsset;
-use Thinktomorrow\AssetLibrary\Models\AssetUploader;
 use Thinktomorrow\AssetLibrary\Exceptions\AssetUploadException;
+use Thinktomorrow\AssetLibrary\HasAsset;
+use Thinktomorrow\AssetLibrary\Models\Asset;
+use Thinktomorrow\AssetLibrary\Models\AssetUploader;
 
 class AddAsset
 {
@@ -15,7 +15,7 @@ class AddAsset
     /**
      * Add a file to this model, accepts a type and locale to be saved with the file.
      *
-     * @param \Thinktomorrow\AssetLibrary\Interfaces\HasAsset $model
+     * @param \Thinktomorrow\AssetLibrary\HasAsset $model
      * @param $file
      * @param string $type
      * @param string|null $locale

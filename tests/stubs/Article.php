@@ -2,11 +2,11 @@
 
 namespace Thinktomorrow\AssetLibrary\Tests\stubs;
 
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Schema\Blueprint;
-use Thinktomorrow\AssetLibrary\Traits\AssetTrait;
-use Thinktomorrow\AssetLibrary\Interfaces\HasAsset;
+use Illuminate\Support\Facades\Schema;
+use Thinktomorrow\AssetLibrary\AssetTrait;
+use Thinktomorrow\AssetLibrary\HasAsset;
 
 class Article extends Model implements HasAsset
 {

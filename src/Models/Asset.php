@@ -4,13 +4,12 @@ namespace Thinktomorrow\AssetLibrary\Models;
 
 use Spatie\MediaLibrary\Models\Media;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
-use Thinktomorrow\AssetLibrary\Interfaces\HasAsset;
 use Thinktomorrow\AssetLibrary\Exceptions\ConfigException;
-use Thinktomorrow\AssetLibrary\Exceptions\AssetUploadException;
 use Thinktomorrow\AssetLibrary\Exceptions\CorruptMediaException;
 
-class Asset extends Model implements HasAsset
+class Asset extends Model implements HasMedia
 {
     use HasMediaTrait;
 
@@ -42,7 +41,7 @@ class Asset extends Model implements HasAsset
         $media = $this->getMedia()->first();
 
         if ($media == null) {
-            throw CorruptMediaException::corrupt($this->id);
+            throw CorruptMediaException::missingMediaRelation($this->id);
         }
 
         return $media->getUrl($size);
@@ -69,7 +68,7 @@ class Asset extends Model implements HasAsset
         $media = $this->getMedia()->first();
 
         if ($media == null) {
-            throw CorruptMediaException::corrupt($this->id);
+            throw CorruptMediaException::missingMediaRelation($this->id);
         }
 
         $extension = explode('.', $media->file_name);
@@ -145,7 +144,7 @@ class Asset extends Model implements HasAsset
     public function crop($width, $height, $x, $y)
     {
         if (! config('assetlibrary.allowCropping')) {
-            throw ConfigException::create();
+            throw ConfigException::croppingDisabled();
         }
         $this->media[0]->manipulations = [
             'cropped'   => [
