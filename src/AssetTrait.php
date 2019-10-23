@@ -5,7 +5,6 @@ namespace Thinktomorrow\AssetLibrary;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
-use Thinktomorrow\AssetLibrary\Models\Asset;
 
 trait AssetTrait
 {
@@ -27,20 +26,10 @@ trait AssetTrait
 
     public function asset(string $type, ?string $locale = null): ?Asset
     {
-        if ($this->assetRelation->first() === null || $this->assetRelation->first()->pivot === null) {
-            return null;
-        }
-
-        $assets = $this->assetRelation->where('pivot.type', $type);
-
-        if ($locale && $assets->count() > 1) {
-            $assets = $assets->where('pivot.locale', $locale);
-        }
-
-        return $assets->first();
+        return $this->assets($type, $locale)->first();
     }
 
-    public function assets(string $type = '', ?string $locale = null): Collection
+    public function assets(?string $type = null, ?string $locale = null): Collection
     {
         $assets = $this->assetRelation;
 
@@ -48,10 +37,28 @@ trait AssetTrait
             $assets = $assets->where('pivot.type', $type);
         }
 
-        if ($locale) {
-            $assets = $assets->where('pivot.locale', $locale);
+        $locale = $locale ?? app()->getLocale();
+
+        $results = $assets->filter(function($asset) use($locale){
+            return $asset->pivot->locale == $locale;
+        });
+
+        if($this->getUseAssetFallbackLocale() && $locale != $this->getAssetFallbackLocale() && $results->isEmpty()) {
+            $results = $assets->filter(function($asset){
+                return $asset->pivot->locale == $this->getAssetFallbackLocale();
+            });
         }
 
-        return $assets->sortBy('pivot.order');
+        return $results->sortBy('pivot.order');
+    }
+
+    protected function getUseAssetFallbackLocale(): bool
+    {
+        return $this->useAssetFallbackLocale ?? config('thinktomorrow.assetlibrary.use_fallback_locale', false);
+    }
+
+    protected function getAssetFallbackLocale(): string
+    {
+        return $this->assetFallbackLocale ?? config('thinktomorrow.assetlibrary.fallback_locale');
     }
 }

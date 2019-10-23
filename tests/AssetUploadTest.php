@@ -2,13 +2,13 @@
 
 namespace Thinktomorrow\AssetLibrary\Test;
 
-use Illuminate\Http\File;
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Artisan;
-use Thinktomorrow\AssetLibrary\Tests\TestCase;
+use Illuminate\Support\Facades\DB;
+use Thinktomorrow\AssetLibrary\Application\AssetUploader;
+use Thinktomorrow\AssetLibrary\Asset;
 use Thinktomorrow\AssetLibrary\Models\AssetLibrary;
-use Thinktomorrow\AssetLibrary\Models\AssetUploader;
+use Thinktomorrow\AssetLibrary\Tests\TestCase;
 
 class AssetUploadTest extends TestCase
 {
@@ -37,9 +37,7 @@ class AssetUploadTest extends TestCase
         $this->assertFileExists($source->getPath());
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_can_upload_an_array_of_assets()
     {
         $assets = collect([]);
@@ -50,6 +48,6 @@ class AssetUploadTest extends TestCase
 
         AssetUploader::upload($assets);
 
-        $this->assertEquals(3, AssetLibrary::getAllAssets()->count());
+        $this->assertEquals(3, Asset::count());
     }
 }

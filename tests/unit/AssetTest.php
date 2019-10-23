@@ -5,12 +5,12 @@ namespace Thinktomorrow\AssetLibrary\Tests\unit;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Artisan;
 use Thinktomorrow\AssetLibrary\Application\AddAsset;
+use Thinktomorrow\AssetLibrary\Application\AssetUploader;
+use Thinktomorrow\AssetLibrary\Asset;
 use Thinktomorrow\AssetLibrary\Exceptions\AssetUploadException;
 use Thinktomorrow\AssetLibrary\Exceptions\ConfigException;
 use Thinktomorrow\AssetLibrary\Exceptions\CorruptMediaException;
-use Thinktomorrow\AssetLibrary\Models\Asset;
 use Thinktomorrow\AssetLibrary\Models\AssetLibrary;
-use Thinktomorrow\AssetLibrary\Models\AssetUploader;
 use Thinktomorrow\AssetLibrary\Tests\stubs\Article;
 use Thinktomorrow\AssetLibrary\Tests\TestCase;
 
@@ -36,7 +36,7 @@ class AssetTest extends TestCase
     {
         $original = Article::create();
 
-        app(AddAsset::class)->add($original, $this->getUploadedAsset());
+        app(AddAsset::class)->add($original, $this->getUploadedAsset(), 'xxx', 'nl');
 
         $this->assertCount(1, $original->assetRelation()->get());
     }
@@ -62,10 +62,10 @@ class AssetTest extends TestCase
 
         app(AddAsset::class)->add($article, $this->getUploadedAsset('image.png'), 'thumbnail', 'fr');
 
-        $this->assertEquals('image.png', $article->asset('thumbnail', 'fr')->filename());
+        $this->assertEquals('image.png', $article->refresh()->asset('thumbnail', 'fr')->filename());
         $this->assertEquals('/media/3/image.png', $article->asset('thumbnail', 'fr')->url());
 
-        $this->assertEquals(3, AssetLibrary::getAllAssets()->count());
+        $this->assertEquals(3, Asset::all()->count());
     }
 
     /**
@@ -208,7 +208,7 @@ class AssetTest extends TestCase
         $original = Article::create();
 
         $asset = $this->getUploadedAsset();
-        app(AddAsset::class)->setOrder(6)->add($original, $asset);
+        app(AddAsset::class)->setOrder(6)->add($original, $asset, 'xxx', 'nl');
 
         $this->assertEquals($asset->id, $original->fresh()->assetRelation->where('pivot.order', 6)->first()->id);
     }
@@ -221,10 +221,10 @@ class AssetTest extends TestCase
         $original = Article::create();
 
         $asset1 = $this->getUploadedAsset();
-        app(AddAsset::class)->setOrder(2)->add($original, $asset1);
+        app(AddAsset::class)->setOrder(2)->add($original, $asset1, 'xxx', 'nl');
 
         $asset2 = $this->getUploadedAsset('image.png');
-        app(AddAsset::class)->setOrder(1)->add($original, $asset2);
+        app(AddAsset::class)->setOrder(1)->add($original, $asset2, 'xxx', 'nl');
 
         $this->assertEquals($asset2->id, $original->assetRelation->first()->id);
         $this->assertEquals($asset1->id, $original->assetRelation->where('pivot.order', 2)->last()->id);

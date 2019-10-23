@@ -3,15 +3,14 @@
 namespace Thinktomorrow\AssetLibrary\Application;
 
 use Illuminate\Support\Collection;
+use Thinktomorrow\AssetLibrary\Asset;
 use Thinktomorrow\AssetLibrary\Exceptions\AssetUploadException;
 use Thinktomorrow\AssetLibrary\HasAsset;
-use Thinktomorrow\AssetLibrary\Models\Asset;
-use Thinktomorrow\AssetLibrary\Models\AssetUploader;
 
 class AddAsset
 {
-
     private $order;
+
     /**
      * Add a file to this model, accepts a type and locale to be saved with the file.
      *
@@ -23,19 +22,11 @@ class AddAsset
      * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
      * @throws \Thinktomorrow\AssetLibrary\Exceptions\AssetUploadException
      */
-    public function add(HasAsset $model, $file, string $type = '', ?string $locale = null, ?string $filename = null): Asset
+    public function add(HasAsset $model, $file, string $type, string $locale, ?string $filename = null): Asset
     {
-        $locale = $this->normalizeLocaleString($locale);
+        $asset = $this->uploadAssetFromInput($file, $filename);
 
-        if (is_string($file)) {
-            $asset = AssetUploader::uploadFromBase64($file, $filename);
-        } else {
-            $asset = AssetUploader::upload($file, $filename);
-        }
-
-        if ($asset instanceof Asset) {
-            $this->attachAssetToModel($asset, $model, $type, $locale);
-        }
+        $this->attachAssetToModel($asset, $model, $type, $locale);
 
         return $asset;
     }
@@ -49,9 +40,8 @@ class AddAsset
      * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
      * @throws \Thinktomorrow\AssetLibrary\Exceptions\AssetUploadException
      */
-    public function addMultiple(HasAsset $model, Collection $files, $type = '', $locale = null): Collection
+    public function addMultiple(HasAsset $model, Collection $files, string $type, string $locale): Collection
     {
-        $locale = $this->normalizeLocaleString($locale);
         $assets = collect();
 
         $files->each(function ($file, $filename) use ($assets, $model, $type, $locale) {
@@ -78,31 +68,26 @@ class AddAsset
      * @param string $type
      * @param null|string $locale
      * @param null|int $order
-     * @return HasAsset
+     * @return void
      * @throws AssetUploadException
      */
-    private function attachAssetToModel(Asset $asset, HasAsset $model, $type = '', $locale = null): HasAsset
+    private function attachAssetToModel(Asset $asset, HasAsset $model, string $type, string $locale): void
     {
         if ($model->assetRelation()->get()->contains($asset)) {
             throw AssetUploadException::assetAlreadyLinked();
         }
 
-        $locale = $locale ?? config('app.fallback_locale');
-
         $model->assetRelation()->attach($asset, ['type' => $type, 'locale' => $locale, 'order' => $this->order]);
-
-        return $model->load('assetRelation');
     }
 
-
-    /**
-     * @param string|null $locale
-     * @return string
-     */
-    private function normalizeLocaleString($locale = null): string
+    private function uploadAssetFromInput($file, ?string $filename = null): Asset
     {
-        $locale = $locale ?? config('app.fallback_locale');
+        if($file instanceof Asset) return $file;
 
-        return $locale;
+        if (is_string($file)) {
+            return AssetUploader::uploadFromBase64($file, $filename);
+        }
+
+        return AssetUploader::upload($file, $filename);
     }
 }

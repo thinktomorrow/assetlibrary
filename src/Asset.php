@@ -1,11 +1,11 @@
 <?php
 
-namespace Thinktomorrow\AssetLibrary\Models;
+namespace Thinktomorrow\AssetLibrary;
 
-use Spatie\MediaLibrary\Models\Media;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
+use Spatie\MediaLibrary\Models\Media;
 use Thinktomorrow\AssetLibrary\Exceptions\ConfigException;
 use Thinktomorrow\AssetLibrary\Exceptions\CorruptMediaException;
 

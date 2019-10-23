@@ -4,7 +4,6 @@ namespace Thinktomorrow\AssetLibrary;
 
 use Illuminate\Support\ServiceProvider;
 use Spatie\MediaLibrary\MediaLibraryServiceProvider;
-use Thinktomorrow\AssetLibrary\Commands\ImageToAssetMigrateCommand;
 
 class AssetLibraryServiceProvider extends ServiceProvider
 {
@@ -17,6 +16,10 @@ class AssetLibraryServiceProvider extends ServiceProvider
         ], 'assetlibrary-config');
 
         $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
+
+        if(!config('thinktomorrow.assetlibrary.fallback_locale')) {
+            config()->set('thinktomorrow.assetlibrary.fallback_locale', config('app.fallback_locale'));
+        }
     }
 
     /**

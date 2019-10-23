@@ -2,9 +2,9 @@
 
 namespace Thinktomorrow\AssetLibrary\Tests;
 
-use Illuminate\Support\Facades\DB;
-use Illuminate\Foundation\Exceptions\Handler;
 use Illuminate\Contracts\Debug\ExceptionHandler;
+use Illuminate\Foundation\Exceptions\Handler;
+use Illuminate\Support\Facades\DB;
 use Orchestra\Testbench\TestCase as BaseTestCase;
 
 class TestCase extends BaseTestCase
@@ -66,7 +66,7 @@ class TestCase extends BaseTestCase
     {
         return [
             \Thinktomorrow\AssetLibrary\AssetLibraryServiceProvider::class,
-            \Thinktomorrow\AssetLibrary\MigrateServiceProvider::class,
+            \Thinktomorrow\AssetLibraryMigrate\MigrateServiceProvider::class,
         ];
     }
 

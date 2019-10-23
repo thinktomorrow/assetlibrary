@@ -154,7 +154,7 @@ class ImageToAssetMigrateCommandTest extends TestCase
 
         $this->testArticle->save();
 
-        app(AddAsset::class)->add($this->testArticle, UploadedFile::fake()->image('image.png'));
+        app(AddAsset::class)->add($this->testArticle, UploadedFile::fake()->image('image.png'), 'xxx', 'nl');
 
         $this->assertCount(1, $this->testArticle->assetRelation);
 

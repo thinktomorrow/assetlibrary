@@ -1,13 +1,13 @@
 <?php
 
-namespace Thinktomorrow\AssetLibrary\Commands;
+namespace Thinktomorrow\AssetLibraryMigrate;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\UnreachableUrl;
 use Thinktomorrow\AssetLibrary\Application\AddAsset;
+use Thinktomorrow\AssetLibrary\Application\AssetUploader;
 use Thinktomorrow\AssetLibrary\Application\DeleteAsset;
-use Thinktomorrow\AssetLibrary\Models\AssetUploader;
 
 class ImageToAssetMigrateCommand extends Command
 {
@@ -102,7 +102,8 @@ class ImageToAssetMigrateCommand extends Command
 
                 continue;
             }
-            app(AddAsset::class)->setOrder($result['order'])->add($result['model'], $asset, ($result['type']??'images'));
+
+            app(AddAsset::class)->setOrder($result['order'])->add($result['model'], $asset, ($result['type']??'images'), 'nl');
 
             if ($this->option('force')) {
                 unlink(public_path($line));

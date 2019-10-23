@@ -30,7 +30,8 @@
     },
     "autoload": {
         "psr-4": {
-            "Thinktomorrow\\AssetLibrary\\": "src"
+            "Thinktomorrow\\AssetLibrary\\": "src/",
+            "Thinktomorrow\\AssetLibraryMigrate\\": "migrate/"
         }
     },
     "autoload-dev": {

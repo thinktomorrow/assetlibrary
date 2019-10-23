@@ -5,8 +5,8 @@ namespace Thinktomorrow\AssetLibrary\Tests\unit;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Artisan;
 use Thinktomorrow\AssetLibrary\Application\AddAsset;
+use Thinktomorrow\AssetLibrary\Application\AssetUploader;
 use Thinktomorrow\AssetLibrary\Models\AssetLibrary;
-use Thinktomorrow\AssetLibrary\Models\AssetUploader;
 use Thinktomorrow\AssetLibrary\Tests\stubs\Article;
 use Thinktomorrow\AssetLibrary\Tests\TestCase;
 

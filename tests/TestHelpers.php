@@ -3,7 +3,7 @@
 namespace Thinktomorrow\AssetLibrary\Tests;
 
 use Spatie\MediaLibrary\Models\Media;
-use Thinktomorrow\AssetLibrary\Models\Asset;
+use Thinktomorrow\AssetLibrary\Asset;
 use Thinktomorrow\AssetLibrary\Tests\stubs\Article;
 use Thinktomorrow\AssetLibrary\Tests\stubs\ArticleWithSoftdelete;
 
@@ -14,7 +14,7 @@ trait TestHelpers
         $article = Article::create();
         $article->assetRelation()->attach($this->getUploadedAsset(), ['type' => $type, 'locale' => $locale]);
 
-        return $article->load('assetRelation');
+        return $article;
     }
 
     public function getSoftdeleteArticleWithAsset($type = '', $locale = 'nl'): ArticleWithSoftdelete
@@ -22,7 +22,7 @@ trait TestHelpers
         $article = ArticleWithSoftdelete::create();
         $article->assetRelation()->attach($this->getUploadedAsset(), ['type' => $type, 'locale' => $locale]);
 
-        return $article->load('assetRelation');
+        return $article;
     }
 
     public function getUploadedAsset($filename = 'image.png', $width = 100, $height = 100): Asset
@@ -33,7 +33,7 @@ trait TestHelpers
         copy(public_path('/../media-stubs/'.$filename), public_path('/media/'.$asset->id.'/'.$filename));
 
         Media::create([
-            'model_type'        => 'Thinktomorrow\AssetLibrary\Models\Asset',
+            'model_type'        => 'Thinktomorrow\AssetLibrary\Asset',
             'model_id'          => $asset->id,
             'collection_name'   => 'default',
             'name'              => $filename,

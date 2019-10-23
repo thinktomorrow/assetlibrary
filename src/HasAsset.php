@@ -2,10 +2,9 @@
 
 namespace Thinktomorrow\AssetLibrary;
 
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
-use Thinktomorrow\AssetLibrary\Models\Asset;
-use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 interface HasAsset extends HasMedia
 {

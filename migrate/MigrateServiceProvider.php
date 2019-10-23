@@ -1,15 +1,14 @@
 <?php
 
-namespace Thinktomorrow\AssetLibrary;
+namespace Thinktomorrow\AssetLibraryMigrate;
 
 use Illuminate\Support\ServiceProvider;
-use Thinktomorrow\AssetLibrary\Commands\ImageToAssetMigrateCommand;
 
 class MigrateServiceProvider extends ServiceProvider
 {
     public function boot()
     {
-        
+
     }
 
     /**

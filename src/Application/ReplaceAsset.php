@@ -2,8 +2,8 @@
 
 namespace Thinktomorrow\AssetLibrary\Application;
 
+use Thinktomorrow\AssetLibrary\Asset;
 use Thinktomorrow\AssetLibrary\HasAsset;
-use Thinktomorrow\AssetLibrary\Models\Asset;
 
 class ReplaceAsset
 {

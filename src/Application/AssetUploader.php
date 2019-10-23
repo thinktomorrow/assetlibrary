@@ -1,16 +1,16 @@
 <?php
 
-namespace Thinktomorrow\AssetLibrary\Models;
+namespace Thinktomorrow\AssetLibrary\Application;
 
-use Traversable;
-use Illuminate\Support\Str;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Collection;
-use Illuminate\Database\Eloquent\Model;
-use Spatie\MediaLibrary\FileAdder\FileAdder;
+use Illuminate\Support\Str;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded;
+use Spatie\MediaLibrary\FileAdder\FileAdder;
+use Thinktomorrow\AssetLibrary\Asset;
+use Traversable;
 
-class AssetUploader extends Model
+class AssetUploader
 {
     /**
      * Uploads the file/files or asset by creating the
@@ -21,7 +21,7 @@ class AssetUploader extends Model
      * @return Collection|null|Asset
      * @throws FileCannotBeAdded
      */
-    public static function upload($files, $filename = null)
+    public static function upload($files, ?string $filename = null)
     {
         if ($files instanceof Asset) {
             return $files;
