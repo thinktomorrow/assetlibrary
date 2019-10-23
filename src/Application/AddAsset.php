@@ -17,7 +17,7 @@ class AddAsset
      * @param \Thinktomorrow\AssetLibrary\HasAsset $model
      * @param $file
      * @param string $type
-     * @param string|null $locale
+     * @param string $locale
      * @return Asset
      * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
      * @throws \Thinktomorrow\AssetLibrary\Exceptions\AssetUploadException
@@ -36,7 +36,7 @@ class AddAsset
      *
      * @param $files
      * @param string $type
-     * @param string|null $locale
+     * @param string $locale
      * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
      * @throws \Thinktomorrow\AssetLibrary\Exceptions\AssetUploadException
      */
