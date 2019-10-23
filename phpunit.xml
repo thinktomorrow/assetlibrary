@@ -10,7 +10,10 @@
          stopOnFailure="false">
     <testsuites>
         <testsuite name="Feature Tests">
-            <directory suffix="Test.php">./tests</directory>
+            <directory suffix="Test.php">./tests/unit</directory>
+        </testsuite>
+        <testsuite name="Migrate command Tests">
+            <directory suffix="Test.php">./tests/migrate</directory>
         </testsuite>
     </testsuites>
     <filter>

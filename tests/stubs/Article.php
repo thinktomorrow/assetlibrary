@@ -23,6 +23,7 @@ class Article extends Model implements HasAsset
             $table->string('imageurl')->nullable();
             $table->integer('order')->nullable();
             $table->string('locale')->nullable();
+            $table->string('type')->nullable();
         });
     }
 }

@@ -24,13 +24,6 @@ class TestCase extends BaseTestCase
         config(['app.fallback_locale' => 'nl']);
     }
 
-    // public function tearDown(): void
-    // {
-    //     Mockery::close();
-
-    //     parent::tearDown();
-    // }
-
     protected function disableExceptionHandling()
     {
         $this->app->instance(ExceptionHandler::class, new class extends Handler {
@@ -62,14 +55,6 @@ class TestCase extends BaseTestCase
         if (DB::getName() != 'testing' && DB::getName() != 'setup') {
             throw new \Exception('Make sure to use a dedicated testing database connection. Currently you are using ['.DB::getName().']. Are you crazy?');
         }
-        // $app['db']->connection()->getSchemaBuilder()->create('test_models', function (Blueprint $table) {
-        //     $table->increments('id');
-        // });
-        // Article::create();
-        // include_once __DIR__.'/../database/migrations/2019_01_10_154909_create_media_table.php';
-        // include_once __DIR__.'/../database/migrations/2019_01_10_154910_create_asset_table.php';
-        // (new \CreateAssetTable())->up();
-        // (new \CreateMediaTable())->up();
     }
 
     /**
@@ -81,6 +66,7 @@ class TestCase extends BaseTestCase
     {
         return [
             \Thinktomorrow\AssetLibrary\AssetLibraryServiceProvider::class,
+            \Thinktomorrow\AssetLibrary\MigrateServiceProvider::class,
         ];
     }
 

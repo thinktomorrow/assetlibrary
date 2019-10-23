@@ -51,7 +51,7 @@ trait TestHelpers
         return $asset->load('media');
     }
 
-    private function recurse_copy($src, $dst)
+    public function recurse_copy($src, $dst)
     {
         $dir = opendir($src);
         @mkdir($dst);

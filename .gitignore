@@ -5,4 +5,4 @@ build
 /build
 /tests/temp
 .phpunit.result.cache
-/database/testing.sqlite
+database/testing.sqlite

@@ -23,6 +23,7 @@ class ImageToAssetMigrateCommand extends Command
                                     {idcolumn=id}
                                     {ordercolumn?}
                                     {localecolumn?}
+                                    {typecolumn?}
                                     {--force}
                                     {--reset}
                                     {--dry}';
@@ -40,6 +41,7 @@ class ImageToAssetMigrateCommand extends Command
     private $idcolumn;
     private $ordercolumn;
     private $localecolumn;
+    private $typecolumn;
 
     private $nomodel     = 0;
     private $unreachable = 0;
@@ -100,8 +102,7 @@ class ImageToAssetMigrateCommand extends Command
 
                 continue;
             }
-
-            app(AddAsset::class)->setOrder($result['order'])->add($result['model'], $asset);
+            app(AddAsset::class)->setOrder($result['order'])->add($result['model'], $asset, ($result['type']??'images'));
 
             if ($this->option('force')) {
                 unlink(public_path($line));
@@ -114,7 +115,7 @@ class ImageToAssetMigrateCommand extends Command
 
     private function getResultsFromDatabase()
     {
-        $columns = [$this->urlcolumn, $this->idcolumn, $this->ordercolumn, $this->localecolumn];
+        $columns = [$this->urlcolumn, $this->idcolumn, $this->ordercolumn, $this->localecolumn, $this->typecolumn];
 
         $builder = DB::table($this->table)->select($columns);
 
@@ -135,6 +136,7 @@ class ImageToAssetMigrateCommand extends Command
         $this->idcolumn     = $this->argument('idcolumn');
         $this->ordercolumn  = $this->argument('ordercolumn');
         $this->localecolumn = $this->argument('localecolumn');
+        $this->typecolumn   = $this->argument('typecolumn');
     }
 
     private function handleResetFlag($orderedResults)
@@ -164,6 +166,12 @@ class ImageToAssetMigrateCommand extends Command
                 $formattedResults['order'] = $result->{$this->ordercolumn};
             }else{
                 $formattedResults['order'] = null;
+            }
+
+            if ($this->typecolumn) {
+                $formattedResults['type'] = $result->{$this->typecolumn};
+            }else{
+                $formattedResults['type'] = null;
             }
 
             return $formattedResults;

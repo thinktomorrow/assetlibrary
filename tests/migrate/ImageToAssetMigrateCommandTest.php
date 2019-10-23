@@ -16,6 +16,7 @@ class ImageToAssetMigrateCommandTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
+        $this->recurse_copy(public_path('/../media-stubs/uploads'), public_path('/uploads/'));
 
         Article::migrate();
 
@@ -38,6 +39,7 @@ class ImageToAssetMigrateCommandTest extends TestCase
     {
         // fill db with an entry
         $this->testArticle->imageurl = '/uploads/warpaint-logo.svg';
+        $this->testArticle->type     = 'xxx';
         $this->testArticle->save();
 
         // run the migrate image command
@@ -45,12 +47,13 @@ class ImageToAssetMigrateCommandTest extends TestCase
                 'table'       => 'test_models',
                 'urlcolumn'   => 'imageurl',
                 'linkedmodel' => 'Thinktomorrow\AssetLibrary\Tests\stubs\Article',
+                'typecolumn'  => 'type'
             ]);
 
         // assert the image exists on both locations
         $this->assertFileExists(public_path(Article::first()->imageurl));
-        $this->assertFileExists(public_path(Article::first()->asset()->url()));
-        $this->assertEquals($this->testArticle->asset()->filename(), 'warpaint-logo.svg');
+        $this->assertFileExists(public_path(Article::first()->asset('xxx')->url()));
+        $this->assertEquals($this->testArticle->asset('xxx')->filename(), 'warpaint-logo.svg');
     }
 
     /** @test */
@@ -58,10 +61,13 @@ class ImageToAssetMigrateCommandTest extends TestCase
     {
         // fill db with an entry
         $this->testArticle->imageurl = '/uploads/warpaint-logo.svg';
+        $this->testArticle->type     = 'xxx';
+
         $this->testArticle->save();
 
         $article           = Article::create();
         $article->imageurl = '/uploads/warpaint-logo.svg';
+        $article->type     = 'xxx';
         $article->save();
 
         // run the migrate image command
@@ -69,15 +75,16 @@ class ImageToAssetMigrateCommandTest extends TestCase
                 'table'       => 'test_models',
                 'urlcolumn'   => 'imageurl',
                 'linkedmodel' => 'Thinktomorrow\AssetLibrary\Tests\stubs\Article',
+                'typecolumn'  => 'type'
             ]);
 
         // assert the image exists on both locations
         $this->assertFileExists(public_path($this->testArticle->fresh()->imageurl));
         $this->assertFileExists(public_path($article->fresh()->imageurl));
-        $this->assertFileExists(public_path($this->testArticle->asset()->url()));
-        $this->assertFileExists(public_path($article->asset()->url()));
-        $this->assertequals($article->fresh()->asset()->filename(), 'warpaint-logo.svg');
-        $this->assertEquals($this->testArticle->fresh()->asset()->filename(), 'warpaint-logo.svg');
+        $this->assertFileExists(public_path($this->testArticle->asset('xxx')->url()));
+        $this->assertFileExists(public_path($article->asset('xxx')->url()));
+        $this->assertequals($article->fresh()->asset('xxx')->filename(), 'warpaint-logo.svg');
+        $this->assertEquals($this->testArticle->fresh()->asset('xxx')->filename(), 'warpaint-logo.svg');
     }
 
     /** @test */
@@ -85,10 +92,13 @@ class ImageToAssetMigrateCommandTest extends TestCase
     {
         // fill db with an entry
         $this->testArticle->imageurl = 'foobar.svg';
+        $this->testArticle->type     = 'xxx';
+
         $this->testArticle->save();
 
         $article           = Article::create();
         $article->imageurl = '/uploads/warpaint-logo.svg';
+        $article->type     = 'xxx';
         $article->save();
 
         // run the migrate image command
@@ -96,11 +106,13 @@ class ImageToAssetMigrateCommandTest extends TestCase
                 'table'       => 'test_models',
                 'urlcolumn'   => 'imageurl',
                 'linkedmodel' => 'Thinktomorrow\AssetLibrary\Tests\stubs\Article',
+                'typecolumn'  => 'type'
             ]);
+
         // assert the image exists on both locations
         $this->assertFileExists(public_path($article->fresh()->imageurl));
-        $this->assertFileExists(public_path($article->asset()->url()));
-        $this->assertEquals($article->asset()->filename(), 'warpaint-logo.svg');
+        $this->assertFileExists(public_path($article->asset('xxx')->url()));
+        $this->assertEquals($article->asset('xxx')->filename(), 'warpaint-logo.svg');
     }
 
     /** @test */
@@ -111,6 +123,8 @@ class ImageToAssetMigrateCommandTest extends TestCase
 
         // fill db with an entry
         $this->testArticle->imageurl = '/uploads/warpaint-logo-duplicate.svg';
+        $this->testArticle->type     = 'xxx';
+
         $this->testArticle->save();
 
         // assert the duplicate file actually exists
@@ -122,11 +136,13 @@ class ImageToAssetMigrateCommandTest extends TestCase
                 'table'       => 'test_models',
                 'urlcolumn'   => 'imageurl',
                 'linkedmodel' => 'Thinktomorrow\AssetLibrary\Tests\stubs\Article',
+                'typecolumn'  => 'type'
+
             ]);
         // assert the image exists only on new location
         $this->assertFileNotExists(public_path($this->testArticle->fresh()->imageurl));
-        $this->assertFileExists(public_path($this->testArticle->asset()->url()));
-        $this->assertequals($this->testArticle->asset()->filename(), 'warpaint-logo-duplicate.svg');
+        $this->assertFileExists(public_path($this->testArticle->asset('xxx')->url()));
+        $this->assertequals($this->testArticle->asset('xxx')->filename(), 'warpaint-logo-duplicate.svg');
     }
 
     /** @test */
@@ -134,6 +150,8 @@ class ImageToAssetMigrateCommandTest extends TestCase
     {
         // fill db with an entry
         $this->testArticle->imageurl = '/uploads/warpaint-logo.svg';
+        $this->testArticle->type     = 'xxx';
+
         $this->testArticle->save();
 
         app(AddAsset::class)->add($this->testArticle, UploadedFile::fake()->image('image.png'));
@@ -146,13 +164,15 @@ class ImageToAssetMigrateCommandTest extends TestCase
                 'table'       => 'test_models',
                 'urlcolumn'   => 'imageurl',
                 'linkedmodel' => 'Thinktomorrow\AssetLibrary\Tests\stubs\Article',
+                'typecolumn'  => 'type'
+
             ]);
         // assert the orginal asset was removed
         $this->assertCount(1, $this->testArticle->assetRelation);
 
         // assert the image exists on both locations
         $this->assertFileExists(public_path($this->testArticle->fresh()->imageurl));
-        $this->assertequals($this->testArticle->fresh()->asset()->filename(), 'warpaint-logo.svg');
+        $this->assertequals($this->testArticle->fresh()->asset('xxx')->filename(), 'warpaint-logo.svg');
     }
 
     /** @test */
@@ -161,6 +181,8 @@ class ImageToAssetMigrateCommandTest extends TestCase
         // fill db with an entry
         $this->testArticle->imageurl = '/uploads/warpaint-logo.svg';
         $this->testArticle->order    = 7;
+        $this->testArticle->type     = 'xxx';
+
         $this->testArticle->save();
 
         // run the migrate image command
@@ -169,14 +191,16 @@ class ImageToAssetMigrateCommandTest extends TestCase
                 'urlcolumn'   => 'imageurl',
                 'ordercolumn' => 'order',
                 'linkedmodel' => 'Thinktomorrow\AssetLibrary\Tests\stubs\Article',
+                'typecolumn'  => 'type'
+
             ]);
 
         // assert order is set on the asset
-        $this->assertEquals(7, $this->testArticle->fresh()->assets()->first()->pivot->order);
+        $this->assertEquals(7, $this->testArticle->fresh()->assets('xxx')->first()->pivot->order);
 
         // assert the image exists on both locations
         $this->assertFileExists(public_path($this->testArticle->imageurl));
-        $this->assertFileExists(public_path($this->testArticle->asset()->url()));
+        $this->assertFileExists(public_path($this->testArticle->asset('xxx')->url()));
     }
 
     /** @test */
@@ -186,22 +210,25 @@ class ImageToAssetMigrateCommandTest extends TestCase
         $this->testArticle->imageurl  = '/uploads/warpaint-logo.svg';
         $this->testArticle->order     = 7;
         $this->testArticle->locale    = 'nl';
+        $this->testArticle->type     = 'xxx';
+
         $this->testArticle->save();
 
         // run the migrate image command
         Artisan::call('assetlibrary:migrate-image', [
-                'table'       => 'test_models',
-                'urlcolumn'   => 'imageurl',
+                'table'        => 'test_models',
+                'urlcolumn'    => 'imageurl',
                 'localecolumn' => 'locale',
-                'linkedmodel' => 'Thinktomorrow\AssetLibrary\Tests\stubs\Article',
+                'linkedmodel'  => 'Thinktomorrow\AssetLibrary\Tests\stubs\Article',
+                'typecolumn'   => 'type'
             ]);
 
         // assert order is set on the asset
-        $this->assertEquals('nl', $this->testArticle->fresh()->assets()->first()->pivot->locale);
+        $this->assertEquals('nl', $this->testArticle->fresh()->assets('xxx')->first()->pivot->locale);
 
         // assert the image exists on both locations
         $this->assertFileExists(public_path($this->testArticle->imageurl));
-        $this->assertFileExists(public_path($this->testArticle->asset()->url()));
+        $this->assertFileExists(public_path($this->testArticle->asset('xxx')->url()));
     }
 
     /** @test */
@@ -210,22 +237,25 @@ class ImageToAssetMigrateCommandTest extends TestCase
         // fill db with an entry
         $this->testArticle->imageurl = '/uploads/warpaint-logo.svg';
         $this->testArticle->order    = 7;
+        $this->testArticle->type     = 'xxx';
+
         $this->testArticle->save();
 
         // run the migrate image command
         Artisan::call('assetlibrary:migrate-image', [
-                'table'       => 'test_models',
-                'urlcolumn'   => 'imageurl',
+                'table'        => 'test_models',
+                'urlcolumn'    => 'imageurl',
                 'localecolumn' => 'locale',
-                'linkedmodel' => 'Thinktomorrow\AssetLibrary\Tests\stubs\Article',
+                'linkedmodel'  => 'Thinktomorrow\AssetLibrary\Tests\stubs\Article',
+                'typecolumn'   => 'type'
             ]);
 
         // assert order is set on the asset
-        $this->assertEquals('nl', $this->testArticle->fresh()->assets()->first()->pivot->locale);
+        $this->assertEquals('nl', $this->testArticle->fresh()->assets('xxx')->first()->pivot->locale);
 
         // assert the image exists on both locations
         $this->assertFileExists(public_path($this->testArticle->imageurl));
-        $this->assertFileExists(public_path($this->testArticle->asset()->url()));
+        $this->assertFileExists(public_path($this->testArticle->asset('xxx')->url()));
     }
 
     /** @test */
@@ -233,6 +263,8 @@ class ImageToAssetMigrateCommandTest extends TestCase
     {
         // fill db with an entry
         $this->testArticle->imageurl = '/uploads/warpaint-logo.svg';
+        $this->testArticle->type     = 'xxx';
+
         $this->testArticle->save();
 
         // run the migrate image command
@@ -240,13 +272,14 @@ class ImageToAssetMigrateCommandTest extends TestCase
                 'table'       => 'test_models',
                 'urlcolumn'   => 'imageurl',
                 'linkedmodel' => 'Thinktomorrow\AssetLibrary\Tests\stubs\Article',
+                'typecolumn'  => 'type'
             ]);
 
         $article = Article::first();
 
         // assert the image exists on both locations
         $this->assertFileExists(public_path($article->imageurl));
-        $this->assertFileExists(public_path($article->asset()->url()));
+        $this->assertFileExists(public_path($article->asset('xxx')->url()));
     }
 
     /** @test */
@@ -276,7 +309,7 @@ class ImageToAssetMigrateCommandTest extends TestCase
 
         // assert the image exists on both locations
         $this->assertFileExists(public_path($article->imageurl));
-        $this->assertFileExists(public_path($article->asset()->url()));
+        $this->assertFileExists(public_path($article->asset('images')->url()));
     }
 
     /** @test */
@@ -308,7 +341,7 @@ class ImageToAssetMigrateCommandTest extends TestCase
 
         // assert the image exists on both locations
         $this->assertFileExists(public_path($this->testArticle->imageurl));
-        $this->assertFileExists(public_path($this->testArticle->asset()->url()));
+        $this->assertFileExists(public_path($this->testArticle->asset('images')->url()));
     }
 
     /** @test */
@@ -316,6 +349,8 @@ class ImageToAssetMigrateCommandTest extends TestCase
     {
         // fill db with an entry
         $this->testArticle->imageurl = '/uploads/warpaint-logo.svg';
+        $this->testArticle->type     = 'xxx';
+
         $this->testArticle->save();
 
         // run the migrate image command
@@ -324,13 +359,14 @@ class ImageToAssetMigrateCommandTest extends TestCase
                 'table'       => 'test_models',
                 'urlcolumn'   => 'imageurl',
                 'linkedmodel' => 'Thinktomorrow\AssetLibrary\Tests\stubs\Article',
+                'typecolumn'  => 'type'
             ]);
 
         $article = Article::first();
 
         // assert the image exists only on first location
         $this->assertFileExists(public_path($article->imageurl));
-        $this->assertNull($article->asset());
+        $this->assertNull($article->asset('xxx'));
         $this->assertCount(0, $article->assetRelation);
     }
 
@@ -359,6 +395,6 @@ class ImageToAssetMigrateCommandTest extends TestCase
         $article = Article::first();
 
         // assert the image exists on both locations
-        $this->assertNull($article->asset());
+        $this->assertNull($article->asset('images'));
     }
 }
