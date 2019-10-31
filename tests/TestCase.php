@@ -5,6 +5,14 @@ namespace Thinktomorrow\AssetLibrary\Tests;
 use Illuminate\Foundation\Exceptions\Handler;
 use Orchestra\Testbench\TestCase as Orchestra;
 use Illuminate\Contracts\Debug\ExceptionHandler;
+<<<<<<< HEAD
+=======
+use Thinktomorrow\AssetLibrary\Test\stubs\Article;
+use Spatie\MediaLibrary\ImageGenerators\FileTypes\Svg;
+use Spatie\MediaLibrary\ImageGenerators\FileTypes\Webp;
+use Spatie\MediaLibrary\ImageGenerators\FileTypes\Image;
+use Spatie\MediaLibrary\ImageGenerators\FileTypes\Video;
+>>>>>>> master
 
 abstract class TestCase extends Orchestra
 {
@@ -14,7 +22,18 @@ abstract class TestCase extends Orchestra
     /** @var \Thinktomorrow\AssetLibrary\Tests\stubs\Article */
     protected $testArticle;
 
+<<<<<<< HEAD
     use TestHelpers, DatabaseTransactions;
+=======
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->setUpDatabase($this->app);
+
+        $this->testArticle = Article::first();
+    }
+>>>>>>> master
 
     protected function disableExceptionHandling()
     {
@@ -36,6 +55,24 @@ abstract class TestCase extends Orchestra
 
     /**
      * @param \Illuminate\Foundation\Application $app
+<<<<<<< HEAD
+=======
+     */
+    protected function setUpDatabase($app)
+    {
+        $app['db']->connection()->getSchemaBuilder()->create('test_models', function (Blueprint $table) {
+            $table->increments('id');
+        });
+        Article::create();
+        include_once __DIR__.'/../database/migrations/2019_01_10_154909_create_media_table.php';
+        include_once __DIR__.'/../database/migrations/2019_01_10_154910_create_asset_table.php';
+        (new \CreateAssetTable())->up();
+        (new \CreateMediaTable())->up();
+    }
+
+    /**
+     * @param \Illuminate\Foundation\Application $app
+>>>>>>> master
      *
      * @return array
      */
@@ -71,6 +108,13 @@ abstract class TestCase extends Orchestra
             return $this->getTempDirectory();
         });
         $app['config']->set('app.key', '6rE9Nz59bGRbeMATftriyQjrpF7DcOQm');
+
+        $app['config']->set('medialibrary.image_generators', [
+            Image::class,
+            Webp::class,
+            Svg::class,
+            Video::class,
+        ]);
     }
 
     public function getTempDirectory($suffix = '')

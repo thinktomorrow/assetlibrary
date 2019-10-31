@@ -142,7 +142,7 @@ trait AssetTrait
      */
     public function deleteAsset($ids): void
     {
-        Asset::remove($ids);
+        Asset::removeByIds($ids);
     }
 
     /**
