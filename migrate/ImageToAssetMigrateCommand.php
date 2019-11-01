@@ -103,7 +103,7 @@ class ImageToAssetMigrateCommand extends Command
                 continue;
             }
 
-            app(AddAsset::class)->setOrder($result['order'])->add($result['model'], $asset, ($result['type']??'images'), 'nl');
+            app(AddAsset::class)->setOrder($result['order'])->add($result['model'], $asset, ($result['type']??'images'), app()->getLocale());
 
             if ($this->option('force')) {
                 unlink(public_path($line));

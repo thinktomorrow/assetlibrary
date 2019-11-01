@@ -48,7 +48,6 @@ trait AssetTrait
                 return $asset->pivot->locale == $this->getAssetFallbackLocale();
             });
         }
-
         return $results->sortBy('pivot.order');
     }
 

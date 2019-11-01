@@ -3,12 +3,13 @@
 namespace Thinktomorrow\AssetLibrary\Tests\unit;
 
 use Illuminate\Http\UploadedFile;
+use Thinktomorrow\AssetLibrary\Asset;
 use Illuminate\Support\Facades\Artisan;
-use Thinktomorrow\AssetLibrary\Application\AddAsset;
-use Thinktomorrow\AssetLibrary\Application\AssetUploader;
+use Thinktomorrow\AssetLibrary\Tests\TestCase;
 use Thinktomorrow\AssetLibrary\Models\AssetLibrary;
 use Thinktomorrow\AssetLibrary\Tests\stubs\Article;
-use Thinktomorrow\AssetLibrary\Tests\TestCase;
+use Thinktomorrow\AssetLibrary\Application\AddAsset;
+use Thinktomorrow\AssetLibrary\Application\AssetUploader;
 
 class AssetUploadTest extends TestCase
 {
@@ -63,7 +64,7 @@ class AssetUploadTest extends TestCase
 
         AssetUploader::upload($assets);
 
-        $this->assertEquals(3, AssetLibrary::getAllAssets()->count());
+        $this->assertEquals(3, Asset::all()->count());
     }
 
     /**
@@ -74,10 +75,10 @@ class AssetUploadTest extends TestCase
         $original = Article::create();
 
         //upload a single image
-        app(AddAsset::class)->add($original, AssetUploader::upload(UploadedFile::fake()->image('image.png')), 'images');
+        app(AddAsset::class)->add($original, AssetUploader::upload(UploadedFile::fake()->image('image.png')), 'images', 'en');
 
         //upload a second single image
-        app(AddAsset::class)->add($original, AssetUploader::upload(UploadedFile::fake()->image('image.png')), 'images');
+        app(AddAsset::class)->add($original, AssetUploader::upload(UploadedFile::fake()->image('image.png')), 'images', 'en');
 
 
         $this->assertCount(2, $original->assets('images'));

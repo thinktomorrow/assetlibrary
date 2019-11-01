@@ -242,8 +242,8 @@ class AssetTest extends TestCase
         //upload a single image
         $asset   = $this->getUploadedAsset();
 
-        app(AddAsset::class)->add($original->fresh(), $asset);
-        app(AddAsset::class)->add($original, $original->assetRelation()->first());
+        app(AddAsset::class)->add($original->fresh(), $asset, 'xxx',  'en');
+        app(AddAsset::class)->add($original, $original->assetRelation()->first(), 'xxx',  'en');
     }
 
     /**

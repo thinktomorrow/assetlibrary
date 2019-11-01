@@ -52,7 +52,7 @@ class AssetTraitTest extends TestCase
 
         app(AddAsset::class)->add($article, UploadedFile::fake()->image('imageFR.png'), 'banner', 'fr');
 
-        $this->assertEquals('/media/1/image.png', $article->asset('banner', 'nl')->url());
+        $this->assertEquals('/media/1/image.png', $article->asset('banner', 'en')->url());
         $this->assertEquals('/media/2/imagefr.png', $article->asset('banner', 'fr')->url());
     }
 
@@ -69,10 +69,11 @@ class AssetTraitTest extends TestCase
     /** @test */
     public function it_can_get_the_fallback_locale_if_no_locale_is_passed()
     {
+        config()->set('thinktomorrow.assetlibrary.use_fallback_locale', true);
+        config()->set('thinktomorrow.assetlibrary.fallback_locale', 'nl');
         $article = $this->getArticleWithAsset('banner', 'nl');
 
         $this->assertEquals('/media/1/image.png', $article->asset('banner', 'nl')->url());
-
         $this->assertEquals('/media/1/image.png', $article->asset('banner', 'fr')->url());
     }
 
@@ -109,7 +110,7 @@ class AssetTraitTest extends TestCase
 
         app(ReplaceAsset::class)->handle($article, $article->assetRelation->first()->id, AssetUploader::upload(UploadedFile::fake()->image('newImage.png'))->id);
 
-        $this->assertCount(1, $article->assets('xxx'));
+        $this->assertCount(1, $article->refresh()->assets('xxx'));
         $this->assertEquals('/media/2/newimage.png', $article->asset('xxx')->url());
     }
 
@@ -121,7 +122,7 @@ class AssetTraitTest extends TestCase
         $this->assertCount(1, $assets = $article->assets('custom-type'));
         app(ReplaceAsset::class)->handle($article, $assets->first()->id, AssetUploader::upload(UploadedFile::fake()->image('newImage.png'))->id);
 
-        $this->assertCount(1, $article->assets('custom-type'));
+        $this->assertCount(1, $article->refresh()->assets('custom-type'));
         $this->assertEquals('/media/2/newimage.png', $article->asset('custom-type')->url());
     }
 
@@ -131,15 +132,15 @@ class AssetTraitTest extends TestCase
         $article = Article::create();
 
         $asset1 = Asset::create();
-        app(AddAsset::class)->add($article, $asset1, 'banner');
+        app(AddAsset::class)->add($article, $asset1, 'banner', 'en');
 
         $asset2 = Asset::create();
-        app(AddAsset::class)->add($article, $asset2, 'banner');
+        app(AddAsset::class)->add($article, $asset2, 'banner', 'en');
 
         $asset3 = Asset::create();
-        app(AddAsset::class)->add($article, $asset3, 'banner');
+        app(AddAsset::class)->add($article, $asset3, 'banner', 'en');
 
-        app(AddAsset::class)->add($article, Asset::create(), 'fail');
+        app(AddAsset::class)->add($article, Asset::create(), 'fail', 'en');
 
 
         app(SortAssets::class)->handle($article, 'banner', [(string) $asset3->id, (string) $asset1->id, (string) $asset2->id]);
@@ -158,19 +159,15 @@ class AssetTraitTest extends TestCase
         $article = Article::create();
 
         $asset1 = Asset::create();
-        // $asset1->attachToModel($article, 'banner');
-        app(AddAsset::class)->add($article, $asset1, 'banner');
+        app(AddAsset::class)->add($article, $asset1, 'banner', 'en');
 
         $asset2 = Asset::create();
-        // $asset2->attachToModel($article, 'banner');
-        app(AddAsset::class)->add($article, $asset2, 'banner');
+        app(AddAsset::class)->add($article, $asset2, 'banner', 'en');
 
         $asset3 = Asset::create();
-        // $asset3->attachToModel($article, 'banner');
-        app(AddAsset::class)->add($article, $asset3, 'banner');
+        app(AddAsset::class)->add($article, $asset3, 'banner', 'en');
 
-        // $article = Asset::create()->attachToModel($article, 'fail');
-        app(AddAsset::class)->add($article, Asset::create(), 'fail');
+        app(AddAsset::class)->add($article, Asset::create(), 'fail', 'en');
 
         app(SortAssets::class)->handle($article, 'banner', [5 => (string) $asset3->id, 1 => (string) $asset1->id, 9 => (string) $asset2->id]);
 
@@ -188,7 +185,7 @@ class AssetTraitTest extends TestCase
         $article = $this->getArticleWithAsset('banner', 'nl');
 
         $image_name = json_decode($this->getBase64WithName('test.PNG'))->output->name;
-        app(AddAsset::class)->add($article, json_decode($this->getBase64WithName('test.PNG'))->output->image, 'thumbnail', null, $image_name, $article);
+        app(AddAsset::class)->add($article, json_decode($this->getBase64WithName('test.PNG'))->output->image, 'thumbnail', 'en', $image_name, $article);
 
         $this->assertEquals('test.png', $article->asset('thumbnail')->filename());
     }

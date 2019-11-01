@@ -19,7 +19,6 @@ class ReplaceAsset
     {
         $old = $model->assetRelation()->findOrFail($replace);
 
-        $model->assetRelation()->detach($old->id);
         $old->delete();
 
         app(AddAsset::class)->add($model, Asset::findOrFail($with), $old->pivot->type, $old->pivot->locale);
