@@ -1,32 +1,31 @@
 <?php
 
-namespace Thinktomorrow\AssetLibrary\Test;
+namespace Thinktomorrow\AssetLibrary\Tests;
 
-use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Foundation\Exceptions\Handler;
-use Orchestra\Testbench\TestCase as Orchestra;
 use Illuminate\Contracts\Debug\ExceptionHandler;
-use Thinktomorrow\AssetLibrary\Test\stubs\Article;
+use Orchestra\Testbench\TestCase as BaseTestCase;
 use Spatie\MediaLibrary\ImageGenerators\FileTypes\Svg;
 use Spatie\MediaLibrary\ImageGenerators\FileTypes\Webp;
 use Spatie\MediaLibrary\ImageGenerators\FileTypes\Image;
 use Spatie\MediaLibrary\ImageGenerators\FileTypes\Video;
 
-abstract class TestCase extends Orchestra
+class TestCase extends BaseTestCase
 {
-    protected $protectTestEnvironment = true;
-    protected static $migrationsRun   = false;
+    use TestHelpers, AssetlibraryDatabaseTransactions;
 
-    /** @var \Thinktomorrow\AssetLibrary\Test\stubs\Article */
-    protected $testArticle;
+    protected $protectTestEnvironment = true;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->setUpDatabase($this->app);
+        $this->protectTestEnvironment();
 
-        $this->testArticle = Article::first();
+        $this->setUpDatabase();
+
+        config(['app.fallback_locale' => 'nl']);
     }
 
     protected function disableExceptionHandling()
@@ -47,19 +46,19 @@ abstract class TestCase extends Orchestra
         });
     }
 
-    /**
-     * @param \Illuminate\Foundation\Application $app
-     */
-    protected function setUpDatabase($app)
+    protected function protectTestEnvironment()
     {
-        $app['db']->connection()->getSchemaBuilder()->create('test_models', function (Blueprint $table) {
-            $table->increments('id');
-        });
-        Article::create();
-        include_once __DIR__.'/../database/migrations/2019_01_10_154909_create_media_table.php';
-        include_once __DIR__.'/../database/migrations/2019_01_10_154910_create_asset_table.php';
-        (new \CreateAssetTable())->up();
-        (new \CreateMediaTable())->up();
+        if (! $this->protectTestEnvironment) {
+            return;
+        }
+
+        if ('testing' !== $this->app->environment()) {
+            throw new \Exception('Make sure your testing environment is properly set. You are now running tests in the ['.$this->app->environment().'] environment');
+        }
+
+        if (DB::getName() != 'testing' && DB::getName() != 'setup') {
+            throw new \Exception('Make sure to use a dedicated testing database connection. Currently you are using ['.DB::getName().']. Are you crazy?');
+        }
     }
 
     /**
@@ -71,7 +70,7 @@ abstract class TestCase extends Orchestra
     {
         return [
             \Thinktomorrow\AssetLibrary\AssetLibraryServiceProvider::class,
-            \Spatie\MediaLibrary\MediaLibraryServiceProvider::class,
+            \Thinktomorrow\AssetLibraryMigrate\MigrateServiceProvider::class,
         ];
     }
 
@@ -80,10 +79,10 @@ abstract class TestCase extends Orchestra
      */
     protected function getEnvironmentSetUp($app)
     {
-        $app['config']->set('database.default', 'sqlite');
-        $app['config']->set('database.connections.sqlite', [
+        // Connection is defined in the phpunit config xml
+        $app['config']->set('database.connections.testing', [
             'driver' => 'sqlite',
-            'database' => ':memory:',
+            'database' => env('DB_DATABASE', __DIR__.'/../database/testing.sqlite'),
             'prefix' => '',
         ]);
 

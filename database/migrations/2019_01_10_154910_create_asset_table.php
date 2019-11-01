@@ -6,9 +6,6 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateAssetTable extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up()
     {
         Schema::create('assets', function (Blueprint $table) {
@@ -26,9 +23,6 @@ class CreateAssetTable extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down()
     {
         Schema::dropIfExists('asset_pivots');

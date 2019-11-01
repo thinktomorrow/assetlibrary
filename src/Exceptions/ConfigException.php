@@ -6,8 +6,8 @@ use Exception;
 
 class ConfigException extends Exception
 {
-    public static function create()
+    public static function croppingDisabled()
     {
-        return new static("The cropping config setting needs to be turned on to crop images. See 'Config\assetlibrary.php' for the 'allowCropping' field.");
+        return new static("The cropping config setting needs to be turned on to crop images. See 'config\assetlibrary.php' for the 'allowCropping' field.");
     }
 }

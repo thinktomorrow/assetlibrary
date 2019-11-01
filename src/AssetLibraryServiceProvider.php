@@ -16,10 +16,14 @@ class AssetLibraryServiceProvider extends ServiceProvider
         ], 'assetlibrary-config');
 
         $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
+
+        if(!config('thinktomorrow.assetlibrary.fallback_locale')) {
+            config()->set('thinktomorrow.assetlibrary.fallback_locale', config('app.fallback_locale'));
+        }
     }
 
     /**
-     * Register any package services.
+     * Bootstrap any application services.
      *
      * @return void
      */

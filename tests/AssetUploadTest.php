@@ -2,12 +2,13 @@
 
 namespace Thinktomorrow\AssetLibrary\Test;
 
-use Illuminate\Http\File;
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Artisan;
-use Thinktomorrow\AssetLibrary\Models\Asset;
-use Thinktomorrow\AssetLibrary\Models\AssetUploader;
+use Illuminate\Support\Facades\DB;
+use Thinktomorrow\AssetLibrary\Application\AssetUploader;
+use Thinktomorrow\AssetLibrary\Asset;
+use Thinktomorrow\AssetLibrary\Models\AssetLibrary;
+use Thinktomorrow\AssetLibrary\Tests\TestCase;
 
 class AssetUploadTest extends TestCase
 {
@@ -25,22 +26,18 @@ class AssetUploadTest extends TestCase
 
     /**
      * @test
-     *
-     * This test currently doesn't fail if we set keepOriginal to false TODO FIX THIS.
      */
     public function it_can_keep_original_source()
     {
         $source = UploadedFile::fake()->create('testSource.txt');
 
         // Second parameter is flag to preserve original source file
-        $asset = AssetUploader::upload($source, null, true);
+        $asset = AssetUploader::upload($source);
 
         $this->assertFileExists($source->getPath());
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_can_upload_an_array_of_assets()
     {
         $assets = collect([]);
@@ -51,6 +48,6 @@ class AssetUploadTest extends TestCase
 
         AssetUploader::upload($assets);
 
-        $this->assertEquals(3, Asset::getAllAssets()->count());
+        $this->assertEquals(3, Asset::count());
     }
 }

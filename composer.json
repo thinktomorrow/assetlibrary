@@ -22,20 +22,21 @@
     ],
     "require": {
         "php": ">=7.2.0",
-        "spatie/laravel-medialibrary": "~7.12"
+        "spatie/laravel-medialibrary": "~7.14"
     },
     "require-dev": {
-        "phpunit/phpunit": "~7.5|~8.0",
+        "phpunit/phpunit": "~7.5|8.4.1",
         "orchestra/testbench": "3.7.*|3.8.*|4.0"
     },
     "autoload": {
         "psr-4": {
-            "Thinktomorrow\\AssetLibrary\\": "src"
+            "Thinktomorrow\\AssetLibrary\\": "src/",
+            "Thinktomorrow\\AssetLibraryMigrate\\": "migrate/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Thinktomorrow\\AssetLibrary\\Test\\": "tests/"
+            "Thinktomorrow\\AssetLibrary\\Tests\\": "tests/"
         }
     },
     "scripts": {
