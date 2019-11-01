@@ -1,27 +1,18 @@
 <?php
 
-namespace Thinktomorrow\AssetLibrary\Tests\unit;
+namespace Thinktomorrow\AssetLibrary\Test\unit;
 
-use Illuminate\Http\File;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Artisan;
 use Thinktomorrow\AssetLibrary\Models\Asset;
-use Thinktomorrow\AssetLibrary\Tests\TestCase;
-use Thinktomorrow\AssetLibrary\Tests\stubs\Article;
+use Thinktomorrow\AssetLibrary\Test\TestCase;
+use Thinktomorrow\AssetLibrary\Test\stubs\Article;
 use Thinktomorrow\AssetLibrary\Models\AssetUploader;
 
 class AssetUploadTest extends TestCase
 {
-    public function setUp()
-    {
-        parent::setUp();
-
-        $this->setUpDatabase();
-        Article::migrate();
-    }
-
-    public function tearDown()
+    public function tearDown(): void
     {
         Artisan::call('medialibrary:clear');
         $this->beforeApplicationDestroyed(function () {

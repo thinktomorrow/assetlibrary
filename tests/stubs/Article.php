@@ -1,6 +1,6 @@
 <?php
 
-namespace Thinktomorrow\AssetLibrary\Tests\stubs;
+namespace Thinktomorrow\AssetLibrary\Test\stubs;
 
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Eloquent\Model;

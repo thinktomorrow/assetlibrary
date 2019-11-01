@@ -2,7 +2,6 @@
 
 namespace Thinktomorrow\AssetLibrary\Models;
 
-use Thinktomorrow\Locale\Locale;
 use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\Models\Media;
 use Illuminate\Database\Eloquent\Model;
@@ -192,38 +191,6 @@ class Asset extends Model implements HasAsset
     {
         if (is_array($imageIds)) {
             foreach ($imageIds as $id) {
-                self::removeFile($id);
-            }
-        } else {
-            self::removeFile($imageIds);
-        }
-    }
-
-<<<<<<< HEAD
-    /**
-     * Removes itself.
-     */
-    public function removeSelf()
-    {
-        $this->removeFile($this->id);
-    }
-
-    private static function removeFile($id)
-    {
-        if (! $id) {
-            return;
-        }
-
-        $asset = self::find($id)->first();
-
-        $media = $asset->media;
-
-        foreach ($media as $file) {
-            if (! is_file(public_path($file->getUrl())) || ! is_writable(public_path($file->getUrl()))) {
-                return false;
-            }
-        }
-=======
                 self::remove($id);
             }
         } else {
@@ -252,7 +219,6 @@ class Asset extends Model implements HasAsset
             }
         }
 
->>>>>>> master
         $asset->delete();
     }
 

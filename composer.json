@@ -25,16 +25,8 @@
         "spatie/laravel-medialibrary": "~7.12"
     },
     "require-dev": {
-<<<<<<< HEAD
-        "mockery/mockery": "^1.0",
-        "nunomaduro/larastan": "^0.3.8",
-        "orchestra/testbench": "^3.7",
-        "phpunit/phpunit": "~7.0",
-        "squizlabs/php_codesniffer": "^3.0"
-=======
-        "phpunit/phpunit": "~7.5|~8.0",
+        "phpunit/phpunit": "~7.5|8.4.1",
         "orchestra/testbench": "3.7.*|3.8.*|4.0"
->>>>>>> master
     },
     "autoload": {
         "psr-4": {
@@ -43,7 +35,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Thinktomorrow\\AssetLibrary\\Tests\\": "tests/"
+            "Thinktomorrow\\AssetLibrary\\Test\\": "tests/"
         }
     },
     "scripts": {

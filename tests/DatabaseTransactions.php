@@ -1,6 +1,6 @@
 <?php
 
-namespace Thinktomorrow\AssetLibrary\Tests;
+namespace Thinktomorrow\AssetLibrary\Test;
 
 use Illuminate\Filesystem\Filesystem;
 

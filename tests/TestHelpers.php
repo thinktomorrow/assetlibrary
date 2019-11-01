@@ -1,10 +1,10 @@
 <?php
 
-namespace Thinktomorrow\AssetLibrary\Tests;
+namespace Thinktomorrow\AssetLibrary\Test;
 
 use Spatie\MediaLibrary\Models\Media;
 use Thinktomorrow\AssetLibrary\Models\Asset;
-use Thinktomorrow\AssetLibrary\Tests\stubs\Article;
+use Thinktomorrow\AssetLibrary\Test\stubs\Article;
 
 trait TestHelpers
 {

@@ -3,7 +3,6 @@
 namespace Thinktomorrow\AssetLibrary\Models;
 
 use Traversable;
-use Illuminate\Http\File;
 use Illuminate\Support\Str;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Collection;
@@ -185,8 +184,7 @@ class AssetUploader extends Model
      */
     private static function isImage($file): bool
     {
-<<<<<<< HEAD
-        return str_before($file->getMimetype() ?? '', '/') === 'image';
+        return Str::before($file->getMimetype(), '/') === 'image';
     }
 
     /**
@@ -214,14 +212,11 @@ class AssetUploader extends Model
         $fileAdd->sanitizingFileName(function ($filename) {
             $extension = substr($filename, strrpos($filename, '.') + 1);
             $filename  = substr($filename, 0, strrpos($filename, '.'));
-            $filename  = str_slug($filename).'.'.$extension;
+            $filename  = Str::slug($filename).'.'.$extension;
 
             return strtolower($filename);
         });
 
         return $fileAdd;
-=======
-        return Str::before($file->getMimetype(), '/') === 'image';
->>>>>>> master
     }
 }
