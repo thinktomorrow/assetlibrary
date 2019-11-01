@@ -103,7 +103,7 @@ class ImageToAssetMigrateCommand extends Command
                 continue;
             }
 
-            app(AddAsset::class)->setOrder($result['order'])->add($result['model'], $asset, ($result['type']??'images'), app()->getLocale());
+            app(AddAsset::class)->setOrder($result['order'])->add($result['model'], $asset, ($result['type']??'images'), ($result['locale']??app()->getLocale()));
 
             if ($this->option('force')) {
                 unlink(public_path($line));
@@ -173,6 +173,12 @@ class ImageToAssetMigrateCommand extends Command
                 $formattedResults['type'] = $result->{$this->typecolumn};
             }else{
                 $formattedResults['type'] = null;
+            }
+
+            if ($this->localecolumn) {
+                $formattedResults['locale'] = $result->{$this->localecolumn};
+            }else{
+                $formattedResults['locale'] = null;
             }
 
             return $formattedResults;

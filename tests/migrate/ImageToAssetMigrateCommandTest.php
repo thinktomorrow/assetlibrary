@@ -207,9 +207,9 @@ class ImageToAssetMigrateCommandTest extends TestCase
     public function it_can_migrate_images_with_locale()
     {
         // fill db with an entry
-        $this->testArticle->imageurl  = '/uploads/warpaint-logo.svg';
-        $this->testArticle->order     = 7;
-        $this->testArticle->locale    = 'nl';
+        $this->testArticle->imageurl = '/uploads/warpaint-logo.svg';
+        $this->testArticle->order    = 7;
+        $this->testArticle->locale   = 'nl';
         $this->testArticle->type     = 'xxx';
 
         $this->testArticle->save();
@@ -224,11 +224,11 @@ class ImageToAssetMigrateCommandTest extends TestCase
             ]);
 
         // assert order is set on the asset
-        $this->assertEquals('nl', $this->testArticle->fresh()->assets('xxx')->first()->pivot->locale);
+        $this->assertEquals('nl', $this->testArticle->fresh()->assets('xxx', 'nl'   )->first()->pivot->locale);
 
         // assert the image exists on both locations
         $this->assertFileExists(public_path($this->testArticle->imageurl));
-        $this->assertFileExists(public_path($this->testArticle->asset('xxx')->url()));
+        $this->assertFileExists(public_path($this->testArticle->asset('xxx', 'nl')->url()));
     }
 
     /** @test */
@@ -251,11 +251,11 @@ class ImageToAssetMigrateCommandTest extends TestCase
             ]);
 
         // assert order is set on the asset
-        $this->assertEquals('nl', $this->testArticle->fresh()->assets('xxx')->first()->pivot->locale);
+        $this->assertEquals('en', $this->testArticle->fresh()->assets('xxx', 'en')->first()->pivot->locale);
 
         // assert the image exists on both locations
         $this->assertFileExists(public_path($this->testArticle->imageurl));
-        $this->assertFileExists(public_path($this->testArticle->asset('xxx')->url()));
+        $this->assertFileExists(public_path($this->testArticle->asset('xxx', 'en')->url()));
     }
 
     /** @test */
