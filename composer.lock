@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d4bf84a5c28930b353a12fd3203dec37",
+    "content-hash": "10bf0bc0cf8cd83229fceeb95fcc7745",
     "packages": [
         {
             "name": "doctrine/inflector",
@@ -3483,29 +3483,29 @@
         },
         {
             "name": "orchestra/testbench",
-            "version": "v4.0.0",
+            "version": "v4.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/orchestral/testbench.git",
-                "reference": "bde8b826bde3bd39a2a87e6cd328501e19c60cc9"
+                "reference": "5174b6f7855855fda78b4a2f7d030d56f0ae5a1e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/orchestral/testbench/zipball/bde8b826bde3bd39a2a87e6cd328501e19c60cc9",
-                "reference": "bde8b826bde3bd39a2a87e6cd328501e19c60cc9",
+                "url": "https://api.github.com/repos/orchestral/testbench/zipball/5174b6f7855855fda78b4a2f7d030d56f0ae5a1e",
+                "reference": "5174b6f7855855fda78b4a2f7d030d56f0ae5a1e",
                 "shasum": ""
             },
             "require": {
-                "laravel/framework": "^6.0",
-                "mockery/mockery": "^1.0",
-                "orchestra/testbench-core": "^4.0",
+                "laravel/framework": "^6.4",
+                "mockery/mockery": "^1.2.3",
+                "orchestra/testbench-core": "^4.3",
                 "php": ">=7.2",
-                "phpunit/phpunit": "^8.0"
+                "phpunit/phpunit": "^8.3"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.0-dev"
+                    "dev-master": "5.0-dev"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -3529,7 +3529,7 @@
                 "orchestral",
                 "testing"
             ],
-            "time": "2019-09-03T20:02:19+00:00"
+            "time": "2019-10-23T22:51:50+00:00"
         },
         {
             "name": "orchestra/testbench-core",
