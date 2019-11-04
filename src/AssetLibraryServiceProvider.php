@@ -16,10 +16,6 @@ class AssetLibraryServiceProvider extends ServiceProvider
         ], 'assetlibrary-config');
 
         $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
-
-        if(!config('thinktomorrow.assetlibrary.fallback_locale')) {
-            config()->set('thinktomorrow.assetlibrary.fallback_locale', config('app.fallback_locale'));
-        }
     }
 
     /**
@@ -31,6 +27,6 @@ class AssetLibraryServiceProvider extends ServiceProvider
     {
         (new MediaLibraryServiceProvider($this->app))->register();
 
-        $this->mergeConfigFrom(__DIR__.'/../config/assetlibrary.php', 'assetlibrary');
+        $this->mergeConfigFrom(__DIR__.'/../config/assetlibrary.php', 'thinktomorrow.assetlibrary');
     }
 }

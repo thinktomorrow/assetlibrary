@@ -180,7 +180,7 @@ class AssetTest extends TestCase
      */
     public function it_can_crop_an_image()
     {
-        config(['assetlibrary.allowCropping' => true]);
+        config(['thinktomorrow.assetlibrary.allowCropping' => true]);
         $asset = $this->getUploadedAsset('image.png', 1000, 1000)->crop(600, 400, 60, 100);
 
         $this->assertEquals('/media/1/conversions/image-cropped.png', $asset->url('cropped'));
@@ -194,7 +194,7 @@ class AssetTest extends TestCase
     {
         $this->expectException(ConfigException::class);
 
-        config(['assetlibrary.allowCropping' => false]);
+        config(['thinktomorrow.assetlibrary.allowCropping' => false]);
         $asset = $this->getUploadedAsset('image.png', 1000, 1000)->crop(600, 400, 60, 100);
 
         $this->assertEquals('1000 x 1000', $asset->getDimensions('cropped'));

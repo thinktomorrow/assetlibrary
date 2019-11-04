@@ -51,6 +51,7 @@ class LocalizedAssetTest extends TestCase
     /** @test */
     public function asset_without_fallback_is_not_found()
     {
+        config()->set('thinktomorrow.assetlibrary.use_fallback_locale', false);
         $article = $this->getArticleWithAsset('banner', 'nl');
         app(AddAsset::class)->add($article, UploadedFile::fake()->image('imagefr.png'), 'banner', 'fr');
 

@@ -16,13 +16,13 @@ class SortAssets
      */
     public function handle(HasAsset $model, $type, $sorting)
     {
-        $files = $model->assets($type);
-        $files->each(function ($asset) use ($model, $sorting) {
-            if (in_array($asset->id, $sorting)) {
-                $pivot = $model->assetRelation->find($asset->id)->pivot;
-                $pivot->order = array_search($asset->id, $sorting);
-                $pivot->save();
-            }
-        });
+        $assets = $model->assetRelation()->where('asset_pivots.type', $type)->get();
+
+        foreach ($assets as $asset) {
+            $pivot = $asset->pivot;
+            $pivot->order = array_search($asset->id, $sorting);
+
+            $pivot->save();
+        }
     }
 }

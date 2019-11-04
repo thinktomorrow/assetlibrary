@@ -143,7 +143,7 @@ class Asset extends Model implements HasMedia
      */
     public function crop($width, $height, $x, $y)
     {
-        if (! config('assetlibrary.allowCropping')) {
+        if (! config('thinktomorrow.assetlibrary.allowCropping')) {
             throw ConfigException::croppingDisabled();
         }
         $this->media[0]->manipulations = [
@@ -165,7 +165,7 @@ class Asset extends Model implements HasMedia
      */
     public function registerMediaConversions(Media $media = null)
     {
-        $conversions = config('assetlibrary.conversions');
+        $conversions = config('thinktomorrow.assetlibrary.conversions');
 
         foreach ($conversions as $key => $value) {
             $this->addMediaConversion($key)
@@ -175,7 +175,7 @@ class Asset extends Model implements HasMedia
                 ->optimize();
         }
 
-        if (config('assetlibrary.allowCropping')) {
+        if (config('thinktomorrow.assetlibrary.allowCropping')) {
             $this->addMediaConversion('cropped')
                 ->keepOriginalImageFormat()
                 ->optimize();

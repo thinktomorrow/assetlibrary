@@ -106,7 +106,7 @@ class TestCase extends BaseTestCase
             Video::class,
         ]);
     }
-
+    
     public function getTempDirectory($suffix = '')
     {
         return __DIR__.'/temp'.($suffix == '' ? '' : '/'.$suffix);

@@ -58,6 +58,10 @@ trait AssetTrait
 
     protected function getAssetFallbackLocale(): string
     {
+        if(!config('thinktomorrow.assetlibrary.fallback_locale')) {
+            config()->set('thinktomorrow.assetlibrary.fallback_locale', config('app.fallback_locale')); 
+        }
+
         return $this->assetFallbackLocale ?? config('thinktomorrow.assetlibrary.fallback_locale');
     }
 }

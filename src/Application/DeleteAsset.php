@@ -33,12 +33,14 @@ class DeleteAsset
             return false;
         }
         $asset = Asset::find($id)->first();
+
         $media = $asset->media;
         foreach ($media as $file) {
             if (! is_file(public_path($file->getUrl())) || ! is_writable(public_path($file->getUrl()))) {
                 throw new FileNotAccessibleException();
             }
         }
+        
         $asset->delete();
     }
 
