@@ -44,7 +44,6 @@ class DeleteAssetTest extends TestCase
     */
    public function it_can_handle_invalid_inputs_to_remove_function()
    {
-       //upload a single image
        $asset = $this->getUploadedAsset();
 
        $this->assertEquals($asset->filename(), 'image.png');

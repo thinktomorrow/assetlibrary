@@ -111,6 +111,7 @@ class AssetTraitTest extends TestCase
         app(ReplaceAsset::class)->handle($article, $article->assetRelation->first()->id, AssetUploader::upload(UploadedFile::fake()->image('newImage.png'))->id);
 
         $this->assertCount(1, $article->refresh()->assets('xxx'));
+        $this->assertCount(2, Asset::all());
         $this->assertEquals('/media/2/newimage.png', $article->asset('xxx')->url());
     }
 
