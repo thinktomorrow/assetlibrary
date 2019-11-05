@@ -32,6 +32,11 @@ class Asset extends Model implements HasMedia
         return basename($this->url($size));
     }
 
+    public function exists(): bool
+    {
+        return true;
+    }
+
     /**
      * @param string $size
      * @return string

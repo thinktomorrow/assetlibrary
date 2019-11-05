@@ -55,7 +55,7 @@ class LocalizedAssetTest extends TestCase
         $article = $this->getArticleWithAsset('banner', 'nl');
         app(AddAsset::class)->add($article, UploadedFile::fake()->image('imagefr.png'), 'banner', 'fr');
 
-        $this->assertNull($article->asset('banner', 'en'));
+        $this->assertEquals('', $article->asset('banner', 'en')->url());
     }
 
     /** @test */

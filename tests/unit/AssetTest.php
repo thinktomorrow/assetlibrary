@@ -294,4 +294,12 @@ class AssetTest extends TestCase
 
         $asset->fresh()->getExtensionForFilter();
     }
+
+    /** @test */
+    public function it_can_check_if_an_asset_exists()
+    {
+        $asset = $this->getUploadedAsset();
+
+        $this->assertEquals(true, $asset->exists());
+    }
 }

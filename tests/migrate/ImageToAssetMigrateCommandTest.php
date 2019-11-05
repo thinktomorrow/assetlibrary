@@ -366,7 +366,7 @@ class ImageToAssetMigrateCommandTest extends TestCase
 
         // assert the image exists only on first location
         $this->assertFileExists(public_path($article->imageurl));
-        $this->assertNull($article->asset('xxx'));
+        $this->assertEquals('', $article->asset('xxx')->url());
         $this->assertCount(0, $article->assetRelation);
     }
 
@@ -395,6 +395,6 @@ class ImageToAssetMigrateCommandTest extends TestCase
         $article = Article::first();
 
         // assert the image exists on both locations
-        $this->assertNull($article->asset('images'));
+        $this->assertEquals('', $article->asset('images')->url());
     }
 }

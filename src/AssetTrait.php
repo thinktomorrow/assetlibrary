@@ -26,7 +26,7 @@ trait AssetTrait
 
     public function asset(string $type, ?string $locale = null): ?Asset
     {
-        return $this->assets($type, $locale)->first();
+        return $this->assets($type, $locale)->first() ?? new NullAsset();
     }
 
     public function assets(?string $type = null, ?string $locale = null): Collection

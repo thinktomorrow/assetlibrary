@@ -82,7 +82,7 @@ class AssetTraitTest extends TestCase
     {
         $article = Article::create();
 
-        $this->assertNull($article->asset('banner'));
+        $this->assertEquals('', $article->asset('banner')->url());
 
         $article = $this->getArticleWithAsset('banner');
 
