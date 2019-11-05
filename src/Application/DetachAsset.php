@@ -7,7 +7,7 @@ use Thinktomorrow\AssetLibrary\HasAsset;
 class DetachAsset
 {
     /**
-     * Removes an asset completely.
+     * Detaches an asset from a model.
      *
      * @param $ids
      */
@@ -21,7 +21,7 @@ class DetachAsset
     }
 
     /**
-     * Removes all assets completely.
+     * Detaches all assets or for a specific type from a model.
      *
      * @param $ids
      */
