@@ -135,7 +135,7 @@ class Asset extends Model implements HasMedia
             return $dimensions[0].' x'.$dimensions[1];
         }
 
-        return $this->getMedia()[0]->getCustomProperty('dimensions');
+        return $this->getMedia()[0]->getCustomProperty('dimensions') ?? '';
     }
 
     /**
