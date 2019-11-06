@@ -4,6 +4,12 @@ All Notable changes to `AssetLibrary` will be documented in this file.
 
 Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
 
+
+## 0.6.1 - 2019-11-06
+
+### Fixed
+- provided fallback for getDimensions if there is no dimensions data
+
 ## 0.6.0 - 2019-11-06
 
 ### Added
