@@ -43,10 +43,10 @@ class Asset extends Model implements HasMedia
      */
     public function url($size = ''): string
     {
-        $media = $this->getMedia()->first();
+        $media = $this->getFirstMedia();
 
         if ($media == null) {
-            throw CorruptMediaException::missingMediaRelation($this->id);
+            return '';
         }
 
         return $media->getUrl($size);
