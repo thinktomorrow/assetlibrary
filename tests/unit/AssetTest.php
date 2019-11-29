@@ -249,6 +249,39 @@ class AssetTest extends TestCase
     /**
      * @test
      */
+    public function it_can_add_the_same_asset_for_a_different_type()
+    {
+        $original = Article::create();
+
+        //upload a single image
+        $asset   = $this->getUploadedAsset();
+
+        app(AddAsset::class)->add($original->fresh(), $asset, 'foo',  'en');
+        app(AddAsset::class)->add($original, $original->assetRelation()->first(), 'bar',  'en');
+
+        $this->assertCount(2, $original->assets());
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_add_the_same_asset_for_a_different_locales()
+    {
+        $original = Article::create();
+
+        //upload a single image
+        $asset   = $this->getUploadedAsset();
+
+        app(AddAsset::class)->add($original->fresh(), $asset, 'xxx',  'en');
+        app(AddAsset::class)->add($original, $original->assetRelation()->first(), 'xxx',  'nl');
+
+        $this->assertCount(1, $original->assets('xxx',  'en'));
+        $this->assertCount(1, $original->assets('xxx',  'nl'));
+    }
+
+    /**
+     * @test
+     */
     public function it_throws_an_error_if_no_media_is_attached_to_an_asset()
     {
         //upload a single image

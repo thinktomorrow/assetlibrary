@@ -73,7 +73,7 @@ class AddAsset
      */
     private function attachAssetToModel(Asset $asset, HasAsset $model, string $type, string $locale): void
     {
-        if ($model->assetRelation()->get()->contains($asset)) {
+        if ($model->assetRelation()->where('asset_pivots.type', $type)->where('asset_pivots.locale', $locale)->get()->contains($asset)) {
             throw AssetUploadException::assetAlreadyLinked();
         }
 

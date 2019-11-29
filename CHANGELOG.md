@@ -5,6 +5,12 @@ All Notable changes to `AssetLibrary` will be documented in this file.
 Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
 
 
+## 0.6.3 - 2019-11-29
+
+### Changed
+
+- the same asset can now be uploaded to a model for different types or locales
+
 ## 0.6.1 - 2019-11-06
 
 ### Fixed

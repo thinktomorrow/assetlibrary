@@ -102,7 +102,7 @@ class AssetTraitTest extends TestCase
     }
 
     /** @test */
-    public function it_can_replace_an_asset()
+    public function it_can_replace_an_asset_for_locale()
     {
         $article = $this->getArticleWithAsset('xxx');
 
