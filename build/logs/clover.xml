@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1575023060">
-  <project timestamp="1575023060">
+<coverage generated="1575035300">
+  <project timestamp="1575035300">
     <package name="Thinktomorrow\AssetLibrary\Application">
       <file name="/Users/philippedamen/projects/assetlibrary/src/Application/AddAsset.php">
         <class name="Thinktomorrow\AssetLibrary\Application\AddAsset" namespace="Thinktomorrow\AssetLibrary\Application">
@@ -132,14 +132,14 @@
         <line num="18" type="stmt" count="4"/>
         <line num="19" type="stmt" count="4"/>
         <line num="21" type="stmt" count="4"/>
-        <line num="28" type="method" name="detachAll" visibility="public" complexity="3" crap="3" count="2"/>
-        <line num="30" type="stmt" count="2"/>
+        <line num="30" type="method" name="detachAll" visibility="public" complexity="3" crap="3" count="2"/>
         <line num="32" type="stmt" count="2"/>
-        <line num="33" type="stmt" count="1"/>
-        <line num="34" type="stmt" count="1"/>
+        <line num="34" type="stmt" count="2"/>
+        <line num="35" type="stmt" count="1"/>
         <line num="36" type="stmt" count="1"/>
-        <line num="39" type="stmt" count="2"/>
-        <metrics loc="40" ncloc="30" classes="1" methods="2" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="10" coveredstatements="10" elements="12" coveredelements="12"/>
+        <line num="38" type="stmt" count="1"/>
+        <line num="41" type="stmt" count="2"/>
+        <metrics loc="42" ncloc="32" classes="1" methods="2" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="10" coveredstatements="10" elements="12" coveredelements="12"/>
       </file>
       <file name="/Users/philippedamen/projects/assetlibrary/src/Application/ReplaceAsset.php">
         <class name="Thinktomorrow\AssetLibrary\Application\ReplaceAsset" namespace="Thinktomorrow\AssetLibrary\Application">
@@ -332,6 +332,6 @@
     <file name="/Users/philippedamen/projects/assetlibrary/src/HasAsset.php">
       <metrics loc="16" ncloc="16" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
     </file>
-    <metrics files="15" loc="824" ncloc="626" classes="13" methods="47" coveredmethods="47" conditionals="0" coveredconditionals="0" statements="191" coveredstatements="191" elements="238" coveredelements="238"/>
+    <metrics files="15" loc="826" ncloc="628" classes="13" methods="47" coveredmethods="47" conditionals="0" coveredconditionals="0" statements="191" coveredstatements="191" elements="238" coveredelements="238"/>
   </project>
 </coverage>

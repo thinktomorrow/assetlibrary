@@ -21,6 +21,6 @@ class ReplaceAsset
 
         app(AddAsset::class)->add($model, Asset::findOrFail($with), $old->pivot->type, $old->pivot->locale);
 
-        app(DetachAsset::class)->detach($model, $old->id);
+        app(DetachAsset::class)->detach($model, $old->id, $old->pivot->type, $old->pivot->locale);
     }
 }

@@ -34,7 +34,7 @@ class DetachAssetTest extends TestCase
         //upload a single image
         $article = $this->getArticleWithAsset('image');
 
-        app(DetachAsset::class)->detach($article, $article->asset('image')->id);
+        app(DetachAsset::class)->detach($article, $article->asset('image')->id, 'image', 'en');
 
         $this->assertCount(1, Asset::all());
         $this->assertCount(0, $article->assetRelation()->get());
@@ -49,9 +49,9 @@ class DetachAssetTest extends TestCase
 
         $asset = $this->getUploadedAsset('image.png');
 
-        app(AddAsset::class)->add($article, $asset, 'banner', 'nl');
+        app(AddAsset::class)->add($article, $asset, 'image', 'en');
 
-        app(DetachAsset::class)->detach($article, [$article->asset('image')->id, $asset->id]);
+        app(DetachAsset::class)->detach($article, [$article->asset('image')->id, $asset->id], 'image', 'en');
 
         $this->assertEquals(2, Asset::all()->count());
         $this->assertCount(0, $article->assetRelation()->get());

@@ -11,14 +11,16 @@ class DetachAsset
      *
      * @param $ids
      */
-    public function detach(HasAsset $model, $ids): void
+    public function detach(HasAsset $model, $ids, $type, $locale): void
     {
         if (! is_array($ids)) $ids = (array) $ids;
         
         foreach ($ids as $id) {
-            $model->assetRelation()->detach($id);
+            $model->assetRelation()->where('asset_pivots.type', $type)->where('asset_pivots.locale', $locale)->detach($id);
         }
     }
+
+
 
     /**
      * Detaches all assets or for a specific type from a model.
