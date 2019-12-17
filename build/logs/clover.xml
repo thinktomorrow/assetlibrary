@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1576586442">
-  <project timestamp="1576586442">
+<coverage generated="1576586745">
+  <project timestamp="1576586745">
     <package name="Thinktomorrow\AssetLibrary\Application">
       <file name="/Users/philippedamen/projects/assetlibrary/src/Application/AddAsset.php">
         <class name="Thinktomorrow\AssetLibrary\Application\AddAsset" namespace="Thinktomorrow\AssetLibrary\Application">
@@ -300,7 +300,7 @@
         <class name="Thinktomorrow\AssetLibrary\Exceptions\AssetUploadException" namespace="Thinktomorrow\AssetLibrary\Exceptions">
           <metrics complexity="1" methods="1" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="1" coveredstatements="0" elements="2" coveredelements="0"/>
         </class>
-        <line num="9" type="method" name="assetAlreadyLinked" visibility="public" complexity="1" crap="2.00" count="0"/>
+        <line num="9" type="method" name="assetAlreadyLinked" visibility="public" complexity="1" crap="2" count="0"/>
         <line num="11" type="stmt" count="0"/>
         <metrics loc="13" ncloc="13" classes="1" methods="1" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="1" coveredstatements="0" elements="2" coveredelements="0"/>
       </file>
