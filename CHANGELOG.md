@@ -4,6 +4,12 @@ All Notable changes to `AssetLibrary` will be documented in this file.
 
 Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
 
+## 0.6.5 - 2019-12-17
+
+### Changed
+
+- the same asset can now be uploaded to a model multiple times.
+
 ## 0.6.4 - 2019-11-29
 
 ### Changed

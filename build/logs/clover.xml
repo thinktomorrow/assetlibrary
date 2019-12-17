@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1575035300">
-  <project timestamp="1575035300">
+<coverage generated="1576586442">
+  <project timestamp="1576586442">
     <package name="Thinktomorrow\AssetLibrary\Application">
       <file name="/Users/philippedamen/projects/assetlibrary/src/Application/AddAsset.php">
         <class name="Thinktomorrow\AssetLibrary\Application\AddAsset" namespace="Thinktomorrow\AssetLibrary\Application">
-          <metrics complexity="11" methods="5" coveredmethods="5" conditionals="0" coveredconditionals="0" statements="18" coveredstatements="18" elements="23" coveredelements="23"/>
+          <metrics complexity="10" methods="5" coveredmethods="5" conditionals="0" coveredconditionals="0" statements="16" coveredstatements="16" elements="21" coveredelements="21"/>
         </class>
         <line num="25" type="method" name="add" visibility="public" complexity="2" crap="2" count="56"/>
         <line num="27" type="stmt" count="56"/>
@@ -19,17 +19,15 @@
         <line num="55" type="method" name="setOrder" visibility="public" complexity="1" crap="1" count="13"/>
         <line num="57" type="stmt" count="13"/>
         <line num="59" type="stmt" count="13"/>
-        <line num="74" type="method" name="attachAssetToModel" visibility="private" complexity="2" crap="2" count="56"/>
+        <line num="74" type="method" name="attachAssetToModel" visibility="private" complexity="1" crap="1" count="56"/>
         <line num="76" type="stmt" count="56"/>
-        <line num="77" type="stmt" count="1"/>
-        <line num="80" type="stmt" count="56"/>
+        <line num="77" type="stmt" count="56"/>
+        <line num="79" type="method" name="uploadAssetFromInput" visibility="private" complexity="4" crap="4" count="56"/>
         <line num="81" type="stmt" count="56"/>
-        <line num="83" type="method" name="uploadAssetFromInput" visibility="private" complexity="4" crap="4" count="56"/>
-        <line num="85" type="stmt" count="56"/>
-        <line num="87" type="stmt" count="20"/>
-        <line num="88" type="stmt" count="6"/>
-        <line num="91" type="stmt" count="14"/>
-        <metrics loc="93" ncloc="61" classes="1" methods="5" coveredmethods="5" conditionals="0" coveredconditionals="0" statements="18" coveredstatements="18" elements="23" coveredelements="23"/>
+        <line num="83" type="stmt" count="20"/>
+        <line num="84" type="stmt" count="6"/>
+        <line num="87" type="stmt" count="14"/>
+        <metrics loc="89" ncloc="57" classes="1" methods="5" coveredmethods="5" conditionals="0" coveredconditionals="0" statements="16" coveredstatements="16" elements="21" coveredelements="21"/>
       </file>
       <file name="/Users/philippedamen/projects/assetlibrary/src/Application/AssetUploader.php">
         <class name="Thinktomorrow\AssetLibrary\Application\AssetUploader" namespace="Thinktomorrow\AssetLibrary\Application">
@@ -300,11 +298,11 @@
     <package name="Thinktomorrow\AssetLibrary\Exceptions">
       <file name="/Users/philippedamen/projects/assetlibrary/src/Exceptions/AssetUploadException.php">
         <class name="Thinktomorrow\AssetLibrary\Exceptions\AssetUploadException" namespace="Thinktomorrow\AssetLibrary\Exceptions">
-          <metrics complexity="1" methods="1" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="1" coveredstatements="1" elements="2" coveredelements="2"/>
+          <metrics complexity="1" methods="1" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="1" coveredstatements="0" elements="2" coveredelements="0"/>
         </class>
-        <line num="9" type="method" name="assetAlreadyLinked" visibility="public" complexity="1" crap="1" count="1"/>
-        <line num="11" type="stmt" count="1"/>
-        <metrics loc="13" ncloc="13" classes="1" methods="1" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="1" coveredstatements="1" elements="2" coveredelements="2"/>
+        <line num="9" type="method" name="assetAlreadyLinked" visibility="public" complexity="1" crap="2.00" count="0"/>
+        <line num="11" type="stmt" count="0"/>
+        <metrics loc="13" ncloc="13" classes="1" methods="1" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="1" coveredstatements="0" elements="2" coveredelements="0"/>
       </file>
       <file name="/Users/philippedamen/projects/assetlibrary/src/Exceptions/ConfigException.php">
         <class name="Thinktomorrow\AssetLibrary\Exceptions\ConfigException" namespace="Thinktomorrow\AssetLibrary\Exceptions">
@@ -332,6 +330,6 @@
     <file name="/Users/philippedamen/projects/assetlibrary/src/HasAsset.php">
       <metrics loc="16" ncloc="16" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
     </file>
-    <metrics files="15" loc="826" ncloc="628" classes="13" methods="47" coveredmethods="47" conditionals="0" coveredconditionals="0" statements="191" coveredstatements="191" elements="238" coveredelements="238"/>
+    <metrics files="15" loc="822" ncloc="624" classes="13" methods="47" coveredmethods="46" conditionals="0" coveredconditionals="0" statements="189" coveredstatements="188" elements="236" coveredelements="234"/>
   </project>
 </coverage>

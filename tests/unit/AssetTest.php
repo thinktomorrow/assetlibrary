@@ -230,21 +230,7 @@ class AssetTest extends TestCase
         $this->assertEquals($asset1->id, $original->assetRelation->where('pivot.order', 2)->last()->id);
     }
 
-    /**
-     * @test
-     */
-    public function it_throws_an_expection_when_adding_an_existing_asset()
-    {
-        $this->expectException(AssetUploadException::class);
 
-        $original = Article::create();
-
-        //upload a single image
-        $asset   = $this->getUploadedAsset();
-
-        app(AddAsset::class)->add($original->fresh(), $asset, 'xxx',  'en');
-        app(AddAsset::class)->add($original, $original->assetRelation()->first(), 'xxx',  'en');
-    }
 
     /**
      * @test
