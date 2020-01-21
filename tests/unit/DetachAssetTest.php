@@ -11,19 +11,19 @@ use Thinktomorrow\AssetLibrary\Application\DetachAsset;
 
 class DetachAssetTest extends TestCase
 {
-    
+
     public function setUp(): void
     {
-        parent::setUp();
+        parent:: setUp();
 
-        Article::migrate();
+        Article:: migrate();
     }
-    
+
     public function tearDown(): void
     {
-        Artisan::call('medialibrary:clear');
+        Artisan:: call('medialibrary:clear');
 
-        parent::tearDown();
+        parent:: tearDown();
     }
 
     /**
@@ -81,13 +81,13 @@ class DetachAssetTest extends TestCase
     {
         $article = $this->getArticleWithAsset('image');
 
-       $asset = $this->getUploadedAsset('image.png');
+        $asset = $this->getUploadedAsset('image.png');
 
-       app(AddAsset::class)->add($article, $asset, 'banner', 'nl');
+        app(AddAsset::class)->add($article, $asset, 'banner', 'nl');
 
-       app(DetachAsset::class)->detachAll($article, 'banner');
+        app(DetachAsset::class)->detachAll($article, 'banner');
 
-       $this->assertEquals(2, Asset::all()->count());
-       $this->assertCount(1, $article->assetRelation()->get());
+        $this->assertEquals(2, Asset::all()->count());
+        $this->assertCount(1, $article->assetRelation()->get());
     }
 }

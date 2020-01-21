@@ -4,6 +4,12 @@ All Notable changes to `AssetLibrary` will be documented in this file.
 
 Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
 
+## 0.6.6 - 2020-01-21
+
+### Changed
+
+- Replace asset now also takes type and locale to make sure we only replace the asset we want. These will be required in the next major version 0.7.0
+
 ## 0.6.5 - 2019-12-17
 
 ### Changed
