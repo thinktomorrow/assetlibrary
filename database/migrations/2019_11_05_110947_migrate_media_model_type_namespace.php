@@ -1,7 +1,7 @@
 <?php
 
-use Spatie\MediaLibrary\Models\Media;
 use Illuminate\Database\Migrations\Migration;
+use Spatie\MediaLibrary\Models\Media;
 
 class MigrateMediaModelTypeNamespace extends Migration
 {

@@ -16,7 +16,7 @@ return [
     'fallback_locale' => null,
 
     /**
-     * Available conversions
+     * Available conversions.
      */
     'conversions' => [
         'thumb' => [

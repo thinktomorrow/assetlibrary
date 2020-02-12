@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 use Thinktomorrow\AssetLibrary\Application\AssetUploader;
 use Thinktomorrow\AssetLibrary\Asset;
-use Thinktomorrow\AssetLibrary\Models\AssetLibrary;
 use Thinktomorrow\AssetLibrary\Tests\TestCase;
 
 class AssetUploadTest extends TestCase

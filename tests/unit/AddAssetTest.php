@@ -3,13 +3,12 @@
 namespace Thinktomorrow\AssetLibrary\Tests\unit;
 
 use Illuminate\Http\UploadedFile;
-use Thinktomorrow\AssetLibrary\Asset;
 use Illuminate\Support\Facades\Artisan;
-use Thinktomorrow\AssetLibrary\Tests\TestCase;
-use Thinktomorrow\AssetLibrary\Tests\stubs\Article;
 use Thinktomorrow\AssetLibrary\Application\AddAsset;
 use Thinktomorrow\AssetLibrary\Application\AssetUploader;
-use Thinktomorrow\AssetLibrary\Exceptions\AssetUploadException;
+use Thinktomorrow\AssetLibrary\Asset;
+use Thinktomorrow\AssetLibrary\Tests\stubs\Article;
+use Thinktomorrow\AssetLibrary\Tests\TestCase;
 
 class AddAssetTest extends TestCase
 {
@@ -214,8 +213,8 @@ class AddAssetTest extends TestCase
         //upload a single image
         $asset   = $this->getUploadedAsset();
 
-        app(AddAsset::class)->add($original->fresh(), $asset, 'xxx',  'en');
-        app(AddAsset::class)->add($original, $original->assetRelation()->first(), 'xxx',  'en');
+        app(AddAsset::class)->add($original->fresh(), $asset, 'xxx', 'en');
+        app(AddAsset::class)->add($original, $original->assetRelation()->first(), 'xxx', 'en');
 
         $this->assertCount(2, $original->assetRelation()->get());
     }

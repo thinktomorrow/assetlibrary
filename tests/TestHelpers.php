@@ -3,9 +3,9 @@
 namespace Thinktomorrow\AssetLibrary\Tests;
 
 use Spatie\MediaLibrary\Models\Media;
+use Thinktomorrow\AssetLibrary\Application\AddAsset;
 use Thinktomorrow\AssetLibrary\Asset;
 use Thinktomorrow\AssetLibrary\Tests\stubs\Article;
-use Thinktomorrow\AssetLibrary\Application\AddAsset;
 use Thinktomorrow\AssetLibrary\Tests\stubs\ArticleWithSoftdelete;
 
 trait TestHelpers

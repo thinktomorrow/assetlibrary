@@ -13,14 +13,14 @@ class DetachAsset
      */
     public function detach(HasAsset $model, $ids, $type, $locale): void
     {
-        if (! is_array($ids)) $ids = (array) $ids;
-        
+        if (! is_array($ids)) {
+            $ids = (array) $ids;
+        }
+
         foreach ($ids as $id) {
             $model->assetRelation()->where('asset_pivots.type', $type)->where('asset_pivots.locale', $locale)->detach($id);
         }
     }
-
-
 
     /**
      * Detaches all assets or for a specific type from a model.
@@ -31,12 +31,11 @@ class DetachAsset
     {
         $builder = $model->assetRelation();
 
-        if($type) {
+        if ($type) {
             $ids = $builder->where('asset_pivots.type', $type)->get()->pluck('id');
             $builder->detach($ids);
-        }else{
+        } else {
             $builder->detach();
         }
-        
     }
 }
