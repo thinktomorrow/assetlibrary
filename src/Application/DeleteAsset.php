@@ -3,8 +3,8 @@
 namespace Thinktomorrow\AssetLibrary\Application;
 
 use Thinktomorrow\AssetLibrary\Asset;
-use Thinktomorrow\AssetLibrary\HasAsset;
 use Thinktomorrow\AssetLibrary\Exceptions\FileNotAccessibleException;
+use Thinktomorrow\AssetLibrary\HasAsset;
 
 class DeleteAsset
 {
@@ -40,7 +40,7 @@ class DeleteAsset
                 throw new FileNotAccessibleException();
             }
         }
-        
+
         $asset->delete();
     }
 

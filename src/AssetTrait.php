@@ -39,15 +39,16 @@ trait AssetTrait
 
         $locale = $locale ?? app()->getLocale();
 
-        $results = $assets->filter(function($asset) use($locale){
+        $results = $assets->filter(function ($asset) use ($locale) {
             return $asset->pivot->locale == $locale;
         });
 
-        if($this->getUseAssetFallbackLocale() && $locale != $this->getAssetFallbackLocale() && $results->isEmpty()) {
-            $results = $assets->filter(function($asset){
+        if ($this->getUseAssetFallbackLocale() && $locale != $this->getAssetFallbackLocale() && $results->isEmpty()) {
+            $results = $assets->filter(function ($asset) {
                 return $asset->pivot->locale == $this->getAssetFallbackLocale();
             });
         }
+
         return $results->sortBy('pivot.order');
     }
 
@@ -58,8 +59,8 @@ trait AssetTrait
 
     protected function getAssetFallbackLocale(): string
     {
-        if(!config('thinktomorrow.assetlibrary.fallback_locale')) {
-            config()->set('thinktomorrow.assetlibrary.fallback_locale', config('app.fallback_locale')); 
+        if (! config('thinktomorrow.assetlibrary.fallback_locale')) {
+            config()->set('thinktomorrow.assetlibrary.fallback_locale', config('app.fallback_locale'));
         }
 
         return $this->assetFallbackLocale ?? config('thinktomorrow.assetlibrary.fallback_locale');

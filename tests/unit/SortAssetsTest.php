@@ -2,12 +2,12 @@
 
 namespace Thinktomorrow\AssetLibrary\Tests\unit;
 
-use Thinktomorrow\AssetLibrary\Asset;
 use Illuminate\Support\Facades\Artisan;
-use Thinktomorrow\AssetLibrary\Tests\TestCase;
-use Thinktomorrow\AssetLibrary\Tests\stubs\Article;
 use Thinktomorrow\AssetLibrary\Application\AddAsset;
 use Thinktomorrow\AssetLibrary\Application\SortAssets;
+use Thinktomorrow\AssetLibrary\Asset;
+use Thinktomorrow\AssetLibrary\Tests\stubs\Article;
+use Thinktomorrow\AssetLibrary\Tests\TestCase;
 
 class SortAssetsTest extends TestCase
 {
@@ -18,12 +18,12 @@ class SortAssetsTest extends TestCase
         Article::migrate();
     }
 
-   public function tearDown(): void
-   {
-       Artisan::call('medialibrary:clear');
+    public function tearDown(): void
+    {
+        Artisan::call('medialibrary:clear');
 
-       parent::tearDown();
-   }
+        parent::tearDown();
+    }
 
     /** @test */
     public function it_can_sort_images()
@@ -40,7 +40,6 @@ class SortAssetsTest extends TestCase
         app(AddAsset::class)->add($article, $asset3, 'banner', 'en');
 
         app(AddAsset::class)->add($article, Asset::create(), 'fail', 'en');
-
 
         app(SortAssets::class)->handle($article, [(string) $asset3->id, (string) $asset1->id, (string) $asset2->id], 'banner', 'en');
 

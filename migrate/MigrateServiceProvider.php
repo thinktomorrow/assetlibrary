@@ -8,7 +8,6 @@ class MigrateServiceProvider extends ServiceProvider
 {
     public function boot()
     {
-
     }
 
     /**
@@ -18,7 +17,7 @@ class MigrateServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        if($this->app->runningInConsole()) {
+        if ($this->app->runningInConsole()) {
             $this->app->bind('command.assetlibrary:migrate-image', ImageToAssetMigrateCommand::class);
             $this->commands([
                 'command.assetlibrary:migrate-image',

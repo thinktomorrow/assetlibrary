@@ -7,10 +7,8 @@ use Illuminate\Support\Facades\Artisan;
 use Thinktomorrow\AssetLibrary\Application\AddAsset;
 use Thinktomorrow\AssetLibrary\Application\AssetUploader;
 use Thinktomorrow\AssetLibrary\Asset;
-use Thinktomorrow\AssetLibrary\Exceptions\AssetUploadException;
 use Thinktomorrow\AssetLibrary\Exceptions\ConfigException;
 use Thinktomorrow\AssetLibrary\Exceptions\CorruptMediaException;
-use Thinktomorrow\AssetLibrary\Models\AssetLibrary;
 use Thinktomorrow\AssetLibrary\Tests\stubs\Article;
 use Thinktomorrow\AssetLibrary\Tests\TestCase;
 
@@ -230,8 +228,6 @@ class AssetTest extends TestCase
         $this->assertEquals($asset1->id, $original->assetRelation->where('pivot.order', 2)->last()->id);
     }
 
-
-
     /**
      * @test
      */
@@ -242,8 +238,8 @@ class AssetTest extends TestCase
         //upload a single image
         $asset   = $this->getUploadedAsset();
 
-        app(AddAsset::class)->add($original->fresh(), $asset, 'foo',  'en');
-        app(AddAsset::class)->add($original, $original->assetRelation()->first(), 'bar',  'en');
+        app(AddAsset::class)->add($original->fresh(), $asset, 'foo', 'en');
+        app(AddAsset::class)->add($original, $original->assetRelation()->first(), 'bar', 'en');
 
         $this->assertCount(2, $original->assets());
     }
@@ -258,11 +254,11 @@ class AssetTest extends TestCase
         //upload a single image
         $asset   = $this->getUploadedAsset();
 
-        app(AddAsset::class)->add($original->fresh(), $asset, 'xxx',  'en');
-        app(AddAsset::class)->add($original, $original->assetRelation()->first(), 'xxx',  'nl');
+        app(AddAsset::class)->add($original->fresh(), $asset, 'xxx', 'en');
+        app(AddAsset::class)->add($original, $original->assetRelation()->first(), 'xxx', 'nl');
 
-        $this->assertCount(1, $original->assets('xxx',  'en'));
-        $this->assertCount(1, $original->assets('xxx',  'nl'));
+        $this->assertCount(1, $original->assets('xxx', 'en'));
+        $this->assertCount(1, $original->assets('xxx', 'nl'));
     }
 
     /**

@@ -44,6 +44,4 @@ class NullAssetTest extends TestCase
 
         $this->assertEquals(false, $article->asset('banner')->exists());
     }
-
-    
 }

@@ -19,7 +19,7 @@ class SortAssets
         $assets = $model->assetRelation()->where('asset_pivots.type', $type)->where('asset_pivots.locale', $locale)->get();
 
         foreach ($assets as $asset) {
-            $pivot = $asset->pivot;
+            $pivot        = $asset->pivot;
             $pivot->order = array_search($asset->id, $sorting);
 
             $pivot->save();

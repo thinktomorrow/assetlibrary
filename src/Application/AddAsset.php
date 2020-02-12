@@ -52,7 +52,7 @@ class AddAsset
         return $assets;
     }
 
-    public function setOrder(int $order = null): AddAsset
+    public function setOrder(int $order = null): self
     {
         $this->order = $order;
 
@@ -78,7 +78,9 @@ class AddAsset
 
     private function uploadAssetFromInput($file, ?string $filename = null): Asset
     {
-        if($file instanceof Asset) return $file;
+        if ($file instanceof Asset) {
+            return $file;
+        }
 
         if (is_string($file)) {
             return AssetUploader::uploadFromBase64($file, $filename);
