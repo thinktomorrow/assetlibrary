@@ -10,8 +10,6 @@ class ReplaceAsset
     /**
      * Remove the asset and attaches a new one.
      *
-     * @deprecated leaving the type and locale empty is deprecated and is no longer supported from 0.7.0
-     *
      * @param $replace
      * @param $with
      * @param $type
@@ -19,11 +17,11 @@ class ReplaceAsset
      * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
      * @throws \Thinktomorrow\AssetLibrary\Exceptions\AssetUploadException
      */
-    public function handle(HasAsset $model, $replace, $with, $type = null, $locale = null)
+    public function handle(HasAsset $model, $replace, $with, $type, $locale)
     {
         $old = $model->assetRelation()->findOrFail($replace);
 
-        app(AddAsset::class)->add($model, Asset::findOrFail($with), $type??$old->pivot->type, $locale??$old->pivot->locale);
+        app(AddAsset::class)->add($model, Asset::findOrFail($with), $type, $locale);
 
         app(DetachAsset::class)->detach($model, $old->id, $type, $locale);
     }

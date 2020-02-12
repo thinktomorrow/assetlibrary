@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1579621603">
-  <project timestamp="1579621603">
+<coverage generated="1581520843">
+  <project timestamp="1581520843">
     <package name="Thinktomorrow\AssetLibrary\Application">
       <file name="/Users/philippedamen/projects/assetlibrary/src/Application/AddAsset.php">
         <class name="Thinktomorrow\AssetLibrary\Application\AddAsset" namespace="Thinktomorrow\AssetLibrary\Application">
           <metrics complexity="10" methods="5" coveredmethods="5" conditionals="0" coveredconditionals="0" statements="16" coveredstatements="16" elements="21" coveredelements="21"/>
         </class>
-        <line num="25" type="method" name="add" visibility="public" complexity="2" crap="2" count="57"/>
-        <line num="27" type="stmt" count="57"/>
-        <line num="29" type="stmt" count="57"/>
-        <line num="31" type="stmt" count="57"/>
+        <line num="25" type="method" name="add" visibility="public" complexity="2" crap="2" count="59"/>
+        <line num="27" type="stmt" count="59"/>
+        <line num="29" type="stmt" count="59"/>
+        <line num="31" type="stmt" count="59"/>
         <line num="43" type="method" name="addMultiple" visibility="public" complexity="2" crap="2" count="5"/>
         <line num="45" type="stmt" count="5"/>
         <line num="48" type="stmt" count="5"/>
@@ -19,11 +19,11 @@
         <line num="55" type="method" name="setOrder" visibility="public" complexity="1" crap="1" count="13"/>
         <line num="57" type="stmt" count="13"/>
         <line num="59" type="stmt" count="13"/>
-        <line num="74" type="method" name="attachAssetToModel" visibility="private" complexity="1" crap="1" count="57"/>
-        <line num="76" type="stmt" count="57"/>
-        <line num="77" type="stmt" count="57"/>
-        <line num="79" type="method" name="uploadAssetFromInput" visibility="private" complexity="4" crap="4" count="57"/>
-        <line num="81" type="stmt" count="57"/>
+        <line num="74" type="method" name="attachAssetToModel" visibility="private" complexity="1" crap="1" count="59"/>
+        <line num="76" type="stmt" count="59"/>
+        <line num="77" type="stmt" count="59"/>
+        <line num="79" type="method" name="uploadAssetFromInput" visibility="private" complexity="4" crap="4" count="59"/>
+        <line num="81" type="stmt" count="59"/>
         <line num="83" type="stmt" count="20"/>
         <line num="84" type="stmt" count="6"/>
         <line num="87" type="stmt" count="14"/>
@@ -143,24 +143,24 @@
         <class name="Thinktomorrow\AssetLibrary\Application\ReplaceAsset" namespace="Thinktomorrow\AssetLibrary\Application">
           <metrics complexity="1" methods="1" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="4" coveredstatements="4" elements="5" coveredelements="5"/>
         </class>
-        <line num="18" type="method" name="handle" visibility="public" complexity="1" crap="1" count="3"/>
-        <line num="20" type="stmt" count="3"/>
+        <line num="20" type="method" name="handle" visibility="public" complexity="1" crap="1" count="3"/>
         <line num="22" type="stmt" count="3"/>
         <line num="24" type="stmt" count="3"/>
-        <line num="25" type="stmt" count="3"/>
-        <metrics loc="26" ncloc="18" classes="1" methods="1" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="4" coveredstatements="4" elements="5" coveredelements="5"/>
+        <line num="26" type="stmt" count="3"/>
+        <line num="27" type="stmt" count="3"/>
+        <metrics loc="28" ncloc="18" classes="1" methods="1" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="4" coveredstatements="4" elements="5" coveredelements="5"/>
       </file>
       <file name="/Users/philippedamen/projects/assetlibrary/src/Application/SortAssets.php">
         <class name="Thinktomorrow\AssetLibrary\Application\SortAssets" namespace="Thinktomorrow\AssetLibrary\Application">
           <metrics complexity="2" methods="1" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="6" coveredstatements="6" elements="7" coveredelements="7"/>
         </class>
-        <line num="17" type="method" name="handle" visibility="public" complexity="2" crap="2" count="2"/>
-        <line num="19" type="stmt" count="2"/>
-        <line num="21" type="stmt" count="2"/>
-        <line num="22" type="stmt" count="2"/>
-        <line num="23" type="stmt" count="2"/>
-        <line num="25" type="stmt" count="2"/>
-        <line num="27" type="stmt" count="2"/>
+        <line num="17" type="method" name="handle" visibility="public" complexity="2" crap="2" count="4"/>
+        <line num="19" type="stmt" count="4"/>
+        <line num="21" type="stmt" count="4"/>
+        <line num="22" type="stmt" count="4"/>
+        <line num="23" type="stmt" count="4"/>
+        <line num="25" type="stmt" count="4"/>
+        <line num="27" type="stmt" count="4"/>
         <metrics loc="28" ncloc="20" classes="1" methods="1" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="6" coveredstatements="6" elements="7" coveredelements="7"/>
       </file>
     </package>
@@ -237,49 +237,49 @@
         <class name="Thinktomorrow\AssetLibrary\AssetLibraryServiceProvider" namespace="Thinktomorrow\AssetLibrary">
           <metrics complexity="2" methods="2" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="9" coveredstatements="9" elements="11" coveredelements="11"/>
         </class>
-        <line num="10" type="method" name="boot" visibility="public" complexity="1" crap="1" count="91"/>
-        <line num="12" type="stmt" count="91"/>
-        <line num="14" type="stmt" count="91"/>
-        <line num="15" type="stmt" count="91"/>
-        <line num="16" type="stmt" count="91"/>
-        <line num="18" type="stmt" count="91"/>
-        <line num="19" type="stmt" count="91"/>
-        <line num="26" type="method" name="register" visibility="public" complexity="1" crap="1" count="91"/>
-        <line num="28" type="stmt" count="91"/>
-        <line num="30" type="stmt" count="91"/>
-        <line num="31" type="stmt" count="91"/>
+        <line num="10" type="method" name="boot" visibility="public" complexity="1" crap="1" count="93"/>
+        <line num="12" type="stmt" count="93"/>
+        <line num="14" type="stmt" count="93"/>
+        <line num="15" type="stmt" count="93"/>
+        <line num="16" type="stmt" count="93"/>
+        <line num="18" type="stmt" count="93"/>
+        <line num="19" type="stmt" count="93"/>
+        <line num="26" type="method" name="register" visibility="public" complexity="1" crap="1" count="93"/>
+        <line num="28" type="stmt" count="93"/>
+        <line num="30" type="stmt" count="93"/>
+        <line num="31" type="stmt" count="93"/>
         <metrics loc="32" ncloc="27" classes="1" methods="2" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="9" coveredstatements="9" elements="11" coveredelements="11"/>
       </file>
       <file name="/Users/philippedamen/projects/assetlibrary/src/AssetTrait.php">
         <class name="AssetTrait" namespace="Thinktomorrow\AssetLibrary">
           <metrics complexity="15" methods="6" coveredmethods="6" conditionals="0" coveredconditionals="0" statements="20" coveredstatements="20" elements="26" coveredelements="26"/>
         </class>
-        <line num="13" type="method" name="bootAssetTrait" visibility="public" complexity="1" crap="1" count="63"/>
+        <line num="13" type="method" name="bootAssetTrait" visibility="public" complexity="1" crap="1" count="65"/>
         <line num="17" type="stmt" count="1"/>
         <line num="18" type="stmt" count="1"/>
-        <line num="19" type="stmt" count="63"/>
-        <line num="20" type="stmt" count="63"/>
-        <line num="22" type="method" name="assetRelation" visibility="public" complexity="1" crap="1" count="63"/>
-        <line num="24" type="stmt" count="63"/>
+        <line num="19" type="stmt" count="65"/>
+        <line num="20" type="stmt" count="65"/>
+        <line num="22" type="method" name="assetRelation" visibility="public" complexity="1" crap="1" count="65"/>
+        <line num="24" type="stmt" count="65"/>
         <line num="27" type="method" name="asset" visibility="public" complexity="3" crap="3" count="42"/>
         <line num="29" type="stmt" count="42"/>
-        <line num="32" type="method" name="assets" visibility="public" complexity="7" crap="7" count="54"/>
-        <line num="34" type="stmt" count="54"/>
-        <line num="36" type="stmt" count="54"/>
-        <line num="37" type="stmt" count="53"/>
-        <line num="40" type="stmt" count="54"/>
-        <line num="43" type="stmt" count="49"/>
-        <line num="44" type="stmt" count="54"/>
-        <line num="46" type="stmt" count="54"/>
+        <line num="32" type="method" name="assets" visibility="public" complexity="7" crap="7" count="56"/>
+        <line num="34" type="stmt" count="56"/>
+        <line num="36" type="stmt" count="56"/>
+        <line num="37" type="stmt" count="55"/>
+        <line num="40" type="stmt" count="56"/>
+        <line num="43" type="stmt" count="51"/>
+        <line num="44" type="stmt" count="56"/>
+        <line num="46" type="stmt" count="56"/>
         <line num="48" type="stmt" count="5"/>
         <line num="49" type="stmt" count="12"/>
-        <line num="51" type="stmt" count="54"/>
-        <line num="54" type="method" name="getUseAssetFallbackLocale" visibility="protected" complexity="1" crap="1" count="54"/>
-        <line num="56" type="stmt" count="54"/>
-        <line num="59" type="method" name="getAssetFallbackLocale" visibility="protected" complexity="2" crap="2" count="53"/>
-        <line num="61" type="stmt" count="53"/>
-        <line num="62" type="stmt" count="51"/>
-        <line num="65" type="stmt" count="53"/>
+        <line num="51" type="stmt" count="56"/>
+        <line num="54" type="method" name="getUseAssetFallbackLocale" visibility="protected" complexity="1" crap="1" count="56"/>
+        <line num="56" type="stmt" count="56"/>
+        <line num="59" type="method" name="getAssetFallbackLocale" visibility="protected" complexity="2" crap="2" count="55"/>
+        <line num="61" type="stmt" count="55"/>
+        <line num="62" type="stmt" count="53"/>
+        <line num="65" type="stmt" count="55"/>
         <metrics loc="67" ncloc="67" classes="1" methods="6" coveredmethods="6" conditionals="0" coveredconditionals="0" statements="20" coveredstatements="20" elements="26" coveredelements="26"/>
       </file>
       <file name="/Users/philippedamen/projects/assetlibrary/src/NullAsset.php">
@@ -322,6 +322,6 @@
     <file name="/Users/philippedamen/projects/assetlibrary/src/HasAsset.php">
       <metrics loc="16" ncloc="16" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
     </file>
-    <metrics files="14" loc="809" ncloc="611" classes="12" methods="46" coveredmethods="46" conditionals="0" coveredconditionals="0" statements="188" coveredstatements="188" elements="234" coveredelements="234"/>
+    <metrics files="14" loc="811" ncloc="611" classes="12" methods="46" coveredmethods="46" conditionals="0" coveredconditionals="0" statements="188" coveredstatements="188" elements="234" coveredelements="234"/>
   </project>
 </coverage>

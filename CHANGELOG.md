@@ -4,6 +4,13 @@ All Notable changes to `AssetLibrary` will be documented in this file.
 
 Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
 
+## 0.7.0 - 2020-01-21
+
+### Changed
+
+- Replace asset now also takes type and locale to make sure we only replace the asset we want.
+- SortAsset now also take locale and the parameters have been swapped in order.
+
 ## 0.6.6 - 2020-01-21
 
 ### Changed

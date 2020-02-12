@@ -14,9 +14,9 @@ class SortAssets
      * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
      * @throws \Thinktomorrow\AssetLibrary\Exceptions\AssetUploadException
      */
-    public function handle(HasAsset $model, $type, $sorting)
+    public function handle(HasAsset $model, $sorting, $type, $locale)
     {
-        $assets = $model->assetRelation()->where('asset_pivots.type', $type)->get();
+        $assets = $model->assetRelation()->where('asset_pivots.type', $type)->where('asset_pivots.locale', $locale)->get();
 
         foreach ($assets as $asset) {
             $pivot = $asset->pivot;

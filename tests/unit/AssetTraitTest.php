@@ -97,61 +97,6 @@ class AssetTraitTest extends TestCase
         $this->assertCount(0, Article::first()->assets());
     }
 
-
-
-    /** @test */
-    public function it_can_sort_images()
-    {
-        $article = Article::create();
-
-        $asset1 = Asset::create();
-        app(AddAsset::class)->add($article, $asset1, 'banner', 'en');
-
-        $asset2 = Asset::create();
-        app(AddAsset::class)->add($article, $asset2, 'banner', 'en');
-
-        $asset3 = Asset::create();
-        app(AddAsset::class)->add($article, $asset3, 'banner', 'en');
-
-        app(AddAsset::class)->add($article, Asset::create(), 'fail', 'en');
-
-
-        app(SortAssets::class)->handle($article, 'banner', [(string) $asset3->id, (string) $asset1->id, (string) $asset2->id]);
-
-        $images = $article->assets('banner');
-
-        $this->assertCount(3, $images);
-        $this->assertEquals($asset2->id, $images->pop()->id);
-        $this->assertEquals($asset1->id, $images->pop()->id);
-        $this->assertEquals($asset3->id, $images->pop()->id);
-    }
-
-    /** @test */
-    public function it_can_sort_images_with_specified_keys()
-    {
-        $article = Article::create();
-
-        $asset1 = Asset::create();
-        app(AddAsset::class)->add($article, $asset1, 'banner', 'en');
-
-        $asset2 = Asset::create();
-        app(AddAsset::class)->add($article, $asset2, 'banner', 'en');
-
-        $asset3 = Asset::create();
-        app(AddAsset::class)->add($article, $asset3, 'banner', 'en');
-
-        app(AddAsset::class)->add($article, Asset::create(), 'fail', 'en');
-
-        app(SortAssets::class)->handle($article, 'banner', [5 => (string) $asset3->id, 1 => (string) $asset1->id, 9 => (string) $asset2->id]);
-
-        $images = $article->assets('banner');
-
-        $this->assertCount(3, $images);
-        $this->assertEquals($asset2->id, $images->pop()->id);
-        $this->assertEquals($asset3->id, $images->pop()->id);
-        $this->assertEquals($asset1->id, $images->pop()->id);
-    }
-
     /** @test */
     public function it_has_no_problem_with_upper_case_extentions()
     {
