@@ -23,7 +23,7 @@ class ReplaceAsset
     {
         $old = $model->assetRelation()->findOrFail($replace);
 
-        app(AddAsset::class)->add($model, Asset::findOrFail($with), $type??$old->pivot->type, $locale??$old->pivot->locale);
+        app(AddAsset::class)->add($model, Asset::findOrFail($with), $type ?? $old->pivot->type, $locale ?? $old->pivot->locale);
 
         app(DetachAsset::class)->detach($model, $old->id, $type, $locale);
     }

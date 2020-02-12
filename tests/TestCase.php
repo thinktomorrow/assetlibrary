@@ -2,14 +2,14 @@
 
 namespace Thinktomorrow\AssetLibrary\Tests;
 
-use Illuminate\Support\Facades\DB;
-use Illuminate\Foundation\Exceptions\Handler;
 use Illuminate\Contracts\Debug\ExceptionHandler;
+use Illuminate\Foundation\Exceptions\Handler;
+use Illuminate\Support\Facades\DB;
 use Orchestra\Testbench\TestCase as BaseTestCase;
-use Spatie\MediaLibrary\ImageGenerators\FileTypes\Svg;
-use Spatie\MediaLibrary\ImageGenerators\FileTypes\Webp;
 use Spatie\MediaLibrary\ImageGenerators\FileTypes\Image;
+use Spatie\MediaLibrary\ImageGenerators\FileTypes\Svg;
 use Spatie\MediaLibrary\ImageGenerators\FileTypes\Video;
+use Spatie\MediaLibrary\ImageGenerators\FileTypes\Webp;
 
 class TestCase extends BaseTestCase
 {
@@ -106,7 +106,7 @@ class TestCase extends BaseTestCase
             Video::class,
         ]);
     }
-    
+
     public function getTempDirectory($suffix = '')
     {
         return __DIR__.'/temp'.($suffix == '' ? '' : '/'.$suffix);

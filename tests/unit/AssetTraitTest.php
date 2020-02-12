@@ -97,8 +97,6 @@ class AssetTraitTest extends TestCase
         $this->assertCount(0, Article::first()->assets());
     }
 
-
-
     /** @test */
     public function it_can_sort_images()
     {
@@ -114,7 +112,6 @@ class AssetTraitTest extends TestCase
         app(AddAsset::class)->add($article, $asset3, 'banner', 'en');
 
         app(AddAsset::class)->add($article, Asset::create(), 'fail', 'en');
-
 
         app(SortAssets::class)->handle($article, 'banner', [(string) $asset3->id, (string) $asset1->id, (string) $asset2->id]);
 

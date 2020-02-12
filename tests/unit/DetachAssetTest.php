@@ -2,16 +2,15 @@
 
 namespace Thinktomorrow\AssetLibrary\Tests\unit;
 
-use Thinktomorrow\AssetLibrary\Asset;
 use Illuminate\Support\Facades\Artisan;
-use Thinktomorrow\AssetLibrary\Tests\TestCase;
-use Thinktomorrow\AssetLibrary\Tests\stubs\Article;
 use Thinktomorrow\AssetLibrary\Application\AddAsset;
 use Thinktomorrow\AssetLibrary\Application\DetachAsset;
+use Thinktomorrow\AssetLibrary\Asset;
+use Thinktomorrow\AssetLibrary\Tests\stubs\Article;
+use Thinktomorrow\AssetLibrary\Tests\TestCase;
 
 class DetachAssetTest extends TestCase
 {
-
     public function setUp(): void
     {
         parent:: setUp();
@@ -27,8 +26,8 @@ class DetachAssetTest extends TestCase
     }
 
     /**
-        * @test
-        */
+     * @test
+     */
     public function it_can_detach_an_asset()
     {
         //upload a single image
@@ -41,8 +40,8 @@ class DetachAssetTest extends TestCase
     }
 
     /**
-        * @test
-        */
+     * @test
+     */
     public function it_can_detach_multiple_asset_from_model()
     {
         $article = $this->getArticleWithAsset('image');
@@ -58,8 +57,8 @@ class DetachAssetTest extends TestCase
     }
 
     /**
-    * @test
-    */
+     * @test
+     */
     public function it_can_detach_all_assets_from_model()
     {
         $article = $this->getArticleWithAsset('image');
@@ -75,8 +74,8 @@ class DetachAssetTest extends TestCase
     }
 
     /**
-    * @test
-    */
+     * @test
+     */
     public function it_can_detach_all_assets_with_type_from_model()
     {
         $article = $this->getArticleWithAsset('image');

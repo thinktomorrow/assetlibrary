@@ -67,7 +67,7 @@ class ImageToAssetMigrateCommand extends Command
 
         $this->info("\n".'Migrating images.');
 
-        $orderedResults->each(function($result) use($bar, $isDry){
+        $orderedResults->each(function ($result) use ($bar, $isDry) {
             $this->processLines($result, $bar, $isDry);
         });
 
@@ -84,12 +84,12 @@ class ImageToAssetMigrateCommand extends Command
         foreach ($result['images'] as $line) {
             $bar->advance();
 
-            if(! $line) {
+            if (! $line) {
                 $this->unreachable++;
                 continue;
             }
 
-            if($isDry){
+            if ($isDry) {
                 $this->files++;
                 continue;
             }
@@ -103,7 +103,7 @@ class ImageToAssetMigrateCommand extends Command
                 continue;
             }
 
-            app(AddAsset::class)->setOrder($result['order'])->add($result['model'], $asset, ($result['type']??'images'), ($result['locale']??app()->getLocale()));
+            app(AddAsset::class)->setOrder($result['order'])->add($result['model'], $asset, ($result['type'] ?? 'images'), ($result['locale'] ?? app()->getLocale()));
 
             if ($this->option('force')) {
                 unlink(public_path($line));
@@ -165,19 +165,19 @@ class ImageToAssetMigrateCommand extends Command
 
             if ($this->ordercolumn) {
                 $formattedResults['order'] = $result->{$this->ordercolumn};
-            }else{
+            } else {
                 $formattedResults['order'] = null;
             }
 
             if ($this->typecolumn) {
                 $formattedResults['type'] = $result->{$this->typecolumn};
-            }else{
+            } else {
                 $formattedResults['type'] = null;
             }
 
             if ($this->localecolumn) {
                 $formattedResults['locale'] = $result->{$this->localecolumn};
-            }else{
+            } else {
                 $formattedResults['locale'] = null;
             }
 
