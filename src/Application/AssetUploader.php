@@ -2,14 +2,14 @@
 
 namespace Thinktomorrow\AssetLibrary\Application;
 
-use Traversable;
-use Illuminate\Support\Str;
-use InvalidArgumentException;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Collection;
-use Thinktomorrow\AssetLibrary\Asset;
-use Spatie\MediaLibrary\FileAdder\FileAdder;
+use Illuminate\Support\Str;
+use InvalidArgumentException;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded;
+use Spatie\MediaLibrary\FileAdder\FileAdder;
+use Thinktomorrow\AssetLibrary\Asset;
+use Traversable;
 
 class AssetUploader
 {
@@ -24,7 +24,7 @@ class AssetUploader
      */
     public static function upload($files, ?string $filename = null)
     {
-        if (!$files) {
+        if (! $files) {
             throw new InvalidArgumentException();
         }
 
@@ -36,7 +36,7 @@ class AssetUploader
             return self::uploadMultiple($files);
         }
 
-        if(!($files instanceof UploadedFile)){
+        if (! ($files instanceof UploadedFile)) {
             throw new InvalidArgumentException();
         }
 
@@ -105,7 +105,7 @@ class AssetUploader
      */
     public static function uploadToAsset($file, $asset, $filename = null): Asset
     {
-        if (!$file) {
+        if (! $file) {
             throw new InvalidArgumentException();
         }
 
