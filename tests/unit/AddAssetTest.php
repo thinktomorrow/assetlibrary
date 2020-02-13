@@ -4,6 +4,7 @@ namespace Thinktomorrow\AssetLibrary\Tests\unit;
 
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Artisan;
+use InvalidArgumentException;
 use Thinktomorrow\AssetLibrary\Application\AddAsset;
 use Thinktomorrow\AssetLibrary\Application\AssetUploader;
 use Thinktomorrow\AssetLibrary\Asset;
@@ -225,6 +226,17 @@ class AddAssetTest extends TestCase
         $article = $this->getArticleWithAsset('banner');
 
         $asset = app(AddAsset::class)->add($article, UploadedFile::fake()->image('imageFR.png'), 'banner', 'fr');
+
+        $this->assertInstanceOf(Asset::class, $asset);
+    }
+
+    /** @test */
+    public function adding_empty_file_throws_exception()
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $article = $this->getArticleWithAsset('banner');
+
+        $asset = app(AddAsset::class)->add($article, null, 'banner', 'fr');
 
         $this->assertInstanceOf(Asset::class, $asset);
     }

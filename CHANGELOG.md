@@ -10,6 +10,7 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 
 - Replace asset now also takes type and locale to make sure we only replace the asset we want.
 - SortAsset now also take locale and the parameters have been swapped in order.
+- Added checks for invalid parameters to assetuploader
 
 ## 0.6.6 - 2020-01-21
 

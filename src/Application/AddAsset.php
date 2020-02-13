@@ -3,6 +3,7 @@
 namespace Thinktomorrow\AssetLibrary\Application;
 
 use Illuminate\Support\Collection;
+use InvalidArgumentException;
 use Thinktomorrow\AssetLibrary\Asset;
 use Thinktomorrow\AssetLibrary\Exceptions\AssetUploadException;
 use Thinktomorrow\AssetLibrary\HasAsset;

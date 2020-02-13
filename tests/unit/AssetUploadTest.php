@@ -4,6 +4,7 @@ namespace Thinktomorrow\AssetLibrary\Tests\unit;
 
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Artisan;
+use InvalidArgumentException;
 use Thinktomorrow\AssetLibrary\Application\AddAsset;
 use Thinktomorrow\AssetLibrary\Application\AssetUploader;
 use Thinktomorrow\AssetLibrary\Asset;
@@ -102,12 +103,20 @@ class AssetUploadTest extends TestCase
     /**
      * @test
      */
-    public function it_returns_null_when_uploading_an_invalid_file()
+    public function it_throws_an_error_when_uploading_an_invalid_file()
     {
+        $this->expectException(InvalidArgumentException::class);
         //upload a single image
-        $asset = AssetUploader::upload(5);
+        AssetUploader::upload(5);
+    }
 
-        $this->assertNull($asset);
+    /** @test */
+    public function it_throws_an_error_when_passing_null_instead_of_a_file()
+    {
+        $this->expectException(InvalidArgumentException::class);
+        //upload a single image
+
+        AssetUploader::uploadToAsset(null, Asset::create());
     }
 
     /**
@@ -160,5 +169,15 @@ class AssetUploadTest extends TestCase
 
         $this->assertEquals('/media/1/image.png', $asset->url());
         $this->assertEquals('/media/1/image.png', $asset2->url());
+    }
+
+    /**
+     * @test
+     */
+    public function it_throws_exception_if_file_is_null()
+    {
+        $this->expectException(InvalidArgumentException::class);
+
+        AssetUploader::upload(null);
     }
 }

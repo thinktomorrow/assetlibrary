@@ -2,13 +2,14 @@
 
 namespace Thinktomorrow\AssetLibrary\Application;
 
+use Traversable;
+use Illuminate\Support\Str;
+use InvalidArgumentException;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Str;
-use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded;
-use Spatie\MediaLibrary\FileAdder\FileAdder;
 use Thinktomorrow\AssetLibrary\Asset;
-use Traversable;
+use Spatie\MediaLibrary\FileAdder\FileAdder;
+use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded;
 
 class AssetUploader
 {
@@ -23,6 +24,10 @@ class AssetUploader
      */
     public static function upload($files, ?string $filename = null)
     {
+        if (!$files) {
+            throw new InvalidArgumentException();
+        }
+
         if ($files instanceof Asset) {
             return $files;
         }
@@ -31,8 +36,8 @@ class AssetUploader
             return self::uploadMultiple($files);
         }
 
-        if (! ($files instanceof UploadedFile)) {
-            return;
+        if(!($files instanceof UploadedFile)){
+            throw new InvalidArgumentException();
         }
 
         return self::uploadToAsset($files, Asset::create(), $filename);
@@ -70,7 +75,7 @@ class AssetUploader
      * @return Collection|null|Asset
      * @throws FileCannotBeAdded
      */
-    public static function uploadFromBase64($file, $filename = null)
+    public static function uploadFromBase64(string $file, $filename = null)
     {
         return self::uploadBase64ToAsset($file, Asset::create(), $filename);
     }
@@ -83,7 +88,7 @@ class AssetUploader
      * @return Asset
      * @throws FileCannotBeAdded
      */
-    public static function uploadFromUrl($url)
+    public static function uploadFromUrl(string $url)
     {
         return self::uploadFromUrlToAsset($url, Asset::create());
     }
@@ -95,11 +100,15 @@ class AssetUploader
      * @param UploadedFile $file
      * @param Asset $asset
      * @param string|null $filename
-     * @return null|Asset
+     * @return Asset
      * @throws FileCannotBeAdded
      */
-    public static function uploadToAsset($file, $asset, $filename = null): ?Asset
+    public static function uploadToAsset($file, $asset, $filename = null): Asset
     {
+        if (!$file) {
+            throw new InvalidArgumentException();
+        }
+
         $customProps = [];
         if (self::isImage($file)) {
             $imagesize = getimagesize($file);
@@ -124,11 +133,11 @@ class AssetUploader
      * @param string $file
      * @param Asset $asset
      * @param string|null $filename
-     * @return null|Asset
+     * @return Asset
      * @throws FileCannotBeAdded
      * @internal param $files
      */
-    public static function uploadBase64ToAsset($file, $asset, $filename = null): ?Asset
+    public static function uploadBase64ToAsset(string $file, $asset, $filename = null): Asset
     {
         $fileAdd = $asset->addMediaFromBase64($file);
 
@@ -153,7 +162,7 @@ class AssetUploader
      * @return Asset
      * @throws FileCannotBeAdded
      */
-    public static function uploadFromUrlToAsset($url, $asset): Asset
+    public static function uploadFromUrlToAsset(string $url, $asset): Asset
     {
         $fileAdd = $asset->addMediaFromUrl($url);
 
