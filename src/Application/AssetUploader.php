@@ -75,7 +75,7 @@ class AssetUploader
      * @return Collection|null|Asset
      * @throws FileCannotBeAdded
      */
-    public static function uploadFromBase64(string $file, $filename = null)
+    public static function uploadFromBase64(string $file, string $filename)
     {
         return self::uploadBase64ToAsset($file, Asset::create(), $filename);
     }
@@ -137,14 +137,9 @@ class AssetUploader
      * @throws FileCannotBeAdded
      * @internal param $files
      */
-    public static function uploadBase64ToAsset(string $file, $asset, $filename = null): Asset
+    public static function uploadBase64ToAsset(string $file, $asset, string $filename): Asset
     {
         $fileAdd = $asset->addMediaFromBase64($file);
-
-        if (! $filename) {
-            $extension = substr($file, 11, strpos($file, ';') - 11);
-            $filename  = pathinfo($file, PATHINFO_BASENAME).'.'.$extension;
-        }
 
         $fileAdd = self::prepareOptions($fileAdd, $filename);
 

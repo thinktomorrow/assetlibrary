@@ -4,6 +4,12 @@ All Notable changes to `AssetLibrary` will be documented in this file.
 
 Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
 
+## 0.7.1 - 2020-02-17
+
+### Changed
+
+- Assetuploader base64 now requires a filename. if uploaded through addAsset a random default is chosen as filename.
+
 ## 0.7.0 - 2020-01-21
 
 ### Changed
