@@ -22,7 +22,7 @@
     ],
     "require": {
         "php": ">=7.2.0",
-        "spatie/laravel-medialibrary": "~7.17"
+        "spatie/laravel-medialibrary": "~7.19"
     },
     "require-dev": {
         "orchestra/testbench": "3.7.*|3.8.*|4.4.*|4.6.*",
