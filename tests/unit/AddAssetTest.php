@@ -192,7 +192,6 @@ class AddAssetTest extends TestCase
     /** @test */
     public function it_has_no_problem_with_upper_case_extentions()
     {
-        $this->disableExceptionHandling();
         $article = $this->getArticleWithAsset('banner', 'nl');
 
         $image_name = json_decode($this->getBase64WithName('test.PNG'))->output->name;

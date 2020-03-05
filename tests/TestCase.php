@@ -28,24 +28,6 @@ class TestCase extends BaseTestCase
         config(['app.fallback_locale' => 'nl']);
     }
 
-    protected function disableExceptionHandling()
-    {
-        $this->app->instance(ExceptionHandler::class, new class extends Handler {
-            public function __construct()
-            {
-            }
-
-            public function report(\Throwable $e)
-            {
-            }
-
-            public function render($request, \Throwable $e)
-            {
-                throw $e;
-            }
-        });
-    }
-
     protected function protectTestEnvironment()
     {
         if (! $this->protectTestEnvironment) {
