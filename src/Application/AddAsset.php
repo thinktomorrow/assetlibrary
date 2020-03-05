@@ -83,7 +83,10 @@ class AddAsset
         }
 
         if (is_string($file)) {
-            if(!$filename) $filename = md5(time()) . '.'. substr($file, 11, strpos($file, ';') - 11);
+            if (! $filename) {
+                $filename = md5(time()).'.'.substr($file, 11, strpos($file, ';') - 11);
+            }
+
             return AssetUploader::uploadFromBase64($file, $filename);
         }
 
