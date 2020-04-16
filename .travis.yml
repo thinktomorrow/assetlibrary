@@ -27,6 +27,7 @@ env:
       LARAVEL_VERSION="7.*"
 
 before_script:
+  - phpenv config-rm xdebug.ini
   - pear config-set preferred_state beta
   - pecl channel-update pecl.php.net
   - yes | pecl install imagick
