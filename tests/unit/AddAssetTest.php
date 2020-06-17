@@ -206,7 +206,7 @@ class AddAssetTest extends TestCase
     /**
      * @test
      */
-    public function it_cab_add_multiple_of_the_same_asset()
+    public function it_can_add_multiple_of_the_same_asset()
     {
         $original = Article::create();
 

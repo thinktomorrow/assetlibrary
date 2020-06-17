@@ -2,10 +2,11 @@
 
 namespace Thinktomorrow\AssetLibrary;
 
+use Illuminate\Support\Facades\DB;
+use Spatie\MediaLibrary\Models\Media;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
-use Spatie\MediaLibrary\Models\Media;
 use Thinktomorrow\AssetLibrary\Exceptions\ConfigException;
 use Thinktomorrow\AssetLibrary\Exceptions\CorruptMediaException;
 
@@ -136,6 +137,18 @@ class Asset extends Model implements HasMedia
         }
 
         return $this->getMedia()[0]->getCustomProperty('dimensions') ?? '';
+    }
+
+    public function isUsed()
+    {
+        $pivots = DB::table('asset_pivots')->where('asset_id', $this->id)->where('unused', false)->get();
+        return !$pivots->isEmpty();
+    }
+
+    public function isUnused()
+    {
+        $pivots = DB::table('asset_pivots')->where('asset_id', $this->id)->where('unused', false)->get();
+        return $pivots->isEmpty();
     }
 
     /**

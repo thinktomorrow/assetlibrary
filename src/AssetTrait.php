@@ -2,9 +2,9 @@
 
 namespace Thinktomorrow\AssetLibrary;
 
-use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 trait AssetTrait
 {

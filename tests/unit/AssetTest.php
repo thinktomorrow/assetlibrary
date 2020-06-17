@@ -3,14 +3,15 @@
 namespace Thinktomorrow\AssetLibrary\Tests\unit;
 
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\DB;
+use Thinktomorrow\AssetLibrary\Asset;
 use Illuminate\Support\Facades\Artisan;
+use Thinktomorrow\AssetLibrary\Tests\TestCase;
+use Thinktomorrow\AssetLibrary\Tests\stubs\Article;
 use Thinktomorrow\AssetLibrary\Application\AddAsset;
 use Thinktomorrow\AssetLibrary\Application\AssetUploader;
-use Thinktomorrow\AssetLibrary\Asset;
 use Thinktomorrow\AssetLibrary\Exceptions\ConfigException;
 use Thinktomorrow\AssetLibrary\Exceptions\CorruptMediaException;
-use Thinktomorrow\AssetLibrary\Tests\stubs\Article;
-use Thinktomorrow\AssetLibrary\Tests\TestCase;
 
 class AssetTest extends TestCase
 {
@@ -313,5 +314,27 @@ class AssetTest extends TestCase
         $asset = $this->getUploadedAsset();
 
         $this->assertEquals(true, $asset->exists());
+    }
+
+    /** @test */
+    public function asset_can_return_if_its_being_used()
+    {
+        $article = Article::create();
+        $second_article = Article::create();
+
+        $asset = $this->getUploadedAsset();
+
+        app(AddAsset::class)->add($article, $asset, 'banner', 'nl');
+        app(AddAsset::class)->add($second_article, $asset, 'banner', 'nl');
+
+        $this->assertTrue($asset->isUsed());
+
+        $article->delete();
+
+        $this->assertTrue($asset->isUsed());
+
+        $second_article->delete();
+
+        $this->assertFalse($asset->isUsed());
     }
 }
