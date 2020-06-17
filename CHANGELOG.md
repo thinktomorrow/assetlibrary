@@ -6,6 +6,8 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 
 ## unreleased
 
+## 0.7.2 - 2020-06-17
+
 - add support for laravel 7
 - add isused and is unused functions on asset as a shortcut to know if this asset is linked to a model.
 
