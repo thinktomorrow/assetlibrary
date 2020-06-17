@@ -3,15 +3,14 @@
 namespace Thinktomorrow\AssetLibrary\Tests\unit;
 
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\DB;
-use Thinktomorrow\AssetLibrary\Asset;
 use Illuminate\Support\Facades\Artisan;
-use Thinktomorrow\AssetLibrary\Tests\TestCase;
-use Thinktomorrow\AssetLibrary\Tests\stubs\Article;
 use Thinktomorrow\AssetLibrary\Application\AddAsset;
 use Thinktomorrow\AssetLibrary\Application\AssetUploader;
+use Thinktomorrow\AssetLibrary\Asset;
 use Thinktomorrow\AssetLibrary\Exceptions\ConfigException;
 use Thinktomorrow\AssetLibrary\Exceptions\CorruptMediaException;
+use Thinktomorrow\AssetLibrary\Tests\stubs\Article;
+use Thinktomorrow\AssetLibrary\Tests\TestCase;
 
 class AssetTest extends TestCase
 {
@@ -319,7 +318,7 @@ class AssetTest extends TestCase
     /** @test */
     public function asset_can_return_if_its_being_used()
     {
-        $article = Article::create();
+        $article        = Article::create();
         $second_article = Article::create();
 
         $asset = $this->getUploadedAsset();
