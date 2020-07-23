@@ -2,11 +2,12 @@
 
 namespace Thinktomorrow\AssetLibrary;
 
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
+use Spatie\MediaLibrary\Models\Media;
+use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
-use Spatie\MediaLibrary\Models\Media;
 use Thinktomorrow\AssetLibrary\Exceptions\ConfigException;
 use Thinktomorrow\AssetLibrary\Exceptions\CorruptMediaException;
 
@@ -136,7 +137,78 @@ class Asset extends Model implements HasMedia
             return $dimensions[0].' x'.$dimensions[1];
         }
 
-        return $this->getMedia()[0]->getCustomProperty('dimensions') ?? '';
+        $dimensions = '';
+        if (self::isImage($this->getMedia()[0])) {
+            $imagesize = getimagesize(public_path($this->url($size??'')));
+
+            $dimensions = $imagesize[0].' x '.$imagesize[1];
+        }
+
+        return $dimensions;
+    }
+
+    /**
+     * @param string|null $size
+     * @return string
+     */
+    public function getWidth($size = null): string
+    {
+        if ($this->isMediaEmpty()) {
+            return '';
+        }
+
+        //TODO Check the other sizes as well
+        if ($size === 'cropped') {
+            $width = explode(',', $this->getMedia()[0]->manipulations['cropped']['manualCrop']);
+
+            return $width[0];
+        }
+
+        $width = '';
+        if (self::isImage($this->getMedia()[0])) {
+            $imagesize = getimagesize(public_path($this->url($size??'')));
+
+            $width = $imagesize[0];
+        }
+
+        return $width;
+    }
+
+    /**
+     * @param string|null $size
+     * @return string
+     */
+    public function getHeight($size = null): string
+    {
+        if ($this->isMediaEmpty()) {
+            return '';
+        }
+
+        //TODO Check the other sizes as well
+        if ($size === 'cropped') {
+            $height = explode(',', $this->getMedia()[0]->manipulations['cropped']['manualCrop']);
+
+            return trim($height[1]);
+        }
+
+        $height = '';
+        if (self::isImage($this->getMedia()[0])) {
+            $imagesize = getimagesize(public_path($this->url($size??'')));
+
+            $height = $imagesize[1];
+        }
+
+        return $height;
+    }
+
+
+    /**
+     * @param UploadedFile $file
+     * @return bool
+     */
+    private static function isImage($file): bool
+    {
+        return Str::before($file->mime_type, '/') === 'image';
     }
 
     public function isUsed()

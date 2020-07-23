@@ -109,15 +109,7 @@ class AssetUploader
             throw new InvalidArgumentException();
         }
 
-        $customProps = [];
-        if (self::isImage($file)) {
-            $imagesize = getimagesize($file);
-
-            $customProps['dimensions'] = $imagesize[0].' x '.$imagesize[1];
-        }
-
-        $fileAdd = $asset->addMedia($file)
-                        ->withCustomProperties($customProps);
+        $fileAdd = $asset->addMedia($file);
 
         $fileAdd = self::prepareOptions($fileAdd, $filename);
 
@@ -169,15 +161,6 @@ class AssetUploader
         $fileAdd->toMediaCollection();
 
         return $asset->load('media');
-    }
-
-    /**
-     * @param UploadedFile $file
-     * @return bool
-     */
-    private static function isImage($file): bool
-    {
-        return Str::before($file->getMimetype() ?? '', '/') === 'image';
     }
 
     /**

@@ -122,7 +122,27 @@ class AssetTest extends TestCase
     {
         $asset = $this->getUploadedAsset();
 
-        $this->assertEquals($asset->getDimensions(), '100 x 100');
+        $this->assertEquals($asset->getDimensions(), '10 x 10');
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_get_its_width()
+    {
+        $asset = $this->getUploadedAsset();
+
+        $this->assertEquals($asset->getWidth(), '10');
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_get_its_height()
+    {
+        $asset = $this->getUploadedAsset();
+
+        $this->assertEquals($asset->getHeight(), '10');
     }
 
     /**
@@ -145,6 +165,8 @@ class AssetTest extends TestCase
         $this->assertEquals('', $asset->getMimeType());
         $this->assertEquals('', $asset->getSize());
         $this->assertEquals('', $asset->getDimensions());
+        $this->assertEquals('', $asset->getWidth());
+        $this->assertEquals('', $asset->getHeight());
     }
 
     /**
@@ -183,6 +205,8 @@ class AssetTest extends TestCase
 
         $this->assertEquals('/media/1/conversions/image-cropped.png', $asset->url('cropped'));
         $this->assertEquals('600 x 400', $asset->getDimensions('cropped'));
+        $this->assertEquals('600', $asset->getWidth('cropped'));
+        $this->assertEquals('400', $asset->getHeight('cropped'));
     }
 
     /**

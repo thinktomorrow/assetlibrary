@@ -6,6 +6,10 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 
 ## unreleased
 
+## 0.7.4 - 2020-07-23
+
+- changed image dimensions calculations and added getWidth and getHeight functions to asset.
+
 ## 0.7.3 - 2020-07-23
 
 - fixed asset deletion
