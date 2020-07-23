@@ -138,8 +138,10 @@ class Asset extends Model implements HasMedia
         }
 
         $dimensions = '';
-        if (self::isImage($this->getMedia()[0])) {
-            $imagesize = getimagesize(public_path($this->url($size??'')));
+        $file_path = public_path($this->url($size??''));
+        if (self::isImage($this->getMedia()[0]) && file_exists($file_path)) {
+
+            $imagesize = getimagesize($file_path);
 
             $dimensions = $imagesize[0].' x '.$imagesize[1];
         }
@@ -165,8 +167,10 @@ class Asset extends Model implements HasMedia
         }
 
         $width = '';
-        if (self::isImage($this->getMedia()[0])) {
-            $imagesize = getimagesize(public_path($this->url($size??'')));
+        $file_path = public_path($this->url($size??''));
+        if (self::isImage($this->getMedia()[0]) && file_exists($file_path)) {
+
+            $imagesize = getimagesize($file_path);
 
             $width = $imagesize[0];
         }
@@ -192,8 +196,10 @@ class Asset extends Model implements HasMedia
         }
 
         $height = '';
-        if (self::isImage($this->getMedia()[0])) {
-            $imagesize = getimagesize(public_path($this->url($size??'')));
+        $file_path = public_path($this->url($size??''));
+        if (self::isImage($this->getMedia()[0]) && file_exists($file_path)) {
+
+            $imagesize = getimagesize($file_path);
 
             $height = $imagesize[1];
         }
