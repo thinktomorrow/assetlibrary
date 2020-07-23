@@ -32,7 +32,7 @@ class DeleteAsset
         if (! $id) {
             return false;
         }
-        $asset = Asset::find($id)->first();
+        $asset = Asset::find($id);
 
         $media = $asset->media;
         foreach ($media as $file) {

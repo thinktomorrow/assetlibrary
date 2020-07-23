@@ -6,6 +6,10 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 
 ## unreleased
 
+## 0.7.3 - 2020-07-23
+
+- fixed asset deletion
+
 ## 0.7.2 - 2020-06-17
 
 - add support for laravel 7
