@@ -100,10 +100,14 @@ class AssetUploader
      * @param UploadedFile $file
      * @param Asset $asset
      * @param string|null $filename
+     * @param bool $responsive
      * @return Asset
      * @throws FileCannotBeAdded
+     * @throws FileCannotBeAdded\DiskDoesNotExist
+     * @throws FileCannotBeAdded\FileDoesNotExist
+     * @throws FileCannotBeAdded\FileIsTooBig
      */
-    public static function uploadToAsset($file, $asset, $filename = null): Asset
+    public static function uploadToAsset($file, $asset, $filename = null, bool $responsive = false): Asset
     {
         if (! $file) {
             throw new InvalidArgumentException();
@@ -113,7 +117,11 @@ class AssetUploader
 
         $fileAdd = self::prepareOptions($fileAdd, $filename);
 
-        $fileAdd->withResponsiveImages()->toMediaCollection();
+        if($responsive) {
+            $fileAdd = $fileAdd->withResponsiveImages();
+        }
+
+        $fileAdd->toMediaCollection();
 
         return $asset->load('media');
     }
