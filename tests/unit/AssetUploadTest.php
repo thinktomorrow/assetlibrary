@@ -174,6 +174,21 @@ class AssetUploadTest extends TestCase
     /**
      * @test
      */
+    public function it_can_upload_an_asset_to_different_disk()
+    {
+        $asset = AssetUploader::upload(
+            UploadedFile::fake()->image('image.png'),
+            'testname.jpg',
+            'default', // no way to change collection via assets for now...
+            'local'
+        );
+
+        $this->assertStringEndsWith('storage/app/1/testname.jpg', $asset->media->first()->getPath());
+    }
+
+    /**
+     * @test
+     */
     public function it_throws_exception_if_file_is_null()
     {
         $this->expectException(InvalidArgumentException::class);

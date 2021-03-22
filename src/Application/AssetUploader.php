@@ -22,7 +22,7 @@ class AssetUploader
      * @return Collection|null|Asset
      * @throws FileCannotBeAdded
      */
-    public static function upload($files, ?string $filename = null)
+    public static function upload($files, ?string $filename = null, string $collection = 'default', string $disk = '')
     {
         if (! $files) {
             throw new InvalidArgumentException();
@@ -40,7 +40,7 @@ class AssetUploader
             throw new InvalidArgumentException();
         }
 
-        return self::uploadToAsset($files, Asset::create(), $filename);
+        return self::uploadToAsset($files, Asset::create(), $filename, false, $collection, $disk);
     }
 
     /**
@@ -48,18 +48,24 @@ class AssetUploader
      * asset that is needed to upload the files too.
      *
      * @param Asset|Traversable|array $files
+     * @param string $collection
+     * @param string $disk
      * @return Collection
+     * @throws FileCannotBeAdded
+     * @throws FileCannotBeAdded\DiskDoesNotExist
+     * @throws FileCannotBeAdded\FileDoesNotExist
+     * @throws FileCannotBeAdded\FileIsTooBig
      */
-    private static function uploadMultiple($files)
+    private static function uploadMultiple($files, string $collection = 'default', string $disk = '')
     {
         $list = collect([]);
-        collect($files)->each(function ($file) use ($list) {
+        collect($files)->each(function ($file) use ($list, $collection, $disk) {
             if ($file instanceof Asset) {
                 $list->push($file);
             } else {
                 $asset = new Asset();
                 $asset->save();
-                $list->push(self::uploadToAsset($file, $asset, null));
+                $list->push(self::uploadToAsset($file, $asset, null, false, $collection, $disk));
             }
         });
 
@@ -75,9 +81,9 @@ class AssetUploader
      * @return Collection|null|Asset
      * @throws FileCannotBeAdded
      */
-    public static function uploadFromBase64(string $file, string $filename)
+    public static function uploadFromBase64(string $file, string $filename, string $collection = 'default', string $disk = '')
     {
-        return self::uploadBase64ToAsset($file, Asset::create(), $filename);
+        return self::uploadBase64ToAsset($file, Asset::create(), $filename, $collection, $disk);
     }
 
     /**
@@ -88,9 +94,9 @@ class AssetUploader
      * @return Asset
      * @throws FileCannotBeAdded
      */
-    public static function uploadFromUrl(string $url)
+    public static function uploadFromUrl(string $url, string $collection = 'default', string $disk = '')
     {
-        return self::uploadFromUrlToAsset($url, Asset::create());
+        return self::uploadFromUrlToAsset($url, Asset::create(), $collection, $disk);
     }
 
     /**
@@ -101,13 +107,15 @@ class AssetUploader
      * @param Asset $asset
      * @param string|null $filename
      * @param bool $responsive
+     * @param string $collection
+     * @param string $disk
      * @return Asset
      * @throws FileCannotBeAdded
      * @throws FileCannotBeAdded\DiskDoesNotExist
      * @throws FileCannotBeAdded\FileDoesNotExist
      * @throws FileCannotBeAdded\FileIsTooBig
      */
-    public static function uploadToAsset($file, $asset, $filename = null, bool $responsive = false): Asset
+    public static function uploadToAsset($file, $asset, $filename = null, bool $responsive = false, string $collection = 'default', string $disk = ''): Asset
     {
         if (! $file) {
             throw new InvalidArgumentException();
@@ -121,7 +129,7 @@ class AssetUploader
             $fileAdd = $fileAdd->withResponsiveImages();
         }
 
-        $fileAdd->toMediaCollection();
+        $fileAdd->toMediaCollection($collection, $disk);
 
         return $asset->load('media');
     }
@@ -137,13 +145,13 @@ class AssetUploader
      * @throws FileCannotBeAdded
      * @internal param $files
      */
-    public static function uploadBase64ToAsset(string $file, $asset, string $filename): Asset
+    public static function uploadBase64ToAsset(string $file, $asset, string $filename, string $collection = 'default', string $disk = ''): Asset
     {
         $fileAdd = $asset->addMediaFromBase64($file);
 
         $fileAdd = self::prepareOptions($fileAdd, $filename);
 
-        $fileAdd->toMediaCollection();
+        $fileAdd->toMediaCollection($collection, $disk);
 
         return $asset->load('media');
     }
@@ -157,7 +165,7 @@ class AssetUploader
      * @return Asset
      * @throws FileCannotBeAdded
      */
-    public static function uploadFromUrlToAsset(string $url, $asset): Asset
+    public static function uploadFromUrlToAsset(string $url, $asset, string $collection = 'default', string $disk = ''): Asset
     {
         $fileAdd = $asset->addMediaFromUrl($url);
 
@@ -166,7 +174,7 @@ class AssetUploader
 
         $fileAdd = self::prepareOptions($fileAdd, $filename);
 
-        $fileAdd->toMediaCollection();
+        $fileAdd->toMediaCollection($collection, $disk);
 
         return $asset->load('media');
     }
