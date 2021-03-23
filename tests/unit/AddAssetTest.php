@@ -146,7 +146,7 @@ class AddAssetTest extends TestCase
     {
         $article = Article::create();
 
-        app(AddAsset::class)->add($article, $this->base64Image, 'xxx', 'nl', 'testImage.png', true);
+        app(AddAsset::class)->add($article, $this->base64Image, 'xxx', 'nl', 'testImage.png');
 
         $this->assertEquals('/media/1/testimage.png', $article->asset('xxx', 'nl')->url());
     }
