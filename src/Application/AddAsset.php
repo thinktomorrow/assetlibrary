@@ -18,13 +18,14 @@ class AddAsset
      * @param $file
      * @param string $type
      * @param string $locale
+     * @param string|null $filename
+     * @param string $collection
+     * @param string $disk
      * @return Asset
-     * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
-     * @throws \Thinktomorrow\AssetLibrary\Exceptions\AssetUploadException
      */
-    public function add(HasAsset $model, $file, string $type, string $locale, ?string $filename = null): Asset
+    public function add(HasAsset $model, $file, string $type, string $locale, ?string $filename = null, string $collection = 'default', string $disk = ''): Asset
     {
-        $asset = $this->uploadAssetFromInput($file, $filename);
+        $asset = $this->uploadAssetFromInput($file, $filename, $collection, $disk);
 
         $this->attachAssetToModel($asset, $model, $type, $locale);
 
@@ -76,7 +77,7 @@ class AddAsset
         $model->assetRelation()->attach($asset, ['type' => $type, 'locale' => $locale, 'order' => $this->order]);
     }
 
-    private function uploadAssetFromInput($file, ?string $filename = null): Asset
+    private function uploadAssetFromInput($file, ?string $filename = null, string $collection = 'default', string $disk = ''): Asset
     {
         if ($file instanceof Asset) {
             return $file;
@@ -87,9 +88,9 @@ class AddAsset
                 $filename = md5(time()).'.'.substr($file, 11, strpos($file, ';') - 11);
             }
 
-            return AssetUploader::uploadFromBase64($file, $filename);
+            return AssetUploader::uploadFromBase64($file, $filename, $collection, $disk);
         }
 
-        return AssetUploader::upload($file, $filename);
+        return AssetUploader::upload($file, $filename, $collection, $disk);
     }
 }
