@@ -6,12 +6,13 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 
 ## unreleased
 
-## 0.7.4 - 2020-07-23
+## 0.7.6 - 2020-07-23
+- added: extra params to AddAsset and AssetUploader to allow to set custom collection and disk on the media record.
 
+## 0.7.4 - 2020-07-23
 - changed image dimensions calculations and added getWidth and getHeight functions to asset.
 
 ## 0.7.3 - 2020-07-23
-
 - fixed asset deletion
 
 ## 0.7.2 - 2020-06-17
