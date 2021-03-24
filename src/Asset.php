@@ -22,7 +22,7 @@ class Asset extends Model implements HasMedia
      */
     public function hasFile(): bool
     {
-        return (bool) $this->url();
+        return ($this->getFirstMediaPath() && file_exists($this->getFirstMediaPath()));
     }
 
     /**
@@ -31,7 +31,7 @@ class Asset extends Model implements HasMedia
      */
     public function filename($size = ''): string
     {
-        return basename($this->url($size));
+        return basename($this->getFirstMediaPath('default', $size));
     }
 
     public function exists(): bool
@@ -138,7 +138,7 @@ class Asset extends Model implements HasMedia
         }
 
         $dimensions = '';
-        $file_path = public_path($this->url($size??''));
+        $file_path = $this->getFirstMediaPath('default', $size??'');
         if (self::isImage($this->getMedia()[0]) && file_exists($file_path)) {
 
             $imagesize = getimagesize($file_path);
@@ -167,7 +167,7 @@ class Asset extends Model implements HasMedia
         }
 
         $width = '';
-        $file_path = public_path($this->url($size??''));
+        $file_path = $this->getFirstMediaPath('default', $size??'');
         if (self::isImage($this->getMedia()[0]) && file_exists($file_path)) {
 
             $imagesize = getimagesize($file_path);
@@ -196,7 +196,7 @@ class Asset extends Model implements HasMedia
         }
 
         $height = '';
-        $file_path = public_path($this->url($size??''));
+        $file_path = $this->getFirstMediaPath('default', $size??'');
         if (self::isImage($this->getMedia()[0]) && file_exists($file_path)) {
 
             $imagesize = getimagesize($file_path);
