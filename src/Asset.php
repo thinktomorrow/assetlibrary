@@ -141,9 +141,9 @@ class Asset extends Model implements HasMedia
         $file_path = $this->getFirstMediaPath('default', $size??'');
         if (self::isImage($this->getMedia()[0]) && file_exists($file_path)) {
 
-            $imagesize = getimagesize($file_path);
-
-            $dimensions = $imagesize[0].' x '.$imagesize[1];
+            if($imagesize = getimagesize($file_path)) {
+                $dimensions = $imagesize[0].' x '.$imagesize[1];
+            }
         }
 
         return $dimensions;

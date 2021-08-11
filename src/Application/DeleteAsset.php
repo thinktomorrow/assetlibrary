@@ -3,6 +3,7 @@
 namespace Thinktomorrow\AssetLibrary\Application;
 
 use Thinktomorrow\AssetLibrary\Asset;
+use Spatie\MediaLibrary\Models\Media;
 use Thinktomorrow\AssetLibrary\Exceptions\FileNotAccessibleException;
 use Thinktomorrow\AssetLibrary\HasAsset;
 
@@ -38,8 +39,13 @@ class DeleteAsset
         }
 
         $media = $asset->media;
+
+        /** @var Media $file */
         foreach ($media as $file) {
-            if (! is_file(public_path($file->getUrl())) || ! is_writable(public_path($file->getUrl()))) {
+
+            $file_path = $file->getPath();
+
+            if (! is_file($file_path) || ! is_writable($file_path)) {
                 throw new FileNotAccessibleException();
             }
         }
