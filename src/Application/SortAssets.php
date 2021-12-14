@@ -3,6 +3,7 @@
 namespace Thinktomorrow\AssetLibrary\Application;
 
 use Thinktomorrow\AssetLibrary\HasAsset;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\FileCannotBeAdded;
 
 class SortAssets
 {
@@ -11,8 +12,7 @@ class SortAssets
      *
      * @param $replace
      * @param $with
-     * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
-     * @throws \Thinktomorrow\AssetLibrary\Exceptions\AssetUploadException
+     * @throws FileCannotBeAdded
      */
     public function handle(HasAsset $model, $sorting, $type, $locale)
     {

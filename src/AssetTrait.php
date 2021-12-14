@@ -2,13 +2,13 @@
 
 namespace Thinktomorrow\AssetLibrary;
 
+use Spatie\MediaLibrary\InteractsWithMedia;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Collection;
-use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 
 trait AssetTrait
 {
-    use HasMediaTrait;
+    use InteractsWithMedia;
 
     public static function bootAssetTrait()
     {

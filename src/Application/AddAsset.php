@@ -4,7 +4,6 @@ namespace Thinktomorrow\AssetLibrary\Application;
 
 use Illuminate\Support\Collection;
 use Thinktomorrow\AssetLibrary\Asset;
-use Thinktomorrow\AssetLibrary\Exceptions\AssetUploadException;
 use Thinktomorrow\AssetLibrary\HasAsset;
 
 class AddAsset
@@ -38,8 +37,7 @@ class AddAsset
      * @param $files
      * @param string $type
      * @param string $locale
-     * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
-     * @throws \Thinktomorrow\AssetLibrary\Exceptions\AssetUploadException
+     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileCannotBeAdded
      */
     public function addMultiple(HasAsset $model, Collection $files, string $type, string $locale): Collection
     {
@@ -70,7 +68,6 @@ class AddAsset
      * @param null|string $locale
      * @param null|int $order
      * @return void
-     * @throws AssetUploadException
      */
     private function attachAssetToModel(Asset $asset, HasAsset $model, string $type, string $locale): void
     {

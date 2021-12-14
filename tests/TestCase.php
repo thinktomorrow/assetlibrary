@@ -4,10 +4,10 @@ namespace Thinktomorrow\AssetLibrary\Tests;
 
 use Illuminate\Support\Facades\DB;
 use Orchestra\Testbench\TestCase as BaseTestCase;
-use Spatie\MediaLibrary\ImageGenerators\FileTypes\Image;
-use Spatie\MediaLibrary\ImageGenerators\FileTypes\Svg;
-use Spatie\MediaLibrary\ImageGenerators\FileTypes\Video;
-use Spatie\MediaLibrary\ImageGenerators\FileTypes\Webp;
+use Spatie\MediaLibrary\Conversions\ImageGenerators\Svg;
+use Spatie\MediaLibrary\Conversions\ImageGenerators\Webp;
+use Spatie\MediaLibrary\Conversions\ImageGenerators\Image;
+use Spatie\MediaLibrary\Conversions\ImageGenerators\Video;
 
 class TestCase extends BaseTestCase
 {
@@ -50,7 +50,6 @@ class TestCase extends BaseTestCase
     {
         return [
             \Thinktomorrow\AssetLibrary\AssetLibraryServiceProvider::class,
-            \Thinktomorrow\AssetLibraryMigrate\MigrateServiceProvider::class,
         ];
     }
 
@@ -69,6 +68,8 @@ class TestCase extends BaseTestCase
         $app['config']->set('filesystems.disks.public', [
             'driver' => 'local',
             'root' => $this->getMediaDirectory(),
+            'url' => env('APP_URL') . '/media',
+            'visibility' => 'public',
         ]);
         $app['config']->set('filesystems.disks.secondMediaDisk', [
             'driver' => 'local',

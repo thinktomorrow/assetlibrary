@@ -22,7 +22,7 @@ class AssetTest extends TestCase
 
     public function tearDown(): void
     {
-        Artisan::call('medialibrary:clear');
+        Artisan::call('media-library:clear');
 
         parent::tearDown();
     }
@@ -313,7 +313,7 @@ class AssetTest extends TestCase
         $filepath = $asset->url();
         $asset->delete();
 
-        $this->assertFileNotExists(public_path($filepath));
+        $this->assertFileDoesNotExist(public_path($filepath));
         $this->assertCount(0, Asset::all());
     }
 

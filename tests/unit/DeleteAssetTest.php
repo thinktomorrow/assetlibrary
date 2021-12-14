@@ -12,7 +12,7 @@ class DeleteAssetTest extends TestCase
 {
     public function tearDown(): void
     {
-        Artisan::call('medialibrary:clear');
+        Artisan::call('media-library:clear');
 
         parent::tearDown();
     }
@@ -91,7 +91,7 @@ class DeleteAssetTest extends TestCase
 
         $this->assertFileExists($dir);
         $this->assertFileIsReadable($dir);
-        $this->assertFileNotIsWritable($dir);
+        $this->assertFileIsNotWritable($dir);
 
         app(DeleteAsset::class)->delete($asset->id);
 

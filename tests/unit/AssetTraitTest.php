@@ -23,7 +23,7 @@ class AssetTraitTest extends TestCase
 
     public function tearDown(): void
     {
-        Artisan::call('medialibrary:clear');
+        Artisan::call('media-library:clear');
 
         parent::tearDown();
     }

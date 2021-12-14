@@ -4,16 +4,16 @@ namespace Thinktomorrow\AssetLibrary;
 
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
-use Spatie\MediaLibrary\Models\Media;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Illuminate\Database\Eloquent\Model;
-use Spatie\MediaLibrary\HasMedia\HasMedia;
-use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
+use Spatie\MediaLibrary\HasMedia;
 use Thinktomorrow\AssetLibrary\Exceptions\ConfigException;
 use Thinktomorrow\AssetLibrary\Exceptions\CorruptMediaException;
 
 class Asset extends Model implements HasMedia
 {
-    use HasMediaTrait;
+    use InteractsWithMedia;
 
     private $order;
 
@@ -261,7 +261,7 @@ class Asset extends Model implements HasMedia
      * @param Media|null $media
      * @throws \Spatie\Image\Exceptions\InvalidManipulation
      */
-    public function registerMediaConversions(Media $media = null)
+    public function registerMediaConversions(Media $media = null): void
     {
         $conversions = config('thinktomorrow.assetlibrary.conversions');
 

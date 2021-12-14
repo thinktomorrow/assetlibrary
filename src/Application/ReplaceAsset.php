@@ -4,6 +4,7 @@ namespace Thinktomorrow\AssetLibrary\Application;
 
 use Thinktomorrow\AssetLibrary\Asset;
 use Thinktomorrow\AssetLibrary\HasAsset;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\FileCannotBeAdded;
 
 class ReplaceAsset
 {
@@ -14,8 +15,7 @@ class ReplaceAsset
      * @param $with
      * @param $type
      * @param $locale
-     * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
-     * @throws \Thinktomorrow\AssetLibrary\Exceptions\AssetUploadException
+     * @throws FileCannotBeAdded
      */
     public function handle(HasAsset $model, $replace, $with, $type, $locale)
     {

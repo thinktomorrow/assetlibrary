@@ -3,7 +3,7 @@
 namespace Thinktomorrow\AssetLibrary\Application;
 
 use Thinktomorrow\AssetLibrary\Asset;
-use Spatie\MediaLibrary\Models\Media;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Thinktomorrow\AssetLibrary\Exceptions\FileNotAccessibleException;
 use Thinktomorrow\AssetLibrary\HasAsset;
 

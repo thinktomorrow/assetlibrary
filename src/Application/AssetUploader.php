@@ -6,8 +6,8 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
-use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded;
-use Spatie\MediaLibrary\FileAdder\FileAdder;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\FileCannotBeAdded;
+use Spatie\MediaLibrary\MediaCollections\FileAdder;
 use Thinktomorrow\AssetLibrary\Asset;
 use Traversable;
 
@@ -111,9 +111,6 @@ class AssetUploader
      * @param string $disk
      * @return Asset
      * @throws FileCannotBeAdded
-     * @throws FileCannotBeAdded\DiskDoesNotExist
-     * @throws FileCannotBeAdded\FileDoesNotExist
-     * @throws FileCannotBeAdded\FileIsTooBig
      */
     public static function uploadToAsset($file, $asset, $filename = null, bool $responsive = false, string $collection = 'default', string $disk = ''): Asset
     {
