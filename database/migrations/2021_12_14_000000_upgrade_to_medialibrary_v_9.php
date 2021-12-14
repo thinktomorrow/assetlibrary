@@ -14,7 +14,7 @@ class UpgradeToMedialibraryV9 extends Migration
         Schema::table('media', function (Blueprint $table) {
             $table->uuid('uuid')->nullable()->unique();
             $table->string('conversions_disk')->nullable();
-            $table->json('generated_conversions')->default('{}');
+            $table->json('generated_conversions')->nullable();
         });
 
         Media::cursor()->each(
