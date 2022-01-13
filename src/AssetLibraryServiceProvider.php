@@ -12,7 +12,7 @@ class AssetLibraryServiceProvider extends ServiceProvider
         (new MediaLibraryServiceProvider($this->app))->boot();
 
         $this->publishes([
-            __DIR__.'/../config/assetlibary.php' => config_path('thinktomorrow/assetlibrary.php'),
+            __DIR__.'/../config/assetlibrary.php' => config_path('thinktomorrow/assetlibrary.php'),
         ], 'assetlibrary-config');
 
         $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
