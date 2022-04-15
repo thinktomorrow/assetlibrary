@@ -4,6 +4,7 @@ namespace Thinktomorrow\AssetLibrary\Tests;
 
 use Illuminate\Support\Facades\DB;
 use Orchestra\Testbench\TestCase as BaseTestCase;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Spatie\MediaLibrary\Conversions\ImageGenerators\Svg;
 use Spatie\MediaLibrary\Conversions\ImageGenerators\Webp;
 use Spatie\MediaLibrary\Conversions\ImageGenerators\Image;
@@ -11,7 +12,7 @@ use Spatie\MediaLibrary\Conversions\ImageGenerators\Video;
 
 class TestCase extends BaseTestCase
 {
-    use TestHelpers, AssetlibraryDatabaseTransactions;
+    use TestHelpers, RefreshDatabase;
 
     protected $protectTestEnvironment = true;
 
@@ -20,8 +21,6 @@ class TestCase extends BaseTestCase
         parent::setUp();
 
         $this->protectTestEnvironment();
-
-        $this->setUpDatabase();
 
         config(['app.fallback_locale' => 'nl']);
     }
