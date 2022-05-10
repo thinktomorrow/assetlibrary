@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\HasMedia;
 use Thinktomorrow\AssetLibrary\Exceptions\ConfigException;
 use Thinktomorrow\AssetLibrary\Exceptions\CorruptMediaException;
@@ -271,6 +272,16 @@ class Asset extends Model implements HasMedia
                 ->height($value['height'])
                 ->keepOriginalImageFormat()
                 ->optimize();
+        }
+
+        if (config('thinktomorrow.assetlibrary.allowWebP')) {
+            foreach ($conversions as $key => $value) {
+                $this->addMediaConversion($key)
+                    ->format(Manipulations::FORMAT_WEBP)
+                    ->width($value['width'])
+                    ->height($value['height'])
+                    ->optimize();
+            }
         }
 
         if (config('thinktomorrow.assetlibrary.allowCropping')) {

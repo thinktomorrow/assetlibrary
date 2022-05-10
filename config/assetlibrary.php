@@ -37,5 +37,7 @@ return [
         ],
     ],
 
+    'allowWebP' => false,
+
     'allowCropping' => false,
 ];
