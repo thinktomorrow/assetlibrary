@@ -34,8 +34,25 @@ return [
         'full' => [
             'width'     => 1600,
             'height'    => 553,
+            'formats' => [
+                'jpg','png',
+            ],
         ],
     ],
+
+    /**
+     * Which formats should be included in the conversions by default.
+     * Note that the original format will always be used in the conversions.
+     */
+    'available_formats' => [
+        'webp',
+    ],
+
+    /**
+     * If the format parameter is not explicitly set when retrieving the media url, the default
+     * format is used. Options are: original or webp.
+     */
+    'default_format_choice' => 'original',
 
     'allowWebP' => false,
 

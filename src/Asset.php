@@ -272,10 +272,8 @@ class Asset extends Model implements HasMedia
                 ->height($value['height'])
                 ->keepOriginalImageFormat()
                 ->optimize();
-        }
 
-        if (config('thinktomorrow.assetlibrary.allowWebP')) {
-            foreach ($conversions as $key => $value) {
+            if (config('thinktomorrow.assetlibrary.allowWebP')) {
                 $this->addMediaConversion($key . '-' . Manipulations::FORMAT_WEBP)
                     ->format(Manipulations::FORMAT_WEBP)
                     ->width($value['width'])
