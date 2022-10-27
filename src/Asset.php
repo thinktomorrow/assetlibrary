@@ -81,6 +81,11 @@ class Asset extends Model implements HasMedia
         $extension = explode('.', $media->file_name);
         $extension = end($extension);
 
+        // Remove any appends (query)
+        if(strpos($extension, '?')) {
+            $extension = substr($extension, 0, strpos($extension, '?'));
+        }
+
         if ($extension) {
             if (in_array(strtolower($extension), ['xls', 'xlsx', 'numbers', 'sheets'])) {
                 return 'xls';
