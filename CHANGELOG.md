@@ -6,6 +6,9 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 
 ## unreleased
 
+## 0.8.6 - 2023-03-06
+- Fix: detaching asset with entity id being uuid fails
+
 ## 0.7.6 - 2020-07-23
 - added: extra params to AddAsset and AssetUploader to allow to set custom collection and disk on the media record.
 

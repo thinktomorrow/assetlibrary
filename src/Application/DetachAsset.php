@@ -17,6 +17,8 @@ class DetachAsset
             $ids = (array) $ids;
         }
 
+        $ids = $this->ensureParameterIsString($ids);
+
         foreach ($ids as $id) {
             $model->assetRelation()->where('asset_pivots.type', $type)->where('asset_pivots.locale', $locale)->detach($id);
         }
@@ -29,13 +31,19 @@ class DetachAsset
      */
     public function detachAll(HasAsset $model, ?string $type = null): void
     {
-        $builder = $model->assetRelation();
+        $assetIds = $type
+            ? $model->assetRelation()->where('asset_pivots.type', $type)->get()->pluck('id')
+            : $model->assetRelation()->get()->pluck('id');
 
-        if ($type) {
-            $ids = $builder->where('asset_pivots.type', $type)->get()->pluck('id');
-            $builder->detach($ids);
-        } else {
-            $builder->detach();
-        }
+        $model->assetRelation()->detach($assetIds);
+    }
+
+    /**
+     * @param mixed $ids
+     * @return string[]
+     */
+    public function ensureParameterIsString(mixed $ids): array
+    {
+        return array_map(fn($id) => (string)$id, $ids);
     }
 }
