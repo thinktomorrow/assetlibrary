@@ -2,6 +2,8 @@
 
 namespace Thinktomorrow\AssetLibrary\Application;
 
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 use Thinktomorrow\AssetLibrary\HasAsset;
 
 class DetachAsset
@@ -29,22 +31,24 @@ class DetachAsset
      *
      * @param $ids
      */
-    public function detachAll(HasAsset $model, ?string $type = null): void
+    public function detachAll(HasAsset&Model $model, ?string $type = null): void
     {
-        $assetIds = $type
-            ? $model->assetRelation()->where('asset_pivots.type', $type)->get()->pluck('id')
-            : $model->assetRelation()->get()->pluck('id');
+        $query = DB::table('asset_pivots')
+            ->where('entity_type', $model->getMorphClass())
+            ->where('entity_id', (string) $model->getKey());
 
-        $assetIds = $this->ensureIdsArePassedAsString($assetIds);
+        if($type) {
+            $query->where('type', $type);
+        }
 
-        $model->assetRelation()->detach($assetIds);
+        $query->delete();
     }
 
     /**
      * @param mixed $ids
      * @return string[]
      */
-    public function ensureIdsArePassedAsString(mixed $ids): array
+    private function ensureIdsArePassedAsString(array $ids): array
     {
         return array_map(fn($id) => (string)$id, $ids);
     }
