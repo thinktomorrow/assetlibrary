@@ -30,11 +30,17 @@ class ReplaceAssetTest extends TestCase
     /** @test */
     public function it_can_replace_an_asset_for_locale()
     {
-        $article = $this->getArticleWithAsset('xxx');
+        $article = $this->getArticleWithAsset('xxx', 'nl');
 
         $this->assertCount(1, $article->assets('xxx'));
 
-        app(ReplaceAsset::class)->handle($article, $article->assetRelation->first()->id, AssetUploader::upload(UploadedFile::fake()->image('newImage.png'))->id, 'xxx', 'nl');
+        app(ReplaceAsset::class)->handle(
+            $article,
+            $article->assetRelation->first()->id,
+            AssetUploader::upload(UploadedFile::fake()->image('newImage.png'))->id,
+            'xxx',
+            'nl'
+        );
 
         $this->assertCount(1, $article->refresh()->assets('xxx'));
         $this->assertCount(2, Asset::all());
@@ -44,7 +50,7 @@ class ReplaceAssetTest extends TestCase
     /** @test */
     public function it_can_replace_an_asset_with_specific_type()
     {
-        $article = $this->getArticleWithAsset('custom-type');
+        $article = $this->getArticleWithAsset('custom-type', 'nl');
 
         $this->assertCount(1, $assets = $article->assets('custom-type'));
         app(ReplaceAsset::class)->handle($article, $assets->first()->id, AssetUploader::upload(UploadedFile::fake()->image('newImage.png'))->id, 'custom-type', 'nl');

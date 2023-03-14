@@ -19,11 +19,13 @@ class DetachAsset
             $ids = (array) $ids;
         }
 
-        $ids = $this->ensureIdsArePassedAsString($ids);
-
-        foreach ($ids as $id) {
-            $model->assetRelation()->where('asset_pivots.type', $type)->where('asset_pivots.locale', $locale)->detach($id);
-        }
+        DB::table('asset_pivots')
+            ->where('entity_type', $model->getMorphClass())
+            ->where('entity_id', (string) $model->getKey())
+            ->whereIn('asset_id', $ids)
+            ->where('type', $type)
+            ->where('locale', $locale)
+            ->delete();
     }
 
     /**

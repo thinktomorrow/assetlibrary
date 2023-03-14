@@ -42,6 +42,22 @@ class DetachAssetTest extends TestCase
     /**
      * @test
      */
+    public function it_can_detach_an_asset_by_type()
+    {
+        //upload a single image
+        $article = $this->getArticleWithAsset('image');
+        $asset = $this->getUploadedAsset('image.png');
+        app(AddAsset::class)->add($article, $asset, 'banner', 'nl');
+
+        app(DetachAsset::class)->detach($article, $asset->id, 'banner', 'nl');
+
+        $this->assertCount(2, Asset::all());
+        $this->assertCount(1, $article->assetRelation()->get());
+    }
+
+    /**
+     * @test
+     */
     public function it_can_detach_multiple_asset_from_model()
     {
         $article = $this->getArticleWithAsset('image');
