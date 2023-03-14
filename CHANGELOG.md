@@ -6,6 +6,9 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 
 ## unreleased
 
+## 0.8.7 - 2023-03-14
+- Fix: Detaching single asset when entity id is uuid
+
 ## 0.8.6 - 2023-03-06
 - Fix: detaching asset with entity id being uuid fails
 
