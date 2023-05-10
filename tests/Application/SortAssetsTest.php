@@ -1,9 +1,9 @@
 <?php
 
-namespace Thinktomorrow\AssetLibrary\Tests\unit;
+namespace Thinktomorrow\AssetLibrary\Tests\Application;
 
 use Illuminate\Support\Facades\Artisan;
-use Thinktomorrow\AssetLibrary\Application\AddAsset;
+use Thinktomorrow\AssetLibrary\Application\CreateAsset;
 use Thinktomorrow\AssetLibrary\Application\SortAssets;
 use Thinktomorrow\AssetLibrary\Asset;
 use Thinktomorrow\AssetLibrary\Tests\stubs\Article;
@@ -31,15 +31,15 @@ class SortAssetsTest extends TestCase
         $article = Article::create();
 
         $asset1 = Asset::create();
-        app(AddAsset::class)->add($article, $asset1, 'banner', 'en');
+        app(CreateAsset::class)->add($article, $asset1, 'banner', 'en');
 
         $asset2 = Asset::create();
-        app(AddAsset::class)->add($article, $asset2, 'banner', 'en');
+        app(CreateAsset::class)->add($article, $asset2, 'banner', 'en');
 
         $asset3 = Asset::create();
-        app(AddAsset::class)->add($article, $asset3, 'banner', 'en');
+        app(CreateAsset::class)->add($article, $asset3, 'banner', 'en');
 
-        app(AddAsset::class)->add($article, Asset::create(), 'fail', 'en');
+        app(CreateAsset::class)->add($article, Asset::create(), 'fail', 'en');
 
         app(SortAssets::class)->handle($article, [(string) $asset3->id, (string) $asset1->id, (string) $asset2->id], 'banner', 'en');
 
@@ -57,15 +57,15 @@ class SortAssetsTest extends TestCase
         $article = Article::create();
 
         $asset1 = Asset::create();
-        app(AddAsset::class)->add($article, $asset1, 'banner', 'en');
+        app(CreateAsset::class)->add($article, $asset1, 'banner', 'en');
 
         $asset2 = Asset::create();
-        app(AddAsset::class)->add($article, $asset2, 'banner', 'en');
+        app(CreateAsset::class)->add($article, $asset2, 'banner', 'en');
 
         $asset3 = Asset::create();
-        app(AddAsset::class)->add($article, $asset3, 'banner', 'en');
+        app(CreateAsset::class)->add($article, $asset3, 'banner', 'en');
 
-        app(AddAsset::class)->add($article, Asset::create(), 'fail', 'en');
+        app(CreateAsset::class)->add($article, Asset::create(), 'fail', 'en');
 
         app(SortAssets::class)->handle($article, [5 => (string) $asset3->id, 1 => (string) $asset1->id, 9 => (string) $asset2->id], 'banner', 'en');
 
@@ -83,13 +83,13 @@ class SortAssetsTest extends TestCase
         $article = Article::create();
 
         $asset1 = Asset::create();
-        app(AddAsset::class)->add($article, $asset1, 'banner', 'en');
+        app(CreateAsset::class)->add($article, $asset1, 'banner', 'en');
 
         $asset2 = Asset::create();
-        app(AddAsset::class)->add($article, $asset2, 'banner', 'en');
+        app(CreateAsset::class)->add($article, $asset2, 'banner', 'en');
 
         $asset3 = Asset::create();
-        app(AddAsset::class)->add($article, $asset3, 'other', 'en');
+        app(CreateAsset::class)->add($article, $asset3, 'other', 'en');
 
         app(SortAssets::class)->handle($article, [(string) $asset1->id, (string) $asset2->id], 'banner', 'en');
 
@@ -106,16 +106,16 @@ class SortAssetsTest extends TestCase
         $article = Article::create();
 
         $asset1 = Asset::create();
-        app(AddAsset::class)->add($article, $asset1, 'banner', 'en');
+        app(CreateAsset::class)->add($article, $asset1, 'banner', 'en');
 
         $asset2 = Asset::create();
-        app(AddAsset::class)->add($article, $asset2, 'banner', 'en');
+        app(CreateAsset::class)->add($article, $asset2, 'banner', 'en');
 
         $asset3 = Asset::create();
-        app(AddAsset::class)->add($article, $asset3, 'banner', 'nl');
+        app(CreateAsset::class)->add($article, $asset3, 'banner', 'nl');
 
         $asset4 = Asset::create();
-        app(AddAsset::class)->add($article, $asset4, 'banner', 'nl');
+        app(CreateAsset::class)->add($article, $asset4, 'banner', 'nl');
 
         app(SortAssets::class)->handle($article, [(string) $asset1->id, (string) $asset2->id], 'banner', 'en');
         app(SortAssets::class)->handle($article, [(string) $asset4->id, (string) $asset3->id], 'banner', 'nl');
@@ -130,4 +130,18 @@ class SortAssetsTest extends TestCase
         $this->assertEquals($asset3->id, $nl_images->pop()->id);
         $this->assertEquals($asset4->id, $nl_images->pop()->id);
     }
+
+    /**
+     * @test
+     */
+    public function it_can_set_the_order()
+    {
+        $original = Article::create();
+
+        $asset = $this->createAssetWithMedia();
+        app(CreateAsset::class)->setOrder(6)->add($original, $asset, 'xxx', 'nl');
+
+        $this->assertEquals($asset->id, $original->fresh()->assetRelation->where('pivot.order', 6)->first()->id);
+    }
+
 }

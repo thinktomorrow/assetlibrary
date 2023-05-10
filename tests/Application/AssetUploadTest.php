@@ -1,11 +1,11 @@
 <?php
 
-namespace Thinktomorrow\AssetLibrary\Tests\unit;
+namespace Thinktomorrow\AssetLibrary\Tests\Application;
 
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Artisan;
 use InvalidArgumentException;
-use Thinktomorrow\AssetLibrary\Application\AddAsset;
+use Thinktomorrow\AssetLibrary\Application\CreateAsset;
 use Thinktomorrow\AssetLibrary\Application\AssetUploader;
 use Thinktomorrow\AssetLibrary\Asset;
 use Thinktomorrow\AssetLibrary\Tests\stubs\Article;
@@ -75,10 +75,10 @@ class AssetUploadTest extends TestCase
         $original = Article::create();
 
         //upload a single image
-        app(AddAsset::class)->add($original, AssetUploader::upload(UploadedFile::fake()->image('image.png')), 'images', 'en');
+        app(CreateAsset::class)->add($original, AssetUploader::upload(UploadedFile::fake()->image('image.png')), 'images', 'en');
 
         //upload a second single image
-        app(AddAsset::class)->add($original, AssetUploader::upload(UploadedFile::fake()->image('image.png')), 'images', 'en');
+        app(CreateAsset::class)->add($original, AssetUploader::upload(UploadedFile::fake()->image('image.png')), 'images', 'en');
 
         $this->assertCount(2, $original->assets('images'));
     }
@@ -163,7 +163,7 @@ class AssetUploadTest extends TestCase
      */
     public function it_can_attach_an_asset_to_multiple_models()
     {
-        $asset = $this->getUploadedAsset();
+        $asset = $this->createAssetWithMedia();
 
         $asset2 = AssetUploader::upload($asset);
 

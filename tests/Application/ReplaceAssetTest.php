@@ -1,10 +1,10 @@
 <?php
 
-namespace Thinktomorrow\AssetLibrary\Tests\unit;
+namespace Thinktomorrow\AssetLibrary\Tests\Application;
 
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Artisan;
-use Thinktomorrow\AssetLibrary\Application\AddAsset;
+use Thinktomorrow\AssetLibrary\Application\CreateAsset;
 use Thinktomorrow\AssetLibrary\Application\AssetUploader;
 use Thinktomorrow\AssetLibrary\Application\ReplaceAsset;
 use Thinktomorrow\AssetLibrary\Asset;
@@ -30,7 +30,7 @@ class ReplaceAssetTest extends TestCase
     /** @test */
     public function it_can_replace_an_asset_for_locale()
     {
-        $article = $this->getArticleWithAsset('xxx', 'nl');
+        $article = $this->createModelWithAsset('xxx', 'nl');
 
         $this->assertCount(1, $article->assets('xxx'));
 
@@ -50,7 +50,7 @@ class ReplaceAssetTest extends TestCase
     /** @test */
     public function it_can_replace_an_asset_with_specific_type()
     {
-        $article = $this->getArticleWithAsset('custom-type', 'nl');
+        $article = $this->createModelWithAsset('custom-type', 'nl');
 
         $this->assertCount(1, $assets = $article->assets('custom-type'));
         app(ReplaceAsset::class)->handle($article, $assets->first()->id, AssetUploader::upload(UploadedFile::fake()->image('newImage.png'))->id, 'custom-type', 'nl');
@@ -62,9 +62,9 @@ class ReplaceAssetTest extends TestCase
     /** @test */
     public function replacing_asset_for_type_doesnt_replace_other_assets_with_same_id()
     {
-        $article = $this->getArticleWithAsset('custom-type', 'nl');
+        $article = $this->createModelWithAsset('custom-type', 'nl');
 
-        app(AddAsset::class)->add($article, $article->asset('custom-type'), 'banner', 'nl');
+        app(CreateAsset::class)->add($article, $article->asset('custom-type'), 'banner', 'nl');
 
         app(ReplaceAsset::class)->handle($article, $article->asset('custom-type')->id, AssetUploader::upload(UploadedFile::fake()->image('newImage.png'))->id, 'custom-type', 'nl');
 

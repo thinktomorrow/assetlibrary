@@ -1,11 +1,11 @@
 <?php
 
-namespace Thinktomorrow\AssetLibrary\Tests\unit;
+namespace Thinktomorrow\AssetLibrary\Tests\Application;
 
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Artisan;
 use InvalidArgumentException;
-use Thinktomorrow\AssetLibrary\Application\AddAsset;
+use Thinktomorrow\AssetLibrary\Application\CreateAsset;
 use Thinktomorrow\AssetLibrary\Application\AssetUploader;
 use Thinktomorrow\AssetLibrary\Asset;
 use Thinktomorrow\AssetLibrary\Tests\stubs\Article;
@@ -29,11 +29,47 @@ class AddAssetTest extends TestCase
         parent::tearDown();
     }
 
+    /**
+     * @test
+     */
+    public function it_can_attach_an_image_to_a_model()
+    {
+        $original = Article::create();
+
+        app(CreateAsset::class)->add($original, $this->createAssetWithMedia(), 'xxx', 'nl');
+
+        $this->assertCount(1, $original->assetRelation()->get());
+    }
+
+    public function test_it_can_get_all_the_media_files()
+    {
+        //upload a single image
+        $asset = $this->createAssetWithMedia();
+
+        $this->assertEquals('image.png', $asset->filename());
+        $this->assertEquals('/media/1/image.png', $asset->url());
+
+        $article = Article::create();
+
+        //upload a single image
+        app(CreateAsset::class)->add($article, $this->createAssetWithMedia('image.png'), 'banner', 'nl');
+
+        $this->assertEquals('image.png', $article->asset('banner', 'nl')->filename());
+        $this->assertEquals('/media/2/image.png', $article->asset('banner', 'nl')->url());
+
+        app(CreateAsset::class)->add($article, $this->createAssetWithMedia('image.png'), 'thumbnail', 'fr');
+
+        $this->assertEquals('image.png', $article->refresh()->asset('thumbnail', 'fr')->filename());
+        $this->assertEquals('/media/3/image.png', $article->asset('thumbnail', 'fr')->url());
+
+        $this->assertEquals(3, Asset::all()->count());
+    }
+
     /** @test */
     public function it_can_attach_an_asset_if_it_is_given_instead_of_a_file()
     {
         // Create an article model and attach an Asset model
-        $article = $this->getArticleWithAsset('xxx', 'nl');
+        $article = $this->createModelWithAsset('xxx', 'nl');
 
         $this->assertEquals('/media/1/image.png', $article->asset('xxx', 'nl')->url());
     }
@@ -45,7 +81,7 @@ class AddAssetTest extends TestCase
         $assets[] = AssetUploader::upload(UploadedFile::fake()->image('image.png', 100, 100));
         $assets[] = AssetUploader::upload(UploadedFile::fake()->image('image.png', 100, 100));
 
-        app(AddAsset::class)->addMultiple($article, collect($assets), 'xxx', 'nl');
+        app(CreateAsset::class)->addMultiple($article, collect($assets), 'xxx', 'nl');
 
         $this->assertCount(2, $article->assets('xxx', 'nl'));
     }
@@ -57,8 +93,8 @@ class AddAssetTest extends TestCase
         $assets[] = AssetUploader::upload(UploadedFile::fake()->image('image.png', 100, 100));
         $assets[] = AssetUploader::upload(UploadedFile::fake()->image('image.png', 100, 100));
 
-        app(AddAsset::class)->add($article, $assets[0], 'xxx', 'nl');
-        app(AddAsset::class)->add($article, $assets[1], 'xxx', 'nl');
+        app(CreateAsset::class)->add($article, $assets[0], 'xxx', 'nl');
+        app(CreateAsset::class)->add($article, $assets[1], 'xxx', 'nl');
 
         $this->assertCount(2, $article->assets('xxx', 'nl'));
     }
@@ -71,7 +107,7 @@ class AddAssetTest extends TestCase
 
         $article = Article::create();
 
-        app(AddAsset::class)->addMultiple($article, $images, 'xxx', 'nl');
+        app(CreateAsset::class)->addMultiple($article, $images, 'xxx', 'nl');
 
         $this->assertEquals(2, $article->assets('xxx', 'nl')->count());
     }
@@ -85,7 +121,7 @@ class AddAssetTest extends TestCase
         $assets[] = AssetUploader::upload(UploadedFile::fake()->image('image.png', 100, 100));
         $assets[] = UploadedFile::fake()->image('image.png');
 
-        app(AddAsset::class)->addMultiple($article, collect($assets), 'xxx', 'nl');
+        app(CreateAsset::class)->addMultiple($article, collect($assets), 'xxx', 'nl');
 
         $this->assertCount(3, $article->assets('xxx', 'nl'));
     }
@@ -97,8 +133,8 @@ class AddAssetTest extends TestCase
         $article2   = Article::create();
         $asset      = AssetUploader::upload(UploadedFile::fake()->image('image.png', 100, 100));
 
-        app(AddAsset::class)->add($article, $asset, 'banner', 'nl');
-        app(AddAsset::class)->add($article2, $asset, 'banner', 'nl');
+        app(CreateAsset::class)->add($article, $asset, 'banner', 'nl');
+        app(CreateAsset::class)->add($article2, $asset, 'banner', 'nl');
 
         $this->assertEquals($article->asset('banner', 'nl')->id, $article2->asset('banner', 'nl')->id);
 
@@ -113,8 +149,8 @@ class AddAssetTest extends TestCase
 
         $article = Article::create();
 
-        app(AddAsset::class)->add($article, $images[0], 'first-type', 'nl');
-        app(AddAsset::class)->add($article, $images[1], 'second-type', 'nl');
+        app(CreateAsset::class)->add($article, $images[0], 'first-type', 'nl');
+        app(CreateAsset::class)->add($article, $images[1], 'second-type', 'nl');
 
         $this->assertCount(2, $article->assetRelation()->get());
         $this->assertCount(1, $article->assets('first-type', 'nl'));
@@ -126,7 +162,7 @@ class AddAssetTest extends TestCase
     {
         $article = Article::create();
 
-        app(AddAsset::class)->add($article, $this->base64Image, 'xxx', 'nl');
+        app(CreateAsset::class)->add($article, $this->base64Image, 'xxx', 'nl');
 
         $this->assertStringEndsWith('.gif', $article->asset('xxx', 'nl')->url());
     }
@@ -136,7 +172,7 @@ class AddAssetTest extends TestCase
     {
         $article = Article::create();
 
-        app(AddAsset::class)->add($article, $this->base64Image, 'xxx', 'en', 'testImage.png');
+        app(CreateAsset::class)->add($article, $this->base64Image, 'xxx', 'en', 'testImage.png');
 
         $this->assertEquals('/media/1/testimage.png', $article->asset('xxx')->url());
     }
@@ -146,7 +182,7 @@ class AddAssetTest extends TestCase
     {
         $article = Article::create();
 
-        app(AddAsset::class)->add($article, $this->base64Image, 'xxx', 'nl', 'testImage.png');
+        app(CreateAsset::class)->add($article, $this->base64Image, 'xxx', 'nl', 'testImage.png');
 
         $this->assertEquals('/media/1/testimage.png', $article->asset('xxx', 'nl')->url());
     }
@@ -156,7 +192,7 @@ class AddAssetTest extends TestCase
     {
         $article = Article::create();
 
-        app(AddAsset::class)->add($article, UploadedFile::fake()->image('newImage.png'), 'xxx', 'nl', 'testImage.png');
+        app(CreateAsset::class)->add($article, UploadedFile::fake()->image('newImage.png'), 'xxx', 'nl', 'testImage.png');
 
         $this->assertEquals('/media/1/testimage.png', $article->asset('xxx', 'nl')->url());
     }
@@ -166,7 +202,7 @@ class AddAssetTest extends TestCase
     {
         $article = Article::create();
 
-        app(AddAsset::class)->addMultiple($article, collect([
+        app(CreateAsset::class)->addMultiple($article, collect([
             'testImage1.png' => $this->base64Image,
             'testImage2.png' => $this->base64Image,
         ]), 'xxx', 'nl');
@@ -180,7 +216,7 @@ class AddAssetTest extends TestCase
     {
         $article = Article::create();
 
-        app(AddAsset::class)->addMultiple($article, collect([
+        app(CreateAsset::class)->addMultiple($article, collect([
             'testImage1.png' => UploadedFile::fake()->image('newImage.png'),
             'testImage2.png' => UploadedFile::fake()->image('newImage.png'),
         ]), 'xxx', 'nl');
@@ -192,10 +228,10 @@ class AddAssetTest extends TestCase
     /** @test */
     public function it_has_no_problem_with_upper_case_extentions()
     {
-        $article = $this->getArticleWithAsset('banner', 'nl');
+        $article = $this->createModelWithAsset('banner', 'nl');
 
         $image_name = json_decode($this->getBase64WithName('test.PNG'))->output->name;
-        app(AddAsset::class)->add($article, json_decode($this->getBase64WithName('test.PNG'))->output->image, 'thumbnail', 'xx', $image_name);
+        app(CreateAsset::class)->add($article, json_decode($this->getBase64WithName('test.PNG'))->output->image, 'thumbnail', 'xx', $image_name);
 
         $article->load('assetRelation');
 
@@ -211,10 +247,10 @@ class AddAssetTest extends TestCase
         $original = Article::create();
 
         //upload a single image
-        $asset   = $this->getUploadedAsset();
+        $asset   = $this->createAssetWithMedia();
 
-        app(AddAsset::class)->add($original->fresh(), $asset, 'xxx', 'en');
-        app(AddAsset::class)->add($original, $original->assetRelation()->first(), 'xxx', 'en');
+        app(CreateAsset::class)->add($original->fresh(), $asset, 'xxx', 'en');
+        app(CreateAsset::class)->add($original, $original->assetRelation()->first(), 'xxx', 'en');
 
         $this->assertCount(2, $original->assetRelation()->get());
     }
@@ -222,9 +258,9 @@ class AddAssetTest extends TestCase
     /** @test */
     public function addFile_returns_asset()
     {
-        $article = $this->getArticleWithAsset('banner');
+        $article = $this->createModelWithAsset('banner');
 
-        $asset = app(AddAsset::class)->add($article, UploadedFile::fake()->image('imageFR.png'), 'banner', 'fr');
+        $asset = app(CreateAsset::class)->add($article, UploadedFile::fake()->image('imageFR.png'), 'banner', 'fr');
 
         $this->assertInstanceOf(Asset::class, $asset);
     }
@@ -233,9 +269,9 @@ class AddAssetTest extends TestCase
     public function adding_empty_file_throws_exception()
     {
         $this->expectException(InvalidArgumentException::class);
-        $article = $this->getArticleWithAsset('banner');
+        $article = $this->createModelWithAsset('banner');
 
-        $asset = app(AddAsset::class)->add($article, null, 'banner', 'fr');
+        $asset = app(CreateAsset::class)->add($article, null, 'banner', 'fr');
 
         $this->assertInstanceOf(Asset::class, $asset);
     }

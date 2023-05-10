@@ -1,9 +1,9 @@
 <?php
 
-namespace Thinktomorrow\AssetLibrary\Tests\unit;
+namespace Thinktomorrow\AssetLibrary\Tests\Application;
 
 use Illuminate\Support\Facades\Artisan;
-use Thinktomorrow\AssetLibrary\Application\AddAsset;
+use Thinktomorrow\AssetLibrary\Application\CreateAsset;
 use Thinktomorrow\AssetLibrary\Application\DetachAsset;
 use Thinktomorrow\AssetLibrary\Asset;
 use Thinktomorrow\AssetLibrary\Tests\stubs\Article;
@@ -31,7 +31,7 @@ class DetachAssetTest extends TestCase
     public function it_can_detach_an_asset()
     {
         //upload a single image
-        $article = $this->getArticleWithAsset('image');
+        $article = $this->createModelWithAsset('image');
 
         app(DetachAsset::class)->detach($article, $article->asset('image')->id, 'image', 'en');
 
@@ -45,9 +45,9 @@ class DetachAssetTest extends TestCase
     public function it_can_detach_an_asset_by_type()
     {
         //upload a single image
-        $article = $this->getArticleWithAsset('image');
-        $asset = $this->getUploadedAsset('image.png');
-        app(AddAsset::class)->add($article, $asset, 'banner', 'nl');
+        $article = $this->createModelWithAsset('image');
+        $asset = $this->createAssetWithMedia('image.png');
+        app(CreateAsset::class)->add($article, $asset, 'banner', 'nl');
 
         app(DetachAsset::class)->detach($article, $asset->id, 'banner', 'nl');
 
@@ -60,11 +60,11 @@ class DetachAssetTest extends TestCase
      */
     public function it_can_detach_multiple_asset_from_model()
     {
-        $article = $this->getArticleWithAsset('image');
+        $article = $this->createModelWithAsset('image');
 
-        $asset = $this->getUploadedAsset('image.png');
+        $asset = $this->createAssetWithMedia('image.png');
 
-        app(AddAsset::class)->add($article, $asset, 'image', 'en');
+        app(CreateAsset::class)->add($article, $asset, 'image', 'en');
 
         app(DetachAsset::class)->detach($article, [$article->asset('image')->id, $asset->id], 'image', 'en');
 
@@ -77,11 +77,11 @@ class DetachAssetTest extends TestCase
      */
     public function it_can_detach_all_assets_from_model()
     {
-        $article = $this->getArticleWithAsset('image');
+        $article = $this->createModelWithAsset('image');
 
-        $asset = $this->getUploadedAsset('image.png');
+        $asset = $this->createAssetWithMedia('image.png');
 
-        app(AddAsset::class)->add($article, $asset, 'banner', 'nl');
+        app(CreateAsset::class)->add($article, $asset, 'banner', 'nl');
 
         app(DetachAsset::class)->detachAll($article);
 
@@ -94,11 +94,11 @@ class DetachAssetTest extends TestCase
      */
     public function it_can_detach_all_assets_with_type_from_model()
     {
-        $article = $this->getArticleWithAsset('image');
+        $article = $this->createModelWithAsset('image');
 
-        $asset = $this->getUploadedAsset('image.png');
+        $asset = $this->createAssetWithMedia('image.png');
 
-        app(AddAsset::class)->add($article, $asset, 'banner', 'nl');
+        app(CreateAsset::class)->add($article, $asset, 'banner', 'nl');
 
         app(DetachAsset::class)->detachAll($article, 'banner');
 

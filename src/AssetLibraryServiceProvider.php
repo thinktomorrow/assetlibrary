@@ -2,6 +2,7 @@
 
 namespace Thinktomorrow\AssetLibrary;
 
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\ServiceProvider;
 use Spatie\MediaLibrary\MediaLibraryServiceProvider;
 
@@ -16,6 +17,8 @@ class AssetLibraryServiceProvider extends ServiceProvider
         ], 'assetlibrary-config');
 
         $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
+
+        Relation::morphMap(['asset' => Asset::class]);
     }
 
     /**

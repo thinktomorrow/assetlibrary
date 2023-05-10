@@ -1,11 +1,14 @@
 <?php
 
-namespace Thinktomorrow\AssetLibrary\Tests\unit;
+namespace Thinktomorrow\AssetLibrary\Tests\Application;
 
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\DB;
 use Thinktomorrow\AssetLibrary\Application\DeleteAsset;
 use Thinktomorrow\AssetLibrary\Asset;
 use Thinktomorrow\AssetLibrary\Exceptions\FileNotAccessibleException;
+use Thinktomorrow\AssetLibrary\Tests\stubs\Article;
+use Thinktomorrow\AssetLibrary\Tests\stubs\ArticleWithSoftdelete;
 use Thinktomorrow\AssetLibrary\Tests\TestCase;
 
 class DeleteAssetTest extends TestCase
@@ -17,18 +20,49 @@ class DeleteAssetTest extends TestCase
         parent::tearDown();
     }
 
+    public function test_it_can_remove_an_asset()
+    {
+        $article = $this->createModelWithAsset('xxx');
+
+        $this->assertCount(1, $article->assets('xxx'));
+
+        app(DeleteAsset::class)->delete($article->assetRelation->first()->id);
+
+        $this->assertCount(0, Article::first()->assets());
+    }
+
+
+    /**
+     * @test
+     */
+    public function it_can_remove_itself()
+    {
+        //upload a single image
+        $asset = $this->createAssetWithMedia();
+
+        $this->assertEquals($asset->filename(), 'image.png');
+        $this->assertEquals($asset->url(), '/media/1/image.png');
+        $this->assertFileExists(public_path($asset->url()));
+
+        $filepath = $asset->url();
+        $asset->delete();
+
+        $this->assertFileDoesNotExist(public_path($filepath));
+        $this->assertCount(0, Asset::all());
+    }
+
     /**
      * @test
      */
     public function it_can_remove_an_image()
     {
         //upload a single image
-        $asset = $this->getUploadedAsset();
+        $asset = $this->createAssetWithMedia();
 
         $this->assertEquals($asset->filename(), 'image.png');
         $this->assertEquals($asset->url(), '/media/1/image.png');
 
-        $asset2 = $this->getUploadedAsset('image.png');
+        $asset2 = $this->createAssetWithMedia('image.png');
 
         $this->assertEquals($asset2->filename(), 'image.png');
         $this->assertEquals($asset2->url(), '/media/2/image.png');
@@ -44,7 +78,7 @@ class DeleteAssetTest extends TestCase
      */
     public function it_can_handle_invalid_inputs_to_remove_function()
     {
-        $asset = $this->getUploadedAsset();
+        $asset = $this->createAssetWithMedia();
 
         $this->assertEquals($asset->filename(), 'image.png');
         $this->assertEquals($asset->url(), '/media/1/image.png');
@@ -61,12 +95,12 @@ class DeleteAssetTest extends TestCase
     public function it_can_remove_multiple_images()
     {
         //upload a single image
-        $asset = $this->getUploadedAsset();
+        $asset = $this->createAssetWithMedia();
 
         $this->assertEquals($asset->filename(), 'image.png');
         $this->assertEquals($asset->url(), '/media/1/image.png');
 
-        $asset2 = $this->getUploadedAsset('image.png');
+        $asset2 = $this->createAssetWithMedia('image.png');
 
         $this->assertEquals($asset2->filename(), 'image.png');
         $this->assertEquals($asset2->url(), '/media/2/image.png');
@@ -74,6 +108,17 @@ class DeleteAssetTest extends TestCase
         app(DeleteAsset::class)->delete([$asset->id, $asset2->id]);
 
         $this->assertEquals(0, Asset::all()->count());
+    }
+
+    /** @test */
+    public function softdeleting_model_will_set_pivot_to_unused()
+    {
+        ArticleWithSoftdelete::migrate();
+        $article = $this->getSoftdeleteArticleWithAsset('banner');
+
+        $article->delete();
+
+        $this->assertEquals(1, DB::table('asset_pivots')->get()->first()->unused);
     }
 
     /**
@@ -84,7 +129,7 @@ class DeleteAssetTest extends TestCase
         $this->expectException(FileNotAccessibleException::class);
 
         //upload a single image
-        $asset = $this->getUploadedAsset();
+        $asset = $this->createAssetWithMedia();
         $dir   = public_path($asset->url());
 
         @chmod($dir, 0444);

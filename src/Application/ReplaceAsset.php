@@ -21,7 +21,7 @@ class ReplaceAsset
     {
         $old = $model->assetRelation()->findOrFail($replace);
 
-        app(AddAsset::class)->add($model, Asset::findOrFail($with), $type, $locale);
+        app(CreateAsset::class)->add($model, Asset::findOrFail($with), $type, $locale);
 
         app(DetachAsset::class)->detach($model, $old->id, $type, $locale);
     }

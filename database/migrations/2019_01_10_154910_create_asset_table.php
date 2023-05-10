@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAssetTable extends Migration
+return new class extends Migration
 {
     public function up()
     {
@@ -13,19 +13,25 @@ class CreateAssetTable extends Migration
             $table->timestamps();
         });
 
-        Schema::create('asset_pivots', function (Blueprint $table) {
+        Schema::create('assets_pivot', function (Blueprint $table) {
             $table->integer('asset_id');
-            $table->integer('entity_id');
+            $table->char('entity_id', 60);
             $table->string('entity_type');
-            $table->string('locale')->nullable();
-            $table->string('type')->nullable();
-            $table->integer('order')->nullable();
+            $table->string('type');
+            $table->string('locale');
+            $table->json('data')->default('{}');
+            $table->integer('order')->default(0);
+
+            $table->foreign('asset_id')
+                ->references('id')
+                ->on('assets')
+                ->cascadeOnDelete();
         });
     }
 
     public function down()
     {
-        Schema::dropIfExists('asset_pivots');
+        Schema::dropIfExists('assets_pivot');
         Schema::dropIfExists('assets');
     }
-}
+};
