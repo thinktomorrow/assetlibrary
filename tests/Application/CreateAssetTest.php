@@ -65,18 +65,6 @@ class CreateAssetTest extends TestCase
         $this->assertEquals('/media/1/conversions/image-thumb.png',$asset->getUrl('thumb'));
     }
 
-
-//    public function test_it_can_set_asset_values()
-//    {
-////        ->values(['data' => ['foo' => 'bar']])
-//        //
-//        $asset = (new CreateAsset())
-//            ->path(__DIR__.'/../media-stubs/foobar.pdf')
-//            ->save();
-//
-//        $this->assertEquals('bar',$asset->getData('foo'));
-//    }
-
     public function test_it_can_set_filename_for_uploadedFile()
     {
         $asset = (new CreateAsset())
@@ -164,13 +152,37 @@ class CreateAssetTest extends TestCase
         $this->assertEquals('updated-name-thumb.jpg',$asset->getFileName('thumb'));
     }
 
+    public function test_it_has_no_problem_with_upper_case_extentions()
+    {
+        $asset = (new CreateAsset())
+            ->path(__DIR__.'/../media-stubs/image-with-uppercased-extension.PNG')
+            ->save();
+
+        $this->assertEquals('image/png',$asset->getMimeType());
+        $this->assertEquals('image-with-uppercased-extension.PNG',$asset->getFileName());
+        $this->assertEquals('image-with-uppercased-extension-thumb.PNG',$asset->getFileName('thumb'));
+    }
+
     public function test_it_can_opt_to_remove_original()
     {
+        copy(__DIR__.'/../media-stubs/foobar.pdf', __DIR__.'/../media-stubs/foobar-copied.pdf');
 
+        $asset = (new CreateAsset())
+            ->path(__DIR__.'/../media-stubs/foobar-copied.pdf')
+            ->removeOriginal()
+            ->save();
+
+        $this->assertEquals('/media/1/foobar-copied.pdf',$asset->getUrl());
+
+        $this->assertFileDoesNotExist(__DIR__.'/../media-stubs/foobar-copied.pdf');
     }
 
     public function test_it_can_save_to_custom_disk()
     {
+        $asset = (new CreateAsset())->path(__DIR__.'/../media-stubs/foobar.pdf')
+            ->save('secondMediaDisk');
 
+        $this->assertNotNull($asset);
+        $this->assertEquals('/media2/1/foobar.pdf',$asset->getUrl());
     }
 }

@@ -8,50 +8,31 @@ use Thinktomorrow\AssetLibrary\HasAsset;
 
 class DetachAsset
 {
-    /**
-     * Detaches an asset from a model.
-     *
-     * @param $ids
-     */
-    public function detach(HasAsset $model, $ids, $type, $locale): void
+    public function handle(HasAsset&Model $model, string $type, string $locale, array $assetIds): void
     {
-        if (! is_array($ids)) {
-            $ids = (array) $ids;
-        }
-
-        DB::table('asset_pivots')
+        DB::table('assets_pivot')
             ->where('entity_type', $model->getMorphClass())
             ->where('entity_id', (string) $model->getKey())
-            ->whereIn('asset_id', $ids)
+            ->whereIn('asset_id', $assetIds)
             ->where('type', $type)
             ->where('locale', $locale)
             ->delete();
     }
 
-    /**
-     * Detaches all assets or for a specific type from a model.
-     *
-     * @param $ids
-     */
-    public function detachAll(HasAsset&Model $model, ?string $type = null): void
+    public function handleByType(HasAsset&Model $model, string $type): void
     {
-        $query = DB::table('asset_pivots')
+        DB::table('assets_pivot')
             ->where('entity_type', $model->getMorphClass())
-            ->where('entity_id', (string) $model->getKey());
-
-        if($type) {
-            $query->where('type', $type);
-        }
-
-        $query->delete();
+            ->where('entity_id', (string) $model->getKey())
+            ->where('type', $type)
+            ->delete();
     }
 
-    /**
-     * @param mixed $ids
-     * @return string[]
-     */
-    private function ensureIdsArePassedAsString(array $ids): array
+    public function handleAll(HasAsset&Model $model): void
     {
-        return array_map(fn($id) => (string)$id, $ids);
+        DB::table('assets_pivot')
+            ->where('entity_type', $model->getMorphClass())
+            ->where('entity_id', (string) $model->getKey())
+            ->delete();
     }
 }

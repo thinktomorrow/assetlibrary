@@ -70,10 +70,13 @@ class TestCase extends BaseTestCase
             'url' => env('APP_URL') . '/media',
             'visibility' => 'public',
         ]);
+
         $app['config']->set('filesystems.disks.secondMediaDisk', [
             'driver' => 'local',
             'root' => $this->getTempDirectory('media2'),
+            'url' => env('APP_URL') . '/media2',
         ]);
+
         $app->bind('path.public', function () {
             return $this->getTempDirectory();
         });

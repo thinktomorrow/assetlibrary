@@ -2,10 +2,7 @@
 
 namespace Thinktomorrow\AssetLibrary\Tests\Application;
 
-use Illuminate\Support\Facades\Artisan;
-use Thinktomorrow\AssetLibrary\Application\CreateAsset;
 use Thinktomorrow\AssetLibrary\Application\DetachAsset;
-use Thinktomorrow\AssetLibrary\Asset;
 use Thinktomorrow\AssetLibrary\Tests\stubs\Article;
 use Thinktomorrow\AssetLibrary\Tests\TestCase;
 
@@ -13,96 +10,91 @@ class DetachAssetTest extends TestCase
 {
     public function setUp(): void
     {
-        parent:: setUp();
+        parent::setUp();
 
-        Article:: migrate();
+        Article::migrate();
     }
 
-    public function tearDown(): void
+    public function test_it_can_detach_an_asset()
     {
-        Artisan:: call('media-library:clear');
+        $model = $this->createModelWithAsset($asset = $this->createAssetWithMedia());
 
-        parent:: tearDown();
+        $this->assertDatabaseCount('assets', 1);
+        $this->assertDatabaseCount('media', 1);
+        $this->assertDatabaseCount('assets_pivot', 1);
+
+        app(DetachAsset::class)->handle($model, 'image', 'en', [$asset->id]);
+
+        $this->assertDatabaseCount('assets', 1);
+        $this->assertDatabaseCount('media', 1);
+        $this->assertDatabaseCount('assets_pivot', 0);
     }
 
-    /**
-     * @test
-     */
-    public function it_can_detach_an_asset()
+    public function test_it_can_detach_all_assets()
     {
-        //upload a single image
-        $article = $this->createModelWithAsset('image');
+        $model = $this->createModelWithAsset($asset = $this->createAssetWithMedia());
+        $model->assetRelation()->attach($this->createAssetWithMedia(), ['type' => 'image', 'locale' => 'nl', 'order' => 1]);
+        $model->assetRelation()->attach($this->createAssetWithMedia('foobar.pdf'), ['type' => 'doc', 'locale' => 'nl', 'order' => 2]);
 
-        app(DetachAsset::class)->detach($article, $article->asset('image')->id, 'image', 'en');
+        $this->assertDatabaseCount('assets', 3);
+        $this->assertDatabaseCount('media', 3);
+        $this->assertDatabaseCount('assets_pivot', 3);
 
-        $this->assertCount(1, Asset::all());
-        $this->assertCount(0, $article->assetRelation()->get());
+        app(DetachAsset::class)->handleAll($model);
+
+        $this->assertDatabaseCount('assets', 3);
+        $this->assertDatabaseCount('media', 3);
+        $this->assertDatabaseCount('assets_pivot', 0);
     }
 
-    /**
-     * @test
-     */
-    public function it_can_detach_an_asset_by_type()
+    public function test_it_detaches_all_assets_by_type()
     {
-        //upload a single image
-        $article = $this->createModelWithAsset('image');
-        $asset = $this->createAssetWithMedia('image.png');
-        app(CreateAsset::class)->add($article, $asset, 'banner', 'nl');
+        $model = $this->createModelWithAsset($asset = $this->createAssetWithMedia());
+        $model->assetRelation()->attach($asset2 = $this->createAssetWithMedia(), ['type' => 'image', 'locale' => 'nl', 'order' => 1]);
+        $model->assetRelation()->attach($this->createAssetWithMedia('foobar.pdf'), ['type' => 'doc', 'locale' => 'nl', 'order' => 2]);
 
-        app(DetachAsset::class)->detach($article, $asset->id, 'banner', 'nl');
+        $this->assertDatabaseCount('assets', 3);
+        $this->assertDatabaseCount('media', 3);
+        $this->assertDatabaseCount('assets_pivot', 3);
 
-        $this->assertCount(2, Asset::all());
-        $this->assertCount(1, $article->assetRelation()->get());
+        app(DetachAsset::class)->handleByType($model, 'image');
+
+        $this->assertDatabaseCount('assets', 3);
+        $this->assertDatabaseCount('media', 3);
+        $this->assertDatabaseCount('assets_pivot', 1);
     }
 
-    /**
-     * @test
-     */
-    public function it_can_detach_multiple_asset_from_model()
+    public function test_it_detaches_an_asset_by_type_and_locale()
     {
-        $article = $this->createModelWithAsset('image');
+        $model = $this->createModelWithAsset($asset = $this->createAssetWithMedia());
+        $model->assetRelation()->attach($asset2 = $this->createAssetWithMedia(), ['type' => 'image', 'locale' => 'nl', 'order' => 1]);
+        $model->assetRelation()->attach($this->createAssetWithMedia('foobar.pdf'), ['type' => 'doc', 'locale' => 'nl', 'order' => 2]);
 
-        $asset = $this->createAssetWithMedia('image.png');
+        $this->assertDatabaseCount('assets', 3);
+        $this->assertDatabaseCount('media', 3);
+        $this->assertDatabaseCount('assets_pivot', 3);
 
-        app(CreateAsset::class)->add($article, $asset, 'image', 'en');
+        app(DetachAsset::class)->handle($model, 'image','en', [$asset->id]);
 
-        app(DetachAsset::class)->detach($article, [$article->asset('image')->id, $asset->id], 'image', 'en');
+        $this->assertDatabaseCount('assets', 3);
+        $this->assertDatabaseCount('media', 3);
+        $this->assertDatabaseCount('assets_pivot', 2);
 
-        $this->assertEquals(2, Asset::all()->count());
-        $this->assertCount(0, $article->assetRelation()->get());
+        app(DetachAsset::class)->handle($model, 'image','nl', [$asset2->id]);
+
+        $this->assertDatabaseCount('assets', 3);
+        $this->assertDatabaseCount('media', 3);
+        $this->assertDatabaseCount('assets_pivot', 1);
     }
 
-    /**
-     * @test
-     */
-    public function it_can_detach_all_assets_from_model()
+    public function test_it_detaches_an_asset_when_type_exists()
     {
-        $article = $this->createModelWithAsset('image');
+        $model = $this->createModelWithAsset($asset = $this->createAssetWithMedia('foobar.pdf'), 'doc', 'en');
 
-        $asset = $this->createAssetWithMedia('image.png');
+        $this->assertDatabaseCount('assets_pivot', 1);
 
-        app(CreateAsset::class)->add($article, $asset, 'banner', 'nl');
+        app(DetachAsset::class)->handle($model, 'image','en', [$asset->id]);
 
-        app(DetachAsset::class)->detachAll($article);
-
-        $this->assertEquals(2, Asset::all()->count());
-        $this->assertCount(0, $article->assetRelation()->get());
-    }
-
-    /**
-     * @test
-     */
-    public function it_can_detach_all_assets_with_type_from_model()
-    {
-        $article = $this->createModelWithAsset('image');
-
-        $asset = $this->createAssetWithMedia('image.png');
-
-        app(CreateAsset::class)->add($article, $asset, 'banner', 'nl');
-
-        app(DetachAsset::class)->detachAll($article, 'banner');
-
-        $this->assertEquals(2, Asset::all()->count());
-        $this->assertCount(1, $article->assetRelation()->get());
+        $this->assertDatabaseCount('assets_pivot', 1);
     }
 }

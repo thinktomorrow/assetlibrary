@@ -9,12 +9,12 @@ return new class extends Migration
     public function up()
     {
         Schema::create('assets', function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
             $table->timestamps();
         });
 
         Schema::create('assets_pivot', function (Blueprint $table) {
-            $table->integer('asset_id');
+            $table->unsignedBigInteger('asset_id');
             $table->char('entity_id', 60);
             $table->string('entity_type');
             $table->string('type');
