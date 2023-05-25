@@ -6,6 +6,9 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 
 ## unreleased
 
+## Upgrade to 0.9
+- Rename `Thinktomorrow\AssetLibrary\AssetTrait` to `Thinktomorrow\AssetLibrary\InteractsWithAssets`.
+
 ## 0.8.7 - 2023-03-14
 - Fix: Detaching single asset when entity id is uuid
 

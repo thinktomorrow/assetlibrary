@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('entity_type');
             $table->string('type');
             $table->string('locale');
-            $table->json('data')->default('{}');
+            $table->json('data')->nullable();
             $table->integer('order')->default(0);
 
             $table->foreign('asset_id')
