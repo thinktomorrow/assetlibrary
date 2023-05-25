@@ -3,6 +3,7 @@
 namespace Thinktomorrow\AssetLibrary\Tests\Application;
 
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\DB;
 use Thinktomorrow\AssetLibrary\Application\AddAsset;
 use Thinktomorrow\AssetLibrary\Application\UpdateAssetData;
 use Thinktomorrow\AssetLibrary\Tests\stubs\Article;
@@ -35,8 +36,8 @@ class UpdateAssetDataTest extends TestCase
 
         $this->assertEquals('bar', $model->asset(null, null)->pivot->getData('foo'));
 
-        app(UpdateAssetData::class)->handle($model, $asset, 'doc', 'nl', ['foo' => 'bar-updated']);
+        app(UpdateAssetData::class)->handle($model, $asset->id, 'doc', 'nl', ['foo' => 'bar-updated']);
 
-        $this->assertEquals('bar-updated', $model->asset(null, null)->pivot->getData('foo'));
+        $this->assertEquals('bar-updated', $model->fresh()->asset(null, null)->pivot->getData('foo'));
     }
 }

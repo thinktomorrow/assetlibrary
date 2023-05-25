@@ -1,16 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Thinktomorrow\AssetLibrary\Application;
 
-use Thinktomorrow\AssetLibrary\Asset;
+use Illuminate\Support\Facades\DB;
 use Thinktomorrow\AssetLibrary\HasAsset;
 
 class UpdateAssetData
 {
-    public function handle(HasAsset $model, Asset $asset, string $type, string $locale, array $data): void
+    public function handle(HasAsset $model, string $assetId, string $type, string $locale, array $data): void
     {
-        $model->assetRelation()
-            ->where('id', $asset->id)
+        DB::table('assets_pivot')
+            ->where('entity_type', $model->getMorphClass())
+            ->where('entity_id', (string) $model->getKey())
+            ->where('asset_id', $assetId)
             ->where('type', $type)
             ->where('locale', $locale)
             ->update(['data' => $data]);
