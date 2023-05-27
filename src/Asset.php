@@ -71,6 +71,11 @@ class Asset extends Model implements HasMedia
         return basename($path);
     }
 
+    public function getBaseName(string $conversionName = ''): string
+    {
+        return basename($this->getFileName($conversionName), '.'.$this->getExtension());
+    }
+
     /**
      * Checks if the conversion exists. It checks if file
      * exists as media record and on the server
