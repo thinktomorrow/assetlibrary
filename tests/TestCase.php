@@ -23,6 +23,21 @@ class TestCase extends BaseTestCase
         $this->protectTestEnvironment();
 
         config(['app.fallback_locale' => 'nl']);
+
+        config()->set('thinktomorrow.assetlibrary.conversions', [
+            'thumb' => [
+                'width'     => 50,
+                'height'    => 50,
+            ],
+            'full' => [
+                'width'     => 80,
+                'height'    => 100,
+            ],
+        ]);
+
+        config()->set('thinktomorrow.assetlibrary.formats', [
+
+        ]);
     }
 
     protected function protectTestEnvironment()

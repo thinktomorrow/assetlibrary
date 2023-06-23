@@ -23,7 +23,7 @@ class Asset extends Model implements HasMedia
      */
     public function hasData(string $key): bool
     {
-        if(!$this->pivot) return false;
+        if (!$this->pivot) return false;
 
         return $this->pivot->hasData($key);
     }
@@ -34,7 +34,7 @@ class Asset extends Model implements HasMedia
      */
     public function getData(string $key, $default = null)
     {
-        if(!$this->pivot) return $default;
+        if (!$this->pivot) return $default;
 
         return $this->pivot->getData($key, $default);
     }
@@ -52,9 +52,31 @@ class Asset extends Model implements HasMedia
      * Return url of the media file. In case the passed conversion
      * does not exist, the url to the original is returned.
      */
-    public function getUrl(string $conversionName = ''): ?string
+    public function getUrl(string $conversionName = '', ?string $format = null): ?string
     {
-        return $this->getFirstMediaUrl(self::MEDIA_COLLECTION, $conversionName) ?: null;
+        if ($conversionName !== '' && $format) {
+            $conversionName = $format . '-' . $conversionName;
+        }
+
+        if (!$media = $this->getFirstMedia(self::MEDIA_COLLECTION)) {
+            return $this->getFallbackMediaUrl(self::MEDIA_COLLECTION) ?: null;
+        }
+
+        if ($conversionName !== '') {
+            if ($media->hasGeneratedConversion($conversionName)) {
+                return $media->getUrl($conversionName) ?: null;
+            }
+
+            if (str_contains($conversionName, '-')) {
+                $conversionNameWithoutFormat = substr($conversionName, strpos($conversionName, '-') + 1);
+
+                if ($media->hasGeneratedConversion($conversionNameWithoutFormat)) {
+                    return $media->getUrl($conversionNameWithoutFormat) ?: null;
+                }
+            }
+        }
+
+        return $media->getUrl() ?: null;
     }
 
     /**
@@ -70,7 +92,7 @@ class Asset extends Model implements HasMedia
 
     public function getBaseName(string $conversionName = ''): string
     {
-        return basename($this->getFileName($conversionName), '.'.$this->getExtension());
+        return basename($this->getFileName($conversionName), '.' . $this->getExtension());
     }
 
     /**
@@ -147,11 +169,11 @@ class Asset extends Model implements HasMedia
             'height' => null,
         ];
 
-        if(!$this->isImage() || !$this->exists($conversionName)) {
+        if (!$this->isImage() || !$this->exists($conversionName)) {
             return $result;
         }
 
-        if($dimensions = getimagesize($this->getPath($conversionName))) {
+        if ($dimensions = getimagesize($this->getPath($conversionName))) {
             $result['width'] = $dimensions[0];
             $result['height'] = $dimensions[1];
         }
@@ -192,6 +214,16 @@ class Asset extends Model implements HasMedia
         return $this->exists();
     }
 
+    public function getConversions(): array
+    {
+        if (!$media = $this->getFirstMedia()) return [];
+
+        return $media
+            ->getGeneratedConversions()
+            ->keys()
+            ->all();
+    }
+
     /**
      * Register the conversions that should be performed.
      *
@@ -201,25 +233,36 @@ class Asset extends Model implements HasMedia
     public function registerMediaConversions(Media $media = null): void
     {
         $conversions = config('thinktomorrow.assetlibrary.conversions');
-        $formats = config('thinktomorrow.assetlibrary.formats');
+        $formats = config('thinktomorrow.assetlibrary.formats', []);
+
+        // Remove format when original is already in one of these formats
+        $originalFormat = null;
+        $canKeepOriginalFormat = true;
+
+        if ($media && false !== $formatKey = array_search($media->extension, $formats)) {
+            unset($formats[$formatKey]);
+
+            $originalFormat = $media->extension;
+            $canKeepOriginalFormat = in_array(strtolower($originalFormat), ['jpg', 'jpeg', 'pjpg', 'png', 'gif']);
+        }
 
         foreach ($conversions as $key => $value) {
-            $this->addMediaConversion($key)
+            $conversion = $this->addMediaConversion($key)
                 ->width($value['width'])
-                ->height($value['height'])
-                ->keepOriginalImageFormat();
+                ->height($value['height']);
 
-            foreach ($formats as $format) {
-                $this->addMediaConversion($key)
+            ($canKeepOriginalFormat || !$originalFormat)
+                ? $conversion->keepOriginalImageFormat()
+                : $conversion->format($originalFormat);
+        }
+
+        foreach ($formats as $format) {
+            foreach ($conversions as $conversionName => $values) {
+                $this->addMediaConversion($format . '-' . $conversionName)
                     ->width($value['width'])
                     ->height($value['height'])
                     ->format($format);
             }
-        }
-
-        if (config('thinktomorrow.assetlibrary.allowCropping')) {
-            $this->addMediaConversion('cropped')
-                ->keepOriginalImageFormat();
         }
     }
 }

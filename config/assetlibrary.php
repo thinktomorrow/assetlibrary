@@ -13,7 +13,17 @@ return [
     'fallback_locale' => null,
 
     /**
-     * Available conversions.
+     * Additional image formats.
+     *
+     * Images will always be converted with the original extension format.
+     * Any formats you define here will be generated additionally.
+     */
+    'formats' => [
+        'webp',
+    ],
+
+    /**
+     * Available image conversions per format.
      */
     'conversions' => [
         'thumb' => [
@@ -37,13 +47,4 @@ return [
             'height'    => 1920,
         ],
     ],
-
-    /**
-     * Additional conversion formats.
-     * Conversions will always be generated in the original format.
-     * Any formats you define here will be generated additionally.
-     */
-    'formats' => [],
-
-    'allowCropping' => false,
 ];

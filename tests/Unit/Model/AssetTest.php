@@ -19,17 +19,17 @@ class AssetTest extends TestCase
     {
         parent::setUp();
 
+        config()->set('thinktomorrow.assetlibrary.conversions', [
+            'thumb' => [
+                'width'     => 50,
+                'height'    => 50,
+            ],
+        ]);
+
         $this->asset = Asset::create();
         $this->asset->addMedia(UploadedFile::fake()->image('test-image.jpg'))
             ->toMediaCollection();
     }
-//
-//    public function tearDown(): void
-//    {
-//        Artisan::call('media-library:clear');
-//
-//        parent::tearDown();
-//    }
 
     public function test_asset_without_media_does_not_exist()
     {
