@@ -220,6 +220,7 @@ class Asset extends Model implements HasMedia
 
         return $media
             ->getGeneratedConversions()
+            ->reject(fn($value) => !$value)
             ->keys()
             ->all();
     }
