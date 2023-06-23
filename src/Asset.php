@@ -2,9 +2,6 @@
 
 namespace Thinktomorrow\AssetLibrary;
 
-use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\DB;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Illuminate\Database\Eloquent\Model;
@@ -204,19 +201,25 @@ class Asset extends Model implements HasMedia
     public function registerMediaConversions(Media $media = null): void
     {
         $conversions = config('thinktomorrow.assetlibrary.conversions');
+        $formats = config('thinktomorrow.assetlibrary.formats');
 
         foreach ($conversions as $key => $value) {
             $this->addMediaConversion($key)
                 ->width($value['width'])
                 ->height($value['height'])
                 ->keepOriginalImageFormat();
-//                ->optimize();
+
+            foreach ($formats as $format) {
+                $this->addMediaConversion($key)
+                    ->width($value['width'])
+                    ->height($value['height'])
+                    ->format($format);
+            }
         }
 
         if (config('thinktomorrow.assetlibrary.allowCropping')) {
             $this->addMediaConversion('cropped')
                 ->keepOriginalImageFormat();
-//                ->optimize();
         }
     }
 }

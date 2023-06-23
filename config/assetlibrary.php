@@ -20,19 +20,30 @@ return [
             'width'     => 150,
             'height'    => 150,
         ],
+        'small' => [
+            'width'     => 667,
+            'height'    => 667,
+        ],
         'medium' => [
-            'width'     => 300,
-            'height'    => 130,
+            'width'     => 1024,
+            'height'    => 1024,
         ],
         'large' => [
-            'width'     => 1024,
-            'height'    => 353,
+            'width'     => 1600,
+            'height'    => 1600,
         ],
         'full' => [
-            'width'     => 1600,
-            'height'    => 553,
+            'width'     => 1920,
+            'height'    => 1920,
         ],
     ],
+
+    /**
+     * Additional conversion formats.
+     * Conversions will always be generated in the original format.
+     * Any formats you define here will be generated additionally.
+     */
+    'formats' => [],
 
     'allowCropping' => false,
 ];
