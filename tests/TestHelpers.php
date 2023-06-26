@@ -2,13 +2,9 @@
 
 namespace Thinktomorrow\AssetLibrary\Tests;
 
-use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Str;
-use Thinktomorrow\AssetLibrary\Application\CreateAsset;
 use Thinktomorrow\AssetLibrary\Asset;
 use Thinktomorrow\AssetLibrary\HasAsset;
 use Thinktomorrow\AssetLibrary\Tests\stubs\Article;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Thinktomorrow\AssetLibrary\Tests\stubs\ArticleWithSoftdelete;
 
 trait TestHelpers

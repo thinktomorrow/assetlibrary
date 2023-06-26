@@ -27,24 +27,24 @@ return [
      */
     'conversions' => [
         'thumb' => [
-            'width'     => 150,
-            'height'    => 150,
+            'width' => 150,
+            'height' => 150,
         ],
         'small' => [
-            'width'     => 667,
-            'height'    => 667,
+            'width' => 667,
+            'height' => 667,
         ],
         'medium' => [
-            'width'     => 1024,
-            'height'    => 1024,
+            'width' => 1024,
+            'height' => 1024,
         ],
         'large' => [
-            'width'     => 1600,
-            'height'    => 1600,
+            'width' => 1600,
+            'height' => 1600,
         ],
         'full' => [
-            'width'     => 1920,
-            'height'    => 1920,
+            'width' => 1920,
+            'height' => 1920,
         ],
     ],
 ];

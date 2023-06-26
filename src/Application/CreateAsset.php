@@ -65,7 +65,7 @@ class CreateAsset
     {
         $asset = Asset::create();
 
-        $fileAdder = $this->getFileAdder($asset)->preservingOriginal(!$this->removeOriginal);
+        $fileAdder = $this->getFileAdder($asset)->preservingOriginal(! $this->removeOriginal);
 
         if ($this->filename) {
             $extension = AssetHelper::getExtension($this->filename) ?: $this->guessExtension();
@@ -81,9 +81,15 @@ class CreateAsset
 
     private function guessExtension(): ?string
     {
-        if ($this->uploadedFile) return $this->uploadedFile->getClientOriginalExtension();
-        if ($this->path) return AssetHelper::getExtension($this->path);
-        if ($this->url) return AssetHelper::getExtension($this->url);
+        if ($this->uploadedFile) {
+            return $this->uploadedFile->getClientOriginalExtension();
+        }
+        if ($this->path) {
+            return AssetHelper::getExtension($this->path);
+        }
+        if ($this->url) {
+            return AssetHelper::getExtension($this->url);
+        }
 
         // TODO: extract extension from base64.
 
@@ -100,7 +106,7 @@ class CreateAsset
              'uploadedFile' => 'addMedia',
              'path' => 'addMedia',
              'url' => 'addMediaFromUrl',
-             'base64' => 'addMediaFromBase64'
+             'base64' => 'addMediaFromBase64',
          ] as $inputProperty => $fileAdderMethod) {
             if ($this->{$inputProperty}) {
                 return $asset->{$fileAdderMethod}($this->{$inputProperty});

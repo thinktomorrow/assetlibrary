@@ -2,13 +2,8 @@
 
 namespace Thinktomorrow\AssetLibrary\Tests\Application;
 
-use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\DB;
-use Thinktomorrow\AssetLibrary\Application\CreateAsset;
-use Thinktomorrow\AssetLibrary\Application\AssetUploader;
 use Thinktomorrow\AssetLibrary\Application\ReplaceMedia;
-use Thinktomorrow\AssetLibrary\Asset;
 use Thinktomorrow\AssetLibrary\Tests\stubs\Article;
 use Thinktomorrow\AssetLibrary\Tests\TestCase;
 

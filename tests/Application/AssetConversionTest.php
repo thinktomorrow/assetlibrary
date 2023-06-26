@@ -12,12 +12,12 @@ class AssetConversionTest extends TestCase
     {
         config()->set('thinktomorrow.assetlibrary.conversions', [
             'small' => [
-                'width'     => 50,
-                'height'    => 50,
+                'width' => 50,
+                'height' => 50,
             ],
             'large' => [
-                'width'     => 100,
-                'height'    => 100,
+                'width' => 100,
+                'height' => 100,
             ],
         ]);
 
@@ -40,12 +40,12 @@ class AssetConversionTest extends TestCase
     {
         config()->set('thinktomorrow.assetlibrary.conversions', [
             'small' => [
-                'width'     => 50,
-                'height'    => 50,
+                'width' => 50,
+                'height' => 50,
             ],
             'large' => [
-                'width'     => 100,
-                'height'    => 100,
+                'width' => 100,
+                'height' => 100,
             ],
         ]);
 
@@ -68,12 +68,12 @@ class AssetConversionTest extends TestCase
     {
         config()->set('thinktomorrow.assetlibrary.conversions', [
             'small' => [
-                'width'     => 50,
-                'height'    => 50,
+                'width' => 50,
+                'height' => 50,
             ],
             'large' => [
-                'width'     => 100,
-                'height'    => 100,
+                'width' => 100,
+                'height' => 100,
             ],
         ]);
 
@@ -81,77 +81,77 @@ class AssetConversionTest extends TestCase
             ->uploadedFile(UploadedFile::fake()->image('test-image.gif'))
             ->save();
 
-        $this->assertEquals('/media/1/conversions/test-image-small.gif',$asset->getUrl('small'));
-        $this->assertEquals('/media/1/conversions/test-image-large.gif',$asset->getUrl('large'));
+        $this->assertEquals('/media/1/conversions/test-image-small.gif', $asset->getUrl('small'));
+        $this->assertEquals('/media/1/conversions/test-image-large.gif', $asset->getUrl('large'));
     }
 
     public function test_it_can_create_asset_with_alternate_formats()
     {
         config()->set('thinktomorrow.assetlibrary.conversions', [
             'small' => [
-                'width'     => 50,
-                'height'    => 50,
+                'width' => 50,
+                'height' => 50,
             ],
             'large' => [
-                'width'     => 100,
-                'height'    => 100,
+                'width' => 100,
+                'height' => 100,
             ],
         ]);
 
         config()->set('thinktomorrow.assetlibrary.formats', [
-            'webp'
+            'webp',
         ]);
 
         $asset = (new CreateAsset())
             ->uploadedFile(UploadedFile::fake()->image('test-image.gif'))
             ->save();
 
-        $this->assertEquals('/media/1/conversions/test-image-small.gif',$asset->getUrl('small'));
-        $this->assertEquals('/media/1/conversions/test-image-large.gif',$asset->getUrl('large'));
-        $this->assertEquals('/media/1/conversions/test-image-webp-small.webp',$asset->getUrl('small', 'webp'));
-        $this->assertEquals('/media/1/conversions/test-image-webp-large.webp',$asset->getUrl('large', 'webp'));
+        $this->assertEquals('/media/1/conversions/test-image-small.gif', $asset->getUrl('small'));
+        $this->assertEquals('/media/1/conversions/test-image-large.gif', $asset->getUrl('large'));
+        $this->assertEquals('/media/1/conversions/test-image-webp-small.webp', $asset->getUrl('small', 'webp'));
+        $this->assertEquals('/media/1/conversions/test-image-webp-large.webp', $asset->getUrl('large', 'webp'));
     }
 
     public function test_if_format_does_not_exist_it_returns_original()
     {
         config()->set('thinktomorrow.assetlibrary.conversions', [
             'small' => [
-                'width'     => 50,
-                'height'    => 50,
+                'width' => 50,
+                'height' => 50,
             ],
             'large' => [
-                'width'     => 100,
-                'height'    => 100,
+                'width' => 100,
+                'height' => 100,
             ],
         ]);
 
         config()->set('thinktomorrow.assetlibrary.formats', [
-            'webp'
+            'webp',
         ]);
 
         $asset = (new CreateAsset())
             ->uploadedFile(UploadedFile::fake()->image('test-image.gif'))
             ->save();
 
-        $this->assertEquals('/media/1/conversions/test-image-small.gif',$asset->getUrl('small'));
-        $this->assertEquals('/media/1/conversions/test-image-small.gif',$asset->getUrl('small', 'xxx'));
+        $this->assertEquals('/media/1/conversions/test-image-small.gif', $asset->getUrl('small'));
+        $this->assertEquals('/media/1/conversions/test-image-small.gif', $asset->getUrl('small', 'xxx'));
     }
 
     public function test_it_should_not_create_conversions_for_non_image()
     {
         config()->set('thinktomorrow.assetlibrary.conversions', [
             'small' => [
-                'width'     => 50,
-                'height'    => 50,
+                'width' => 50,
+                'height' => 50,
             ],
             'large' => [
-                'width'     => 100,
-                'height'    => 100,
+                'width' => 100,
+                'height' => 100,
             ],
         ]);
 
         config()->set('thinktomorrow.assetlibrary.formats', [
-            'webp'
+            'webp',
         ]);
 
         $asset = (new CreateAsset())
@@ -165,17 +165,17 @@ class AssetConversionTest extends TestCase
     {
         config()->set('thinktomorrow.assetlibrary.conversions', [
             'small' => [
-                'width'     => 50,
-                'height'    => 50,
+                'width' => 50,
+                'height' => 50,
             ],
             'large' => [
-                'width'     => 100,
-                'height'    => 100,
+                'width' => 100,
+                'height' => 100,
             ],
         ]);
 
         config()->set('thinktomorrow.assetlibrary.formats', [
-            'webp'
+            'webp',
         ]);
 
         $asset = (new CreateAsset())
@@ -183,9 +183,9 @@ class AssetConversionTest extends TestCase
             ->save();
 
         $this->assertCount(2, $asset->getFirstMedia()->getGeneratedConversions());
-        $this->assertEquals('/media/1/conversions/test-image-small.webp',$asset->getUrl('small'));
-        $this->assertEquals('/media/1/conversions/test-image-large.webp',$asset->getUrl('large'));
-        $this->assertEquals('/media/1/conversions/test-image-small.webp',$asset->getUrl('small', 'webp'));
-        $this->assertEquals('/media/1/conversions/test-image-large.webp',$asset->getUrl('large', 'webp'));
+        $this->assertEquals('/media/1/conversions/test-image-small.webp', $asset->getUrl('small'));
+        $this->assertEquals('/media/1/conversions/test-image-large.webp', $asset->getUrl('large'));
+        $this->assertEquals('/media/1/conversions/test-image-small.webp', $asset->getUrl('small', 'webp'));
+        $this->assertEquals('/media/1/conversions/test-image-large.webp', $asset->getUrl('large', 'webp'));
     }
 }

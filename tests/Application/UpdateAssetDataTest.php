@@ -3,7 +3,6 @@
 namespace Thinktomorrow\AssetLibrary\Tests\Application;
 
 use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\DB;
 use Thinktomorrow\AssetLibrary\Application\AddAsset;
 use Thinktomorrow\AssetLibrary\Application\UpdateAssetData;
 use Thinktomorrow\AssetLibrary\Tests\stubs\Article;

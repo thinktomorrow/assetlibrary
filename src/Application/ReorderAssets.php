@@ -14,7 +14,7 @@ class ReorderAssets
             ->where('assets_pivot.type', $type)
             ->where('assets_pivot.locale', $locale)
             ->get()
-            ->each(function(Asset $asset) use($model, $orderedAssetIds, $type, $locale){
+            ->each(function (Asset $asset) use ($model, $orderedAssetIds, $type, $locale) {
 
                 DB::table('assets_pivot')
                     ->where('asset_id', $asset->id)

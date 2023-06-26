@@ -10,7 +10,7 @@ trait InteractsWithAssets
     public static function bootAssetTrait()
     {
         static::deleting(function ($model) {
-            if(!isset($model->forceDeleting) || $model->forceDeleting === true) {
+            if(! isset($model->forceDeleting) || $model->forceDeleting === true) {
                 $model->assetRelation()->detach();
             }
         });
@@ -47,7 +47,9 @@ trait InteractsWithAssets
 
     protected function getAssetFallbackLocale(): ?string
     {
-        if(!$this->useAssetFallbackLocale()) return null;
+        if(! $this->useAssetFallbackLocale()) {
+            return null;
+        }
 
         if(is_null($fallbackLocale = config('thinktomorrow.assetlibrary.fallback_locale'))) {
             $fallbackLocale = config('app.fallback_locale');
@@ -59,8 +61,8 @@ trait InteractsWithAssets
     private function fetchAssets(?string $type = null, ?string $locale = null): Collection
     {
         return $this->assetRelation
-            ->when($type, fn($collection) => $collection->where('pivot.type', $type))
-            ->when($locale, fn($collection) => $collection->filter(fn(Asset $asset) => $asset->pivot->locale == $locale))
+            ->when($type, fn ($collection) => $collection->where('pivot.type', $type))
+            ->when($locale, fn ($collection) => $collection->filter(fn (Asset $asset) => $asset->pivot->locale == $locale))
             ->sortBy('pivot.order');
     }
 }
