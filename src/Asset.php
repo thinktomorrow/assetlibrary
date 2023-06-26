@@ -214,17 +214,6 @@ class Asset extends Model implements HasMedia
         return $this->exists();
     }
 
-    public function getConversions(): array
-    {
-        if (!$media = $this->getFirstMedia()) return [];
-
-        return $media
-            ->getGeneratedConversions()
-            ->reject(fn($value) => !$value)
-            ->keys()
-            ->all();
-    }
-
     /**
      * Register the conversions that should be performed.
      *

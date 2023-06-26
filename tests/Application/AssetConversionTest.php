@@ -30,10 +30,9 @@ class AssetConversionTest extends TestCase
             ->save();
 
         $this->assertCount(2, $asset->getFirstMedia()->getGeneratedConversions());
-        $this->assertCount(2, $asset->getConversions());
         $this->assertEquals([
-            'small', 'large',
-        ], $asset->getConversions());
+            'small' => true, 'large' => true,
+        ], $asset->getFirstMedia()->getGeneratedConversions()->all());
 
     }
 
@@ -59,10 +58,9 @@ class AssetConversionTest extends TestCase
             ->save();
 
         $this->assertCount(4, $asset->getFirstMedia()->getGeneratedConversions());
-        $this->assertCount(4, $asset->getConversions());
         $this->assertEquals([
-            'small', 'large', 'webp-small','webp-large',
-        ], $asset->getConversions());
+            'small' => true, 'large' => true, 'webp-small' => true,'webp-large' => true,
+        ], $asset->getFirstMedia()->getGeneratedConversions()->all());
 
     }
 
@@ -161,7 +159,6 @@ class AssetConversionTest extends TestCase
             ->save();
 
         $this->assertCount(0, $asset->getFirstMedia()->getGeneratedConversions());
-        $this->assertCount(0, $asset->getConversions());
     }
 
     public function test_it_should_not_run_additional_format_when_original_is_already_this_format()
@@ -185,7 +182,7 @@ class AssetConversionTest extends TestCase
             ->uploadedFile(UploadedFile::fake()->image('test-image.webp'))
             ->save();
 
-        $this->assertCount(2, $asset->getConversions());
+        $this->assertCount(2, $asset->getFirstMedia()->getGeneratedConversions());
         $this->assertEquals('/media/1/conversions/test-image-small.webp',$asset->getUrl('small'));
         $this->assertEquals('/media/1/conversions/test-image-large.webp',$asset->getUrl('large'));
         $this->assertEquals('/media/1/conversions/test-image-small.webp',$asset->getUrl('small', 'webp'));
