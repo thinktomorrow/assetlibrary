@@ -257,8 +257,8 @@ class Asset extends Model implements HasMedia
         foreach ($formats as $format) {
             foreach ($conversions as $conversionName => $values) {
                 $this->addMediaConversion($format . '-' . $conversionName)
-                    ->width($value['width'])
-                    ->height($value['height'])
+                    ->width($values['width'])
+                    ->height($values['height'])
                     ->format($format);
             }
         }
