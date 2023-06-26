@@ -1,7 +1,7 @@
 {
     "name": "thinktomorrow/assetlibrary",
     "type": "library",
-    "description": "An extension on top of Spatie/laravel-medialibrary which provides extra functionalities",
+    "description": "An extension on top of Spatie/laravel-medialibrary which allows to attach an asset on multiple models. Also ocalized assets are supported.",
     "keywords": [
         "thinktomorrow",
         "AssetLibrary",
@@ -11,9 +11,19 @@
         "downloads",
         "media"
     ],
-    "homepage": "https://github.com/thinktomorrow/AssetLibrary",
+    "homepage": "https://github.com/thinktomorrow/assetlibrary",
     "license": "MIT",
     "authors": [
+        {
+            "name": "Ben Cavens",
+            "email": "ben@thinktomorrow.be",
+            "role": "Developer"
+        },
+        {
+            "name": "Tijs Verellen",
+            "email": "tijs@thinktomorrow.be",
+            "role": "Developer"
+        },
         {
             "name": "Philippe Damen",
             "email": "mr.deleeuw@gmail.com",
@@ -26,7 +36,7 @@
         "spatie/laravel-medialibrary": "^9.10.0"
     },
     "require-dev": {
-        "orchestra/testbench": "6.*",
+        "orchestra/testbench": "^6.28",
         "phpunit/phpunit": "^9.5"
     },
     "autoload": {
