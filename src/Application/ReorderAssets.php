@@ -28,33 +28,4 @@ class ReorderAssets
             });
 
     }
-
-    /**
-     * Taken from: https://github.com/laravel/ideas/issues/575
-     *
-     * @return void
-     */
-    private static function batchUpdateColumn(string $table, string $column, array $indices, string $indexColumn = 'id', bool $castIdToIntegers = true, string $extraWhere = null): void
-    {
-        $cases = [];
-        $ids = [];
-        $params = [];
-
-        foreach ($indices as $index => $modelId) {
-            $id = $castIdToIntegers ? (int) $modelId : $modelId;
-            $ids[] = "'{$id}'";
-
-            $cases[] = "WHEN '{$id}' then ?";
-            $params[] = $index;
-        }
-
-        $ids = implode(',', $ids);
-        $cases = implode(' ', $cases);
-
-        if ($extraWhere) {
-            $extraWhere = ' AND ' . DB::raw($extraWhere);
-        }
-
-        DB::update("UPDATE `{$table}` SET `{$column}` = CASE `".$indexColumn."` {$cases} END WHERE `".$indexColumn."` in ({$ids})".$extraWhere, $params);
-    }
 }

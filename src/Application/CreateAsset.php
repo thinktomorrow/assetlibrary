@@ -92,7 +92,6 @@ class CreateAsset
         }
 
         // TODO: extract extension from base64.
-
         return null;
     }
 

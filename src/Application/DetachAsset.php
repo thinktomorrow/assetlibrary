@@ -8,6 +8,9 @@ use Thinktomorrow\AssetLibrary\HasAsset;
 
 class DetachAsset
 {
+    /**
+     * Detach a models assets for specified type, locale and asset ids.
+     */
     public function handle(HasAsset&Model $model, string $type, string $locale, array $assetIds): void
     {
         DB::table('assets_pivot')
@@ -19,6 +22,9 @@ class DetachAsset
             ->delete();
     }
 
+    /**
+     * Detach all model assets of a certain type
+     */
     public function handleByType(HasAsset&Model $model, string $type): void
     {
         DB::table('assets_pivot')
@@ -28,6 +34,9 @@ class DetachAsset
             ->delete();
     }
 
+    /**
+     * Detach all assets of a model
+     */
     public function handleAll(HasAsset&Model $model): void
     {
         DB::table('assets_pivot')
