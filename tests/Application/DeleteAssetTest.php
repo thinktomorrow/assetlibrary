@@ -2,11 +2,8 @@
 
 namespace Thinktomorrow\AssetLibrary\Tests\Application;
 
-use Illuminate\Support\Facades\DB;
 use Thinktomorrow\AssetLibrary\Application\DeleteAsset;
-use Thinktomorrow\AssetLibrary\Asset;
 use Thinktomorrow\AssetLibrary\Tests\stubs\Article;
-use Thinktomorrow\AssetLibrary\Tests\stubs\ArticleWithSoftdelete;
 use Thinktomorrow\AssetLibrary\Tests\TestCase;
 
 class DeleteAssetTest extends TestCase

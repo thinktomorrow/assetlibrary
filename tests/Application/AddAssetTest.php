@@ -44,9 +44,9 @@ class AddAssetTest extends TestCase
 
         app(AddAsset::class)->handle($model, $asset, 'doc', 'nl', 1, ['foo' => 'bar']);
 
-        $this->assertEquals('doc', $model->asset(null,null)->pivot->type);
-        $this->assertEquals('nl', $model->asset(null,null)->pivot->locale);
-        $this->assertEquals(1, $model->asset(null,null)->pivot->order);
-        $this->assertEquals('bar', $model->asset(null,null)->pivot->getData('foo'));
+        $this->assertEquals('doc', $model->asset(null, null)->pivot->type);
+        $this->assertEquals('nl', $model->asset(null, null)->pivot->locale);
+        $this->assertEquals(1, $model->asset(null, null)->pivot->order);
+        $this->assertEquals('bar', $model->asset(null, null)->pivot->getData('foo'));
     }
 }

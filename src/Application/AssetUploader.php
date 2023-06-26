@@ -197,8 +197,8 @@ class AssetUploader
         // Sanitize filename by sluggifying the filename without the extension
         $fileAdd->sanitizingFileName(function ($filename) {
             $extension = substr($filename, strrpos($filename, '.') + 1);
-            $filename  = substr($filename, 0, strrpos($filename, '.'));
-            $filename  = Str::slug($filename).'.'.$extension;
+            $filename = substr($filename, 0, strrpos($filename, '.'));
+            $filename = Str::slug($filename).'.'.$extension;
 
             return strtolower($filename);
         });

@@ -74,13 +74,13 @@ class DetachAssetTest extends TestCase
         $this->assertDatabaseCount('media', 3);
         $this->assertDatabaseCount('assets_pivot', 3);
 
-        app(DetachAsset::class)->handle($model, 'image','en', [$asset->id]);
+        app(DetachAsset::class)->handle($model, 'image', 'en', [$asset->id]);
 
         $this->assertDatabaseCount('assets', 3);
         $this->assertDatabaseCount('media', 3);
         $this->assertDatabaseCount('assets_pivot', 2);
 
-        app(DetachAsset::class)->handle($model, 'image','nl', [$asset2->id]);
+        app(DetachAsset::class)->handle($model, 'image', 'nl', [$asset2->id]);
 
         $this->assertDatabaseCount('assets', 3);
         $this->assertDatabaseCount('media', 3);
@@ -93,7 +93,7 @@ class DetachAssetTest extends TestCase
 
         $this->assertDatabaseCount('assets_pivot', 1);
 
-        app(DetachAsset::class)->handle($model, 'image','en', [$asset->id]);
+        app(DetachAsset::class)->handle($model, 'image', 'en', [$asset->id]);
 
         $this->assertDatabaseCount('assets_pivot', 1);
     }

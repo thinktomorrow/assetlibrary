@@ -2,7 +2,6 @@
 
 namespace Thinktomorrow\AssetLibrary\Tests\Unit\Model;
 
-use Thinktomorrow\AssetLibrary\Asset;
 use Thinktomorrow\AssetLibrary\Tests\stubs\Article;
 use Thinktomorrow\AssetLibrary\Tests\TestCase;
 

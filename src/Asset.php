@@ -2,10 +2,10 @@
 
 namespace Thinktomorrow\AssetLibrary;
 
-use Spatie\MediaLibrary\InteractsWithMedia;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class Asset extends Model implements HasMedia
 {
@@ -23,7 +23,9 @@ class Asset extends Model implements HasMedia
      */
     public function hasData(string $key): bool
     {
-        if (!$this->pivot) return false;
+        if (! $this->pivot) {
+            return false;
+        }
 
         return $this->pivot->hasData($key);
     }
@@ -34,7 +36,9 @@ class Asset extends Model implements HasMedia
      */
     public function getData(string $key, $default = null)
     {
-        if (!$this->pivot) return $default;
+        if (! $this->pivot) {
+            return $default;
+        }
 
         return $this->pivot->getData($key, $default);
     }
@@ -58,7 +62,7 @@ class Asset extends Model implements HasMedia
             $conversionName = $format . '-' . $conversionName;
         }
 
-        if (!$media = $this->getFirstMedia(self::MEDIA_COLLECTION)) {
+        if (! $media = $this->getFirstMedia(self::MEDIA_COLLECTION)) {
             return $this->getFallbackMediaUrl(self::MEDIA_COLLECTION) ?: null;
         }
 
@@ -85,7 +89,9 @@ class Asset extends Model implements HasMedia
      */
     public function getFileName(string $conversionName = ''): ?string
     {
-        if (!$path = $this->getFirstMediaPath(self::MEDIA_COLLECTION, $conversionName)) return null;
+        if (! $path = $this->getFirstMediaPath(self::MEDIA_COLLECTION, $conversionName)) {
+            return null;
+        }
 
         return basename($path);
     }
@@ -102,7 +108,7 @@ class Asset extends Model implements HasMedia
     public function exists(string $conversionName = ''): bool
     {
         // In case there is no media model attached to our Asset.
-        if (!$path = $this->getFirstMediaPath(self::MEDIA_COLLECTION, $conversionName)) {
+        if (! $path = $this->getFirstMediaPath(self::MEDIA_COLLECTION, $conversionName)) {
             return false;
         }
 
@@ -110,7 +116,9 @@ class Asset extends Model implements HasMedia
         // This is because Media Library falls back to returning the original path if the converted file does not exist.
         if ($conversionName) {
             $originalPath = $this->getFirstMediaPath(self::MEDIA_COLLECTION, '');
-            if ($originalPath == $path) return false;
+            if ($originalPath == $path) {
+                return false;
+            }
         }
 
         return file_exists($path);
@@ -169,7 +177,7 @@ class Asset extends Model implements HasMedia
             'height' => null,
         ];
 
-        if (!$this->isImage() || !$this->exists($conversionName)) {
+        if (! $this->isImage() || ! $this->exists($conversionName)) {
             return $result;
         }
 
@@ -183,7 +191,7 @@ class Asset extends Model implements HasMedia
 
     private function getMediaPropertyValue(string $property, $default = null)
     {
-        if (!$mediaModel = $this->getFirstMedia(self::MEDIA_COLLECTION)) {
+        if (! $mediaModel = $this->getFirstMedia(self::MEDIA_COLLECTION)) {
             return $default;
         }
 
@@ -241,7 +249,7 @@ class Asset extends Model implements HasMedia
                 ->width($value['width'])
                 ->height($value['height']);
 
-            ($canKeepOriginalFormat || !$originalFormat)
+            ($canKeepOriginalFormat || ! $originalFormat)
                 ? $conversion->keepOriginalImageFormat()
                 : $conversion->format($originalFormat);
         }

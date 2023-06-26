@@ -2,9 +2,7 @@
 
 namespace Thinktomorrow\AssetLibrary\Tests\Unit\Trait;
 
-use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Artisan;
-use Thinktomorrow\AssetLibrary\Application\CreateAsset;
 use Thinktomorrow\AssetLibrary\Asset;
 use Thinktomorrow\AssetLibrary\Tests\stubs\Article;
 use Thinktomorrow\AssetLibrary\Tests\TestCase;
@@ -18,12 +16,12 @@ class AssetLocaleTest extends TestCase
         Article::migrate();
     }
 
-//    public function tearDown(): void
-//    {
-//        Artisan::call('media-library:clear');
-//
-//        parent::tearDown();
-//    }
+    //    public function tearDown(): void
+    //    {
+    //        Artisan::call('media-library:clear');
+    //
+    //        parent::tearDown();
+    //    }
 
     public function test_it_can_get_an_asset_per_locale()
     {

@@ -2,13 +2,13 @@
 
 namespace Thinktomorrow\AssetLibrary\Tests;
 
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
 use Orchestra\Testbench\TestCase as BaseTestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Spatie\MediaLibrary\Conversions\ImageGenerators\Svg;
-use Spatie\MediaLibrary\Conversions\ImageGenerators\Webp;
 use Spatie\MediaLibrary\Conversions\ImageGenerators\Image;
+use Spatie\MediaLibrary\Conversions\ImageGenerators\Svg;
 use Spatie\MediaLibrary\Conversions\ImageGenerators\Video;
+use Spatie\MediaLibrary\Conversions\ImageGenerators\Webp;
 
 class TestCase extends BaseTestCase
 {
@@ -26,12 +26,12 @@ class TestCase extends BaseTestCase
 
         config()->set('thinktomorrow.assetlibrary.conversions', [
             'thumb' => [
-                'width'     => 50,
-                'height'    => 50,
+                'width' => 50,
+                'height' => 50,
             ],
             'full' => [
-                'width'     => 80,
-                'height'    => 100,
+                'width' => 80,
+                'height' => 100,
             ],
         ]);
 

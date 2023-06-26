@@ -3,12 +3,7 @@
 namespace Thinktomorrow\AssetLibrary\Tests\Unit\Model;
 
 use Illuminate\Http\UploadedFile;
-use Thinktomorrow\AssetLibrary\Application\CreateAsset;
-use Thinktomorrow\AssetLibrary\Application\AssetUploader;
 use Thinktomorrow\AssetLibrary\Asset;
-use Thinktomorrow\AssetLibrary\Exceptions\ConfigException;
-use Thinktomorrow\AssetLibrary\Exceptions\CorruptMediaException;
-use Thinktomorrow\AssetLibrary\Tests\stubs\Article;
 use Thinktomorrow\AssetLibrary\Tests\TestCase;
 
 class AssetTest extends TestCase
@@ -21,8 +16,8 @@ class AssetTest extends TestCase
 
         config()->set('thinktomorrow.assetlibrary.conversions', [
             'thumb' => [
-                'width'     => 50,
-                'height'    => 50,
+                'width' => 50,
+                'height' => 50,
             ],
         ]);
 
