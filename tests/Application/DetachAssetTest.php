@@ -97,4 +97,19 @@ class DetachAssetTest extends TestCase
 
         $this->assertDatabaseCount('assets_pivot', 1);
     }
+
+    public function test_it_can_detach_an_asset_when_model_is_deleted()
+    {
+        $model = $this->createModelWithAsset($asset = $this->createAssetWithMedia());
+
+        $this->assertDatabaseCount('assets', 1);
+        $this->assertDatabaseCount('media', 1);
+        $this->assertDatabaseCount('assets_pivot', 1);
+
+        $model->delete();
+
+        $this->assertDatabaseCount('assets', 1);
+        $this->assertDatabaseCount('media', 1);
+        $this->assertDatabaseCount('assets_pivot', 0);
+    }
 }

@@ -7,7 +7,7 @@ use Illuminate\Support\Collection;
 
 trait InteractsWithAssets
 {
-    public static function bootAssetTrait()
+    public static function bootInteractsWithAssets()
     {
         static::deleting(function ($model) {
             if(! isset($model->forceDeleting) || $model->forceDeleting === true) {

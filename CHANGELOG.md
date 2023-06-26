@@ -7,9 +7,10 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 ## unreleased
 
 ## Upgrade to 0.9
-
--   Change: Rename `Thinktomorrow\AssetLibrary\AssetTrait` to `Thinktomorrow\AssetLibrary\InteractsWithAssets`.
--   Add: You can now define additional formats in which the asset should be converted.
+-   Added: it is now possible to manage data per attached asset. 
+-   Added: You can now define additional formats in which the asset should be converted.
+-   Changed: (Breaking) Rename `Thinktomorrow\AssetLibrary\AssetTrait` to `Thinktomorrow\AssetLibrary\InteractsWithAssets`.
+-   Changed: Following methods are deprecated: Asset::filename(), Asset::url() and Asset::hasFile(). Use Asset::getFileName(), Asset::getUrl() and Asset::exists() instead.
 
 ## 0.8.7 - 2023-03-14
 

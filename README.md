@@ -3,8 +3,11 @@
 [![Latest Version on Packagist][ico-version]][link-packagist]
 [![Software License][ico-license]](LICENSE.md)
 
- Assetlibrary is a intermediate for the Spatie medialibrary package. It allows to attach an asset to multiple models.
-It also allows to attach assets per locale.
+ Assetlibrary is a intermediate for the Spatie medialibrary package. 
+ - It allows to attach an asset to multiple models. 
+ - An asset can contain model specific data.
+ - It also allows to attach assets per locale.
+
 
 ## Install
 
