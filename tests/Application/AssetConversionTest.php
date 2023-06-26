@@ -4,7 +4,6 @@ namespace Thinktomorrow\AssetLibrary\Tests\Application;
 
 use Illuminate\Http\UploadedFile;
 use Thinktomorrow\AssetLibrary\Application\CreateAsset;
-use Thinktomorrow\AssetLibrary\Asset;
 use Thinktomorrow\AssetLibrary\Tests\TestCase;
 
 class AssetConversionTest extends TestCase
