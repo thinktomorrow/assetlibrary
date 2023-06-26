@@ -4,6 +4,7 @@ namespace Thinktomorrow\AssetLibrary\Tests\Application;
 
 use Illuminate\Http\UploadedFile;
 use Thinktomorrow\AssetLibrary\Application\CreateAsset;
+use Thinktomorrow\AssetLibrary\Asset;
 use Thinktomorrow\AssetLibrary\Tests\TestCase;
 
 class AssetConversionTest extends TestCase
@@ -187,5 +188,30 @@ class AssetConversionTest extends TestCase
         $this->assertEquals('/media/1/conversions/test-image-large.webp',$asset->getUrl('large'));
         $this->assertEquals('/media/1/conversions/test-image-small.webp',$asset->getUrl('small', 'webp'));
         $this->assertEquals('/media/1/conversions/test-image-large.webp',$asset->getUrl('large', 'webp'));
+    }
+
+    public function test_it_can_convert_svg_when_imagick_is_available()
+    {
+        $imagickModuleAvailable = class_exists('Imagick');
+
+        $asset = $this->createAssetWithMedia('logo.svg');
+
+        $this->assertStringEndsWith('/temp/media/1/logo.svg', $asset->getPath());
+        $this->assertEquals('logo.svg', $asset->getFileName());
+        $this->assertEquals('image/svg+xml', $asset->getMimeType());
+        $this->assertEquals('svg', $asset->getExtension());
+        $this->assertEquals('image', $asset->getExtensionType());
+
+        if($imagickModuleAvailable) {
+            $this->assertStringEndsWith('/temp/media/1/logo-thumb.jpg', $asset->getPath('thumb'));
+            $this->assertEquals('logo-thumb.jpg', $asset->getFileName('thumb'));
+        } else {
+
+            // Without Imagick, there is no thumb conversion and original is returned
+            $this->assertStringEndsWith('/temp/media/1/logo.svg', $asset->getPath('thumb'));
+            $this->assertEquals('logo.svg', $asset->getFileName('thumb'));
+        }
+
+
     }
 }

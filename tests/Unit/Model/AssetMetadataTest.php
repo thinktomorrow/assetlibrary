@@ -48,7 +48,6 @@ class AssetMetadataTest extends TestCase
         $asset = $this->createAssetWithMedia('logo.svg');
 
         $this->assertStringEndsWith('/temp/media/1/logo.svg', $asset->getPath());
-        $this->assertStringEndsWith('/temp/media/1/logo.svg', $asset->getPath('thumb'));
         $this->assertEquals('logo.svg', $asset->getFileName());
         $this->assertEquals(3688, $asset->getSize());
         $this->assertEquals('3.6 KB', $asset->getHumanReadableSize());
