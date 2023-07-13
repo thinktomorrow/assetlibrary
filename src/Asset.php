@@ -10,6 +10,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 class Asset extends Model implements HasMedia
 {
     use InteractsWithMedia;
+    use ProvidesData;
 
     /**
      * The asset model always has one collection type. Different collection types for
@@ -21,7 +22,7 @@ class Asset extends Model implements HasMedia
      * Proxy for the data values on the associated pivot. This is the context data
      * relevant and unique for each owner - asset relation.
      */
-    public function hasData(string $key): bool
+    public function hasPivotData(string $key): bool
     {
         if (! $this->pivot) {
             return false;
@@ -34,7 +35,7 @@ class Asset extends Model implements HasMedia
      * Proxy for the data values on the associated pivot. This is the context data
      * relevant and unique for each owner - asset relation.
      */
-    public function getData(string $key, $default = null)
+    public function getPivotData(string $key, $default = null)
     {
         if (! $this->pivot) {
             return $default;

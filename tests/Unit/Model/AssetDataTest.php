@@ -32,7 +32,7 @@ class AssetDataTest extends TestCase
     public function test_it_can_set_custom_data()
     {
         $model = $this->createModelWithAsset($this->createAssetWithMedia());
-        $model->asset('image')->pivot->setData('foo', 'bar');
+        $model->asset('image')->setData('foo', 'bar');
 
         $this->assertEquals('bar', $model->asset('image')->getData('foo'));
         $this->assertTrue($model->asset('image')->hasData('foo'));
@@ -42,11 +42,11 @@ class AssetDataTest extends TestCase
     {
         $model = $this->createModelWithAsset($this->createAssetWithMedia());
 
-        $model->asset('image')->pivot->setData('foo', 'bar');
+        $model->asset('image')->setData('foo', 'bar');
         $this->assertEquals('bar', $model->asset('image')->getData('foo'));
         $this->assertTrue($model->asset('image')->hasData('foo'));
 
-        $model->asset('image')->pivot->forgetData('foo');
+        $model->asset('image')->forgetData('foo');
         $this->assertNull($model->asset('image')->getData('foo'));
         $this->assertFalse($model->asset('image')->hasData('foo'));
     }
@@ -55,7 +55,7 @@ class AssetDataTest extends TestCase
     {
         $model = $this->createModelWithAsset($this->createAssetWithMedia());
 
-        $model->asset('image')->pivot->setData('foo', 'bar');
+        $model->asset('image')->setData('foo', 'bar');
         $model->asset('image')->save();
 
         $this->assertEquals('bar', $model->asset('image')->getData('foo'));
@@ -65,12 +65,12 @@ class AssetDataTest extends TestCase
     {
         $model = $this->createModelWithAsset($this->createAssetWithMedia());
 
-        $model->asset('image')->pivot->setData('foo', 'bar');
+        $model->asset('image')->setData('foo', 'bar');
         $model->asset('image')->save();
 
         $this->assertEquals('bar', $model->asset('image')->getData('foo'));
 
-        $model->asset('image')->pivot->forgetData('foo');
+        $model->asset('image')->forgetData('foo');
         $model->asset('image')->save();
 
         $this->assertNull($model->asset('image')->getData('foo'));
