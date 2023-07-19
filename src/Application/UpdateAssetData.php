@@ -8,8 +8,14 @@ class UpdateAssetData
 {
     public function handle(string $assetId, array $data): void
     {
+        $existingData = json_decode(DB::table('assets')->where('id', $assetId)->select('data')->first()->data, true);
+
+        if(is_null($existingData)) {
+            $existingData = [];
+        }
+
         DB::table('assets')
             ->where('id', $assetId)
-            ->update(['data' => $data]);
+            ->update(['data' => array_merge($existingData, $data)]);
     }
 }

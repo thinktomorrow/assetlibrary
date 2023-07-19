@@ -34,4 +34,31 @@ class UpdateAssetDataTest extends TestCase
 
         $this->assertEquals('bar-updated', $asset->fresh()->getData('foo'));
     }
+
+    public function test_it_can_update_asset_data_while_keeping_existing_data()
+    {
+        $asset = $this->createAssetWithMedia();
+
+        $this->assertEquals(null, $asset->getData('foo'));
+
+        app(UpdateAssetData::class)->handle($asset->id, ['foo' => 'barr']);
+        $this->assertEquals('barr', $asset->fresh()->getData('foo'));
+
+        app(UpdateAssetData::class)->handle($asset->id, ['bar' => 'bazz']);
+        $this->assertEquals('barr', $asset->fresh()->getData('foo'));
+        $this->assertEquals('bazz', $asset->fresh()->getData('bar'));
+    }
+
+    public function test_it_can_set_asset_data_to_null()
+    {
+        $asset = $this->createAssetWithMedia();
+
+        $this->assertEquals(null, $asset->getData('foo'));
+
+        app(UpdateAssetData::class)->handle($asset->id, ['foo' => 'barr']);
+        $this->assertEquals('barr', $asset->fresh()->getData('foo'));
+
+        app(UpdateAssetData::class)->handle($asset->id, ['foo' => null]);
+        $this->assertEquals(null, $asset->fresh()->getData('foo'));
+    }
 }
