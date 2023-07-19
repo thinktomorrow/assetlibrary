@@ -19,8 +19,9 @@ class UpdateAssociatedAssetData
                 ->where('type', $type)
                 ->where('locale', $locale)
                 ->select('data')
-                ->first()->data, true
-            );
+                ->first()->data,
+            true
+        );
 
         if(is_null($existingData)) {
             $existingData = [];
