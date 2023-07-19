@@ -34,7 +34,9 @@ class VimeoAsset extends AbstractAsset implements \Thinktomorrow\AssetLibrary\Ex
      */
     public function getFileName(string $conversionName = ''): ?string
     {
-        if(!$path = $this->getPath($conversionName)) return null;
+        if(! $path = $this->getPath($conversionName)) {
+            return null;
+        }
 
         return basename($path);
     }
@@ -49,7 +51,7 @@ class VimeoAsset extends AbstractAsset implements \Thinktomorrow\AssetLibrary\Ex
      */
     public function exists(string $conversionName = ''): bool
     {
-        return !!$this->getPath($conversionName);
+        return ! ! $this->getPath($conversionName);
     }
 
     public function getSize(): int

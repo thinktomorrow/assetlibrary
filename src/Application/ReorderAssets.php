@@ -3,7 +3,6 @@
 namespace Thinktomorrow\AssetLibrary\Application;
 
 use Illuminate\Support\Facades\DB;
-use Thinktomorrow\AssetLibrary\Asset;
 use Thinktomorrow\AssetLibrary\AssetContract;
 use Thinktomorrow\AssetLibrary\HasAsset;
 

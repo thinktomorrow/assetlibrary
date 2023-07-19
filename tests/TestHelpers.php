@@ -2,8 +2,8 @@
 
 namespace Thinktomorrow\AssetLibrary\Tests;
 
-use Thinktomorrow\AssetLibrary\AssetContract;
 use Thinktomorrow\AssetLibrary\Asset;
+use Thinktomorrow\AssetLibrary\AssetContract;
 use Thinktomorrow\AssetLibrary\HasAsset;
 use Thinktomorrow\AssetLibrary\Tests\stubs\Article;
 use Thinktomorrow\AssetLibrary\Tests\stubs\ArticleWithSoftdelete;

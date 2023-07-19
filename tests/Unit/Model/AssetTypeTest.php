@@ -2,9 +2,9 @@
 
 namespace Thinktomorrow\AssetLibrary\Tests\Unit\Model;
 
+use Thinktomorrow\AssetLibrary\Asset;
 use Thinktomorrow\AssetLibrary\AssetType\AssetTypeFactory;
 use Thinktomorrow\AssetLibrary\AssetType\NotFoundAssetType;
-use Thinktomorrow\AssetLibrary\Asset;
 use Thinktomorrow\AssetLibrary\Tests\stubs\Article;
 use Thinktomorrow\AssetLibrary\Tests\stubs\VimeoAsset;
 use Thinktomorrow\AssetLibrary\Tests\TestCase;
@@ -119,7 +119,7 @@ class AssetTypeTest extends TestCase
     {
         $model = $this->createModelWithAsset(VimeoAsset::create());
 
-        $this->assertInstanceOf(VimeoAsset::class, $model->asset(null,null));
+        $this->assertInstanceOf(VimeoAsset::class, $model->asset(null, null));
     }
 
     public function test_it_can_get_assets_per_type()
@@ -127,8 +127,8 @@ class AssetTypeTest extends TestCase
         $model = $this->createModelWithAsset(VimeoAsset::create());
         $model->assetRelation()->attach(Asset::create(), ['type' => 'video', 'locale' => 'nl', 'order' => 1]);
 
-        $this->assertCount(2, $model->assets(null,null));
-        $this->assertInstanceOf(VimeoAsset::class, $model->assets(null,null)[0]);
-        $this->assertInstanceOf(Asset::class, $model->assets(null,null)[1]);
+        $this->assertCount(2, $model->assets(null, null));
+        $this->assertInstanceOf(VimeoAsset::class, $model->assets(null, null)[0]);
+        $this->assertInstanceOf(Asset::class, $model->assets(null, null)[1]);
     }
 }

@@ -27,7 +27,9 @@ class AssetTypeFactory
     public static function assetTypeByClassName(string $className): string
     {
         foreach(config('thinktomorrow.assetlibrary.types') as $type => $class) {
-            if($className == $class) return $type;
+            if($className == $class) {
+                return $type;
+            }
         }
 
         throw new NotFoundAssetType('No asset type found by className [' . $className . ']. Make sure that the entry exists in config.');
@@ -35,7 +37,7 @@ class AssetTypeFactory
 
     public static function instance(string $assetType, $attributes = []): AssetContract
     {
-        if(!isset($attributes['asset_type'])) {
+        if(! isset($attributes['asset_type'])) {
             $attributes['asset_type'] = $assetType;
         }
 
