@@ -3,7 +3,7 @@
 namespace Thinktomorrow\AssetLibrary\Tests\Application;
 
 use Illuminate\Support\Facades\Artisan;
-use Thinktomorrow\AssetLibrary\Application\AddAsset;
+use Illuminate\Support\Facades\DB;
 use Thinktomorrow\AssetLibrary\Application\UpdateAssetData;
 use Thinktomorrow\AssetLibrary\Tests\stubs\Article;
 use Thinktomorrow\AssetLibrary\Tests\TestCase;
@@ -26,17 +26,12 @@ class UpdateAssetDataTest extends TestCase
 
     public function test_it_can_update_asset_data()
     {
-        $model = Article::create();
         $asset = $this->createAssetWithMedia();
 
-        $this->assertCount(0, $model->assetRelation()->get());
+        $this->assertEquals(null, $asset->getData('foo'));
 
-        app(AddAsset::class)->handle($model, $asset, 'doc', 'nl', 1, ['foo' => 'bar']);
+        app(UpdateAssetData::class)->handle($asset->id, ['foo' => 'bar-updated']);
 
-        $this->assertEquals('bar', $model->asset(null, null)->pivot->getData('foo'));
-
-        app(UpdateAssetData::class)->handle($model, $asset->id, 'doc', 'nl', ['foo' => 'bar-updated']);
-
-        $this->assertEquals('bar-updated', $model->fresh()->asset(null, null)->pivot->getData('foo'));
+        $this->assertEquals('bar-updated', $asset->fresh()->getData('foo'));
     }
 }
