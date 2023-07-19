@@ -5,6 +5,7 @@ namespace Thinktomorrow\AssetLibrary\Application;
 use Spatie\MediaLibrary\MediaCollections\FileAdder;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Thinktomorrow\AssetLibrary\Asset;
+use Thinktomorrow\AssetLibrary\AssetContract;
 use Thinktomorrow\AssetLibrary\AssetHelper;
 
 class CreateAsset
@@ -61,7 +62,7 @@ class CreateAsset
         return $this;
     }
 
-    public function save(string $disk = ''): Asset
+    public function save(string $disk = ''): AssetContract
     {
         $asset = Asset::create();
 

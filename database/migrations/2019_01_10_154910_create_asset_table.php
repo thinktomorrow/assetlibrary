@@ -10,6 +10,7 @@ return new class extends Migration
     {
         Schema::create('assets', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('asset_type');
             $table->json('data')->nullable();
             $table->timestamps();
         });

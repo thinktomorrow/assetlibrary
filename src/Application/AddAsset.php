@@ -2,12 +2,12 @@
 
 namespace Thinktomorrow\AssetLibrary\Application;
 
-use Thinktomorrow\AssetLibrary\Asset;
+use Thinktomorrow\AssetLibrary\AssetContract;
 use Thinktomorrow\AssetLibrary\HasAsset;
 
 class AddAsset
 {
-    public function handle(HasAsset $model, Asset $asset, string $type, string $locale, int $order, array $data): void
+    public function handle(HasAsset $model, AssetContract $asset, string $type, string $locale, int $order, array $data): void
     {
         $model->assetRelation()->attach($asset, [
             'type' => $type,

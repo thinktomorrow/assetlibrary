@@ -2,6 +2,7 @@
 
 namespace Thinktomorrow\AssetLibrary\Tests;
 
+use Thinktomorrow\AssetLibrary\AssetContract;
 use Thinktomorrow\AssetLibrary\Asset;
 use Thinktomorrow\AssetLibrary\HasAsset;
 use Thinktomorrow\AssetLibrary\Tests\stubs\Article;
@@ -20,7 +21,7 @@ trait TestHelpers
         return $asset->load('media');
     }
 
-    public function createModelWithAsset(Asset $asset, string $type = 'image', string $locale = 'en', int $order = 0): HasAsset
+    public function createModelWithAsset(AssetContract $asset, string $type = 'image', string $locale = 'en', int $order = 0): HasAsset
     {
         $model = Article::create();
         $model->assetRelation()->attach($asset, ['type' => $type, 'locale' => $locale, 'order' => $order]);

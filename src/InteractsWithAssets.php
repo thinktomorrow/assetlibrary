@@ -18,13 +18,14 @@ trait InteractsWithAssets
 
     public function assetRelation(): MorphToMany
     {
-        return $this->morphToMany(Asset::class, 'entity', 'assets_pivot')
+        // LocalAsset will be morphed into the specific asset models after the query
+        return $this->morphToMany(Asset::class, 'entity', 'assets_pivot', 'entity_id', 'asset_id')
             ->withPivot('type', 'locale', 'order', 'data')
             ->orderBy('order')
             ->using(AssociatedAsset::class);
     }
 
-    public function asset(?string $type = null, ?string $locale = 'DEFAULT_LOCALE'): ?Asset
+    public function asset(?string $type = null, ?string $locale = 'DEFAULT_LOCALE'): ?AssetContract
     {
         return $this->assets($type, $locale)->first();
     }
@@ -62,7 +63,7 @@ trait InteractsWithAssets
     {
         return $this->assetRelation
             ->when($type, fn ($collection) => $collection->where('pivot.type', $type))
-            ->when($locale, fn ($collection) => $collection->filter(fn (Asset $asset) => $asset->pivot->locale == $locale))
+            ->when($locale, fn ($collection) => $collection->filter(fn (AssetContract $asset) => $asset->pivot->locale == $locale))
             ->sortBy('pivot.order');
     }
 }

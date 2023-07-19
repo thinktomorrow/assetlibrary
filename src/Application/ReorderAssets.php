@@ -4,6 +4,7 @@ namespace Thinktomorrow\AssetLibrary\Application;
 
 use Illuminate\Support\Facades\DB;
 use Thinktomorrow\AssetLibrary\Asset;
+use Thinktomorrow\AssetLibrary\AssetContract;
 use Thinktomorrow\AssetLibrary\HasAsset;
 
 class ReorderAssets
@@ -14,7 +15,7 @@ class ReorderAssets
             ->where('assets_pivot.type', $type)
             ->where('assets_pivot.locale', $locale)
             ->get()
-            ->each(function (Asset $asset) use ($model, $orderedAssetIds, $type, $locale) {
+            ->each(function (AssetContract $asset) use ($model, $orderedAssetIds, $type, $locale) {
 
                 DB::table('assets_pivot')
                     ->where('asset_id', $asset->id)

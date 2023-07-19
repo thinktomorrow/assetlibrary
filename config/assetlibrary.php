@@ -3,6 +3,17 @@
 return [
 
     /**
+     * Model types. Usually an asset is of type local but this can be anything.
+     *
+     * In your project you can override this  model with your own class.
+     *Be sure to check it implements the Asset interface.
+     */
+    'types' => [
+        'local' => \Thinktomorrow\AssetLibrary\Asset::class,
+        // e.g. 'vimeo' => \Project\Assets\VimeoAsset::class,
+    ],
+
+    /**
      * Each asset is added in a specific locale. With this setting to true,
      * you'll allow to fetch the asset with the given fallback locale
      * in case the asset is not found for the primary locale.
