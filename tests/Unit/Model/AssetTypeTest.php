@@ -25,14 +25,14 @@ class AssetTypeTest extends TestCase
         ]);
 
         config()->set('thinktomorrow.assetlibrary.types', [
-            'local' => Asset::class,
+            'default' => Asset::class,
             'vimeo' => VimeoAsset::class,
         ]);
     }
 
     public function test_it_can_create_instance()
     {
-        $model = AssetTypeFactory::instance('local', ['foo' => 'bar']);
+        $model = AssetTypeFactory::instance('default', ['foo' => 'bar']);
         $this->assertInstanceOf(Asset::class, $model);
 
         $model = AssetTypeFactory::instance('vimeo', ['foo' => 'bar']);
@@ -41,8 +41,8 @@ class AssetTypeTest extends TestCase
 
     public function test_it_adds_asset_type_on_instantiation()
     {
-        $model = AssetTypeFactory::instance('local', ['foo' => 'bar']);
-        $this->assertEquals('local', $model->asset_type);
+        $model = AssetTypeFactory::instance('default', ['foo' => 'bar']);
+        $this->assertEquals('default', $model->asset_type);
 
         $model = AssetTypeFactory::instance('vimeo', ['foo' => 'bar']);
         $this->assertEquals('vimeo', $model->asset_type);
@@ -51,7 +51,7 @@ class AssetTypeTest extends TestCase
     /** @test */
     public function it_creates_model_based_on_asset_type()
     {
-        $instance = Asset::create(['asset_type' => 'local']);
+        $instance = Asset::create(['asset_type' => 'default']);
         $this->assertInstanceOf(Asset::class, $instance);
 
         $instance = Asset::create(['asset_type' => 'vimeo']);
@@ -64,7 +64,7 @@ class AssetTypeTest extends TestCase
     /** @test */
     public function it_returns_expected_instance_on_eloquent_find()
     {
-        $instanceLocal = Asset::create(['asset_type' => 'local']);
+        $instanceLocal = Asset::create(['asset_type' => 'default']);
         $instanceVimeo = Asset::create(['asset_type' => 'vimeo']);
 
         $this->assertInstanceOf(Asset::class, Asset::find($instanceLocal->id));

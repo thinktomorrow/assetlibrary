@@ -4,12 +4,13 @@ return [
 
     /**
      * Model types. Usually an asset is of type local but this can be anything.
+     * The 'default' entry is required and is used in cases where no type is defined yet.
      *
-     * In your project you can override this  model with your own class.
-     *Be sure to check it implements the Asset interface.
+     * In your project you can override this model with your own class.
+     * Be sure to check it implements the Asset interface.
      */
     'types' => [
-        'local' => \Thinktomorrow\AssetLibrary\Asset::class,
+//        'default' => \Thinktomorrow\AssetLibrary\Asset::class,
         // e.g. 'vimeo' => \Project\Assets\VimeoAsset::class,
     ],
 

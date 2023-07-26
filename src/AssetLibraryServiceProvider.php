@@ -16,6 +16,10 @@ class AssetLibraryServiceProvider extends ServiceProvider
             __DIR__.'/../config/assetlibrary.php' => config_path('thinktomorrow/assetlibrary.php'),
         ], 'assetlibrary-config');
 
+        if(!config('thinktomorrow.assetlibrary.types.default')) {
+            config()->set('thinktomorrow.assetlibrary.types.default', Asset::class);
+        }
+
         $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
 
         Relation::morphMap(['asset' => Asset::class]);

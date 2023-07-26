@@ -4,7 +4,7 @@ namespace Thinktomorrow\AssetLibrary\Application;
 
 use Spatie\MediaLibrary\MediaCollections\FileAdder;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Thinktomorrow\AssetLibrary\Asset;
+use Thinktomorrow\AssetLibrary\AbstractAsset;
 use Thinktomorrow\AssetLibrary\AssetContract;
 use Thinktomorrow\AssetLibrary\AssetHelper;
 
@@ -64,7 +64,8 @@ class CreateAsset
 
     public function save(string $disk = ''): AssetContract
     {
-        $asset = Asset::create();
+        $defaultClass = config('thinktomorrow.assetlibrary.types.default');
+        $asset = $defaultClass::create();
 
         $fileAdder = $this->getFileAdder($asset)->preservingOriginal(! $this->removeOriginal);
 
@@ -75,7 +76,7 @@ class CreateAsset
             $fileAdder->usingName(AssetHelper::getBaseName($this->filename));
         }
 
-        $fileAdder->toMediaCollection(Asset::MEDIA_COLLECTION, $disk);
+        $fileAdder->toMediaCollection(AbstractAsset::MEDIA_COLLECTION, $disk);
 
         return $asset->load('media');
     }
