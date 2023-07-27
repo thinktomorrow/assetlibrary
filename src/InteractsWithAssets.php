@@ -64,6 +64,7 @@ trait InteractsWithAssets
         return $this->assetRelation
             ->when($type, fn ($collection) => $collection->where('pivot.type', $type))
             ->when($locale, fn ($collection) => $collection->filter(fn (AssetContract $asset) => $asset->pivot->locale == $locale))
-            ->sortBy('pivot.order');
+            ->sortBy('pivot.order')
+            ->values();
     }
 }
