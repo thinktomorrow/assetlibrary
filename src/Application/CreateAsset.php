@@ -64,7 +64,10 @@ class CreateAsset
 
     public function save(string $disk = '', string $assetType = 'default'): AssetContract
     {
-        $assetClass = config('thinktomorrow.assetlibrary.types.' . $assetType);
+        if(!$assetClass = config('thinktomorrow.assetlibrary.types.' . $assetType)) {
+            throw new \InvalidArgumentException('Passed asset type "'.$assetType.'" is not found as available asset type in the assetlibrary.types config.');
+        }
+
         $asset = $assetClass::create();
 
         $fileAdder = $this->getFileAdder($asset)->preservingOriginal(! $this->removeOriginal);

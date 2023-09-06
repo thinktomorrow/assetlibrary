@@ -6,8 +6,11 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 
 ## unreleased
 
-## 0.9.1 - 2023-09-06
+## 0.9.2 - 2023-09-06
 -   Added: second parameter to createAsset->save() method. This allows to set a custom asset type.
+
+## 0.9.1 - 2023-09-01
+-   Changed: update mediagallery package to 10 and add support for Laravel 10
 
 ## 0.9.0 - 2023-08-30
 -   Added: it is now possible to manage data per asset or per associated pivot record. 
