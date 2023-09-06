@@ -7,7 +7,6 @@ use Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist;
 use Thinktomorrow\AssetLibrary\Application\CreateAsset;
 use Thinktomorrow\AssetLibrary\Asset;
 use Thinktomorrow\AssetLibrary\Tests\stubs\CustomAsset;
-use Thinktomorrow\AssetLibrary\Tests\stubs\VimeoAsset;
 use Thinktomorrow\AssetLibrary\Tests\TestCase;
 
 class CreateAssetTest extends TestCase
