@@ -62,10 +62,10 @@ class CreateAsset
         return $this;
     }
 
-    public function save(string $disk = ''): AssetContract
+    public function save(string $disk = '', string $assetType = 'default'): AssetContract
     {
-        $defaultClass = config('thinktomorrow.assetlibrary.types.default');
-        $asset = $defaultClass::create();
+        $assetClass = config('thinktomorrow.assetlibrary.types.' . $assetType);
+        $asset = $assetClass::create();
 
         $fileAdder = $this->getFileAdder($asset)->preservingOriginal(! $this->removeOriginal);
 

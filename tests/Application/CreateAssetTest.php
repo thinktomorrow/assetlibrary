@@ -5,6 +5,9 @@ namespace Thinktomorrow\AssetLibrary\Tests\Application;
 use Illuminate\Http\UploadedFile;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist;
 use Thinktomorrow\AssetLibrary\Application\CreateAsset;
+use Thinktomorrow\AssetLibrary\Asset;
+use Thinktomorrow\AssetLibrary\Tests\stubs\CustomAsset;
+use Thinktomorrow\AssetLibrary\Tests\stubs\VimeoAsset;
 use Thinktomorrow\AssetLibrary\Tests\TestCase;
 
 class CreateAssetTest extends TestCase
@@ -184,5 +187,20 @@ class CreateAssetTest extends TestCase
 
         $this->assertNotNull($asset);
         $this->assertEquals('/media2/1/foobar.pdf', $asset->getUrl());
+    }
+
+    public function test_it_can_save_as_specific_type()
+    {
+        config()->set('thinktomorrow.assetlibrary.types', [
+            'default' => Asset::class,
+            'custom' => CustomAsset::class,
+        ]);
+
+        $asset = (new CreateAsset())->path(__DIR__.'/../media-stubs/foobar.pdf')
+            ->save('', 'custom');
+
+        $this->assertNotNull($asset);
+        $this->assertInstanceOf(CustomAsset::class, $asset);
+        $this->assertEquals('/media/1/foobar.pdf', $asset->getUrl());
     }
 }

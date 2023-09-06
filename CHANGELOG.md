@@ -6,6 +6,8 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 
 ## unreleased
 
+-   Added: second parameter to createAsset->save() method. This allows to set a custom asset type.
+
 ## 0.9.0 - 2023-08-30
 -   Added: it is now possible to manage data per asset or per associated pivot record. 
 -   Added: You can now define additional formats in which the asset should be converted.
