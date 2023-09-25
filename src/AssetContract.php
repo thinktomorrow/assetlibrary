@@ -50,6 +50,12 @@ interface AssetContract
      */
     public function exists(string $conversionName = ''): bool;
 
+    /**
+     * Returns the list of conversions that have successfully
+     * run for this asset.
+     */
+    public function getGeneratedConversions(?string $format = null): array;
+
     public function getSize(): int;
 
     public function getHumanReadableSize(): string;

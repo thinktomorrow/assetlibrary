@@ -243,7 +243,147 @@ class AssetConversionTest extends TestCase
             $this->assertStringEndsWith('/temp/media/1/logo.svg', $asset->getPath('thumb'));
             $this->assertEquals('logo.svg', $asset->getFileName('thumb'));
         }
+    }
+
+    public function test_it_returns_empty_list_of_generated_conversions_if_no_conversions_ran()
+    {
+        config()->set('media-library.image_generators', []);
+
+        config()->set('thinktomorrow.assetlibrary.conversions', [
+            'small' => [
+                'width' => 50,
+                'height' => 50,
+            ],
+            'large' => [
+                'width' => 100,
+                'height' => 100,
+            ],
+        ]);
+
+        $asset = (new CreateAsset())
+            ->uploadedFile(UploadedFile::fake()->image('test-image.gif'))
+            ->save();
+
+        $this->assertEquals([], $asset->getGeneratedConversions());
+    }
 
 
+    public function test_it_returns_all_generated_conversions()
+    {
+        config()->set('media-library.image_generators', [
+            \Spatie\MediaLibrary\Conversions\ImageGenerators\Image::class,
+        ]);
+
+        config()->set('thinktomorrow.assetlibrary.conversions', [
+            'small' => [
+                'width' => 50,
+                'height' => 50,
+            ],
+            'large' => [
+                'width' => 100,
+                'height' => 100,
+            ],
+        ]);
+
+        $asset = (new CreateAsset())
+            ->uploadedFile(UploadedFile::fake()->image('test-image.gif'))
+            ->save();
+
+        $this->assertEquals(['small','large'], $asset->getGeneratedConversions());
+    }
+
+    public function test_it_returns_only_successful_generated_conversions()
+    {
+        config()->set('media-library.image_generators', [
+            \Spatie\MediaLibrary\Conversions\ImageGenerators\Image::class,
+        ]);
+
+        config()->set('thinktomorrow.assetlibrary.conversions', [
+            'small' => [
+                'width' => 50,
+                'height' => 50,
+            ],
+            'large' => [
+                'width' => 100,
+                'height' => 100,
+            ],
+        ]);
+
+        $asset = (new CreateAsset())
+            ->uploadedFile(UploadedFile::fake()->image('test-image.gif'))
+            ->save();
+
+        $media = $asset->media->first();
+        $media->generated_conversions = ['small' => false, 'large' => true];
+        $media->save();
+
+        $this->assertEquals(['large'], $asset->getGeneratedConversions());
+    }
+
+    public function test_it_can_return_generated_conversions_per_format()
+    {
+        config()->set('media-library.image_generators', [
+            \Spatie\MediaLibrary\Conversions\ImageGenerators\Image::class,
+        ]);
+
+        config()->set('thinktomorrow.assetlibrary.conversions', [
+            'small' => [
+                'width' => 50,
+                'height' => 50,
+            ],
+            'large' => [
+                'width' => 100,
+                'height' => 100,
+            ],
+        ]);
+
+        config()->set('thinktomorrow.assetlibrary.formats', [
+            'webp',
+        ]);
+
+        $asset = (new CreateAsset())
+            ->uploadedFile(UploadedFile::fake()->image('test-image.gif'))
+            ->save();
+
+        $this->assertEquals(['small','large', 'webp-small','webp-large'], $asset->getGeneratedConversions());
+        $this->assertEquals(['webp-small','webp-large'], $asset->getGeneratedConversions('webp'));
+    }
+
+    public function test_it_can_return_urls_by_width()
+    {
+        config()->set('media-library.image_generators', [
+            \Spatie\MediaLibrary\Conversions\ImageGenerators\Image::class,
+        ]);
+
+        config()->set('thinktomorrow.assetlibrary.conversions', [
+            'small' => [
+                'width' => 50,
+                'height' => 50,
+            ],
+            'large' => [
+                'width' => 100,
+                'height' => 100,
+            ],
+        ]);
+
+        config()->set('thinktomorrow.assetlibrary.formats', [
+            'webp',
+        ]);
+
+        $asset = (new CreateAsset())
+            ->uploadedFile(UploadedFile::fake()->image('test-image.gif'))
+            ->save();
+
+        $this->assertEquals(collect([
+            '/media/1/conversions/test-image-small.gif' => 50,
+            '/media/1/conversions/test-image-large.gif' => 100,
+            '/media/1/conversions/test-image-webp-small.webp' => 50,
+            '/media/1/conversions/test-image-webp-large.webp' => 100,
+        ]), $asset->getUrlsByConversionWidth());
+
+        $this->assertEquals(collect([
+            '/media/1/conversions/test-image-webp-small.webp' => 50,
+            '/media/1/conversions/test-image-webp-large.webp' => 100,
+        ]), $asset->getUrlsByConversionWidth('webp'));
     }
 }

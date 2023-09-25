@@ -3,6 +3,7 @@
 namespace Thinktomorrow\AssetLibrary;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -258,5 +259,38 @@ abstract class AbstractAsset extends Model implements HasMedia, AssetContract, H
     public function getMorphClass()
     {
         return 'asset';
+    }
+
+    public function getGeneratedConversions(?string $format = null): array
+    {
+        return $this->getFirstMedia()
+            ->getGeneratedConversions()
+            ->reject(fn($conversionCheck) => !$conversionCheck)
+            ->keys()
+            ->filter(fn($conversionKey) => !$format || str_starts_with($conversionKey, $format.'-'))
+            ->values()
+            ->all();
+    }
+
+    public function getUrlsByConversionWidth(?string $format = null): Collection
+    {
+        $conversionNames = $this->getGeneratedConversions($format);
+
+//        return collect($conversionNames)->mapWithKeys(fn($conversionName) => [$this->getUrl($conversionName) => $this->getWidth($conversionName)]);
+        return collect($conversionNames)
+            ->mapWithKeys(fn($conversionName) => [$this->getUrl($conversionName) => config('thinktomorrow.assetlibrary.conversions.'.static::removeFormatPrefix($conversionName).'.width')]);
+    }
+
+    private static function removeFormatPrefix(string $conversionName): string
+    {
+        $formats = config('thinktomorrow.assetlibrary.formats', []);
+
+        foreach($formats as $format) {
+            if(str_starts_with($conversionName, $format.'-')) {
+                return substr($conversionName, strlen($format.'-'));
+            }
+        }
+
+        return $conversionName;
     }
 }
