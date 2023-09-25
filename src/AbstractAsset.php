@@ -265,9 +265,9 @@ abstract class AbstractAsset extends Model implements HasMedia, AssetContract, H
     {
         return $this->getFirstMedia()
             ->getGeneratedConversions()
-            ->reject(fn($conversionCheck) => !$conversionCheck)
+            ->reject(fn ($conversionCheck) => ! $conversionCheck)
             ->keys()
-            ->filter(fn($conversionKey) => !$format || str_starts_with($conversionKey, $format.'-'))
+            ->filter(fn ($conversionKey) => ! $format || str_starts_with($conversionKey, $format.'-'))
             ->values()
             ->all();
     }
@@ -277,7 +277,7 @@ abstract class AbstractAsset extends Model implements HasMedia, AssetContract, H
         $conversionNames = $this->getGeneratedConversions($format);
 
         return collect($conversionNames)
-            ->mapWithKeys(fn($conversionName) => [$this->getUrl($conversionName) => config('thinktomorrow.assetlibrary.conversions.'.static::removeFormatPrefix($conversionName).'.width')]);
+            ->mapWithKeys(fn ($conversionName) => [$this->getUrl($conversionName) => config('thinktomorrow.assetlibrary.conversions.'.static::removeFormatPrefix($conversionName).'.width')]);
     }
 
     private static function removeFormatPrefix(string $conversionName): string
