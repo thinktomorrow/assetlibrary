@@ -276,7 +276,6 @@ abstract class AbstractAsset extends Model implements HasMedia, AssetContract, H
     {
         $conversionNames = $this->getGeneratedConversions($format);
 
-//        return collect($conversionNames)->mapWithKeys(fn($conversionName) => [$this->getUrl($conversionName) => $this->getWidth($conversionName)]);
         return collect($conversionNames)
             ->mapWithKeys(fn($conversionName) => [$this->getUrl($conversionName) => config('thinktomorrow.assetlibrary.conversions.'.static::removeFormatPrefix($conversionName).'.width')]);
     }

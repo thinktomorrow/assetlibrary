@@ -6,6 +6,10 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 
 ## unreleased
 
+## 0.9.3 - 2023-09-25
+-   Added: `Asset::getGeneratedConversions()` returns array of all successful conversion names.
+-   Added: `Asset:getUrlsByConversionWidth()` returns successfully converted urls and their conversion width.
+
 ## 0.9.2 - 2023-09-06
 -   Added: second parameter to createAsset->save() method. This allows to set a custom asset type.
 
