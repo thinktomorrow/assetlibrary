@@ -27,6 +27,7 @@ abstract class AbstractAsset extends Model implements HasMedia, AssetContract, H
      * the owning model are set on the asset model instead of the media model.
      */
     const MEDIA_COLLECTION = 'default';
+    const ASSET_FORMAT_ORIGINAL = 'original';
 
     /**
      * Proxy for the data values on the associated pivot. This is the context data
@@ -267,7 +268,10 @@ abstract class AbstractAsset extends Model implements HasMedia, AssetContract, H
             ->getGeneratedConversions()
             ->reject(fn ($conversionCheck) => ! $conversionCheck)
             ->keys()
-            ->filter(fn ($conversionKey) => ! $format || str_starts_with($conversionKey, $format.'-'))
+            ->filter(fn($conversionName) =>
+                ! $format
+                || ($format !== self::ASSET_FORMAT_ORIGINAL && static::doesConversionNameBelongsToFormat($conversionName))
+                || ($format === self::ASSET_FORMAT_ORIGINAL && !static::doesConversionNameBelongsToFormat($conversionName)) )
             ->values()
             ->all();
     }
@@ -291,5 +295,18 @@ abstract class AbstractAsset extends Model implements HasMedia, AssetContract, H
         }
 
         return $conversionName;
+    }
+
+    private static function doesConversionNameBelongsToFormat(string $conversionName): bool
+    {
+        $formats = config('thinktomorrow.assetlibrary.formats', []);
+
+        foreach($formats as $format) {
+            if(str_starts_with($conversionName, $format.'-')) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

@@ -347,6 +347,7 @@ class AssetConversionTest extends TestCase
 
         $this->assertEquals(['small','large', 'webp-small','webp-large'], $asset->getGeneratedConversions());
         $this->assertEquals(['webp-small','webp-large'], $asset->getGeneratedConversions('webp'));
+        $this->assertEquals(['small','large'], $asset->getGeneratedConversions('original'));
     }
 
     public function test_it_can_return_urls_by_width()
@@ -385,5 +386,11 @@ class AssetConversionTest extends TestCase
             '/media/1/conversions/test-image-webp-small.webp' => 50,
             '/media/1/conversions/test-image-webp-large.webp' => 100,
         ]), $asset->getUrlsByConversionWidth('webp'));
+
+        $this->assertEquals(collect([
+            '/media/1/conversions/test-image-small.gif' => 50,
+            '/media/1/conversions/test-image-large.gif' => 100,
+        ]), $asset->getUrlsByConversionWidth('original'));
+
     }
 }
