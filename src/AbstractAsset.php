@@ -268,10 +268,10 @@ abstract class AbstractAsset extends Model implements HasMedia, AssetContract, H
             ->getGeneratedConversions()
             ->reject(fn ($conversionCheck) => ! $conversionCheck)
             ->keys()
-            ->filter(fn($conversionName) =>
+            ->filter(fn ($conversionName) =>
                 ! $format
                 || ($format !== self::ASSET_FORMAT_ORIGINAL && static::doesConversionNameBelongsToFormat($conversionName))
-                || ($format === self::ASSET_FORMAT_ORIGINAL && !static::doesConversionNameBelongsToFormat($conversionName)) )
+                || ($format === self::ASSET_FORMAT_ORIGINAL && ! static::doesConversionNameBelongsToFormat($conversionName)))
             ->values()
             ->all();
     }
