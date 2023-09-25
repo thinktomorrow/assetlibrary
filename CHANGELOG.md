@@ -6,6 +6,9 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 
 ## unreleased
 
+## 0.9.4 - 2023-09-25
+-   Added: option to retrieve only original conversion via: `Asset::getGeneratedConversions('original')` and `Asset:getUrlsByConversionWidth('original')`.
+
 ## 0.9.3 - 2023-09-25
 -   Added: `Asset::getGeneratedConversions()` returns array of all successful conversion names.
 -   Added: `Asset:getUrlsByConversionWidth()` returns successfully converted urls and their conversion width.
