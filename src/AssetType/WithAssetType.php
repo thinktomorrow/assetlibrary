@@ -35,16 +35,4 @@ trait WithAssetType
     {
         return self::withoutGlobalScope(new GlobalAssetTypeScope());
     }
-
-    //    protected static function bootAssetType()
-    //    {
-    //        static::addGlobalScope(static::globalAssetTypeScope());
-    //    }
-
-    //    protected function initializeAssetType()
-    //    {
-    //        if (! isset($this->asset_type)) {
-    //            $this->asset_type = $this->getAssetType();
-    //        }
-    //    }
 }
