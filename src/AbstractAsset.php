@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\InvalidConversion;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Thinktomorrow\AssetLibrary\AssetType\HasAssetType;
 use Thinktomorrow\AssetLibrary\AssetType\WithAssetType;
@@ -80,19 +81,28 @@ abstract class AbstractAsset extends Model implements HasMedia, AssetContract, H
 
         if ($conversionName !== '') {
             if ($media->hasGeneratedConversion($conversionName)) {
-                return $media->getUrl($conversionName) ?: null;
+                return $this->getConversionUrl($media, $conversionName);
             }
 
             if (str_contains($conversionName, '-')) {
                 $conversionNameWithoutFormat = substr($conversionName, strpos($conversionName, '-') + 1);
 
                 if ($media->hasGeneratedConversion($conversionNameWithoutFormat)) {
-                    return $media->getUrl($conversionNameWithoutFormat) ?: null;
+                    return $this->getConversionUrl($media, $conversionNameWithoutFormat);
                 }
             }
         }
 
         return $media->getUrl() ?: null;
+    }
+
+    private function getConversionUrl(Media $media, $conversionName): string
+    {
+        try{
+            return $media->getUrl($conversionName) ?: $media->getUrl();
+        }catch(InvalidConversion $e) {
+            return $media->getUrl();
+        }
     }
 
     /**
