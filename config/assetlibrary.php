@@ -59,4 +59,15 @@ return [
             'height' => 1920,
         ],
     ],
+
+    /**
+     * Set here the mimetypes for which there should be no conversions
+     * This is the mimetype of the given original file. By default,
+     * we omit svg and (animated) gif files since conversions
+     * do not work as expected on these type of files.
+     */
+    'disable_conversions_for_mimetypes' => [
+        'image/svg+xml',
+        'image/gif',
+    ],
 ];

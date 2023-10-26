@@ -26,7 +26,7 @@ class AssetConversionTest extends TestCase
         ]);
 
         $asset = (new CreateAsset())
-            ->uploadedFile(UploadedFile::fake()->image('test-image.gif'))
+            ->uploadedFile(UploadedFile::fake()->image('test-image.jpg'))
             ->save();
 
         $this->assertCount(2, $asset->getFirstMedia()->getGeneratedConversions());
@@ -34,6 +34,34 @@ class AssetConversionTest extends TestCase
             'small' => true, 'large' => true,
         ], $asset->getFirstMedia()->getGeneratedConversions()->all());
 
+    }
+
+    public function test_it_can_avoid_to_generate_conversions()
+    {
+        config()->set('thinktomorrow.assetlibrary.conversions', [
+            'small' => [
+                'width' => 50,
+                'height' => 50,
+            ],
+            'large' => [
+                'width' => 100,
+                'height' => 100,
+            ],
+        ]);
+
+        config()->set('thinktomorrow.assetlibrary.formats', [
+
+        ]);
+
+        config()->set('thinktomorrow.assetlibrary.disable_conversions_for_mimetypes', [
+            'image/gif',
+        ]);
+
+        $asset = (new CreateAsset())
+            ->uploadedFile(UploadedFile::fake()->image('test-image.gif'))
+            ->save();
+
+        $this->assertCount(0, $asset->getFirstMedia()->getGeneratedConversions());
     }
 
     public function test_it_can_fetch_generated_conversions_and_formats()

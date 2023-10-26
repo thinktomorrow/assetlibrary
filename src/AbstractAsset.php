@@ -223,6 +223,10 @@ abstract class AbstractAsset extends Model implements HasMedia, AssetContract, H
      */
     public function registerMediaConversions(Media $media = null): void
     {
+        if(in_array($media->mime_type, config('thinktomorrow.assetlibrary.disable_conversions_for_mimetypes', []))) {
+            return;
+        }
+
         $conversions = config('thinktomorrow.assetlibrary.conversions');
         $formats = config('thinktomorrow.assetlibrary.formats', []);
 

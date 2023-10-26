@@ -38,6 +38,11 @@ class TestCase extends BaseTestCase
         config()->set('thinktomorrow.assetlibrary.formats', [
 
         ]);
+
+        // Allow all types of files to be converted by default
+        config()->set('thinktomorrow.assetlibrary.disable_conversions_for_mimetypes', [
+
+        ]);
     }
 
     protected function protectTestEnvironment()
