@@ -98,9 +98,9 @@ abstract class AbstractAsset extends Model implements HasMedia, AssetContract, H
 
     private function getConversionUrl(Media $media, $conversionName): string
     {
-        try{
+        try {
             return $media->getUrl($conversionName) ?: $media->getUrl();
-        }catch(InvalidConversion $e) {
+        } catch(InvalidConversion $e) {
             return $media->getUrl();
         }
     }
