@@ -1,33 +1,39 @@
 name: Test
 
-on: [push, pull_request]
+on: [ push, pull_request ]
 
 jobs:
-  test:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      fail-fast: true
-      matrix:
-        os: [ubuntu-latest]
-        php: [8.3, 8.4]
-        dependency-version: [prefer-lowest, prefer-stable]
+    test:
+        runs-on: ${{ matrix.os }}
+        strategy:
+            fail-fast: true
+            matrix:
+                os: [ ubuntu-latest ]
+                php: [ 8.3, 8.4 ]
+                dependency-version: [ prefer-lowest, prefer-stable ]
 
-    name: PHP ${{ matrix.php }} - ${{ matrix.dependency-version }} - ${{ matrix.os }}
+        name: PHP ${{ matrix.php }} - ${{ matrix.dependency-version }} - ${{ matrix.os }}
 
-    steps:
-      -   name: Checkout code
-          uses: actions/checkout@v2
+        steps:
+            -   name: Checkout code
+                uses: actions/checkout@v2
 
-      -   name: Setup PHP
-          uses: shivammathur/setup-php@v2
-          with:
-            php-version: ${{ matrix.php }}
-            extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagemagick, imagick
-            coverage: none
+            -   name: Setup PHP
+                uses: shivammathur/setup-php@v2
+                with:
+                    php-version: ${{ matrix.php }}
+                    extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick
+                    coverage: none
 
-      -   name: Install dependencies
-          run: |
-            composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction
+            -   name: Install ImageMagick
+                run: |
+                    sudo apt-get update
+                    sudo apt-get install -y imagemagick librsvg2-bin
+                    convert -version # Optional: Confirm the installation
 
-      -   name: Execute tests
-          run: vendor/bin/phpunit
+            -   name: Install dependencies
+                run: |
+                    composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction
+
+            -   name: Execute tests
+                run: vendor/bin/phpunit
