@@ -21,8 +21,8 @@ class AssetMetadataTest extends TestCase
         $this->assertEquals('text/plain', $asset->getMimeType());
         $this->assertEquals('txt', $asset->getExtension());
         $this->assertEquals('file', $asset->getExtensionType());
-        $this->assertNull($asset->getImageWidth());
-        $this->assertNull($asset->getImageHeight());
+        $this->assertNull($asset->getWidth());
+        $this->assertNull($asset->getHeight());
     }
 
     public function test_asset_can_get_image_metadata()
@@ -39,8 +39,8 @@ class AssetMetadataTest extends TestCase
         $this->assertEquals('image/jpeg', $asset->getMimeType());
         $this->assertEquals('jpg', $asset->getExtension());
         $this->assertEquals('image', $asset->getExtensionType());
-        $this->assertEquals(50, $asset->getImageWidth());
-        $this->assertEquals(50, $asset->getImageHeight());
+        $this->assertEquals(50, $asset->getWidth());
+        $this->assertEquals(50, $asset->getHeight());
     }
 
     public function test_asset_can_get_svg_metadata()
@@ -54,8 +54,8 @@ class AssetMetadataTest extends TestCase
         $this->assertEquals('image/svg+xml', $asset->getMimeType());
         $this->assertEquals('svg', $asset->getExtension());
         $this->assertEquals('image', $asset->getExtensionType());
-        $this->assertNull($asset->getImageWidth());
-        $this->assertNull($asset->getImageHeight());
+        $this->assertNull($asset->getWidth());
+        $this->assertNull($asset->getHeight());
     }
 
     public function test_asset_can_get_mp4_metadata()
