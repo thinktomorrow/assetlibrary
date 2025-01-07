@@ -32,7 +32,7 @@
     ],
     "require": {
         "php": ">=8.3",
-        "spatie/laravel-medialibrary": "^11.11"
+        "spatie/laravel-medialibrary": "^11.11.1"
     },
     "require-dev": {
         "orchestra/testbench": "^9.9",
