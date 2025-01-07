@@ -2,9 +2,9 @@
 
 namespace Thinktomorrow\AssetLibrary;
 
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\ServiceProvider;
 use Spatie\MediaLibrary\MediaLibraryServiceProvider;
-use Illuminate\Database\Eloquent\Relations\Relation;
 
 class AssetLibraryServiceProvider extends ServiceProvider
 {
