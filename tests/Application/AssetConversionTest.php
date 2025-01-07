@@ -143,11 +143,11 @@ class AssetConversionTest extends TestCase
             ->save();
 
         $this->assertEquals('/media/1/conversions/test-image-small.gif', $asset->getUrl('small'));
-        $this->assertEquals(50, $asset->getImageWidth('small'));
-        $this->assertEquals(50, $asset->getImageHeight('small'));
+        $this->assertEquals(50, $asset->getWidth('small'));
+        $this->assertEquals(50, $asset->getHeight('small'));
         $this->assertEquals('/media/1/conversions/test-image-large.gif', $asset->getUrl('large'));
-        $this->assertEquals(100, $asset->getImageWidth('large'));
-        $this->assertEquals(100, $asset->getImageHeight('large'));
+        $this->assertEquals(100, $asset->getWidth('large'));
+        $this->assertEquals(100, $asset->getHeight('large'));
     }
 
     public function test_it_can_create_asset_with_conversions_and_format()
@@ -172,11 +172,11 @@ class AssetConversionTest extends TestCase
             ->save();
 
         $this->assertEquals('/media/1/conversions/test-image-webp-small.webp', $asset->getUrl('small', 'webp'));
-        $this->assertEquals(50, $asset->getImageWidth('webp-small'));
-        $this->assertEquals(50, $asset->getImageHeight('webp-small'));
+        $this->assertEquals(50, $asset->getWidth('webp-small'));
+        $this->assertEquals(50, $asset->getHeight('webp-small'));
         $this->assertEquals('/media/1/conversions/test-image-webp-large.webp', $asset->getUrl('large', 'webp'));
-        $this->assertEquals(100, $asset->getImageWidth('webp-large'));
-        $this->assertEquals(100, $asset->getImageHeight('webp-large'));
+        $this->assertEquals(100, $asset->getWidth('webp-large'));
+        $this->assertEquals(100, $asset->getHeight('webp-large'));
     }
 
     public function test_it_can_create_asset_with_alternate_formats()
