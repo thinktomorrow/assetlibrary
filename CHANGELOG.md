@@ -6,6 +6,9 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 
 ## unreleased
 
+- Bump php minimum version to 8.3
+- Bump mediagallery minimum version to 11.11, which bumps Laravel minimum version to 10.*
+
 ## 0.9.4 - 2023-09-25
 -   Added: option to retrieve only original conversion via: `Asset::getGeneratedConversions('original')` and `Asset:getUrlsByConversionWidth('original')`.
 
