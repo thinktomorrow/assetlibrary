@@ -100,7 +100,7 @@ abstract class AbstractAsset extends Model implements HasMedia, AssetContract, H
     {
         try {
             return $media->getUrl($conversionName) ?: $media->getUrl();
-        } catch(InvalidConversion $e) {
+        } catch (InvalidConversion $e) {
             return $media->getUrl();
         }
     }
@@ -233,7 +233,7 @@ abstract class AbstractAsset extends Model implements HasMedia, AssetContract, H
      */
     public function registerMediaConversions(Media $media = null): void
     {
-        if(in_array($media->mime_type, config('thinktomorrow.assetlibrary.disable_conversions_for_mimetypes', []))) {
+        if (in_array($media->mime_type, config('thinktomorrow.assetlibrary.disable_conversions_for_mimetypes', []))) {
             return;
         }
 
@@ -302,8 +302,8 @@ abstract class AbstractAsset extends Model implements HasMedia, AssetContract, H
     {
         $formats = config('thinktomorrow.assetlibrary.formats', []);
 
-        foreach($formats as $format) {
-            if(str_starts_with($conversionName, $format.'-')) {
+        foreach ($formats as $format) {
+            if (str_starts_with($conversionName, $format.'-')) {
                 return substr($conversionName, strlen($format.'-'));
             }
         }
@@ -315,8 +315,8 @@ abstract class AbstractAsset extends Model implements HasMedia, AssetContract, H
     {
         $formats = config('thinktomorrow.assetlibrary.formats', []);
 
-        foreach($formats as $format) {
-            if(str_starts_with($conversionName, $format.'-')) {
+        foreach ($formats as $format) {
+            if (str_starts_with($conversionName, $format.'-')) {
                 return true;
             }
         }

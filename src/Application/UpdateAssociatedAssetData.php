@@ -23,7 +23,7 @@ class UpdateAssociatedAssetData
             true
         );
 
-        if(is_null($existingData)) {
+        if (is_null($existingData)) {
             $existingData = [];
         }
 

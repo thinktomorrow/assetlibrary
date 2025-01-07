@@ -34,7 +34,7 @@ class VimeoAsset extends AbstractAsset implements \Thinktomorrow\AssetLibrary\Ex
      */
     public function getFileName(string $conversionName = ''): ?string
     {
-        if(! $path = $this->getPath($conversionName)) {
+        if (! $path = $this->getPath($conversionName)) {
             return null;
         }
 

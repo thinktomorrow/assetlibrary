@@ -10,7 +10,7 @@ class UpdateAssetData
     {
         $existingData = json_decode(DB::table('assets')->where('id', $assetId)->select('data')->first()->data, true);
 
-        if(is_null($existingData)) {
+        if (is_null($existingData)) {
             $existingData = [];
         }
 

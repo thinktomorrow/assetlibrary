@@ -17,7 +17,7 @@ class AssetTypeFactory
      */
     public static function className(string $assetType): string
     {
-        if($className = config('thinktomorrow.assetlibrary.types.'.$assetType)) {
+        if ($className = config('thinktomorrow.assetlibrary.types.'.$assetType)) {
             return $className;
         }
 
@@ -26,8 +26,8 @@ class AssetTypeFactory
 
     public static function assetTypeByClassName(string $className): string
     {
-        foreach(config('thinktomorrow.assetlibrary.types') as $type => $class) {
-            if($className == $class) {
+        foreach (config('thinktomorrow.assetlibrary.types') as $type => $class) {
+            if ($className == $class) {
                 return $type;
             }
         }
@@ -37,7 +37,7 @@ class AssetTypeFactory
 
     public static function instance(string $assetType, $attributes = []): AssetContract
     {
-        if(! isset($attributes['asset_type'])) {
+        if (! isset($attributes['asset_type'])) {
             $attributes['asset_type'] = $assetType;
         }
 

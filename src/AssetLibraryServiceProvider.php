@@ -2,9 +2,9 @@
 
 namespace Thinktomorrow\AssetLibrary;
 
-use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\ServiceProvider;
 use Spatie\MediaLibrary\MediaLibraryServiceProvider;
+use Illuminate\Database\Eloquent\Relations\Relation;
 
 class AssetLibraryServiceProvider extends ServiceProvider
 {
@@ -14,7 +14,7 @@ class AssetLibraryServiceProvider extends ServiceProvider
             __DIR__.'/../config/assetlibrary.php' => config_path('thinktomorrow/assetlibrary.php'),
         ], 'assetlibrary-config');
 
-        if(! config('thinktomorrow.assetlibrary.types.default')) {
+        if (! config('thinktomorrow.assetlibrary.types.default')) {
             config()->set('thinktomorrow.assetlibrary.types.default', Asset::class);
         }
 
