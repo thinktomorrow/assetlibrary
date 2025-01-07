@@ -22,7 +22,7 @@ class TestCase extends BaseTestCase
 
         // Ensure the testing.sqlite file exists
         $sqlitePath = database_path('testing.sqlite');
-        if (!file_exists($sqlitePath)) {
+        if (! file_exists($sqlitePath)) {
             file_put_contents($sqlitePath, '');
         }
 
