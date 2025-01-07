@@ -31,14 +31,13 @@
         }
     ],
     "require": {
-        "php": ">=8.1",
-        "doctrine/dbal": "^3.3",
-        "spatie/laravel-medialibrary": "^10.11"
+        "php": ">=8.3",
+        "spatie/laravel-medialibrary": "^11.11"
     },
     "require-dev": {
-        "orchestra/testbench": "^6.28|8.10",
-        "phpunit/phpunit": "^10.3",
-        "nesbot/carbon": "^2.67.0"
+        "orchestra/testbench": "^9.9",
+        "phpunit/phpunit": "^11.5",
+        "nesbot/carbon": "^3.8"
     },
     "autoload": {
         "psr-4": {

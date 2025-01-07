@@ -9,6 +9,7 @@ use Spatie\MediaLibrary\Conversions\ImageGenerators\Image;
 use Spatie\MediaLibrary\Conversions\ImageGenerators\Svg;
 use Spatie\MediaLibrary\Conversions\ImageGenerators\Video;
 use Spatie\MediaLibrary\Conversions\ImageGenerators\Webp;
+use Spatie\MediaLibrary\MediaLibraryServiceProvider;
 
 class TestCase extends BaseTestCase
 {
@@ -68,6 +69,7 @@ class TestCase extends BaseTestCase
     protected function getPackageProviders($app): array
     {
         return [
+            MediaLibraryServiceProvider::class,
             \Thinktomorrow\AssetLibrary\AssetLibraryServiceProvider::class,
         ];
     }

@@ -48,8 +48,7 @@ class AssetTypeTest extends TestCase
         $this->assertEquals('vimeo', $model->asset_type);
     }
 
-    /** @test */
-    public function it_creates_model_based_on_asset_type()
+    public function test_it_creates_model_based_on_asset_type()
     {
         $instance = Asset::create(['asset_type' => 'default']);
         $this->assertInstanceOf(Asset::class, $instance);
@@ -61,8 +60,7 @@ class AssetTypeTest extends TestCase
         $this->assertInstanceOf(VimeoAsset::class, $instance);
     }
 
-    /** @test */
-    public function it_returns_expected_instance_on_eloquent_find()
+    public function test_it_returns_expected_instance_on_eloquent_find()
     {
         $instanceLocal = Asset::create(['asset_type' => 'default']);
         $instanceVimeo = Asset::create(['asset_type' => 'vimeo']);
@@ -88,16 +86,14 @@ class AssetTypeTest extends TestCase
         $this->assertInstanceOf(VimeoAsset::class, VimeoAsset::where('id', $instanceVimeo->id)->first());
     }
 
-    /** @test */
-    public function it_returns_expected_instance_on_eloquent_relations()
+    public function test_it_returns_expected_instance_on_eloquent_relations()
     {
         $model = $this->createModelWithAsset(VimeoAsset::create());
 
         $this->assertInstanceOf(VimeoAsset::class, $model->assetRelation()->first());
     }
 
-    /** @test */
-    public function it_returns_expected_instance_on_multiple_eloquent_relations()
+    public function test_it_returns_expected_instance_on_multiple_eloquent_relations()
     {
         $model = $this->createModelWithAsset(VimeoAsset::create());
         $model->assetRelation()->attach(Asset::create(), ['type' => 'video', 'locale' => 'nl', 'order' => 1]);
@@ -107,8 +103,7 @@ class AssetTypeTest extends TestCase
         $this->assertInstanceOf(Asset::class, $model->assetRelation()->get()[1]);
     }
 
-    /** @test */
-    public function it_throws_exception_when_asset_type_cannot_be_found()
+    public function test_it_throws_exception_when_asset_type_cannot_be_found()
     {
         $this->expectException(NotFoundAssetType::class);
 
