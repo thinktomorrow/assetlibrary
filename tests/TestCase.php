@@ -18,13 +18,13 @@ class TestCase extends BaseTestCase
 
     protected function setUp(): void
     {
-        parent::setUp();
-
         // Ensure the testing.sqlite file exists
-        $sqlitePath = database_path('testing.sqlite');
+        $sqlitePath = '../database/testing.sqlite';
         if (!file_exists($sqlitePath)) {
             file_put_contents($sqlitePath, '');
         }
+
+        parent::setUp();
 
         $this->protectTestEnvironment();
 
