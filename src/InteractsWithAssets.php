@@ -10,7 +10,7 @@ trait InteractsWithAssets
     public static function bootInteractsWithAssets()
     {
         static::deleting(function ($model) {
-            if(! isset($model->forceDeleting) || $model->forceDeleting === true) {
+            if (! isset($model->forceDeleting) || $model->forceDeleting === true) {
                 $model->assetRelation()->detach();
             }
         });
@@ -34,7 +34,7 @@ trait InteractsWithAssets
     {
         $assets = $this->fetchAssets($type, $locale == 'DEFAULT_LOCALE' ? app()->getLocale() : $locale);
 
-        if($assets->isEmpty() && $this->useAssetFallbackLocale() && $locale != $this->getAssetFallbackLocale()) {
+        if ($assets->isEmpty() && $this->useAssetFallbackLocale() && $locale != $this->getAssetFallbackLocale()) {
             $assets = $this->fetchAssets($type, $this->getAssetFallbackLocale());
         }
 
@@ -48,11 +48,11 @@ trait InteractsWithAssets
 
     protected function getAssetFallbackLocale(): ?string
     {
-        if(! $this->useAssetFallbackLocale()) {
+        if (! $this->useAssetFallbackLocale()) {
             return null;
         }
 
-        if(is_null($fallbackLocale = config('thinktomorrow.assetlibrary.fallback_locale'))) {
+        if (is_null($fallbackLocale = config('thinktomorrow.assetlibrary.fallback_locale'))) {
             $fallbackLocale = config('app.fallback_locale');
         }
 

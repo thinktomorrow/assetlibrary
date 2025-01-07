@@ -295,7 +295,7 @@ class AssetConversionTest extends TestCase
         $this->assertEquals('svg', $asset->getExtension());
         $this->assertEquals('image', $asset->getExtensionType());
 
-        if($imagickModuleAvailable) {
+        if ($imagickModuleAvailable) {
             $this->assertStringEndsWith('/temp/media/1/conversions/logo-thumb.jpg', $asset->getPath('thumb'));
             $this->assertEquals('logo-thumb.jpg', $asset->getFileName('thumb'));
         } else {

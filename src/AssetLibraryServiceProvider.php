@@ -10,13 +10,13 @@ class AssetLibraryServiceProvider extends ServiceProvider
 {
     public function boot()
     {
-//        (new MediaLibraryServiceProvider($this->app))->boot();
+        //        (new MediaLibraryServiceProvider($this->app))->boot();
 
         $this->publishes([
             __DIR__.'/../config/assetlibrary.php' => config_path('thinktomorrow/assetlibrary.php'),
         ], 'assetlibrary-config');
 
-        if(! config('thinktomorrow.assetlibrary.types.default')) {
+        if (! config('thinktomorrow.assetlibrary.types.default')) {
             config()->set('thinktomorrow.assetlibrary.types.default', Asset::class);
         }
 
@@ -32,7 +32,7 @@ class AssetLibraryServiceProvider extends ServiceProvider
      */
     public function register()
     {
-//        (new MediaLibraryServiceProvider($this->app))->register();
+        //        (new MediaLibraryServiceProvider($this->app))->register();
 
         $this->mergeConfigFrom(__DIR__.'/../config/assetlibrary.php', 'thinktomorrow.assetlibrary');
     }
