@@ -20,6 +20,12 @@ class TestCase extends BaseTestCase
     {
         parent::setUp();
 
+        // Ensure the testing.sqlite file exists
+        $sqlitePath = database_path('testing.sqlite');
+        if (!file_exists($sqlitePath)) {
+            file_put_contents($sqlitePath, '');
+        }
+
         $this->protectTestEnvironment();
 
         config(['app.fallback_locale' => 'nl']);
