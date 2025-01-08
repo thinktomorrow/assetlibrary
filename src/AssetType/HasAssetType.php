@@ -21,7 +21,7 @@ interface HasAssetType
      * @param string|null $assetType
      * @return mixed
      */
-    public function scopeAssetType($query, string $assetType = null);
+    public function scopeAssetType($query, ?string $assetType = null);
 
     /**
      * Ignore the global morphable scope and fetch all results,

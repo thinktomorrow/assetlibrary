@@ -5,6 +5,10 @@ namespace Thinktomorrow\AssetLibrary;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Collection;
 
+/**
+ * @method getMorphClass()
+ * @method getKey()
+ */
 interface HasAsset
 {
     public function assetRelation(): MorphToMany;

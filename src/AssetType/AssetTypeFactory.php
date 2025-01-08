@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Thinktomorrow\AssetLibrary\AssetType;
 
+use Illuminate\Database\Eloquent\Model;
 use Thinktomorrow\AssetLibrary\AssetContract;
 
 class AssetTypeFactory
@@ -35,7 +36,10 @@ class AssetTypeFactory
         throw new NotFoundAssetType('No asset type found by className [' . $className . ']. Make sure that the entry exists in config.');
     }
 
-    public static function instance(string $assetType, $attributes = []): AssetContract
+    /**
+     * @throws NotFoundAssetType
+     */
+    public static function instance(string $assetType, $attributes = []): AssetContract & Model
     {
         if (! isset($attributes['asset_type'])) {
             $attributes['asset_type'] = $assetType;

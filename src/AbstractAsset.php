@@ -4,6 +4,7 @@ namespace Thinktomorrow\AssetLibrary;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
+use Spatie\MediaLibrary\Conversions\Conversion;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\InvalidConversion;
@@ -11,6 +12,11 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Thinktomorrow\AssetLibrary\AssetType\HasAssetType;
 use Thinktomorrow\AssetLibrary\AssetType\WithAssetType;
 
+/**
+ * @property AssociatedAsset $pivot
+ * @property string $asset_type
+ * @property array $data
+ */
 abstract class AbstractAsset extends Model implements HasMedia, AssetContract, HasAssetType
 {
     use InteractsWithMedia;
@@ -229,9 +235,8 @@ abstract class AbstractAsset extends Model implements HasMedia, AssetContract, H
      * Register the conversions that should be performed.
      *
      * @param Media|null $media
-     * @throws \Spatie\Image\Exceptions\InvalidManipulation
      */
-    public function registerMediaConversions(Media $media = null): void
+    public function registerMediaConversions(?Media $media = null): void
     {
         if (in_array($media->mime_type, config('thinktomorrow.assetlibrary.disable_conversions_for_mimetypes', []))) {
             return;
@@ -252,6 +257,7 @@ abstract class AbstractAsset extends Model implements HasMedia, AssetContract, H
         }
 
         foreach ($conversions as $key => $value) {
+
             $conversion = $this->addMediaConversion($key)
                 ->width($value['width'])
                 ->height($value['height']);
@@ -284,8 +290,8 @@ abstract class AbstractAsset extends Model implements HasMedia, AssetContract, H
             ->keys()
             ->filter(fn ($conversionName) =>
                 ! $format
-                || ($format !== self::ASSET_FORMAT_ORIGINAL && static::doesConversionNameBelongsToFormat($conversionName))
-                || ($format === self::ASSET_FORMAT_ORIGINAL && ! static::doesConversionNameBelongsToFormat($conversionName)))
+                || ($format !== self::ASSET_FORMAT_ORIGINAL && self::doesConversionNameBelongsToFormat($conversionName))
+                || ($format === self::ASSET_FORMAT_ORIGINAL && ! self::doesConversionNameBelongsToFormat($conversionName)))
             ->values()
             ->all();
     }

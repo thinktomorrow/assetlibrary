@@ -42,14 +42,16 @@ trait EloquentInstantiation
      * @return Model
      * @throws NotFoundAssetType
      */
-    private function convertToMorphInstance(Model $model, string $assetType): Model
+    private function convertToMorphInstance(Model $model, string $assetType): static
     {
         // Here we load up the proper collection model instead of the generic base class.
-        return tap(AssetTypeFactory::instance($assetType, $model->attributes), function ($instance) use ($model) {
-            $instance->setRawAttributes($model->attributes);
-            $instance->setRelations($model->relations);
-            $instance->exists = $model->exists;
-        });
+        $instance = AssetTypeFactory::instance($assetType, $model->attributes);
+
+        $instance->setRawAttributes($model->attributes);
+        $instance->setRelations($model->relations);
+        $instance->exists = $model->exists;
+
+        return $instance;
     }
 
     /**
@@ -57,9 +59,8 @@ trait EloquentInstantiation
      *
      * @param array $attributes
      * @param bool $exists
-     * @return static
      */
-    public function newInstance($attributes = [], $exists = false)
+    public function newInstance($attributes = [], $exists = false): static
     {
         if (! isset($attributes['asset_type'])) {
             return parent::newInstance($attributes, $exists);

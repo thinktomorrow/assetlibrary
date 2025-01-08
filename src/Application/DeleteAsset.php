@@ -2,6 +2,7 @@
 
 namespace Thinktomorrow\AssetLibrary\Application;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Thinktomorrow\AssetLibrary\AssetContract;
 

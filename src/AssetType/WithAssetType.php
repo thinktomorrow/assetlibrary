@@ -21,7 +21,7 @@ trait WithAssetType
      * @param string|null $assetType
      * @return mixed
      */
-    public function scopeAssetType($query, string $assetType = null)
+    public function scopeAssetType($query, ?string $assetType = null)
     {
         return $query->withoutGlobalScope(new GlobalAssetTypeScope())
             ->where('asset_type', '=', $assetType);

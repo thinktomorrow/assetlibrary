@@ -100,11 +100,7 @@ class CreateAsset
         return null;
     }
 
-    /**
-     * @param $asset
-     * @return mixed
-     */
-    private function getFileAdder($asset): FileAdder
+    private function getFileAdder(AssetContract $asset): FileAdder
     {
         foreach ([
              'uploadedFile' => 'addMedia',

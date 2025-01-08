@@ -38,6 +38,7 @@
     "require-dev": {
         "orchestra/testbench": "^9.9",
         "phpunit/phpunit": "^11.5",
+        "larastan/larastan": "^3.0",
         "nesbot/carbon": "^3.8"
     },
     "autoload": {
