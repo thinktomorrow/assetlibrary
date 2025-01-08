@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Thinktomorrow\AssetLibrary\AssetType;
 
 use Illuminate\Database\Eloquent\Model;
+use Thinktomorrow\AssetLibrary\AssetContract;
 
 /**
  * Overrides the eloquent model instantiation to account for proper morphable object creation.
@@ -42,7 +43,7 @@ trait EloquentInstantiation
      * @return Model
      * @throws NotFoundAssetType
      */
-    private function convertToMorphInstance(Model $model, string $assetType): static
+    private function convertToMorphInstance(Model $model, string $assetType): AssetContract & Model
     {
         // Here we load up the proper collection model instead of the generic base class.
         $instance = AssetTypeFactory::instance($assetType, $model->attributes);
