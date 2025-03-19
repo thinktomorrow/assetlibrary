@@ -4,6 +4,7 @@ namespace Thinktomorrow\AssetLibrary;
 
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 
 trait InteractsWithAssets
 {
@@ -11,7 +12,10 @@ trait InteractsWithAssets
     {
         static::deleting(function ($model) {
             if (! isset($model->forceDeleting) || $model->forceDeleting === true) {
-                $model->assetRelation()->detach();
+                DB::table('assets_pivot')
+                    ->where('entity_id', (string) $model->id)
+                    ->where('entity_type', $model->getMorphClass()) // Ensure this is a string
+                    ->delete();
             }
         });
     }
