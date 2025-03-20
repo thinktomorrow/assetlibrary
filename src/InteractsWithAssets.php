@@ -48,10 +48,10 @@ trait InteractsWithAssets
          * If locale is passed as null, the user wants to explicitly
          * fetch assets without locale restrictions.
          */
-        if($locale) {
+        if ($locale) {
             $fallbackLocale = $this->getAssetFallbackLocaleFor($locale);
 
-            while($assets->isEmpty() && $fallbackLocale) {
+            while ($assets->isEmpty() && $fallbackLocale) {
                 $assets = $this->fetchAssets($type, $fallbackLocale);
 
                 $newFallbackLocale = $this->getAssetFallbackLocaleFor($fallbackLocale);
@@ -76,7 +76,7 @@ trait InteractsWithAssets
 
         $fallbackLocales = $this->getAssetFallbackLocales();
 
-        if(count($fallbackLocales) === 0 || !isset($fallbackLocales[$locale])) {
+        if (count($fallbackLocales) === 0 || ! isset($fallbackLocales[$locale])) {
             return $this->getDefaultAssetFallbackLocale();
         }
 
