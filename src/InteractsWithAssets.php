@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\DB;
 
 trait InteractsWithAssets
 {
+    protected array $assetFallbackLocales = [];
+
     public static function bootInteractsWithAssets()
     {
         static::deleting(function ($model) {
@@ -36,11 +38,27 @@ trait InteractsWithAssets
 
     public function assets(?string $type = null, ?string $locale = 'DEFAULT_LOCALE'): Collection
     {
-        $assets = $this->fetchAssets($type, $locale == 'DEFAULT_LOCALE' ? app()->getLocale() : $locale);
+        $locale = $locale === 'DEFAULT_LOCALE' ? app()->getLocale() : $locale;
 
-        if ($assets->isEmpty() && $this->useAssetFallbackLocale() && $locale != $this->getAssetFallbackLocale()) {
-            $assets = $this->fetchAssets($type, $this->getAssetFallbackLocale());
+        $assets = $this->fetchAssets($type, $locale);
+
+        /**
+         * If the assets are empty and the use want to return assets for a given
+         * locale, we will try to fetch the assets for the fallback locale.
+         * If locale is passed as null, the user wants to explicitly
+         * fetch assets without locale restrictions.
+         */
+        if($locale) {
+            $fallbackLocale = $this->getAssetFallbackLocaleFor($locale);
+
+            while($assets->isEmpty() && $fallbackLocale) {
+                $assets = $this->fetchAssets($type, $fallbackLocale);
+
+                $newFallbackLocale = $this->getAssetFallbackLocaleFor($fallbackLocale);
+                $fallbackLocale = $newFallbackLocale === $fallbackLocale ? null : $newFallbackLocale;
+            }
         }
+
 
         return $assets;
     }
@@ -50,12 +68,36 @@ trait InteractsWithAssets
         return false !== config('thinktomorrow.assetlibrary.fallback_locale');
     }
 
-    protected function getAssetFallbackLocale(): ?string
+    private function getAssetFallbackLocaleFor(string $locale): ?string
     {
         if (! $this->useAssetFallbackLocale()) {
             return null;
         }
 
+        $fallbackLocales = $this->getAssetFallbackLocales();
+
+        if(count($fallbackLocales) === 0 || !isset($fallbackLocales[$locale])) {
+            return $this->getDefaultAssetFallbackLocale();
+        }
+
+        return $fallbackLocales[$locale];
+    }
+
+    /**
+     * A map of locales to fallback locales. e.g. ['en' => 'nl']
+     */
+    protected function getAssetFallbackLocales(): array
+    {
+        return $this->assetFallbackLocales;
+    }
+
+    public function setAssetFallbackLocales(array $fallbackLocales): void
+    {
+        $this->assetFallbackLocales = $fallbackLocales;
+    }
+
+    private function getDefaultAssetFallbackLocale(): ?string
+    {
         if (is_null($fallbackLocale = config('thinktomorrow.assetlibrary.fallback_locale'))) {
             $fallbackLocale = config('app.fallback_locale');
         }

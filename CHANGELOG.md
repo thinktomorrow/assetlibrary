@@ -6,6 +6,9 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 
 ## unreleased
 
+## 1.0.1 - 2025-03-20
+- Added: allow to add fallback locales map via `setAssetFallbackLocales()`. You can also override the `getAssetFallbackLocales()` method to provide your fallback map, e.g. `['en' => 'nl']`.
+
 ## 1.0.0 - 2025-01-08
 - Bump php minimum version to 8.3
 - Bump mediagallery minimum version to 11.11, which bumps Laravel minimum version to 10.*

@@ -92,6 +92,30 @@ class AssetLocaleTest extends TestCase
         $this->assertEquals('/media/1/image.png', $article->asset('banner', 'fr')->getUrl());
     }
 
+    public function test_it_can_get_asset_by_given_fallback_map()
+    {
+        // Assert there is no default fallback
+        config()->set('app.fallback_locale', null);
+        config()->set('thinktomorrow.assetlibrary.fallback_locale', null);
+
+        $article = $this->createModelWithAsset($this->createAssetWithMedia(), 'banner', 'nl');
+        $article->setAssetFallbackLocales(['fr' => 'nl']);
+
+        $this->assertEquals('/media/1/image.png', $article->asset('banner', 'fr')->getUrl());
+    }
+
+    public function test_it_can_get_asset_by_given_fallback_levels()
+    {
+        // Assert there is no default fallback
+        config()->set('app.fallback_locale', null);
+        config()->set('thinktomorrow.assetlibrary.fallback_locale', null);
+
+        $article = $this->createModelWithAsset($this->createAssetWithMedia(), 'banner', 'nl');
+        $article->setAssetFallbackLocales(['en' => 'fr', 'fr' => 'nl', 'nl' => null]);
+
+        $this->assertEquals('/media/1/image.png', $article->asset('banner', 'en')->getUrl());
+    }
+
     public function test_it_can_ignore_fallback_locale()
     {
         config()->set('thinktomorrow.assetlibrary.fallback_locale', false);
