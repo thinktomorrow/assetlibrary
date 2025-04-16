@@ -116,6 +116,18 @@ class AssetLocaleTest extends TestCase
         $this->assertEquals('/media/1/image.png', $article->asset('banner', 'en')->getUrl());
     }
 
+    public function test_it_does_not_get_into_loop_when_using_fallback_levels_and_no_asset_is_present()
+    {
+        // Assert there is no default fallback
+        config()->set('app.fallback_locale', null);
+        config()->set('thinktomorrow.assetlibrary.fallback_locale', null);
+
+        $model = Article::create();
+        $model->setAssetFallbackLocales(['nl' => 'en', 'en' => 'nl' ]);
+
+        $this->assertNull($model->asset('banner', 'en'));
+    }
+
     public function test_it_can_ignore_fallback_locale()
     {
         config()->set('thinktomorrow.assetlibrary.fallback_locale', false);

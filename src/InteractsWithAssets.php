@@ -49,16 +49,27 @@ trait InteractsWithAssets
          * fetch assets without locale restrictions.
          */
         if ($locale) {
+
+            // We keep track of all the fallback to avoid infinite loops that can occur
+            // when a fallback locale is set to itself or something.
+            $processedFallbacks = [$locale];
+
             $fallbackLocale = $this->getAssetFallbackLocaleFor($locale);
 
             while ($assets->isEmpty() && $fallbackLocale) {
                 $assets = $this->fetchAssets($type, $fallbackLocale);
 
                 $newFallbackLocale = $this->getAssetFallbackLocaleFor($fallbackLocale);
-                $fallbackLocale = $newFallbackLocale === $fallbackLocale ? null : $newFallbackLocale;
+
+                $processedFallbacks[] = $fallbackLocale;
+                
+                if(in_array($newFallbackLocale, $processedFallbacks)) {
+                    break;
+                }
+
+                $fallbackLocale = $newFallbackLocale;
             }
         }
-
 
         return $assets;
     }
