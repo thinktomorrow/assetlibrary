@@ -62,7 +62,7 @@ trait InteractsWithAssets
                 $newFallbackLocale = $this->getAssetFallbackLocaleFor($fallbackLocale);
 
                 $processedFallbacks[] = $fallbackLocale;
-                
+
                 if (in_array($newFallbackLocale, $processedFallbacks)) {
                     break;
                 }

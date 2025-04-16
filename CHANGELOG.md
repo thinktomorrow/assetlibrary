@@ -6,6 +6,9 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 
 ## unreleased
 
+## 1.0.2 - 2025-04-16
+- Fixed: issue where invalid fallback locales could cause an infinite loop
+
 ## 1.0.1 - 2025-03-20
 - Added: allow to add fallback locales map via `setAssetFallbackLocales()`. You can also override the `getAssetFallbackLocales()` method to provide your fallback map, e.g. `['en' => 'nl']`.
 
