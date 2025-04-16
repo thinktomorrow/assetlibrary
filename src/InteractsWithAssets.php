@@ -63,7 +63,7 @@ trait InteractsWithAssets
 
                 $processedFallbacks[] = $fallbackLocale;
                 
-                if(in_array($newFallbackLocale, $processedFallbacks)) {
+                if (in_array($newFallbackLocale, $processedFallbacks)) {
                     break;
                 }
 
