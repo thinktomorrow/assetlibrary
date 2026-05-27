@@ -151,6 +151,7 @@ return [
          */
         'extra_headers' => [
             'CacheControl' => 'max-age=604800',
+            'User-Agent' => 'Mozilla/5.0',
         ],
     ],
 
