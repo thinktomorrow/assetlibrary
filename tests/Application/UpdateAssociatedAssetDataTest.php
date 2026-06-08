@@ -3,6 +3,7 @@
 namespace Thinktomorrow\AssetLibrary\Tests\Application;
 
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\DB;
 use Thinktomorrow\AssetLibrary\Application\AddAsset;
 use Thinktomorrow\AssetLibrary\Application\UpdateAssociatedAssetData;
 use Thinktomorrow\AssetLibrary\Tests\stubs\Article;
@@ -75,5 +76,25 @@ class UpdateAssociatedAssetDataTest extends TestCase
 
         app(UpdateAssociatedAssetData::class)->handle($model, $asset->id, 'doc', 'nl', ['foo' => null]);
         $this->assertEquals(null, $model->fresh()->asset(null, null)->pivot->getData('foo'));
+    }
+
+    public function test_it_can_update_asset_data_when_existing_pivot_data_is_null()
+    {
+        $model = Article::create();
+        $asset = $this->createAssetWithMedia();
+
+        app(AddAsset::class)->handle($model, $asset, 'doc', 'nl', 1, []);
+
+        DB::table('assets_pivot')
+            ->where('entity_type', $model->getMorphClass())
+            ->where('entity_id', (string) $model->getKey())
+            ->where('asset_id', $asset->id)
+            ->where('type', 'doc')
+            ->where('locale', 'nl')
+            ->update(['data' => null]);
+
+        app(UpdateAssociatedAssetData::class)->handle($model, $asset->id, 'doc', 'nl', ['foo' => 'bar']);
+
+        $this->assertEquals('bar', $model->fresh()->asset(null, null)->pivot->getData('foo'));
     }
 }

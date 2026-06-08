@@ -6,6 +6,9 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 
 ## unreleased
 
+## 1.0.3 - 2026-06-08
+- Fixed: issue where null values for asset data caused invalid json errors
+
 ## 1.0.2 - 2025-04-16
 - Fixed: issue where invalid fallback locales could cause an infinite loop
 
