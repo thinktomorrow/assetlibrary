@@ -45,6 +45,10 @@ trait EloquentInstantiation
      */
     private function convertToMorphInstance(Model $model, string $assetType): AssetContract & Model
     {
+        if (get_class($model) === AssetTypeFactory::className($assetType)) {
+            return $model;
+        }
+
         // Here we load up the proper collection model instead of the generic base class.
         $instance = AssetTypeFactory::instance($assetType, $model->attributes);
 

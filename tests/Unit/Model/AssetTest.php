@@ -3,6 +3,7 @@
 namespace Thinktomorrow\AssetLibrary\Tests\Unit\Model;
 
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\DB;
 use Thinktomorrow\AssetLibrary\Asset;
 use Thinktomorrow\AssetLibrary\Tests\TestCase;
 
@@ -30,6 +31,27 @@ class AssetTest extends TestCase
     {
         $this->assertFalse((new Asset())->exists());
         $this->assertFalse(Asset::create()->exists());
+    }
+
+    public function test_loading_missing_media_populates_the_original_asset_without_repeated_queries(): void
+    {
+        $asset = Asset::findOrFail($this->asset->id);
+        DB::enableQueryLog();
+        DB::flushQueryLog();
+
+        $asset->loadMissing('media');
+
+        $this->assertTrue($asset->relationLoaded('media'));
+        $this->assertCount(1, DB::getQueryLog());
+        DB::flushQueryLog();
+
+        $asset->loadMissing('media');
+        $this->assertNotNull($asset->getUrl());
+        $this->assertSame('test-image.jpg', $asset->getFileName());
+        $this->assertGreaterThan(0, $asset->getWidth());
+        $this->assertCount(1, $asset->getMedia());
+        $this->assertCount(0, DB::getQueryLog());
+        DB::disableQueryLog();
     }
 
     public function test_asset_exists()

@@ -39,6 +39,27 @@ class AssetTypeTest extends TestCase
         $this->assertInstanceOf(VimeoAsset::class, $model);
     }
 
+    public function test_collection_preserves_correctly_typed_instances(): void
+    {
+        $asset = Asset::create();
+        $vimeo = VimeoAsset::create();
+
+        $collection = $asset->newCollection([$asset, $vimeo]);
+
+        $this->assertSame($asset, $collection[0]);
+        $this->assertSame($vimeo, $collection[1]);
+    }
+
+    public function test_collection_converts_an_incorrectly_typed_instance(): void
+    {
+        $asset = new Asset(['asset_type' => 'vimeo']);
+
+        $collection = $asset->newCollection([$asset]);
+
+        $this->assertInstanceOf(VimeoAsset::class, $collection[0]);
+        $this->assertSame('vimeo', $collection[0]->getAssetType());
+    }
+
     public function test_it_adds_asset_type_on_instantiation()
     {
         $model = AssetTypeFactory::instance('default', ['foo' => 'bar']);
